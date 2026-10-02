@@ -53,6 +53,15 @@ async function main() {
       assert.equal(await page.locator('#objectives input:checked').count(), 0);
     }
     await desktop.locator('#startBtn').click();
+    const ids=(await snapshot(desktop)).parts.map(part=>part.id);
+    assert.equal(new Set(ids).size,15);
+    for(const id of ids){
+      await desktop.locator('#resetBtn').click();
+      const target=(await snapshot(desktop)).parts.find(part=>part.id===id).screen;
+      await desktop.mouse.move(target.x,target.y);await desktop.mouse.down();
+      assert.deepEqual((await snapshot(desktop)).hitParts,[id],`distinct picking: ${id}`);
+      await desktop.mouse.up();
+    }
     await desktop.locator('#resetBtn').click();
     const head = await point(desktop);
     await desktop.mouse.move(head.x, head.y); await desktop.mouse.down();
@@ -81,14 +90,24 @@ async function main() {
     const spawned = await snapshot(desktop);
     assert.ok(spawned.projectiles > 0);
     assert.ok(spawned.projectiles <= 24);
-    assert.ok(spawned.bodies <= 46);
+    assert.ok(spawned.bodies <= 50);
     await desktop.locator('#resetBtn').click();
     const clean = await snapshot(desktop);
-    assert.equal(clean.projectiles, 0); assert.equal(clean.bodies, 22); assert.equal(clean.joints, 10);
+    assert.equal(clean.projectiles, 0); assert.equal(clean.bodies, 26); assert.equal(clean.joints, 14);
     for (let i = 0; i < 20; i++) await desktop.locator('#resetBtn').click();
     const reset = await snapshot(desktop);
     assert.equal(reset.bodies, clean.bodies); assert.equal(reset.joints, clean.joints);
+    assert.equal(reset.geometries,clean.geometries);assert.equal(reset.textures,clean.textures);
     assert.equal(reset.score, 0); assert.equal(reset.grabbed, false);
+    for(let i=0;i<10;i++){
+      for(const name of ['colliders','joints','contacts'])await desktop.locator(`[data-view=${name}]`).check();
+      await desktop.waitForTimeout(20);
+      for(const name of ['colliders','joints','contacts'])await desktop.locator(`[data-view=${name}]`).uncheck();
+    }
+    await desktop.waitForTimeout(30);
+    assert.equal((await snapshot(desktop)).geometries,clean.geometries,'debug geometries are disposed');
+    assert.equal((await snapshot(desktop)).rigDebug.resources,0);
+    for(const part of (await snapshot(desktop)).parts){assert.ok(part.meshError<1e-6);assert.ok(part.meshRotationError<.001);}
     await mobile.setViewportSize({ width: 360, height: 744 });
     const portrait = await mobile.evaluate(() => {
       const bar = document.querySelector('#toolbar').getBoundingClientRect();
