@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const http = require('node:http');
 const path = require('node:path');
+const os = require('node:os');
 const { chromium } = require('playwright');
 
 async function main() {
@@ -111,8 +112,8 @@ async function main() {
     const sorted = samples.map(s => s.delta).sort((a, b) => a - b);
     const median = sorted[Math.floor(sorted.length / 2)], p95 = sorted[Math.floor(sorted.length * .95)];
     assert.deepEqual(errors, []); assert.deepEqual(failedResponses, []);
-    await desktop.screenshot({ path: process.env.GOBLIN_DESKTOP_SCREENSHOT || '/tmp/goblin-g0-desktop.png' });
-    await mobile.screenshot({ path: process.env.GOBLIN_MOBILE_SCREENSHOT || '/tmp/goblin-g0-mobile.png' });
+    await desktop.screenshot({ path: process.env.GOBLIN_DESKTOP_SCREENSHOT || path.join(os.tmpdir(), 'goblin-g0-desktop.png') });
+    await mobile.screenshot({ path: process.env.GOBLIN_MOBILE_SCREENSHOT || path.join(os.tmpdir(), 'goblin-g0-mobile.png') });
     console.log(JSON.stringify({ browser: browser.version(), url, checks: 'PASS', reset, mobile: await snapshot(mobile), layout, medianFrameMs: median, p95FrameMs: p95, maxPhysicsMs: Math.max(...samples.map(s => s.physicsMs)), warnings: [...new Set(warnings)], errors, failedResponses }, null, 2));
   } finally {
     await browser?.close(); server.close();

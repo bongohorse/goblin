@@ -6,7 +6,12 @@ Browser game built with Three.js, Rapier 3D and Vite.
 - Repository: `bongohorse/goblin`
 - Main: `main`
 - Live: https://bongohorse.github.io/goblin/
-- Node: 24
+- Node: >=24.21.0 <25
+- Package manager: npm; install locked dependencies with `npm ci`
+- Development port: 5174 (strict); preview: 4174
+- VS Code / container setup: `docs/development/vscode.md`
+- Keep Goblin tools/configuration scoped to this repo; do not modify MGD or global editor settings.
+- Windows browser MCP is optional and disabled by default. Only enable it when Codex executes on Windows; Linux container browsers do not prove Windows GPU performance.
 - Build: `npm run build`
 - CI and GitHub Pages must stay green.
 

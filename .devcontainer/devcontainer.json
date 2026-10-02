@@ -1,0 +1,35 @@
+{
+  "name": "Goblin \u2014 Node 24 / npm",
+  "image": "mcr.microsoft.com/devcontainers/base:bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "24.21.0"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspaces/goblin",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/goblin,type=bind",
+  "mounts": [
+    "source=goblin-node-modules-${devcontainerId},target=/workspaces/goblin/node_modules,type=volume"
+  ],
+  "forwardPorts": [
+    5174
+  ],
+  "portsAttributes": {
+    "5174": {
+      "label": "Goblin (Vite)",
+      "onAutoForward": "notify",
+      "requireLocalPort": true
+    }
+  },
+  "postCreateCommand": "sudo chown vscode:vscode node_modules && bash scripts/setup-dev.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "openai.chatgpt",
+        "GitHub.vscode-pull-request-github"
+      ]
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "openai.chatgpt",
+    "ms-vscode-remote.remote-containers",
+    "GitHub.vscode-pull-request-github"
+  ]
+}

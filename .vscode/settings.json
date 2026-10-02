@@ -1,0 +1,17 @@
+{
+  "window.title": "Goblin \u2014 ${activeEditorShort}${separator}${rootName}",
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#254b36",
+    "titleBar.activeForeground": "#ffffff",
+    "statusBar.background": "#254b36",
+    "statusBar.foreground": "#ffffff"
+  },
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true
+  },
+  "npm.packageManager": "npm"
+}
