@@ -24,6 +24,10 @@ Every clause must exist in the actual game.
 - UI -> render state + emit intents
 - Audio/VFX -> react to gameplay events
 
+## Rapier routing
+
+For non-trivial physics work, invoke `rapier-skill-router` and the narrow Rapier skill it selects. Do not guess API availability from upstream master; verify the installed `@dimforge/rapier3d-compat` version first.
+
 ## Physics rules
 
 - Keep a fixed timestep.

@@ -54,6 +54,15 @@ Repo-local skills live in `.agents/skills/`.
 - `threejs-image-pipeline`: HDR, bloom, exposure, tone mapping and final image ownership
 - `threejs-visual-validation`: deterministic visual QA and performance evidence
 
+### Rapier physics
+- `rapier-skill-router`: choose the correct Rapier physics skill and enforce version compatibility
+- `rapier-ragdoll-joints`: body masses, colliders, anchors, joint limits and ragdoll tuning
+- `rapier-interaction-queries-events`: impulses, grabbing, scene queries, collision/contact events and CCD
+- `rapier-simulation-stability`: fixed timestep, sleeping, solver accuracy, scale and tunneling control
+- `rapier-debug-reset-performance`: debug rendering, deterministic reset, lifecycle, leaks and physics profiling
+
+Project dependency: `@dimforge/rapier3d-compat ^0.21.0`. Upstream Rapier master is newer, so agents must verify the installed version before using APIs from current upstream docs/changelog.
+
 ### Three.js WebGPU / TSL
 - `threejs-webgpu-tsl`: optional WebGPU renderer and TSL/node-material work
 - `threejs-webgpu-compute`: measured GPU-compute workloads such as large visual particle simulations

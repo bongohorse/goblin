@@ -1,0 +1,5 @@
+interface:
+  display_name: "Rapier Simulation Stability"
+  short_description: "Keep physics stable across frame rates"
+policy:
+  allow_implicit_invocation: true

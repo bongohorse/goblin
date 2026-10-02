@@ -1,0 +1,5 @@
+interface:
+  display_name: "Rapier Interactions"
+  short_description: "Build queries, hits, events and CCD"
+policy:
+  allow_implicit_invocation: true

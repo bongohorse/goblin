@@ -88,3 +88,16 @@ The Goblin skills derived from this reference were therefore rewritten from
 scratch for this project rather than copied verbatim. They use the upstream
 project only as a conceptual/topic reference for WebGPU, TSL, compute, device
 limits and device-loss concerns.
+
+
+## Rapier official repository
+
+Source:
+https://github.com/dimforge/rapier
+
+License: Apache License 2.0
+Copyright 2020 Sébastien Crozet
+
+The Goblin Rapier skills are project-specific summaries and operating rules derived from the public Rapier JavaScript/TypeScript documentation, examples, changelog and source interfaces. They are not copies of Rapier implementation code.
+
+Upstream master may describe APIs newer than the version installed by this project, so each skill requires explicit installed-version compatibility checks before implementation.

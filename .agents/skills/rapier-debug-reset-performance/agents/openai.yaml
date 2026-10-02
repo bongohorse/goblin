@@ -1,0 +1,5 @@
+interface:
+  display_name: "Rapier Debug & Performance"
+  short_description: "Debug reset, lifecycle and physics cost"
+policy:
+  allow_implicit_invocation: true

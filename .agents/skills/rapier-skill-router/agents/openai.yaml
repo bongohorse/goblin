@@ -1,0 +1,5 @@
+interface:
+  display_name: "Rapier Skill Router"
+  short_description: "Route Goblin physics work safely"
+policy:
+  allow_implicit_invocation: true

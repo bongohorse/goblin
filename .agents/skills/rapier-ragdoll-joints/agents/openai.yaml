@@ -1,0 +1,5 @@
+interface:
+  display_name: "Rapier Ragdoll & Joints"
+  short_description: "Tune Goblin bodies, joints and limits"
+policy:
+  allow_implicit_invocation: true
