@@ -11,6 +11,10 @@ npm run build
 npm run dev
 ```
 
+VS Code / Windows / separate devcontainer setup: [Development guide](docs/development/vscode.md).
+
+Development: http://localhost:5174/ · Preview: http://localhost:4174/.
+
 Production browser regression checks (including two 60-second idle checks in parallel):
 
 ```sh
@@ -23,7 +27,7 @@ The browser test serves the build itself under `/goblin/`. Optional
 `GOBLIN_CHROMIUM_EXECUTABLE` selects an installed Chromium binary;
 `GOBLIN_SOFTWARE_BROWSER=1` enables a single-process SwiftShader test setup.
 `GOBLIN_IDLE_MS=2000` shortens only the idle check for focused development runs;
-use the default full duration for acceptance. Screenshots default to `/tmp` and
+use the default full duration for acceptance. Screenshots default to the OS temporary directory and
 can be redirected with `GOBLIN_DESKTOP_SCREENSHOT`/`GOBLIN_MOBILE_SCREENSHOT`.
 
 Append `?debug` to inspect read-only `window.goblinDiagnostics()` snapshots.
