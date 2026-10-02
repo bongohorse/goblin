@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Procedural VFX"
+  short_description: "Build pooled gameplay VFX"
+policy:
+  allow_implicit_invocation: true

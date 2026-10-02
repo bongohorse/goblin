@@ -24,6 +24,7 @@ Do not mix unrelated cleanup with gameplay work.
 ## Agent skills
 Repo-local skills live in `.agents/skills/`.
 
+### Engineering workflow
 - `to-tickets`: split a parent issue into agent-sized GitHub sub-issues
 - `diagnosing-bugs`: reproduce, minimise, diagnose and lock down bugs
 - `code-review`: review a PR/diff against issue scope and engineering risks
@@ -34,9 +35,22 @@ Repo-local skills live in `.agents/skills/`.
 - `grill-me`: sharpen unclear product/design decisions
 - `handoff`: leave compact continuation context
 
+### Three.js graphics
+- `threejs-skill-router`: choose the smallest graphics skill set for a visual task
+- `threejs-camera-direction`: framing, follow cameras, transitions and camera constraints
+- `threejs-procedural-animation`: frame-rate-independent authored transform motion
+- `threejs-procedural-materials`: coherent PBR/material identity and filtered detail
+- `threejs-procedural-geometry`: robust procedural props/arena geometry and mesh audits
+- `threejs-procedural-vfx`: pooled hit VFX, particles, trails and emissive event effects
+- `threejs-shadow-systems`: stable, budgeted shadows for the arena and moving camera
+- `threejs-image-pipeline`: HDR, bloom, exposure, tone mapping and final image ownership
+- `threejs-visual-validation`: deterministic visual QA and performance evidence
+
 GitHub Issues are the source of truth. See `docs/agents/issue-tracker.md`.
 
 ## Game-specific checks
 For gameplay, physics, rendering or input changes, verify behaviour as well as build output.
 
 Pay special attention to pointer/touch input, Rapier body/joint stability, reset behaviour, camera clipping, mobile landscape layout, browser console errors and GitHub Pages asset paths.
+
+For Three.js work, prefer a readable no-post baseline, bounded GPU cost, deterministic visual inputs where practical, and explicit disposal of temporary GPU resources.

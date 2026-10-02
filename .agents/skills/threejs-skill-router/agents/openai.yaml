@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Skill Router"
+  short_description: "Route Goblin graphics work to the right skills"
+policy:
+  allow_implicit_invocation: true

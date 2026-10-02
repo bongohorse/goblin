@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Visual Validation"
+  short_description: "Validate visuals and graphics budgets"
+policy:
+  allow_implicit_invocation: true

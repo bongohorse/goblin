@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Procedural Animation"
+  short_description: "Author non-physics visual motion"
+policy:
+  allow_implicit_invocation: true

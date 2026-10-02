@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Camera Direction"
+  short_description: "Design stable Goblin camera systems"
+policy:
+  allow_implicit_invocation: true

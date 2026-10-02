@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Procedural Materials"
+  short_description: "Build coherent performant materials"
+policy:
+  allow_implicit_invocation: true

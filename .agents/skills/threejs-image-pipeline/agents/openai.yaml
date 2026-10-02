@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Image Pipeline"
+  short_description: "Own HDR and post-processing"
+policy:
+  allow_implicit_invocation: true

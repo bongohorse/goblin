@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Shadow Systems"
+  short_description: "Tune stable mobile-friendly shadows"
+policy:
+  allow_implicit_invocation: true
