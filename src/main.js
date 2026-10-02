@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import RAPIER from "@dimforge/rapier3d-compat";
+import { FixedClock, RoundLifecycle, FallTracker } from "./runtime.js";
 
 await RAPIER.init();
 
@@ -17,12 +18,12 @@ scene.background = new THREE.Color(0x120b08);
 scene.fog = new THREE.Fog(0x120b08,12,28);
 
 const camera = new THREE.PerspectiveCamera(50,innerWidth/innerHeight,.05,80);
-camera.position.set(0,3.1,8.2);
+camera.position.set(0,3.1,6.4);
 camera.lookAt(0,1.5,0);
 
 scene.add(new THREE.HemisphereLight(0xffddb4,0x21110d,1.4));
 const key = new THREE.DirectionalLight(0xffd0a0,3.2);
-key.position.set(4,8,6); key.castShadow=true; key.shadow.mapSize.set(2048,2048); scene.add(key);
+key.position.set(4,8,6); key.castShadow=true; key.shadow.mapSize.set(1024,1024); scene.add(key);
 const fire = new THREE.PointLight(0xff6a19,25,9,2); fire.position.set(-4,2.7,-2); scene.add(fire);
 const fire2 = new THREE.PointLight(0xff8b2f,18,8,2); fire2.position.set(4,3,-3); scene.add(fire2);
 
@@ -32,11 +33,18 @@ world.timestep = 1/60;
 const rbToMesh = new Map();
 const meshToBody = new WeakMap();
 const goblinBodies = new Map();
+const initialStates = new Map();
+const projectiles = new Set();
+const MAX_PROJECTILES = 24;
+const clock = new FixedClock();
+const round = new RoundLifecycle();
+const falls = new FallTracker();
 const hitParts = new Set();
-let thrownCount=0, fallen=false, running=false, score=0, combo=1, time=60, selectedTool="hand";
-let grabbed=null, pointerDown=false, accumulator=0, prev=performance.now()/1000;
+let thrownCount=0, score=0, combo=1, time=60, selectedTool="hand";
+let grabbed=null, pointerDown=false, activePointer=null;
 let camMode=0;
 let goblinBelt=null;
+let frameMs=0, physicsMs=0, physicsSteps=0;
 
 const mat = (c,rough=.75)=>new THREE.MeshStandardMaterial({color:c,roughness:rough,metalness:.05});
 const green=mat(0x78b82f,.7), green2=mat(0x91cb42,.7), cloth=mat(0x8f6338,1), wood=mat(0x75411f,1), metal=mat(0x66666a,.35);
@@ -49,7 +57,9 @@ function bodyMesh(id, body, mesh){
   return body;
 }
 function dynamic(desc, collider, mesh, id=null){
-  const b=world.createRigidBody(desc); world.createCollider(collider,b); bodyMesh(id,b,mesh); return b;
+  const b=world.createRigidBody(desc); world.createCollider(collider,b); bodyMesh(id,b,mesh);
+  initialStates.set(b.handle,{position:{...b.translation()},rotation:{...b.rotation()}});
+  return b;
 }
 function fixedBox(pos,size,color=0x56351f){
   const b=world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(...pos));
@@ -166,6 +176,7 @@ function bodyPart(body){
   for(const [id,b] of goblinBodies) if(b.handle===body.handle) return id; return null;
 }
 function addScore(n, part=null){
+  if(!round.canScore)return;
   score+=Math.round(n*combo); if(part){hitParts.add(part); combo=Math.min(9,1+Math.floor(hitParts.size/2));}
   document.querySelector("#score").textContent=score; document.querySelector("#combo").textContent=combo;
   if(hitParts.size>=3) document.querySelector("#goalParts").checked=true;
@@ -176,6 +187,7 @@ function impulseTool(body,hit,strength){
   const p=bodyPart(body); addScore(35+strength*5,p); bonk(strength);
 }
 function projectile(kind,target){
+  if(projectiles.size>=MAX_PROJECTILES)removeProjectile(projectiles.values().next().value);
   const dir=target.clone().sub(camera.position).normalize();
   const start=camera.position.clone().add(dir.clone().multiplyScalar(1.2));
   let mesh, col, density=1.2, speed=9;
@@ -190,20 +202,27 @@ function projectile(kind,target){
   }
   const b=dynamic(RAPIER.RigidBodyDesc.dynamic().setTranslation(start.x,start.y,start.z).setLinvel(dir.x*speed,dir.y*speed,dir.z*speed).setAngvel(3,2,1),
     col.setDensity(density).setRestitution(.2).setFriction(.7),mesh);
+  projectiles.add(b.handle);
   thrownCount++; if(thrownCount>=3) document.querySelector("#goalThrows").checked=true; addScore(20);
 }
 function bonk(power){
   try{
-    const ctx=bonk.ctx||(bonk.ctx=new AudioContext()); const o=ctx.createOscillator(),g=ctx.createGain();
+    const ctx=bonk.ctx||(bonk.ctx=new AudioContext()); ctx.resume().catch(()=>{}); const o=ctx.createOscillator(),g=ctx.createGain();
     o.type="triangle";o.frequency.value=170+power*12;g.gain.setValueAtTime(.09,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.09);
     o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+.1);
   }catch{}
 }
 
 renderer.domElement.addEventListener("pointerdown",ev=>{
-  if(!running)return; pointerDown=true; renderer.domElement.setPointerCapture(ev.pointerId);
+  if(!round.canInteract || activePointer!==null || !ev.isPrimary || ev.button!==0)return;
   const r=getHit(ev); if(!r)return;
+  const wasReady=round.phase==="ready";
+  round.beginAction();
+  if(wasReady)clock.reset();
+  document.querySelector("#hint").textContent="Tool wählen und den Goblin oder die Arena anklicken.";
+  pointerDown=true; activePointer=ev.pointerId; renderer.domElement.setPointerCapture(ev.pointerId);
   const p=bodyPart(r.body);
+  if((p && !["rock","ball","bowling","crate","barrel","fish"].includes(selectedTool)) || ["fan","magnet","spring"].includes(selectedTool))falls.markAction();
   if(selectedTool==="hand"){ grabbed=r.body; dragPlane.constant=-r.hit.point.z; dragPoint.copy(r.hit.point); if(p)addScore(5,p); }
   else if(selectedTool==="glove") impulseTool(r.body,r.hit,3.2);
   else if(selectedTool==="hammer") impulseTool(r.body,r.hit,6.2);
@@ -214,10 +233,33 @@ renderer.domElement.addEventListener("pointerdown",ev=>{
   else if(selectedTool==="ice"){ r.body.applyImpulse({x:(Math.random()-.5)*6,y:.2,z:(Math.random()-.5)*2},true); addScore(30,p); }
 });
 renderer.domElement.addEventListener("pointermove",ev=>{
+  if(activePointer!==null && ev.pointerId!==activePointer)return;
   const r=renderer.domElement.getBoundingClientRect(); pointer.x=((ev.clientX-r.left)/r.width)*2-1; pointer.y=-((ev.clientY-r.top)/r.height)*2+1;
   if(grabbed){ raycaster.setFromCamera(pointer,camera); raycaster.ray.intersectPlane(dragPlane,dragPoint); }
 });
-renderer.domElement.addEventListener("pointerup",()=>{pointerDown=false;grabbed=null;});
+function clearToolForces(){
+  for(const handle of rbToMesh.keys()){
+    const body=world.getRigidBody(handle);
+    if(body){body.resetForces(false);body.resetTorques(false);}
+  }
+}
+function cancelInteraction(){
+  const pointerId=activePointer;
+  activePointer=null; pointerDown=false; grabbed=null;
+  clearToolForces();
+  if(pointerId!==null && renderer.domElement.hasPointerCapture(pointerId))renderer.domElement.releasePointerCapture(pointerId);
+}
+for(const type of ["pointerup","pointercancel","lostpointercapture"]){
+  renderer.domElement.addEventListener(type,ev=>{if(ev.pointerId===activePointer)cancelInteraction();});
+}
+function suspend(){round.paused=true;cancelInteraction();clock.reset();bonk.ctx?.suspend().catch(()=>{});}
+function resume(){
+  if(document.hidden || document.querySelector("#help").classList.contains("active"))return;
+  round.paused=false;clock.reset();
+}
+addEventListener("blur",suspend);
+addEventListener("focus",resume);
+document.addEventListener("visibilitychange",()=>document.hidden?suspend():resume());
 
 function continuousTools(){
   if(grabbed){
@@ -237,47 +279,100 @@ function continuousTools(){
 }
 function checkGoals(){
   const h=goblinBodies.get("head").translation(), t=goblinBodies.get("torso").translation();
-  if(!fallen && (h.y<.72||t.y<.65)){fallen=true;document.querySelector("#goalFall").checked=true;addScore(180);}
+  const isFallen=h.y<.72||t.y<.65;
+  if(falls.observe(isFallen,round.canScore)){document.querySelector("#goalFall").checked=true;addScore(180);}
 }
-function resetGoblin(){
-  const starts={
-    pelvis:[0,1.4,0],torso:[0,1.82,0],head:[0,2.45,0],
-    upperArmL:[-.43,1.92,0],lowerArmL:[-.78,1.83,0],upperArmR:[.43,1.92,0],lowerArmR:[.78,1.83,0],
-    upperLegL:[-.2,1.03,0],lowerLegL:[-.2,.57,0],upperLegR:[.2,1.03,0],lowerLegR:[.2,.57,0]
-  };
-  for(const [id,b] of goblinBodies){const p=starts[id];b.setTranslation({x:p[0],y:p[1],z:p[2]},true);b.setRotation({x:0,y:0,z:0,w:1},true);b.setLinvel({x:0,y:0,z:0},true);b.setAngvel({x:0,y:0,z:0},true);}
-  fallen=false;
+function removeProjectile(handle){
+  const mesh=rbToMesh.get(handle),body=world.getRigidBody(handle);
+  if(grabbed?.handle===handle)cancelInteraction();
+  if(body)world.removeRigidBody(body);
+  if(mesh){
+    meshToBody.delete(mesh); scene.remove(mesh); mesh.geometry.dispose();
+    if(mesh.material!==wood)mesh.material.dispose();
+  }
+  rbToMesh.delete(handle);initialStates.delete(handle);projectiles.delete(handle);
 }
-document.querySelectorAll("#toolbar button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#toolbar button").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");selectedTool=b.dataset.tool;});
-document.querySelector("#resetBtn").onclick=resetGoblin;
-document.querySelector("#cameraBtn").onclick=()=>{camMode=(camMode+1)%3};
-document.querySelector("#helpBtn").onclick=()=>document.querySelector("#help").classList.add("active");
-document.querySelector("#closeHelp").onclick=()=>document.querySelector("#help").classList.remove("active");
-
-function startGame(){
-  score=0;combo=1;time=60;hitParts.clear();thrownCount=0;fallen=false;running=true;
+function resetGoblin(ready=round.phase!=="preparing"){
+  cancelInteraction();
+  for(const handle of [...projectiles])removeProjectile(handle);
+  for(const [handle,state] of initialStates){
+    const body=world.getRigidBody(handle); if(!body)continue;
+    body.setTranslation(state.position,true);body.setRotation(state.rotation,true);
+    body.setLinvel({x:0,y:0,z:0},true);body.setAngvel({x:0,y:0,z:0},true);
+    body.resetForces(false);body.resetTorques(false);
+  }
+  score=0;combo=1;time=60;hitParts.clear();thrownCount=0;falls.reset();
+  round.reset(ready);
+  round.paused=document.hidden || document.querySelector("#help").classList.contains("active");
+  clock.reset();
   ["goalFall","goalParts","goalThrows"].forEach(id=>document.querySelector("#"+id).checked=false);
   document.querySelector("#score").textContent=0;document.querySelector("#combo").textContent=1;document.querySelector("#time").textContent=60;
-  resetGoblin(); document.querySelector("#startScreen").classList.remove("active"); document.querySelector("#endScreen").classList.remove("active");
+  document.querySelector("#endScreen").classList.remove("active");
+  document.querySelector("#hint").textContent="Bereit · Die erste Aktion startet die Runde.";
+  syncMeshes();
+}
+document.querySelectorAll("#toolbar button").forEach(b=>b.onclick=()=>{cancelInteraction();document.querySelectorAll("#toolbar button").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");selectedTool=b.dataset.tool;});
+document.querySelector("#resetBtn").onclick=()=>resetGoblin();
+document.querySelector("#cameraBtn").onclick=()=>{cancelInteraction();camMode=(camMode+1)%3};
+document.querySelector("#helpBtn").onclick=()=>{document.querySelector("#help").classList.add("active");suspend();};
+document.querySelector("#closeHelp").onclick=()=>{document.querySelector("#help").classList.remove("active");resume();};
+
+function startGame(){
+  document.querySelector("#startScreen").classList.remove("active");
+  resetGoblin(true);
 }
 document.querySelector("#startBtn").onclick=startGame;document.querySelector("#againBtn").onclick=startGame;
 
-setInterval(()=>{
-  if(!running)return; time--; document.querySelector("#time").textContent=time;
-  if(time<=0){running=false;document.querySelector("#finalScore").textContent=score;const goals=[...document.querySelectorAll("#objectives input")].filter(x=>x.checked).length;document.querySelector("#finalText").textContent=`${goals}/3 Ziele erfüllt · ${hitParts.size} unterschiedliche Körperteile getroffen`;document.querySelector("#endScreen").classList.add("active");}
-},1000);
+function endRound(){
+  cancelInteraction();
+  document.querySelector("#finalScore").textContent=score;
+  const goals=[...document.querySelectorAll("#objectives input")].filter(x=>x.checked).length;
+  document.querySelector("#finalText").textContent=`${goals}/3 Ziele erfüllt · ${hitParts.size} unterschiedliche Körperteile getroffen`;
+  document.querySelector("#endScreen").classList.add("active");
+}
 
 function animate(nowMs){
   requestAnimationFrame(animate);
-  const now=nowMs/1000; let dt=Math.min(.05,now-prev); prev=now; accumulator+=dt;
-  while(accumulator>=1/60){continuousTools();world.step();checkGoals();accumulator-=1/60;}
+  const frameStart=performance.now();
+  physicsSteps=clock.advance(nowMs/1000,round.paused || round.phase==="preparing" || round.phase==="ended",()=>{
+    clearToolForces();continuousTools();world.step();checkGoals();
+  });
+  if(round.advance(clock.elapsed))endRound();
+  physicsMs=performance.now()-frameStart;
+  const displayTime=Math.ceil(round.remaining);
+  if(displayTime!==time){time=displayTime;document.querySelector("#time").textContent=time;}
   syncMeshes();
   const target=goblinBodies.get("torso").translation();
-  if(camMode===0){camera.position.lerp(new THREE.Vector3(0,3.1,8.2),.04);}
+  if(camMode===0){camera.position.lerp(new THREE.Vector3(0,3.1,6.4),.04);}
   else if(camMode===1){camera.position.lerp(new THREE.Vector3(6,3.6,5.5),.04);}
   else{camera.position.lerp(new THREE.Vector3(-5,2.8,4.8),.04);}
   camera.lookAt(target.x,target.y+.15,target.z);
   renderer.render(scene,camera);
+  frameMs=performance.now()-frameStart;
 }
 requestAnimationFrame(animate);
-addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+function resize(){
+  const width=Math.max(1,root.clientWidth),height=Math.max(1,root.clientHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<900?1.5:2));
+  renderer.setSize(width,height);camera.aspect=width/height;camera.updateProjectionMatrix();
+  cancelInteraction();
+}
+addEventListener("resize",resize);
+visualViewport?.addEventListener("resize",resize);
+resize();syncMeshes();
+
+// Opt-in read-only diagnostics for repeatable QA; never drives gameplay.
+if(new URLSearchParams(location.search).has("debug")){
+  window.goblinDiagnostics=()=>({
+    phase:round.phase,paused:round.paused,score,time,grabbed:grabbed!==null,pointerDown,
+    bodies:world.bodies.len(),joints:world.impulseJoints.len(),projectiles:projectiles.size,
+    geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures,
+    drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,
+    frameMs,physicsMs,physicsSteps,dpr:renderer.getPixelRatio(),
+    parts:[...goblinBodies].map(([id,body])=>{
+      const p=body.translation(),v=new THREE.Vector3(p.x,p.y,p.z).project(camera);
+      const rect=renderer.domElement.getBoundingClientRect();
+      return {id,position:{...p},screen:{x:rect.left+(v.x+1)*rect.width/2,y:rect.top+(1-v.y)*rect.height/2}};
+    })
+  });
+}

@@ -1,0 +1,59 @@
+{
+  "browser": "153.0.8010.0",
+  "checks": "PASS",
+  "reset": {
+    "phase": "ready",
+    "paused": false,
+    "score": 0,
+    "time": 60,
+    "grabbed": false,
+    "pointerDown": false,
+    "bodies": 22,
+    "joints": 10,
+    "projectiles": 0,
+    "geometries": 43,
+    "textures": 3,
+    "drawCalls": 67,
+    "triangles": 11608,
+    "frameMs": 1.5999999998603016,
+    "physicsMs": 0.8000000000465661,
+    "physicsSteps": 3,
+    "dpr": 1
+  },
+  "mobile": {
+    "phase": "active",
+    "paused": false,
+    "score": 185,
+    "time": 37,
+    "grabbed": false,
+    "pointerDown": false,
+    "bodies": 22,
+    "joints": 10,
+    "projectiles": 0,
+    "geometries": 43,
+    "textures": 3,
+    "drawCalls": 68,
+    "triangles": 11672,
+    "frameMs": 0.6000000000931323,
+    "physicsMs": 0.10000000009313226,
+    "physicsSteps": 1,
+    "dpr": 1.5
+  },
+  "layout": {
+    "canvas": {
+      "width": 744,
+      "height": 360
+    },
+    "viewport": {
+      "width": 744,
+      "height": 360
+    },
+    "overlap": false
+  },
+  "medianFrameMs": 116.59999999999854,
+  "p95FrameMs": 150,
+  "maxPhysicsMs": 7,
+  "warnings": [],
+  "errors": [],
+  "failedResponses": []
+}
