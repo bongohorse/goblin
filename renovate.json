@@ -1,13 +1,15 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    ":disableRateLimiting"
   ],
   "dependencyDashboard": true,
   "rangeStrategy": "bump",
   "ignoreUnstable": true,
   "respectLatest": true,
   "minimumReleaseAge": "0 days",
+  "separateMajorMinor": false,
   "lockFileMaintenance": {
     "enabled": true
   },
