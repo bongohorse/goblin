@@ -90,6 +90,15 @@ async function main() {
     assert.equal(reset.bodies, clean.bodies); assert.equal(reset.joints, clean.joints);
     assert.equal(reset.score, 0); assert.equal(reset.grabbed, false);
     await mobile.setViewportSize({ width: 360, height: 744 });
+    const portrait = await mobile.evaluate(() => {
+      const bar = document.querySelector('#toolbar').getBoundingClientRect();
+      const actions = document.querySelector('#actions').getBoundingClientRect();
+      return { overlap: !(actions.right <= bar.left || actions.bottom <= bar.top || actions.left >= bar.right || actions.top >= bar.bottom) };
+    });
+    assert.equal(portrait.overlap, false, 'portrait actions must not cover the toolbar');
+    await mobile.locator('[data-tool="hand"]').tap();
+    await mobile.locator('#resetBtn').tap();
+    assert.equal((await snapshot(mobile)).score, 0);
     await mobile.setViewportSize({ width: 744, height: 360 });
     const layout = await mobile.evaluate(() => {
       const canvas = document.querySelector('canvas').getBoundingClientRect();
