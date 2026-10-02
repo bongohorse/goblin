@@ -1,0 +1,25 @@
+:root{font-family:Inter,system-ui,sans-serif;color:#fff;background:#140d09}
+*{box-sizing:border-box}html,body,#game{margin:0;width:100%;height:100%;overflow:hidden}
+canvas{display:block;touch-action:none}
+button{font:inherit;color:inherit}
+#hud{position:fixed;left:18px;right:18px;top:14px;display:flex;justify-content:space-between;align-items:center;z-index:5;pointer-events:none}
+.brand{font-weight:1000;font-size:clamp(18px,3vw,34px);color:#ff4357;text-shadow:0 3px 0 #000}.brand span{font-size:.65em;color:#fff}.brand b{color:#8ef22c}
+.stats{display:flex;gap:8px}.stats div{background:#17110ddd;border:2px solid #62452e;border-radius:12px;padding:8px 12px;font-weight:900}
+#objectives{position:fixed;right:18px;top:72px;z-index:5;background:#e8c891;color:#2a1a0f;border:4px solid #68452d;border-radius:12px;padding:10px 14px;box-shadow:0 7px 20px #0007;min-width:220px}
+#objectives h3{margin:0 0 6px}#objectives label{display:block;font-weight:800;font-size:13px;margin:4px 0}
+#hint{position:fixed;left:50%;top:82px;transform:translateX(-50%);z-index:5;background:#0009;border:1px solid #ffffff35;border-radius:999px;padding:8px 14px;font-size:13px;pointer-events:none}
+#toolbar{position:fixed;z-index:6;left:50%;bottom:14px;transform:translateX(-50%);display:flex;gap:6px;max-width:calc(100vw - 150px);overflow-x:auto;padding:8px;background:#25170fe8;border:3px solid #6b472d;border-radius:16px;box-shadow:0 8px 26px #0008}
+#toolbar button{min-width:68px;height:60px;border:2px solid #51331f;border-radius:10px;background:#120c08;font-size:25px;cursor:pointer}
+#toolbar button span{display:block;font-size:10px;font-weight:800;margin-top:2px}
+#toolbar button.selected{border-color:#ffd743;box-shadow:0 0 0 3px #ffbe2650;background:#41280f}
+#actions{position:fixed;left:14px;bottom:18px;z-index:7;display:flex;gap:6px;flex-direction:column}
+#actions button{border:2px solid #70492f;background:#321f15dd;border-radius:10px;padding:8px 10px;font-weight:900;cursor:pointer}
+.overlay{position:fixed;inset:0;z-index:20;background:#090604e8;display:none;place-items:center;padding:20px}.overlay.active{display:grid}
+.start-card{width:min(1000px,95vw);display:grid;grid-template-columns:1.35fr .65fr;background:#21150f;border:4px solid #6c472c;border-radius:20px;overflow:hidden;box-shadow:0 20px 70px #000}
+.start-art{min-height:420px;display:grid;place-items:center;align-content:center;gap:28px;padding:32px;background:radial-gradient(circle at 50% 35%,#59331d 0,#2b1910 42%,#120b08 100%);overflow:hidden}.start-logo{font-weight:1000;font-size:clamp(30px,5vw,70px);line-height:.9;text-align:center;color:#ff4357;text-shadow:0 5px 0 #000}.start-logo span{font-size:.6em;color:#fff}.start-logo b{display:block;color:#8ef22c}.start-goblin{font-size:clamp(90px,15vw,180px);filter:drop-shadow(0 14px 16px #0008)}.start-copy{padding:28px;display:flex;flex-direction:column;justify-content:center}
+.start-copy h1{font-size:42px;margin:0;color:#9cf23c}.start-copy p{line-height:1.5;color:#eadccf}
+.primary{border:0;border-radius:12px;padding:14px 18px;background:#e93542;font-weight:1000;cursor:pointer;box-shadow:0 5px 0 #83151d}.primary:active{transform:translateY(3px);box-shadow:0 2px 0 #83151d}
+.start-copy small{margin-top:14px;color:#aa9b90}
+.panel{display:none;position:fixed;z-index:15;left:50%;top:50%;transform:translate(-50%,-50%);width:min(600px,90vw);background:#1d130e;border:3px solid #6e4930;border-radius:16px;padding:22px;box-shadow:0 20px 80px #000}.panel.active{display:block}.panel #closeHelp{position:absolute;right:10px;top:8px;background:none;border:0;font-size:28px;cursor:pointer}
+.end-card{text-align:center;background:#23150e;border:4px solid #69452c;border-radius:18px;padding:34px;min-width:min(420px,90vw)}.final-score{font-size:50px;font-weight:1000;color:#ffd741;margin:20px}
+@media(max-width:760px){#objectives{top:60px;right:8px;transform:scale(.83);transform-origin:top right}.stats{gap:4px}.stats div{padding:6px 8px;font-size:12px}.brand{font-size:18px}#hint{display:none}#toolbar{left:8px;right:8px;transform:none;max-width:none;bottom:8px;padding-right:80px}.start-card{grid-template-columns:1fr}.start-art{min-height:42vh}.start-copy{padding:18px}.start-copy h1{font-size:30px}#actions{bottom:80px}}
