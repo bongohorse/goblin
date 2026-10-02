@@ -1,0 +1,15 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "dependencyDashboard": true,
+  "rangeStrategy": "bump",
+  "ignoreUnstable": true,
+  "respectLatest": true,
+  "minimumReleaseAge": "0 days",
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "rebaseWhen": "behind-base-branch"
+}
