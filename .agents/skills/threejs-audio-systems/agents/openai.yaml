@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Audio Systems"
+  short_description: "Build browser-safe event-driven game audio"
+policy:
+  allow_implicit_invocation: true

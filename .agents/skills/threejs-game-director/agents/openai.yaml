@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Game Director"
+  short_description: "Coordinate Goblin game production"
+policy:
+  allow_implicit_invocation: true

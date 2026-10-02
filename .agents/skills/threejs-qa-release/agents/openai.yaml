@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js QA Release"
+  short_description: "Verify builds, browsers and Pages releases"
+policy:
+  allow_implicit_invocation: true

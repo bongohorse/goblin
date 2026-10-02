@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Debug Profiler"
+  short_description: "Debug and profile the Goblin runtime"
+policy:
+  allow_implicit_invocation: true

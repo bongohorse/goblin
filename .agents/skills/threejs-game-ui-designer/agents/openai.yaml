@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Game UI Designer"
+  short_description: "Design responsive Goblin game UI"
+policy:
+  allow_implicit_invocation: true

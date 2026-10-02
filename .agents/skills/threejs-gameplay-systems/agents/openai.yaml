@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Gameplay Systems"
+  short_description: "Build Goblin gameplay and Rapier systems"
+policy:
+  allow_implicit_invocation: true

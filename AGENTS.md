@@ -35,6 +35,14 @@ Repo-local skills live in `.agents/skills/`.
 - `grill-me`: sharpen unclear product/design decisions
 - `handoff`: leave compact continuation context
 
+### Three.js game production
+- `threejs-game-director`: coordinate gameplay, graphics, UI, audio, debugging and release work
+- `threejs-gameplay-systems`: core loop, tools, input, Rapier physics, scoring, objectives and game feel
+- `threejs-game-ui-designer`: HUD, menus, responsive layout, safe areas and touch UX
+- `threejs-debug-profiler`: diagnose Three.js/runtime/input failures and measured performance bottlenecks
+- `threejs-qa-release`: browser QA, production build, Pages verification and release evidence
+- `threejs-audio-systems`: browser audio architecture, event-driven SFX, mixing and lifecycle
+
 ### Three.js graphics
 - `threejs-skill-router`: choose the smallest graphics skill set for a visual task
 - `threejs-camera-direction`: framing, follow cameras, transitions and camera constraints
