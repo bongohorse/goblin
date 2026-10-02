@@ -10,6 +10,16 @@
   "respectLatest": true,
   "minimumReleaseAge": "0 days",
   "separateMajorMinor": false,
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions and Node"
+    },
+    {
+      "matchManagers": ["npm"],
+      "groupName": "npm dependencies"
+    }
+  ],
   "lockFileMaintenance": {
     "enabled": true
   },
