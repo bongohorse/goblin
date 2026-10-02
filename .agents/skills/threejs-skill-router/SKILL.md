@@ -1,6 +1,6 @@
 ---
 name: threejs-skill-router
-description: Route Beat your Goblin Three.js graphics work to the smallest relevant graphics skill set. Use for visual rewrites, scene polish, camera work, materials, VFX, shadows or final-image changes.
+description: Route Beat your Goblin Three.js graphics work to the smallest relevant graphics skill set. Use for visual rewrites, scene polish, camera work, materials, VFX, shadows, WebGPU/TSL or final-image changes.
 ---
 
 # Three.js Skill Router - Goblin
@@ -17,6 +17,9 @@ Use only the graphics expertise that materially changes the requested result.
 - Shadow stability, quality or cost -> `threejs-shadow-systems`
 - Bloom, exposure, tone mapping or several post passes -> `threejs-image-pipeline`
 - Visual acceptance, fixed-view comparison or graphics budgets -> `threejs-visual-validation`
+- WebGPU renderer, TSL or node materials -> `threejs-webgpu-tsl`
+- High-count visual simulation with a proven CPU bottleneck -> `threejs-webgpu-compute`
+- WebGPU support checks, fallback, limits or device loss -> `threejs-webgpu-resilience`
 
 ## Goblin execution order
 
@@ -26,13 +29,15 @@ Use only the graphics expertise that materially changes the requested result.
 4. Add motion and VFX only where they communicate an interaction.
 5. Add/adjust shadows.
 6. Add image-space treatment last.
-7. Validate near/design/far views plus mobile landscape.
+7. Consider WebGPU only if the requested feature or measured bottleneck benefits from it.
+8. Validate near/design/far views plus mobile landscape.
 
 ## Constraints
 
 - Inspect the installed Three.js version and official docs for API details.
-- Rapier owns gameplay physics; do not duplicate physics in visual animation.
+- Rapier owns gameplay physics; do not duplicate physics in visual animation or GPU compute.
 - Do not solve weak geometry/materials with bloom.
 - Avoid adding a render pass just because it exists in Three.js.
 - Prefer one strong mechanism over several unrelated noise/effect layers.
 - Every added graphics system needs an explicit cost and a way to disable or simplify it.
+- Keep `WebGLRenderer` as the default unless a dedicated issue explicitly approves WebGPU migration.

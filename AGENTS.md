@@ -54,6 +54,13 @@ Repo-local skills live in `.agents/skills/`.
 - `threejs-image-pipeline`: HDR, bloom, exposure, tone mapping and final image ownership
 - `threejs-visual-validation`: deterministic visual QA and performance evidence
 
+### Three.js WebGPU / TSL
+- `threejs-webgpu-tsl`: optional WebGPU renderer and TSL/node-material work
+- `threejs-webgpu-compute`: measured GPU-compute workloads such as large visual particle simulations
+- `threejs-webgpu-resilience`: capability checks, fallback, device-loss handling and portability
+
+WebGPU is optional. Do not replace the stable `WebGLRenderer` path unless a scoped issue explicitly requires it and target-browser evidence supports the change. Rapier remains the owner of gameplay physics.
+
 GitHub Issues are the source of truth. See `docs/agents/issue-tracker.md`.
 
 ## Game-specific checks

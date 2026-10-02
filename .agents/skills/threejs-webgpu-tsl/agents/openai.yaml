@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js WebGPU / TSL"
+  short_description: "Use optional WebGPU and TSL safely"
+policy:
+  allow_implicit_invocation: true

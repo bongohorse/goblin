@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js WebGPU Compute"
+  short_description: "Design measured GPU compute workloads"
+policy:
+  allow_implicit_invocation: true

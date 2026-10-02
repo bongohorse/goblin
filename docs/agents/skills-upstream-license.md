@@ -76,3 +76,15 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE.
+
+## WebGPU Claude Skill (conceptual reference)
+
+Source:
+https://github.com/dgreenheck/webgpu-claude-skill
+
+The upstream README states that the project is MIT-licensed, but no standalone
+`LICENSE` file was present when this repository was checked on 2026-10-02.
+The Goblin skills derived from this reference were therefore rewritten from
+scratch for this project rather than copied verbatim. They use the upstream
+project only as a conceptual/topic reference for WebGPU, TSL, compute, device
+limits and device-loss concerns.

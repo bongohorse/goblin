@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js WebGPU Resilience"
+  short_description: "Handle WebGPU support, fallback and device loss"
+policy:
+  allow_implicit_invocation: true
