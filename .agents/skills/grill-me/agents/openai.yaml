@@ -1,0 +1,5 @@
+interface:
+  display_name: "Grill Me"
+  short_description: "Sharpen unclear Goblin decisions"
+policy:
+  allow_implicit_invocation: false

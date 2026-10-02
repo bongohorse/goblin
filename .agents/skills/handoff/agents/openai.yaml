@@ -1,0 +1,5 @@
+interface:
+  display_name: "Handoff"
+  short_description: "Create a compact Goblin continuation note"
+policy:
+  allow_implicit_invocation: false

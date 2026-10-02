@@ -1,0 +1,5 @@
+interface:
+  display_name: "PR"
+  short_description: "Write an evidence-based Goblin PR body"
+policy:
+  allow_implicit_invocation: true

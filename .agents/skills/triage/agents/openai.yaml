@@ -1,0 +1,5 @@
+interface:
+  display_name: "Triage"
+  short_description: "Turn Goblin issues into agent-ready work"
+policy:
+  allow_implicit_invocation: false

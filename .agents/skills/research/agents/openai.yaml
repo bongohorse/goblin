@@ -1,0 +1,5 @@
+interface:
+  display_name: "Research"
+  short_description: "Research Goblin technical questions"
+policy:
+  allow_implicit_invocation: true
