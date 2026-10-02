@@ -89,7 +89,6 @@ scratch for this project rather than copied verbatim. They use the upstream
 project only as a conceptual/topic reference for WebGPU, TSL, compute, device
 limits and device-loss concerns.
 
-
 ## Rapier official repository
 
 Source:
@@ -101,3 +100,35 @@ Copyright 2020 Sébastien Crozet
 The Goblin Rapier skills are project-specific summaries and operating rules derived from the public Rapier JavaScript/TypeScript documentation, examples, changelog and source interfaces. They are not copies of Rapier implementation code.
 
 Upstream master may describe APIs newer than the version installed by this project, so each skill requires explicit installed-version compatibility checks before implementation.
+
+## Three.js official repository
+
+Source:
+https://github.com/mrdoob/three.js
+
+The MIT License
+
+Copyright © 2010-2026 three.js authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+The Goblin Three.js core skills are project-specific summaries and operating
+rules derived from official Three.js docs, manual pages, examples and source.
+The upstream `dev` branch is not assumed to be API-identical to the installed
+release; compatibility must be checked before using dev-only APIs.

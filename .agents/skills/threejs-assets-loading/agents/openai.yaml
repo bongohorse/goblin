@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Asset Loading"
+  short_description: "Load GLTF and runtime assets safely"
+policy:
+  allow_implicit_invocation: true

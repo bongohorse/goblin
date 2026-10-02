@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js AnimationMixer"
+  short_description: "Manage imported clip animation lifecycle"
+policy:
+  allow_implicit_invocation: true

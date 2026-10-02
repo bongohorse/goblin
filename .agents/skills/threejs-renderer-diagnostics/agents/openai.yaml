@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Renderer Diagnostics"
+  short_description: "Measure render cost and resource trends"
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Render Loop"
+  short_description: "Run responsive frame and resize logic"
+policy:
+  allow_implicit_invocation: true

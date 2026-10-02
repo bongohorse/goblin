@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Picking"
+  short_description: "Build Raycaster-based visual selection"
+policy:
+  allow_implicit_invocation: true

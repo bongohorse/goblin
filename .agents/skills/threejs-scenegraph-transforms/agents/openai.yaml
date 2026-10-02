@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Scene Graph"
+  short_description: "Manage hierarchy and transforms safely"
+policy:
+  allow_implicit_invocation: true

@@ -43,8 +43,19 @@ Repo-local skills live in `.agents/skills/`.
 - `threejs-qa-release`: browser QA, production build, Pages verification and release evidence
 - `threejs-audio-systems`: browser audio architecture, event-driven SFX, mixing and lifecycle
 
+### Three.js core/runtime
+- `threejs-scenegraph-transforms`: Object3D hierarchy, local/world transforms, parenting and transform ownership
+- `threejs-render-loop-responsive`: renderer loop, canvas sizing, DPR, resize/orientation and frame timing
+- `threejs-picking-interaction`: Raycaster/layers-based picking and interaction mapping
+- `threejs-assets-loading`: LoadingManager, GLTFLoader and production asset-loading architecture
+- `threejs-animation-mixer`: AnimationMixer/actions/clips and clean animation teardown
+- `threejs-resource-lifecycle`: geometry/material/texture/render-target disposal and reset-safe cleanup
+- `threejs-renderer-diagnostics`: renderer.info, draw calls, triangles, GPU-memory proxies and render diagnostics
+
+Project dependency: `three ^0.186.1`. The official `mrdoob/three.js` `dev` branch can be ahead of or differ from the installed release, so agents must verify installed-version API compatibility before implementation.
+
 ### Three.js graphics
-- `threejs-skill-router`: choose the smallest graphics skill set for a visual task
+- `threejs-skill-router`: choose the smallest Three.js skill set for a visual/runtime task
 - `threejs-camera-direction`: framing, follow cameras, transitions and camera constraints
 - `threejs-procedural-animation`: frame-rate-independent authored transform motion
 - `threejs-procedural-materials`: coherent PBR/material identity and filtered detail

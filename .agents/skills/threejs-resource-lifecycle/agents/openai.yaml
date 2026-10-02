@@ -1,0 +1,5 @@
+interface:
+  display_name: "Three.js Resource Lifecycle"
+  short_description: "Dispose GPU resources without leaks"
+policy:
+  allow_implicit_invocation: true
