@@ -162,6 +162,9 @@ async function main() {
     assert.equal(layout.canvas.width, layout.viewport.width); assert.equal(layout.canvas.height, layout.viewport.height);
     assert.equal(layout.overlap, false);
     assert.equal((await snapshot(mobile)).dpr, 1.5);
+    const g2=require('./g2-browser.cjs');
+    const g2Results={core:await g2.core(desktop),cleanup:await g2.cleanup(desktop),mobile:await g2.mobile(desktop)};
+    console.log(JSON.stringify({g2:g2Results}));
     const samples = await desktop.evaluate(() => new Promise(resolve => {
       const samples = []; let previous;
       function sample(now) {
