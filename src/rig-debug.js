@@ -7,7 +7,7 @@ export function createRigDebug(scene,world,rig){
   panel.innerHTML='<legend>Rig v1 · Debug</legend><label><input type="checkbox" data-view="colliders"> Collider (cyan)</label><label><input type="checkbox" data-view="joints"> Gelenke (gelb)</label><label><input type="checkbox" data-view="contacts"> Kontakte (orange)</label>';
   Object.assign(panel.style,{position:'fixed',top:'80px',left:'12px',zIndex:'8',background:'#17120eee',color:'#fff',fontSize:'12px',display:'grid',gap:'4px'});
   document.body.append(panel);
-  const objects=new Map(),enabled=new Set();let contactCount=0;
+  const objects=new Map(),enabled=new Set();let contactCount=0,disposed=false;
   const capacities={colliders:32768,joints:rig.joints.size*4,contacts:256};
   function allocate(name){
     const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(new Float32Array(capacities[name]*3),3).setUsage(THREE.DynamicDrawUsage));geometry.setDrawRange(0,0);
@@ -17,14 +17,17 @@ export function createRigDebug(scene,world,rig){
     object.frustumCulled=false;object.renderOrder=10;scene.add(object);objects.set(name,object);
   }
   function remove(name){const object=objects.get(name);if(!object)return;scene.remove(object);object.geometry.dispose();object.material.dispose();objects.delete(name);}
-  panel.addEventListener('change',event=>{const name=event.target.dataset.view;if(!name)return;
-    if(event.target.checked){enabled.add(name);allocate(name);}else{enabled.delete(name);remove(name);if(name==='contacts')contactCount=0;}
-  });
+  const onChange=event=>{const name=event.target.dataset.view;if(disposed||!Object.hasOwn(capacities,name))return;
+    if(event.target.checked){if(!enabled.has(name)){enabled.add(name);allocate(name);}}
+    else{enabled.delete(name);remove(name);if(name==='contacts')contactCount=0;}
+  };
+  panel.addEventListener('change',onChange);
   function fill(name,values){const object=objects.get(name),attribute=object.geometry.getAttribute('position');
     const length=Math.min(values.length,attribute.array.length);attribute.array.set(values.subarray?values.subarray(0,length):values.slice(0,length));attribute.needsUpdate=true;object.geometry.setDrawRange(0,Math.floor(length/3));
   }
   return {
     update(contactsValid){
+      if(disposed)return;
       if(enabled.has('colliders'))fill('colliders',world.debugRender(undefined,c=>rig.byCollider.has(c.handle)).vertices);
       if(enabled.has('joints')){
         const vertices=[];
@@ -45,6 +48,9 @@ export function createRigDebug(scene,world,rig){
       }
     },
     get state(){return {enabled:[...enabled],contactCount,resources:objects.size};},
-    dispose(){for(const name of [...objects.keys()])remove(name);enabled.clear();panel.remove();}
+    dispose(){
+      if(disposed)return;disposed=true;panel.removeEventListener('change',onChange);
+      for(const name of [...objects.keys()])remove(name);enabled.clear();contactCount=0;panel.remove();
+    }
   };
 }

@@ -1,5 +1,7 @@
 # G1 review / evidence
 
+Historical initial G1 report (published head `006f33b`). The independent PR #27 re-review found reset/picking and debug teardown defects missed here; its findings, fixes and stronger evidence supersede the initial success statements below. See [review follow-up](g1-review-followup.md). Original measurements and captures remain historical evidence.
+
 Fixed base: `15733beddcdcfbbb2f8414ea415c22e2abeac115` (main, G0 portrait merge). Scope: Issue #13 / Masterplan #11 G1 only. PR/commit and CI links are recorded in Issue #13.
 
 ## Spec

@@ -53,6 +53,19 @@ async function main() {
       assert.equal(await page.locator('#objectives input:checked').count(), 0);
     }
     await desktop.locator('#startBtn').click();
+    await desktop.waitForTimeout(3500); // Pose and rendered world matrices differ from bind pose.
+    const fallenHead=await point(desktop);
+    await desktop.mouse.move(fallenHead.x,fallenHead.y);await desktop.mouse.down();
+    const immediateResetPick=await desktop.evaluate(()=>{
+      document.querySelector('#resetBtn').click();
+      const p=window.goblinDiagnostics().parts.find(part=>part.id==='head').screen,canvas=document.querySelector('canvas');
+      // Same-task boundary: no intervening render. Native mouse is still down, so capture is valid.
+      canvas.dispatchEvent(new PointerEvent('pointerdown',{pointerId:1,isPrimary:true,button:0,clientX:p.x,clientY:p.y}));
+      const picked=window.goblinDiagnostics().hitParts;
+      canvas.dispatchEvent(new PointerEvent('pointercancel',{pointerId:1}));return picked;
+    });
+    await desktop.mouse.up();
+    assert.deepEqual(immediateResetPick,['head'],'reset updates picking before the next render');
     const ids=(await snapshot(desktop)).parts.map(part=>part.id);
     assert.equal(new Set(ids).size,15);
     for(const id of ids){
@@ -75,13 +88,30 @@ async function main() {
     await desktop.locator('#helpBtn').click();
     const paused = await snapshot(desktop);
     await desktop.waitForTimeout(1100);
-    assert.equal((await snapshot(desktop)).time, paused.time);
-    assert.equal((await snapshot(desktop)).paused, true);
+    const stillPaused=await snapshot(desktop);
+    assert.equal(stillPaused.time, paused.time);assert.equal(stillPaused.paused, true);
+    assert.deepEqual(stillPaused.parts.map(p=>[p.position,p.rotation]),paused.parts.map(p=>[p.position,p.rotation]),'pause freezes actual physics poses');
     await desktop.locator('#closeHelp').click();
+    assert.equal((await snapshot(desktop)).paused,false);
+    await desktop.locator('#resetBtn').click();
+    const beforeBlur=await point(desktop);await desktop.mouse.move(beforeBlur.x,beforeBlur.y);await desktop.mouse.down();
+    assert.equal((await snapshot(desktop)).grabbed,true);
     await desktop.evaluate(() => window.dispatchEvent(new Event('blur')));
     assert.equal((await snapshot(desktop)).paused, true);
+    assert.equal((await snapshot(desktop)).grabbed,false,'focus loss cancels an active grab');
+    assert.equal((await snapshot(desktop)).pointerDown,false);
+    await desktop.mouse.up();
     await desktop.evaluate(() => window.dispatchEvent(new Event('focus')));
     assert.equal((await snapshot(desktop)).paused, false);
+    await desktop.locator('#resetBtn').click();
+    const beforeLostCapture=await point(desktop);await desktop.mouse.move(beforeLostCapture.x,beforeLostCapture.y);await desktop.mouse.down();
+    assert.equal((await snapshot(desktop)).grabbed,true);
+    // Capture changes are processed on the next native pointer event, not on a timer.
+    await desktop.mouse.move(beforeLostCapture.x+1,beforeLostCapture.y);
+    await desktop.evaluate(()=>document.querySelector('canvas').releasePointerCapture(1));
+    await desktop.mouse.move(beforeLostCapture.x+2,beforeLostCapture.y);
+    assert.equal((await snapshot(desktop)).grabbed,false,'native lostpointercapture cancels an active grab');
+    await desktop.mouse.up();
     await desktop.locator('[data-tool="ball"]').click();
     for (let i = 0; i < 30; i++) {
       const target = await point(desktop);
@@ -118,6 +148,10 @@ async function main() {
     await mobile.locator('[data-tool="hand"]').tap();
     await mobile.locator('#resetBtn').tap();
     assert.equal((await snapshot(mobile)).score, 0);
+    // Let resize and the camera's new torso target render before sampling screen coordinates.
+    await mobile.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+    const portraitHead=await point(mobile);await mobile.touchscreen.tap(portraitHead.x,portraitHead.y);
+    assert.deepEqual((await snapshot(mobile)).hitParts,['head'],'portrait touch can still pick the head');
     await mobile.setViewportSize({ width: 744, height: 360 });
     const layout = await mobile.evaluate(() => {
       const canvas = document.querySelector('canvas').getBoundingClientRect();

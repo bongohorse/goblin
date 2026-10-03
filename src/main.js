@@ -130,6 +130,8 @@ function syncMeshes(){
   }
 }
 function getHit(ev){
+  // Reset can be followed by input before another render updates world matrices.
+  scene.updateMatrixWorld(true);
   const r=renderer.domElement.getBoundingClientRect();
   pointer.x=((ev.clientX-r.left)/r.width)*2-1; pointer.y=-((ev.clientY-r.top)/r.height)*2+1;
   raycaster.setFromCamera(pointer,camera);
@@ -264,13 +266,13 @@ function resetGoblin(ready=round.phase!=="preparing"){
   contactsValid=false;
   cancelInteraction();
   for(const handle of [...projectiles])removeProjectile(handle);
-  rig.reset();
   for(const [handle,state] of initialStates){
     const body=world.getRigidBody(handle); if(!body)continue;
     body.setTranslation(state.position,true);body.setRotation(state.rotation,true);
     body.setLinvel({x:0,y:0,z:0},true);body.setAngvel({x:0,y:0,z:0},true);
     body.resetForces(false);body.resetTorques(false);
   }
+  rig.reset(); // Propagates all reset body poses, including props, to colliders.
   score=0;combo=1;time=60;hitParts.clear();thrownCount=0;falls.reset();
   round.reset(ready);
   round.paused=document.hidden || document.querySelector("#help").classList.contains("active");

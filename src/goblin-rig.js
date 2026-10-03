@@ -68,10 +68,14 @@ export function createGoblinRig(RAPIER,world){
     joints.set(spec.id,{spec,joint});a.joints.push(spec.id);b.joints.push(spec.id);
   }
   return {byId,byBody,byCollider,joints,
-    reset(){for(const {body,spec} of byId.values()){
-      body.setTranslation(spec.position,true);body.setRotation(spec.rotation,true);
-      body.setLinvel(v(),true);body.setAngvel(v(),true);body.resetForces(false);body.resetTorques(false);
-    }},
+    reset(){
+      for(const {body,spec} of byId.values()){
+        body.setTranslation(spec.position,true);body.setRotation(spec.rotation,true);
+        body.setLinvel(v(),true);body.setAngvel(v(),true);body.resetForces(false);body.resetTorques(false);
+      }
+      // Also keep debug/query collider poses correct while the simulation is paused.
+      world.propagateModifiedBodyPositionsToColliders();
+    },
     dispose(){for(const {body} of byId.values())world.removeRigidBody(body);byId.clear();byBody.clear();byCollider.clear();joints.clear();}
   };
 }
