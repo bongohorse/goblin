@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import RAPIER from "@dimforge/rapier3d-compat";
 import { FixedClock, RoundLifecycle, FallTracker } from "./runtime.js";
+import {createGoblinRig} from './goblin-rig.js';
+import {createRigDebug} from './rig-debug.js';
 
 await RAPIER.init();
 
@@ -43,7 +45,6 @@ const hitParts = new Set();
 let thrownCount=0, score=0, combo=1, time=60, selectedTool="hand";
 let grabbed=null, pointerDown=false, activePointer=null;
 let camMode=0;
-let goblinBelt=null;
 let frameMs=0, physicsMs=0, physicsSteps=0;
 
 const mat = (c,rough=.75)=>new THREE.MeshStandardMaterial({color:c,roughness:rough,metalness:.05});
@@ -94,54 +95,27 @@ function propBarrel(x,y,z){
 [[-3,.5,-1],[3,.5,-2],[-4,.5,2],[4,.5,1]].forEach(p=>propBox(...p));
 [[-2,.5,-3],[2,.5,-3],[4,.5,3]].forEach(p=>propBarrel(...p));
 
-function addGoblin(){
-  // Physics-first segmented ragdoll. The meshes can later be replaced by a rigged GLTF adapter.
-  const parts={};
-  const makeCaps=(id,pos,half,radius,material=green)=>{
-    const mesh=new THREE.Mesh(new THREE.CapsuleGeometry(radius,half*2,7,12),material);
-    const b=dynamic(RAPIER.RigidBodyDesc.dynamic().setTranslation(...pos).setLinearDamping(.35).setAngularDamping(1.0),
-      RAPIER.ColliderDesc.capsule(half,radius).setDensity(id.includes("Leg")?1.3:1.0).setFriction(.9).setRestitution(.03),mesh,id);
-    parts[id]=b; return b;
-  };
-  const pelvis=makeCaps("pelvis",[0,1.4,0],.13,.23,cloth);
-  const torso=makeCaps("torso",[0,1.82,0],.24,.28,cloth);
-  const headMesh=new THREE.Mesh(new THREE.SphereGeometry(.43,24,18),green2);
-  const head=dynamic(RAPIER.RigidBodyDesc.dynamic().setTranslation(0,2.45,0).setLinearDamping(.35).setAngularDamping(1),
-    RAPIER.ColliderDesc.ball(.43).setDensity(.9).setFriction(.7),headMesh,"head"); parts.head=head;
-
-  // Eyes + nose + ears are child visuals of the head mesh.
-  for(const sx of [-1,1]){
-    const eye=new THREE.Mesh(new THREE.SphereGeometry(.095,16,12),white); eye.position.set(.16*sx,.1,.38); headMesh.add(eye);
-    const pupil=new THREE.Mesh(new THREE.SphereGeometry(.045,12,10),dark); pupil.position.set(.02*sx,0,.085); eye.add(pupil);
-    const ear=new THREE.Mesh(new THREE.ConeGeometry(.19,.48,14),green2); ear.rotation.z=sx*Math.PI/2; ear.position.set(.48*sx,.05,0); headMesh.add(ear);
-  }
-  const nose=new THREE.Mesh(new THREE.SphereGeometry(.09,14,10),pink); nose.position.set(0,-.02,.42); headMesh.add(nose);
-
-  const uAL=makeCaps("upperArmL",[-.43,1.92,0],.18,.105), lAL=makeCaps("lowerArmL",[-.78,1.83,0],.18,.09);
-  const uAR=makeCaps("upperArmR",[.43,1.92,0],.18,.105), lAR=makeCaps("lowerArmR",[.78,1.83,0],.18,.09);
-  const uLL=makeCaps("upperLegL",[-.2,1.03,0],.21,.13), lLL=makeCaps("lowerLegL",[-.2,.57,0],.21,.115);
-  const uLR=makeCaps("upperLegR", [.2,1.03,0],.21,.13), lLR=makeCaps("lowerLegR",[.2,.57,0],.21,.115);
-
-  const joint=(a,b,anchorA,anchorB,type="spherical",axis={x:0,y:0,z:1},limits=null)=>{
-    let data= type==="revolute" ? RAPIER.JointData.revolute(anchorA,anchorB,axis) : RAPIER.JointData.spherical(anchorA,anchorB);
-    const j=world.createImpulseJoint(data,a,b,true); j.setContactsEnabled(false);
-    if(limits && j.setLimits) j.setLimits(limits[0],limits[1]); return j;
-  };
-  joint(pelvis,torso,{x:0,y:.2,z:0},{x:0,y:-.28,z:0},"revolute",{x:0,y:0,z:1},[-.45,.45]);
-  joint(torso,head,{x:0,y:.34,z:0},{x:0,y:-.42,z:0},"revolute",{x:0,y:0,z:1},[-.6,.6]);
-  joint(torso,uAL,{x:-.26,y:.18,z:0},{x:0,y:.2,z:0}); joint(uAL,lAL,{x:0,y:-.2,z:0},{x:0,y:.2,z:0},"revolute",{x:0,y:0,z:1},[-2.2,.2]);
-  joint(torso,uAR,{x:.26,y:.18,z:0},{x:0,y:.2,z:0});  joint(uAR,lAR,{x:0,y:-.2,z:0},{x:0,y:.2,z:0},"revolute",{x:0,y:0,z:1},[-.2,2.2]);
-  joint(pelvis,uLL,{x:-.15,y:-.13,z:0},{x:0,y:.23,z:0}); joint(uLL,lLL,{x:0,y:-.23,z:0},{x:0,y:.23,z:0},"revolute",{x:0,y:0,z:1},[-.1,2.4]);
-  joint(pelvis,uLR,{x:.15,y:-.13,z:0},{x:0,y:.23,z:0});  joint(uLR,lLR,{x:0,y:-.23,z:0},{x:0,y:.23,z:0},"revolute",{x:0,y:0,z:1},[-2.4,.1]);
-
-  // Rope belt visual.
-  const belt=new THREE.Mesh(new THREE.TorusGeometry(.27,.035,8,20),mat(0x7f5a34,1));
-  belt.rotation.x=Math.PI/2;
-  belt.castShadow=true;
-  goblinBelt=belt;
-  scene.add(goblinBelt);
+const rig=createGoblinRig(RAPIER,world);
+const debugEnabled=new URLSearchParams(location.search).has('debug');
+const rigDebug=debugEnabled?createRigDebug(scene,world,rig):null;
+let contactsValid=false;
+for(const {spec,body} of rig.byId.values()){
+  const s=spec.shape;
+  const geometry=s.type==='ball'?new THREE.SphereGeometry(s.radius,spec.id==='head'?24:12,spec.id==='head'?18:8):s.type==='capsule'?new THREE.CapsuleGeometry(s.radius,s.half*2,7,12):new THREE.BoxGeometry(s.half.x*2,s.half.y*2,s.half.z*2);
+  const mesh=new THREE.Mesh(geometry,['pelvis','torso'].includes(spec.id)?cloth:spec.id==='head'?green2:green);
+  mesh.userData.partId=spec.id;
+  bodyMesh(spec.id,body,mesh);
 }
-addGoblin();
+const headMesh=rbToMesh.get(goblinBodies.get('head').handle);
+for(const sx of [-1,1]){
+  const eye=new THREE.Mesh(new THREE.SphereGeometry(.095,16,12),white);eye.position.set(.17*sx,.10,.43);headMesh.add(eye);
+  const pupil=new THREE.Mesh(new THREE.SphereGeometry(.045,12,10),dark);pupil.position.set(.02*sx,0,.085);eye.add(pupil);
+  const ear=new THREE.Mesh(new THREE.ConeGeometry(.19,.48,14),green2);ear.rotation.z=sx*Math.PI/2;ear.position.set(.53*sx,.05,0);headMesh.add(ear);
+}
+const nose=new THREE.Mesh(new THREE.SphereGeometry(.09,14,10),pink);nose.position.set(0,-.02,.47);headMesh.add(nose);
+// Cosmetic children inherit the authoritative body transform once.
+const belt=new THREE.Mesh(new THREE.TorusGeometry(.245,.035,8,20),mat(0x7f5a34,1));belt.rotation.x=Math.PI/2;belt.castShadow=true;
+rbToMesh.get(goblinBodies.get('torso').handle).add(belt);
 
 const raycaster=new THREE.Raycaster();
 const pointer=new THREE.Vector2();
@@ -154,14 +128,10 @@ function syncMeshes(){
     const p=b.translation(), q=b.rotation();
     m.position.set(p.x,p.y,p.z); m.quaternion.set(q.x,q.y,q.z,q.w);
   }
-  const t=goblinBodies.get("torso");
-  if(t && goblinBelt){
-    const p=t.translation(),q=t.rotation();
-    goblinBelt.position.set(p.x,p.y,p.z);
-    goblinBelt.quaternion.set(q.x,q.y,q.z,q.w);
-  }
 }
 function getHit(ev){
+  // Reset can be followed by input before another render updates world matrices.
+  scene.updateMatrixWorld(true);
   const r=renderer.domElement.getBoundingClientRect();
   pointer.x=((ev.clientX-r.left)/r.width)*2-1; pointer.y=-((ev.clientY-r.top)/r.height)*2+1;
   raycaster.setFromCamera(pointer,camera);
@@ -173,7 +143,7 @@ function getHit(ev){
   return null;
 }
 function bodyPart(body){
-  for(const [id,b] of goblinBodies) if(b.handle===body.handle) return id; return null;
+  return rig.byBody.get(body.handle)?.spec.id ?? null;
 }
 function addScore(n, part=null){
   if(!round.canScore)return;
@@ -293,6 +263,7 @@ function removeProjectile(handle){
   rbToMesh.delete(handle);initialStates.delete(handle);projectiles.delete(handle);
 }
 function resetGoblin(ready=round.phase!=="preparing"){
+  contactsValid=false;
   cancelInteraction();
   for(const handle of [...projectiles])removeProjectile(handle);
   for(const [handle,state] of initialStates){
@@ -301,6 +272,7 @@ function resetGoblin(ready=round.phase!=="preparing"){
     body.setLinvel({x:0,y:0,z:0},true);body.setAngvel({x:0,y:0,z:0},true);
     body.resetForces(false);body.resetTorques(false);
   }
+  rig.reset(); // Propagates all reset body poses, including props, to colliders.
   score=0;combo=1;time=60;hitParts.clear();thrownCount=0;falls.reset();
   round.reset(ready);
   round.paused=document.hidden || document.querySelector("#help").classList.contains("active");
@@ -335,13 +307,14 @@ function animate(nowMs){
   requestAnimationFrame(animate);
   const frameStart=performance.now();
   physicsSteps=clock.advance(nowMs/1000,round.paused || round.phase==="preparing" || round.phase==="ended",()=>{
-    clearToolForces();continuousTools();world.step();checkGoals();
+    clearToolForces();continuousTools();world.step();contactsValid=true;checkGoals();
   });
   if(round.advance(clock.elapsed))endRound();
   physicsMs=performance.now()-frameStart;
   const displayTime=Math.ceil(round.remaining);
   if(displayTime!==time){time=displayTime;document.querySelector("#time").textContent=time;}
   syncMeshes();
+  rigDebug?.update(contactsValid);
   const target=goblinBodies.get("torso").translation();
   if(camMode===0){camera.position.lerp(new THREE.Vector3(0,3.1,6.4),.04);}
   else if(camMode===1){camera.position.lerp(new THREE.Vector3(6,3.6,5.5),.04);}
@@ -362,17 +335,23 @@ visualViewport?.addEventListener("resize",resize);
 resize();syncMeshes();
 
 // Opt-in read-only diagnostics for repeatable QA; never drives gameplay.
-if(new URLSearchParams(location.search).has("debug")){
+if(debugEnabled){
   window.goblinDiagnostics=()=>({
     phase:round.phase,paused:round.paused,score,time,grabbed:grabbed!==null,pointerDown,
     bodies:world.bodies.len(),joints:world.impulseJoints.len(),projectiles:projectiles.size,
     geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures,
     drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,
     frameMs,physicsMs,physicsSteps,dpr:renderer.getPixelRatio(),
+    rigDebug:rigDebug.state,hitParts:[...hitParts],
     parts:[...goblinBodies].map(([id,body])=>{
       const p=body.translation(),v=new THREE.Vector3(p.x,p.y,p.z).project(camera);
       const rect=renderer.domElement.getBoundingClientRect();
-      return {id,position:{...p},screen:{x:rect.left+(v.x+1)*rect.width/2,y:rect.top+(1-v.y)*rect.height/2}};
+      const entry=rig.byId.get(id),mesh=rbToMesh.get(body.handle);
+      return {id,bone:entry.spec.bone,body:body.handle,collider:entry.collider.handle,joints:entry.joints,
+        mass:body.mass(),position:{...p},rotation:{...body.rotation()},velocity:{...body.linvel()},sleeping:body.isSleeping(),
+        meshError:mesh.position.distanceTo(new THREE.Vector3(p.x,p.y,p.z)),
+        meshRotationError:mesh.quaternion.clone().normalize().angleTo(new THREE.Quaternion(body.rotation().x,body.rotation().y,body.rotation().z,body.rotation().w).normalize()),
+        screen:{x:rect.left+(v.x+1)*rect.width/2,y:rect.top+(1-v.y)*rect.height/2}};
     })
   });
 }
