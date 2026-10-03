@@ -1,0 +1,1160 @@
+﻿{
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 Edg/154.0.0.0",
+  "viewport": {
+    "width": 1100,
+    "height": 850
+  },
+  "results": [
+    {
+      "case": "back",
+      "time": 0,
+      "phase": "plant",
+      "disposed": false,
+      "com": {
+        "x": -0.013738642900350427,
+        "y": 0.4941349696867733,
+        "z": -0.19712369619070386
+      },
+      "footMargin": -0.4834025810607309,
+      "footForce": 53.05648148059845,
+      "weight": 88.87860060811043,
+      "upY": -0.05454847688837128,
+      "standing": false,
+      "contacts": [
+        {
+          "id": "head",
+          "force": 28.527440428733826
+        },
+        {
+          "id": "handL",
+          "force": 3.6299286782741547
+        },
+        {
+          "id": "footL",
+          "force": 24.912865161895752
+        },
+        {
+          "id": "handR",
+          "force": 3.5777948051691055
+        },
+        {
+          "id": "footR",
+          "force": 28.143616318702698
+        }
+      ],
+      "bodies": 15,
+      "joints": 14,
+      "iterationValues": [
+        16
+      ],
+      "cpuCallMs": {
+        "controllerWithDiagnostics": {
+          "n": 0,
+          "mean": 0,
+          "p95": 0
+        },
+        "worldStep": {
+          "n": 0,
+          "mean": 0,
+          "p95": 0
+        }
+      },
+      "renderer": {
+        "geometries": 20,
+        "textures": 1,
+        "calls": 25,
+        "triangles": 3976
+      }
+    },
+    {
+      "case": "back",
+      "time": 0.5,
+      "phase": "plant",
+      "disposed": false,
+      "com": {
+        "x": -0.013508030933046289,
+        "y": 0.5756176507757285,
+        "z": -0.274008760489009
+      },
+      "footMargin": -0.5570719956919223,
+      "footForce": 50.70440970361233,
+      "weight": 88.87860060811043,
+      "upY": -0.3223455430275266,
+      "standing": false,
+      "contacts": [
+        {
+          "id": "head",
+          "force": 30.444109439849854
+        },
+        {
+          "id": "handL",
+          "force": 3.4028606861829758
+        },
+        {
+          "id": "footL",
+          "force": 23.979365453124046
+        },
+        {
+          "id": "handR",
+          "force": 3.311232179403305
+        },
+        {
+          "id": "footR",
+          "force": 26.72504425048828
+        }
+      ],
+      "bodies": 15,
+      "joints": 14,
+      "iterationValues": [
+        16
+      ],
+      "cpuCallMs": {
+        "controllerWithDiagnostics": {
+          "n": 30,
+          "mean": 0.17666666408379872,
+          "p95": 0.4000000059604645
+        },
+        "worldStep": {
+          "n": 30,
+          "mean": 0.31000000139077505,
+          "p95": 0.5
+        }
+      },
+      "renderer": {
+        "geometries": 20,
+        "textures": 1,
+        "calls": 26,
+        "triangles": 4056
+      }
+    },
+    {
+      "case": "back",
+      "time": 1,
+      "phase": "transfer",
+      "disposed": false,
+      "footStep": {
+        "side": "L",
+        "phase": "await-support",
+        "elapsed": 0.08333333333333333,
+        "remainingMargin": 0.12657206593314324,
+        "remainingLoad": 35.466232895851135,
+        "headLoad": 32.63996958732605,
+        "safeTime": 0
+      },
+      "com": {
+        "x": -0.010433046584844305,
+        "y": 0.6163360684976482,
+        "z": -0.3679870380678551
+      },
+      "footMargin": -0.6474993699191764,
+      "footForce": 39.97850060462952,
+      "weight": 88.87860060811043,
+      "upY": -0.38249217192763096,
+      "standing": false,
+      "contacts": [
+        {
+          "id": "head",
+          "force": 32.549718618392944
+        },
+        {
+          "id": "handL",
+          "force": 7.386028468608856
+        },
+        {
+          "id": "footL",
+          "force": 19.98824715614319
+        },
+        {
+          "id": "handR",
+          "force": 7.765691578388214
+        },
+        {
+          "id": "footR",
+          "force": 19.990253448486328
+        }
+      ],
+      "bodies": 15,
+      "joints": 14,
+      "iterationValues": [
+        16
+      ],
+      "cpuCallMs": {
+        "controllerWithDiagnostics": {
+          "n": 60,
+          "mean": 0.14666666388511657,
+          "p95": 0.4000000059604645
+        },
+        "worldStep": {
+          "n": 60,
+          "mean": 0.30833333532015483,
+          "p95": 0.5
+        }
+      },
+      "renderer": {
+        "geometries": 20,
+        "textures": 1,
+        "calls": 26,
+        "triangles": 4056
+      }
+    },
+    {
+      "case": "back",
+      "time": 2,
+      "phase": "transfer",
+      "disposed": false,
+      "footStep": {
+        "side": "L",
+        "phase": "await-support",
+        "elapsed": 1.0833333333333344,
+        "remainingMargin": 0.03391099075434108,
+        "remainingLoad": 65.85203737020493,
+        "headLoad": 0,
+        "safeTime": 0.05
+      },
+      "com": {
+        "x": -0.013347347074977601,
+        "y": 0.5978938324113345,
+        "z": -0.46737797613938553
+      },
+      "footMargin": -0.32208162365411946,
+      "footForce": 25.330523550510406,
+      "weight": 88.87860060811043,
+      "upY": -0.31562972402975953,
+      "standing": false,
+      "contacts": [
+        {
+          "id": "head",
+          "force": 33.019230365753174
+        },
+        {
+          "id": "handL",
+          "force": 18.175084590911865
+        },
+        {
+          "id": "footL",
+          "force": 11.119875311851501
+        },
+        {
+          "id": "handR",
+          "force": 20.459083914756775
+        },
+        {
+          "id": "footR",
+          "force": 14.210648238658905
+        }
+      ],
+      "bodies": 15,
+      "joints": 14,
+      "iterationValues": [
+        16
+      ],
+      "cpuCallMs": {
+        "controllerWithDiagnostics": {
+          "n": 120,
+          "mean": 0.11583333139618238,
+          "p95": 0.29999998211860657
+        },
+        "worldStep": {
+          "n": 120,
+          "mean": 0.29333333497246106,
+          "p95": 0.5
+        }
+      },
+      "renderer": {
+        "geometries": 20,
+        "textures": 1,
+        "calls": 29,
+        "triangles": 4296
+      }
+    },
+    {
+      "case": "back",
+      "time": 4,
+      "phase": "unreachable-support-target",
+      "disposed": true,
+      "footStep": {
+        "side": "L",
+        "phase": "await-support",
+        "elapsed": 2.2666666666666635,
+        "remainingMargin": -0.3821937886559436,
+        "remainingLoad": 34.149062633514404,
+        "headLoad": 32.56762146949768,
+        "safeTime": 0
+      },
+      "com": {
+        "x": -0.022789847356281756,
+        "y": 0.305957574251718,
+        "z": -0.5869604693012593
+      },
+      "footMargin": -0.5374313199437877,
+      "footForce": 40.203831642866135,
+      "weight": 88.87860060811043,
+      "upY": 0.17284145139029683,
+      "standing": false,
+      "contacts": [
+        {
+          "id": "pelvis",
+          "force": 0
+        },
+        {
+          "id": "head",
+          "force": 23.02533745765686
+        },
+        {
+          "id": "upperArmL",
+          "force": 0
+        },
+        {
+          "id": "lowerArmL",
+          "force": 4.541115313768387
+        },
+        {
+          "id": "handL",
+          "force": 0
+        },
+        {
+          "id": "footL",
+          "force": 21.71142339706421
+        },
+        {
+          "id": "upperArmR",
+          "force": 0
+        },
+        {
+          "id": "lowerArmR",
+          "force": 7.244497686624527
+        },
+        {
+          "id": "handR",
+          "force": 1.5398848056793213
+        },
+        {
+          "id": "footR",
+          "force": 18.492408245801926
+        }
+      ],
+      "bodies": 15,
+      "joints": 14,
+      "iterationValues": [
+        0
+      ],
+      "cpuCallMs": {
+        "controllerWithDiagnostics": {
+          "n": 191,
+          "mean": 0.10523560112683561,
+          "p95": 0.20000001788139343
+        },
+        "worldStep": {
+          "n": 191,
+          "mean": 0.26963350878960174,
+          "p95": 0.5
+        }
+      },
+      "renderer": {
+        "geometries": 20,
+        "textures": 1,
+        "calls": 33,
+        "triangles": 4616
+      }
+    },
+    {
+      "case": "back",
+      "time": 6,
+      "phase": "unreachable-support-target",
+      "disposed": true,
+      "footStep": {
+        "side": "L",
+        "phase": "await-support",
+        "elapsed": 2.2666666666666635,
+        "remainingMargin": -0.3821937886559436,
+        "remainingLoad": 34.149062633514404,
+        "headLoad": 32.56762146949768,
+        "safeTime": 0
+      },
+      "com": {
+        "x": -0.022714271310653757,
+        "y": 0.2952835210019462,
+        "z": -0.5870449542665478
+      },
+      "footMargin": -0.5429059799373875,
+      "footForce": 52.64712989330292,
+      "weight": 88.87860060811043,
+      "upY": 0.3372466340750201,
+      "standing": false,
+      "contacts": [
+        {
+          "id": "pelvis",
+          "force": 0
+        },
+        {
+          "id": "torso",
+          "force": 19.91333305835724
+        },
+        {
+          "id": "head",
+          "force": 19.123098850250244
+        },
+        {
+          "id": "upperArmL",
+          "force": 0
+        },
+        {
+          "id": "lowerArmL",
+          "force": 5.76358325779438
+        },
+        {
+          "id": "handL",
+          "force": 1.6316809505224228
+        },
+        {
+          "id": "footL",
+          "force": 26.01292133331299
+        },
+        {
+          "id": "upperArmR",
+          "force": 0
+        },
+        {
+          "id": "lowerArmR",
+          "force": 4.652356803417206
+        },
+        {
+          "id": "handR",
+          "force": 1.908152997493744
+        },
+        {
+          "id": "footR",
+          "force": 26.63420855998993
+        }
+      ],
+      "bodies": 15,
+      "joints": 14,
+      "iterationValues": [
+        0
+      ],
+      "cpuCallMs": {
+        "controllerWithDiagnostics": {
+          "n": 191,
+          "mean": 0.10523560112683561,
+          "p95": 0.20000001788139343
+        },
+        "worldStep": {
+          "n": 191,
+          "mean": 0.26963350878960174,
+          "p95": 0.5
+        }
+      },
+      "renderer": {
+        "geometries": 20,
+        "textures": 1,
+        "calls": 32,
+        "triangles": 4536
+      }
+    },
+    {
+      "case": "belly",
+      "time": 0,
+      "phase": "plant",
+      "disposed": false,
+      "com": {
+        "x": 0.004077839486803174,
+        "y": 0.6643987217234945,
+        "z": 0.5505216285609824
+      },
+      "footMargin": -0.2800990471338528,
+      "footForce": 45.78821073286235,
+      "weight": 88.87860060811043,
+      "upY": -0.313432932395009,
+      "standing": false,
+      "contacts": [
+        {
+          "id": "head",
+          "force": 32.356470823287964
+        },
+        {
+          "id": "handL",
+          "force": 2.991974428296089
+        },
+        {
+          "id": "footL",
+          "force": 27.102157026529312
+        },
+        {
+          "id": "handR",
+          "force": 7.6579150557518005
+        },
+        {
+          "id": "footR",
+          "force": 18.68605370633304
+        }
+      ],
+      "bodies": 15,
+      "joints": 14,
+      "iterationValues": [
+        16
+      ],
+      "cpuCallMs": {
+        "controllerWithDiagnostics": {
+          "n": 0,
+          "mean": 0,
+          "p95": 0
+        },
+        "worldStep": {
+          "n": 0,
+          "mean": 0,
+          "p95": 0
+        }
+      },
+      "renderer": {
+        "geometries": 20,
+        "textures": 1,
+        "calls": 30,
+        "triangles": 4376
+      }
+    },
+    {
+      "case": "belly",
+      "time": 0.5,
+      "phase": "transfer",
+      "disposed": false,
+      "footStep": {
+        "side": "L",
+        "phase": "lift",
+        "elapsed": 0.2833333333333333,
+        "remainingMargin": 0.1598228252129149,
+        "remainingLoad": 85.72804749011993,
+        "headLoad": 0,
+        "safeTime": 0.21666666666666665,
+        "bottom": 0.002533464870325075,
+        "lostTime": 0
+      },
+      "com": {
+        "x": 0.013383899363183417,
+        "y": 0.6971202943266782,
+        "z": 0.6036817640032138
+      },
+      "footMargin": null,
+      "footForce": 31.37615203857422,
+      "weight": 88.87860060811043,
+      "upY": -0.2918477507383638,
+      "standing": false,
+      "contacts": [
+        {
+          "id": "handL",
+          "force": 33.538066148757935
+        },
+        {
+          "id": "footL",
+          "force": 0
+        },
+        {
+          "id": "handR",
+          "force": 20.804593563079834
+        },
+        {
+          "id": "footR",
+          "force": 31.37615203857422
+        }
+      ],
+      "bodies": 15,
+      "joints": 14,
+      "iterationValues": [
+        16
+      ],
+      "cpuCallMs": {
+        "controllerWithDiagnostics": {
+          "n": 30,
+          "mean": 0.0800000011920929,
+          "p95": 0.20000001788139343
+        },
+        "worldStep": {
+          "n": 30,
+          "mean": 0.2899999996026357,
+          "p95": 0.5
+        }
+      },
+      "renderer": {
+        "geometries": 20,
+        "textures": 1,
+        "calls": 23,
+        "triangles": 3816
+      }
+    },
+    {
+      "case": "belly",
+      "time": 1,
+      "phase": "support-loss",
+      "disposed": true,
+      "footStep": {
+        "side": "L",
+        "phase": "lift",
+        "elapsed": 0.4833333333333333,
+        "remainingMargin": null,
+        "remainingLoad": 32.17041403055191,
+        "headLoad": 0,
+        "safeTime": 0.21666666666666665,
+        "bottom": -0.0008265030385231908,
+        "lostTime": 0.11666666666666665
+      },
+      "com": {
+        "x": 0.00033676571289910785,
+        "y": 0.6270292547319932,
+        "z": 0.6234061577574603
+      },
+      "footMargin": -0.3617165015409021,
+      "footForce": 40.83042472600937,
+      "weight": 88.87860060811043,
+      "upY": -0.25621246697870814,
+      "standing": false,
+      "contacts": [
+        {
+          "id": "head",
+          "force": 25.833710432052612
+        },
+        {
+          "id": "handL",
+          "force": 2.8187155723571777
+        },
+        {
+          "id": "footL",
+          "force": 26.5595081448555
+        },
+        {
+          "id": "handR",
+          "force": 5.42054146528244
+        },
+        {
+          "id": "footR",
+          "force": 14.27091658115387
+        }
+      ],
+      "bodies": 15,
+      "joints": 14,
+      "iterationValues": [
+        0
+      ],
+      "cpuCallMs": {
+        "controllerWithDiagnostics": {
+          "n": 42,
+          "mean": 0.08571428912026542,
+          "p95": 0.20000001788139343
+        },
+        "worldStep": {
+          "n": 42,
+          "mean": 0.2928571403026581,
+          "p95": 0.4000000059604645
+        }
+      },
+      "renderer": {
+        "geometries": 20,
+        "textures": 1,
+        "calls": 30,
+        "triangles": 4376
+      }
+    },
+    {
+      "case": "belly",
+      "time": 2,
+      "phase": "support-loss",
+      "disposed": true,
+      "footStep": {
+        "side": "L",
+        "phase": "lift",
+        "elapsed": 0.4833333333333333,
+        "remainingMargin": null,
+        "remainingLoad": 32.17041403055191,
+        "headLoad": 0,
+        "safeTime": 0.21666666666666665,
+        "bottom": -0.0008265030385231908,
+        "lostTime": 0.11666666666666665
+      },
+      "com": {
+        "x": -0.005620320125234466,
+        "y": 0.6132222720438376,
+        "z": 0.6582952648083437
+      },
+      "footMargin": -0.3960013723456455,
+      "footForce": 50.50245897844434,
+      "weight": 88.87860060811043,
+      "upY": -0.14993361126535298,
+      "standing": false,
+      "contacts": [
+        {
+          "id": "head",
+          "force": 29.385650753974915
+        },
+        {
+          "id": "handL",
+          "force": 4.116037935018539
+        },
+        {
+          "id": "footL",
+          "force": 25.450559919700027
+        },
+        {
+          "id": "handR",
+          "force": 4.791579991579056
+        },
+        {
+          "id": "footR",
+          "force": 25.05189905874431
+        }
+      ],
+      "bodies": 15,
+      "joints": 14,
+      "iterationValues": [
+        0
+      ],
+      "cpuCallMs": {
+        "controllerWithDiagnostics": {
+          "n": 42,
+          "mean": 0.08571428912026542,
+          "p95": 0.20000001788139343
+        },
+        "worldStep": {
+          "n": 42,
+          "mean": 0.2928571403026581,
+          "p95": 0.4000000059604645
+        }
+      },
+      "renderer": {
+        "geometries": 20,
+        "textures": 1,
+        "calls": 30,
+        "triangles": 4376
+      }
+    },
+    {
+      "case": "belly",
+      "time": 4,
+      "phase": "support-loss",
+      "disposed": true,
+      "footStep": {
+        "side": "L",
+        "phase": "lift",
+        "elapsed": 0.4833333333333333,
+        "remainingMargin": null,
+        "remainingLoad": 32.17041403055191,
+        "headLoad": 0,
+        "safeTime": 0.21666666666666665,
+        "bottom": -0.0008265030385231908,
+        "lostTime": 0.11666666666666665
+      },
+      "com": {
+        "x": -0.007388101080453702,
+        "y": 0.6123665459402211,
+        "z": 0.6599007174855397
+      },
+      "footMargin": -0.39753091688644143,
+      "footForce": 50.25296173989773,
+      "weight": 88.87860060811043,
+      "upY": -0.14740841452180153,
+      "standing": false,
+      "contacts": [
+        {
+          "id": "head",
+          "force": 29.162707328796387
+        },
+        {
+          "id": "handL",
+          "force": 3.9972496032714844
+        },
+        {
+          "id": "footL",
+          "force": 25.881417095661163
+        },
+        {
+          "id": "handR",
+          "force": 5.407210886478424
+        },
+        {
+          "id": "footR",
+          "force": 24.371544644236565
+        }
+      ],
+      "bodies": 15,
+      "joints": 14,
+      "iterationValues": [
+        0
+      ],
+      "cpuCallMs": {
+        "controllerWithDiagnostics": {
+          "n": 42,
+          "mean": 0.08571428912026542,
+          "p95": 0.20000001788139343
+        },
+        "worldStep": {
+          "n": 42,
+          "mean": 0.2928571403026581,
+          "p95": 0.4000000059604645
+        }
+      },
+      "renderer": {
+        "geometries": 20,
+        "textures": 1,
+        "calls": 30,
+        "triangles": 4376
+      }
+    },
+    {
+      "case": "belly",
+      "time": 6,
+      "phase": "support-loss",
+      "disposed": true,
+      "footStep": {
+        "side": "L",
+        "phase": "lift",
+        "elapsed": 0.4833333333333333,
+        "remainingMargin": null,
+        "remainingLoad": 32.17041403055191,
+        "headLoad": 0,
+        "safeTime": 0.21666666666666665,
+        "bottom": -0.0008265030385231908,
+        "lostTime": 0.11666666666666665
+      },
+      "com": {
+        "x": -0.007388101080453702,
+        "y": 0.6123665459402211,
+        "z": 0.6599007174855397
+      },
+      "footMargin": -0.39753091688644143,
+      "footForce": 50.25296173989773,
+      "weight": 88.87860060811043,
+      "upY": -0.14740841452180153,
+      "standing": false,
+      "contacts": [
+        {
+          "id": "head",
+          "force": 29.162707328796387
+        },
+        {
+          "id": "handL",
+          "force": 3.9972496032714844
+        },
+        {
+          "id": "footL",
+          "force": 25.881417095661163
+        },
+        {
+          "id": "handR",
+          "force": 5.407210886478424
+        },
+        {
+          "id": "footR",
+          "force": 24.371544644236565
+        }
+      ],
+      "bodies": 15,
+      "joints": 14,
+      "iterationValues": [
+        0
+      ],
+      "cpuCallMs": {
+        "controllerWithDiagnostics": {
+          "n": 42,
+          "mean": 0.08571428912026542,
+          "p95": 0.20000001788139343
+        },
+        "worldStep": {
+          "n": 42,
+          "mean": 0.2928571403026581,
+          "p95": 0.4000000059604645
+        }
+      },
+      "renderer": {
+        "geometries": 20,
+        "textures": 1,
+        "calls": 30,
+        "triangles": 4376
+      }
+    }
+  ],
+  "performance": [
+    {
+      "active": false,
+      "iterations": 0,
+      "phase": "passive",
+      "controllerMs": {
+        "n": 120,
+        "mean": 0,
+        "p95": 0
+      },
+      "worldStepMs": {
+        "n": 120,
+        "mean": 0.006666666517655055,
+        "p95": 0.09999999403953552
+      },
+      "standing": false
+    },
+    {
+      "active": false,
+      "iterations": 16,
+      "phase": "passive",
+      "controllerMs": {
+        "n": 120,
+        "mean": 0,
+        "p95": 0
+      },
+      "worldStepMs": {
+        "n": 120,
+        "mean": 0.011666666716337204,
+        "p95": 0.09999999403953552
+      },
+      "standing": false
+    },
+    {
+      "active": true,
+      "iterations": 0,
+      "phase": "transfer",
+      "controllerMs": {
+        "n": 120,
+        "mean": 0.12999999895691872,
+        "p95": 0.20000001788139343
+      },
+      "worldStepMs": {
+        "n": 120,
+        "mean": 0.11000000139077505,
+        "p95": 0.20000001788139343
+      },
+      "standing": false
+    },
+    {
+      "active": true,
+      "iterations": 16,
+      "phase": "transfer",
+      "controllerMs": {
+        "n": 120,
+        "mean": 0.07166666562358538,
+        "p95": 0.19999998807907104
+      },
+      "worldStepMs": {
+        "n": 120,
+        "mean": 0.2675000011920929,
+        "p95": 0.4000000059604645
+      },
+      "standing": false
+    }
+  ],
+  "cycles": [
+    {
+      "phase": "support-loss",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "unreachable-support-target",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "support-loss",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "unreachable-support-target",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "support-loss",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "unreachable-support-target",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "support-loss",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "unreachable-support-target",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "support-loss",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "unreachable-support-target",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "support-loss",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "unreachable-support-target",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "support-loss",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "unreachable-support-target",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "support-loss",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "unreachable-support-target",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "support-loss",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "unreachable-support-target",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "support-loss",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    },
+    {
+      "phase": "unreachable-support-target",
+      "bodies": 15,
+      "joints": 14,
+      "iterations": [
+        0
+      ],
+      "geometries": 20,
+      "textures": 1,
+      "standing": false
+    }
+  ]
+}

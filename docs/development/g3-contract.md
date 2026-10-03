@@ -61,3 +61,77 @@ No G1 anatomical-limit promise changes. No G2 spring/throw/input changes.
 Sixteen additional solver iterations are an experimental candidate, **not a
 new production budget**. Future integration must restore prior values before
 G2 grab begins and on disable/reset/teardown, and measure browser CPU cost.
+
+## Contact-assisted candidate (continuation of PR #29)
+
+`ContactGetup` and `observeGetup` remain **experimental and unintegrated**. Neither
+is imported by `main.js`. `tests/getup-fixture.js` reproduces the original 0–14 s
+standing/head-impulse/fall protocol with Rapier, without assigning a fallen pose.
+Its budget normalization at 14 s changes no pose/velocity. Each independent trial
+is a new fixture, not a successful gameplay cycle or recovery.
+
+Observation uses world COM and mass-weighted velocity, upward floor contact
+impulse / fixed-step seconds, loaded contact points (>0.5 N), convex XZ support
+hulls and signed COM margins. A point/line has no support area (`-Infinity`, JSON
+`null`). A geometric hull is necessary, not sufficient for load-bearing support.
+Axis twist diagnostics are wrapped to ±pi; they are not Euler angles or shoulder
+anatomical limits. Arm/head and arm/torso self-contact loads are diagnostic queries.
+
+The stricter success observation requires upY >0.94, head >1.80 m, COM speed
+<0.12 m/s, every body speed <0.25 m/s and angular speed <0.70 rad/s, foot normal
+load >70% of weight, foot COM margin >−0.02 m, continuously for 0.60 s.
+**No candidate trial reaches this state.** The additional motion quietness checks
+avoid cancellation of moving limbs in an aggregate COM measurement.
+
+| Candidate phase | Physical guard / action | Evidence |
+| --- | --- | --- |
+| plant | reach-limited spatial shoulder/elbow and planar hip/knee goals; actual lower-leg pitch drives limited ankles | reaches loaded hand/foot contacts |
+| transfer / await-support | combined support >0.02 m, feet >15% + hands >10% of weight, COM speed <0.25 for 0.20 s; before lifting, remaining support has positive area/margin, >60% weight and head <5% weight for 0.20 s | back stalls, then aborts |
+| lift / move / land | actual eight-corner foot clearance >0.02 m; foot within 0.06 m of COM-relative goal; actual foot load >20% weight for 0.20 s | belly comparison reaches lift but aborts on support loss; no completed placement |
+| extend | foot load >65%, positive foot margin and upY >0.65 | not reached; motion is a candidate, not a verified transition |
+| stand | quiet foot-supported observation for 0.60 s | not reached |
+
+Joint goal changes are capped at 2 rad/s. Existing G1 geometry/masses/14 joints,
+hinge stops and nonadjacent self contacts remain intact. Force-based angular PD
+100/12 has **20 Nm maximum per spherical axis** (resultant can reach 20√3 Nm),
+12 Nm for default non-placement joints. Spherical targets use a relative quaternion
+in the native joint frame and zero angular motor targets; assigning three independent
+quaternion twists was experimentally inaccurate. These are joint-frame writes,
+not body transform writes. Internal upright/reaction torque is capped at 24 Nm
+and is deferred until both foot placements complete. No fixed-world connection,
+external lift force, body velocity write, teleport or recovery reset is used.
+
+After loaded plant, observed hand world positions are retained as goals across torso
+motion; these are motor IK goals, not world-anchored constraints. The final native
+regression checks real hands within 5 cm at 2 s while the torso moves.
+
+A 0.04 m bounded virtual hand-extension bias is used while the head carries load
+in transfer; it asks bounded motors to press on the floor, never writes a hand below
+it. It establishes only transient remaining support (0.05 s in the back snapshot),
+then exceeds the shared arm/leg workspace; it does not reach sustained foot support. Placement outside maximum
+reach +0.02 m for 0.50 s aborts. Each foot placement times out after 4 s; a whole
+attempt after 12 s. Support loss for >0.10 s aborts. Hold, hit and declared blockage
+stop the candidate; these flags are not yet connected to gameplay collision/input.
+There is no implemented clearance query for blocked rising or visible recovery.
+
+Exclusive controller ownership is required: stop posture **before** `ContactGrab.begin`,
+reset, rig removal, round switch or world teardown. Stop disables every owned motor,
+clears controller torque, restores original joint frames and per-body solver values;
+repeat stop is harmless. Pause disables actuation/restores budget without advancing
+phase time; resume reinstates the captured candidate budget. Do not construct/resume
+this controller over an active G2 grab. Twenty explicit ordered handoffs test original
+3 → candidate 19 → restored 3 → articulated G2 7 → restored 3. This tests the ownership
+contract, not a completed game integration.
+
+Sixteen additional iterations remain a fixture candidate. They improved the older
+standing fixture (0.234 m/60 simulated s drift), but **neither 0 nor 16 solves this
+get-up**. Windows Edge CPU call measurements show a substantial active solver cost;
+there is no basis for adopting +16 in production now. See `g3-review.md`.
+
+Reproduce: `node tests/contact-getup-experiment.mjs <output.json>`; exit zero only
+means measurements completed. `npm test` includes failure/cleanup regressions,
+not G3 acceptance. Build `tests/getup-browser.html` as a separate Vite production
+entry (input that file, `emptyOutDir:false`) to inspect live Rapier fixtures with
+stepwise views. This QA page is absent from the normal production entry/build.
+Ordered Windows-Edge screenshots and call timings: `g3-evidence/`; sampled physical
+trace: `g3-contact-experiment.json`.
