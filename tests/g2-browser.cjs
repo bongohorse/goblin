@@ -25,11 +25,14 @@ async function core(page){
     const local=picked.selected.grab.local;
     await page.mouse.move(picked.p.x+70,picked.p.y-35,{steps:14});await page.waitForTimeout(350);
     const pulled=await state(page),entity=pulled.entities.find(e=>e.handle===pulled.grab.body);
-    assert.deepEqual(pulled.grab.local,local,'local point retained');assert.ok(pulled.grab.force<=120+1e-6);
-    assert.ok(length(entity.velocity)<=10.01,`${id} linear cap`);assert.ok(length(entity.angularVelocity)<=18.01,`${id} angular cap`);
+    assert.deepEqual(pulled.grab.local,local,'local point retained');assert.ok(pulled.grab.forceLimit<=120+1e-6);
+    assert.ok(length(entity.velocity)<=10.01,`${id} representative linear stability`);assert.ok(length(entity.angularVelocity)<=18.01,`${id} representative angular stability`);
     assert.ok(distance(pulled.grab.anchor,picked.selected.grab.anchor)>.02,`${id} point moves`);
     assert.ok(length(entity.angularVelocity)>.01,`${id} torque rotates body`);
-    drags.push({id,error:distance(pulled.grab.anchor,pulled.grab.target),force:pulled.grab.force,angularSpeed:length(entity.angularVelocity)});
+    const transientError=distance(pulled.grab.anchor,pulled.grab.target);
+    await page.waitForTimeout(3650);const held=await state(page),error=distance(held.grab.anchor,held.grab.target);
+    assert.ok(error<.12,`${id} loaded point holds within 12cm after 4s: ${error}m`);
+    drags.push({id,transientError,error,forceLimit:held.grab.forceLimit,angularSpeed:length(entity.angularVelocity)});
     await page.mouse.up();assert.equal((await state(page)).grab.connections,0);
   }
   const slow=await grabAt(page,'head',12);
@@ -38,11 +41,15 @@ async function core(page){
   const fast=await grabAt(page,'head',12);
   for(let i=1;i<=8;i++){await page.mouse.move(fast.p.x+i*15,fast.p.y-20);await page.waitForTimeout(8);}
   await page.mouse.up();const fastRelease=(await state(page)).grab.lastRelease;
-  assert.equal(slowRelease.threw,false);assert.equal(fastRelease.threw,true);assert.ok(fastRelease.speed>slowRelease.speed+1);assert.ok(fastRelease.speed<=8.01);
+  assert.equal(slowRelease.threw,false);assert.equal(fastRelease.threw,true);assert.ok(fastRelease.speed>slowRelease.speed+1);assert.ok(fastRelease.speed<=10.01);
   const cameras=[];
   for(let i=0;i<3;i++){
     const picked=await grabAt(page,'head',8);await page.mouse.move(picked.p.x+50,picked.p.y-20,{steps:6});
-    const moved=await state(page);assert.ok(moved.grab.target.x!==picked.selected.grab.target.x);cameras.push(moved.camMode);await page.mouse.up();
+    const moved=await state(page);assert.ok(moved.grab.target.x!==picked.selected.grab.target.x);
+    const delta=Object.fromEntries(['x','y','z'].map(k=>[k,moved.grab.target[k]-picked.selected.grab.target[k]]));
+    assert.ok(Math.abs(delta.x*moved.camera.planeNormal.x+delta.y*moved.camera.planeNormal.y+delta.z*moved.camera.planeNormal.z)<1e-6,'movement stays in selected camera plane');
+    assert.deepEqual(moved.camera.position,picked.selected.camera.position,'camera position frozen');assert.deepEqual(moved.camera.rotation,picked.selected.camera.rotation,'camera direction frozen');
+    cameras.push(moved.camMode);await page.mouse.up();
     await page.locator('#cameraBtn').click();await page.waitForTimeout(500);
   }
   await reset(page);const uiBefore=await state(page);await page.locator('[data-tool=hammer]').click();const uiAfter=await state(page);
@@ -84,7 +91,22 @@ async function cleanup(page){
   await page.locator('#helpBtn').click();await page.locator('#resetBtn').evaluate(e=>e.click());const paused=await state(page);await page.waitForTimeout(600);const still=await state(page);
   assert.equal(still.paused,true);assert.deepEqual(still.parts.map(p=>[p.position,p.rotation]),paused.parts.map(p=>[p.position,p.rotation]));assert.equal(still.grab.connections,0);
   await page.locator('#closeHelp').click();assert.equal((await state(page)).paused,false);
-  return {cycles:20,cancellations,immediate,pausedReset:true};
+  const owned=await grabAt(page,'head',10),owner=owned.selected.activePointer;
+  await page.evaluate(({owner,p})=>{
+    const c=document.querySelector('canvas');
+    for(const type of ['pointerdown','pointermove','pointerup','pointercancel'])c.dispatchEvent(new PointerEvent(type,{pointerId:owner+1,isPrimary:false,button:0,clientX:p.x+100,clientY:p.y-100}));
+  },{owner,p:owned.p});
+  const foreign=await state(page);assert.equal(foreign.activePointer,owner);assert.deepEqual(foreign.grab.target,owned.selected.grab.target,'second pointer cannot move/release/replace grip');assert.equal(foreign.score,owned.selected.score);
+  const coalesced=await page.evaluate(({owner,p})=>{
+    const c=document.querySelector('canvas'),now=performance.now(),event=new PointerEvent('pointermove',{pointerId:owner,clientX:p.x,clientY:p.y});
+    const samples=[10,40].map((dx,i)=>({clientX:p.x+dx,clientY:p.y,timeStamp:now-4+i*3}));
+    Object.defineProperty(event,'getCoalescedEvents',{value:()=>samples});c.dispatchEvent(event);
+    return window.goblinDiagnostics().grab.target;
+  },{owner,p:owned.p});assert.ok(distance(coalesced,foreign.grab.target)>.1,'coalesced samples are consumed rather than outer repeated coordinate');
+  await page.evaluate(owner=>document.querySelector('canvas').dispatchEvent(new PointerEvent('pointercancel',{pointerId:owner})),owner);
+  await page.mouse.move(owned.p.x+100,owned.p.y);await page.mouse.up();const ended=await state(page);
+  assert.equal(ended.activePointer,null);assert.equal(ended.grab.connections,0);assert.equal(ended.grab.lastRelease.threw,false);assert.equal(ended.score,foreign.score,'old pointer events cannot restart a cancelled action');
+  return {cycles:20,cancellations,immediate,pausedReset:true,secondPointer:true,coalesced:true,noRestart:true};
 }
 async function mobile(page){
   const context=await page.context().browser().newContext({viewport:{width:360,height:744},hasTouch:true,isMobile:true,deviceScaleFactor:3});

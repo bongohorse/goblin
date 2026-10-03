@@ -1,48 +1,64 @@
-# G2 review and production evidence
+# G2 PR #28 review and corrected production evidence
 
-Reviewed against fixed main `0d61a79fa6c171e71632a22620d09693cb4b4295`, AGENTS.md, Issue #14 and Masterplan #11. This is an implementation self-review, not a second-agent independent review. Scope ends at a Draft PR; no merge or deployment.
+Full actual diff reviewed against fixed base `0d61a79fa6c171e71632a22620d09693cb4b4295`, AGENTS.md, Masterplan #11, Issue #14, grab contract and original result report. Starting head: `036aebbcbd348bf87af9c922106d29c621d7b3b2`; base/head rechecked before edits. Earlier success claims were reproduced, not adopted. This is the same agent's requested review/fix pass, not a separate-agent review. PR stays Draft; no merge/deployment or G3.
 
 ## Spec
 
-- The G1 15-part IDs remain the selection/body contract. All 15 parts and one persistent prop were selected with native Edge mouse input. Direct collider picking intentionally excludes cosmetic-only ears/eyes from independent physics hits.
-- Actual off-centre drags covered head, hand, forearm, torso, upper leg, foot and prop. Local anchors stay identical while their world points move and actual angular velocity appears. The isolated body holds its selected point within 3 cm after settling. In the articulated scene, bounded soft dragging has transient/loaded error: roughly 0.08–0.53 m at 350 ms in the recorded cases. This is a force-limited connection, not a guaranteed zero-error pin or anatomical pose constraint.
-- All three camera modes use a camera-facing fixed-depth plane; the camera freezes during the grip. Pointer capture and a single primary-pointer owner are shared with touch. UI-started clicks do not start the round/score; releasing over controls or toolbar background cancels.
-- Slow native release about 0.31 m/s versus fast throw about 5.00 m/s in the complete production smoke. Timing differs between interactive MCP and headless runs; synthetic target trajectory is the controlled rate comparison. For the same trajectory at 30/60/144/240 Hz, release speed is 5.977–5.980 m/s. Heavy-prop speed scaling, current-velocity correction, stale-release and no-throw abort tests pass.
-- G3 standing/recovery, new tools, APK, engine changes and real-device acceptance are absent.
+**P2 fixed — original src/grab.js:46-63 / tests/g2-browser.cjs:25-36: insufficient loaded holding.** Reported 0.08-0.53 m error did not establish the chosen point was held. Native head drag retained 0.385 m error after three seconds (visually far from the pointer). A controlled whole-rig pull settled near 0.29 m head, 0.78 m hand and 0.99 m forearm despite previous motion/torque tests passing. Single-body response and budget ignored connected load; implicit filtering further weakened light-part control.
+
+Replace the external solve with a force-limited Rapier spring solved with other joints/contacts, using connected load mass. Absolute ceiling remains 120 N. Four temporary additional island iterations address residual light-part constraint error; original settings restore. This fixes the model rather than raising all forces.
+
+Actual settled-error assertions now cover 20 articulated cycles: max hold error 0.0368 m, joint separation 0.03074 m, selected speed 9.44 m/s. Full native Windows Edge smoke, four-second holds:
+
+| Part | Settled error |
+| --- | --- |
+| Head | 0.0347 m |
+| Hand | 0.0621 m |
+| Forearm | 0.0170 m |
+| Torso | 0.0293 m |
+| Thigh | 0.0134 m |
+| Foot | 0.0349 m |
+| Prop | 0.0251 m |
+
+Separate MCP: 0.0146-0.0581 m. These visibly retain the contact point and are below the explicit 0.12 m regression limit; even the worst hand error is below its collider radius. At 350 ms, finite-force transients remain 0.035-0.301 m. Settled holding is accepted in the verified scene, not guaranteed for unreachable targets/poses.
+
+All 15 parts and one existing prop selected with native mouse; rotated local anchors, off-centre physical rotation, three camera planes and frozen camera pose checked. Slow/fast releases: full smoke 0.541/5.983 m/s; MCP 0.510/4.868. Controlled 30/60/144/240 Hz outcomes 7.11-7.40 m/s, preserving existing physical motion. Heavy/light behaviour remains distinct.
 
 ## Engineering
 
-- **P2 fixed — `src/grab.js:move` / `tests/grab.test.js`:** repeating the final touch coordinate on pointerup was inserted as a zero-motion sample and suppressed a recent throw. Edge portrait touch reproduced `threw=false`; after ignoring repeated coordinates while ageing motion by elapsed time, portrait and landscape throws pass. A regression checks the actual release speed and recent-motion retention.
-- **P2 fixed — `src/grab.js:pointerVelocity` / release:** ageing between normal 30 Hz samples and subtracting existing spin made event-rate/mass results diverge. Controlled real-Rapier tests initially failed. Allow the normal sample interval, and transfer a bounded COM velocity while preserving the already-created spin. Release applies mass*(desired-current) rather than an additive boost. All rate/mass tests now pass.
-- **P2 fixed — `src/main.js:pointerup` / `tests/g2-browser.cjs`:** review found the initial release-over-UI filter covered controls but not toolbar/panel backgrounds. Extend the filter to their containers and assert UI cancellation reason, including a real toolbar background point (excluding the rounded corner outside its hit area).
-- Selected-body speed caps also run after the contact solver; unexpected body removal clears the connection before reading deleted transforms and clears pointer ownership on the next fixed step. No temporary physics bodies, joints, GPU resources or persistent spring forces exist. Tests remove an actual Rapier body and verify no throw; browser reset/removal shares the cancellation path. No claim of a public arbitrary object-deletion UI is made.
-- Twenty real-Rapier articulated cycles: max force 120 N, selected speed about 2.16 m/s, max joint-anchor separation 0.02693 m; clean poses/velocities/forces/torques after every reset, 15 rig bodies / 14 joints constant. Twenty Windows-MCP browser cycles retain 26 scene bodies / 14 joints / 47 geometries / 3 textures, 0 connection, no user force/torque. Pointercancel, native lost capture, synthetic blur, help pause, reset, tool/camera change, resize and UI release all cancel without throwing.
-- Same-task reset/picking and paused reset with frozen actual positions/quaternions pass. G1 hinge/self-contact/fall/impact/debug-disposal tests remain green. Broad-phase freshness is avoided with bounded direct per-collider selection, rather than a second visual hit system.
-- No open blocking finding identified in this self-review. The known soft-connection load error and device boundaries remain explicit.
+- **P2 fixed — original src/grab.js:64-68 / src/main.js:324: clipping unrelated collision motion.** Pre/post-solver setLinvel/setAngvel overwrote one body's real momentum while linked/contact bodies retained solver velocities. Remove both. Bounds apply to drive, actual spring force and release correction. A real high-speed two-body collision preserves summed momentum within the external grip impulse; a centre grip preserves free 25 rad/s spin. No global collision speed cap is claimed.
+- **P2 fixed — original src/grab.js:79-81: release discards physical movement.** Whole-vector desired-current erased gravity/side-impact components and could brake faster movement. Correct only a missing gesture-direction component; preserve transverse movement/spin, add nothing to already faster motion. Regression preserves y=-3/z=2, spin (4,5,6), and faster 9/20 m/s movement. Detach before release prevents a following-step spring boost.
+- **P2 fixed — original src/grab.js:34: stopped movement samples ignored.** Duplicate-pointerup workaround discarded all identical-coordinate pointermoves. Only final duplicates are ignored now. Moving/stationary trajectories at 30/60/144/240 Hz do not throw after a 90 ms stop, before the 100 ms stale deadline; duplicate pointerup during recent motion still throws.
+- Real mass * delta-velocity / dt checks prove resultant force bounds for 0.18/1/4 kg, rotated poses and diagonal targets, exercising saturation and drive speed. These do not merely assert configuration. Installed public raw motor API is isolated/documented; no engine/version change.
+- Passed input/state: native capture/loss, Pointercancel, synthetic blur/focus, help pause/resume, reset, tool/camera/viewport change, controls/background UI, explicitly synthetic secondary-pointer ownership and coalesced consumption, trailing events after cancellation. No takeover/restart/throw on abort.
+- Actual Rapier removal leaves no anchor/joint. Browser reset removes projectiles and grip; no arbitrary-deletion UI is claimed. Twenty browser/MCP cycles restore 26 bodies / 14 joints / 47 geometries / 3 textures, zero connections/user force/torque. Active only: 27/15 with no new GPU resources. Engine cycles also verify solver-setting restoration.
+- Same-task reset picking, paused reset with frozen transforms, G0 time/score gates, G1 hinge/self-contact/impact stability and debug resource disposal pass. No blocking finding remains in tested scope. This report supersedes earlier soft-connection/release success claims.
 
-## Test conditions and checks
+## Checks and conditions
 
-- Node 24.21.0, locked npm install; Rapier 0.21.0, Three 0.186.1, Playwright 1.63.0 unchanged. Official 0.21.0 TypeScript changelog and installed API declarations checked.
-- `npm test`: 20/20; `npm run build`: pass; `git diff --check`: pass. Existing Vite large-chunk warning remains. JS production bundle about 4,899.10 kB / 1,813.20 kB gzip versus G1 4,894.83 / 1,811.75 kB; no new assets or dependencies.
-- `npm run test:browser`: complete production G0/G1/G2 smoke passed in Windows Edge 154.0.4258.53. 60.05 s preparation/reset idle, all-part selection, torque drags, throws, cancellation, 20 resets, projectile cap, debug resource toggles, alignment and touch layouts. Errors/warnings/failed HTTP responses: none. Separate Windows-Edge-MCP core, cleanup and touch stages passed; final UI-background correction rechecked there.
-- Production served at actual `/goblin/` base path on isolated loopback port 52955, not dev server. Existing port 5174 and local user/MCP files were untouched.
-- Desktop 1280×720 DPR1. Touch explicitly emulated in Edge: 360×744 portrait → 744×360 landscape, device scale 3 / render DPR cap1.5, CDP touch start/move/end/cancel. Both throw and abort paths passed, canvas=viewport, no action/toolbar overlap. This is not genuine Android.
-- Local full-smoke screenshots: root `.playwright-mcp/g2-smoke-desktop.png`, `g2-smoke-mobile.png`; final interactive screenshot evidence also retained locally. Screenshots and runtime checks are complementary, not a GPU profile.
+Node 24.21.0 / npm 11.19.0; locked Rapier 0.21.0, Three 0.186.1, Playwright 1.63.0. npm test 24/24; build and whitespace checks pass. Existing Vite chunk warning remains; JS approximately 4,899.40 kB / 1,813.28 kB gzip. No new assets/dependencies.
 
-## Performance comparison to G1
+Full npm run test:browser passes in Windows Edge 154.0.4258.53: 60.05 s pre-start/reset idle, complete G0/G1/G2 production checks, 20 cycles, projectile cap, collider/mesh alignment, debug toggles, reset/pause/layout. Warnings, errors and failed HTTP responses empty. Separate Windows-Edge-MCP core/cleanup/touch stages pass.
 
-Fresh sequential foreground Edge-MCP probes on the same Windows machine, ANGLE / NVIDIA GeForce RTX 3070 Ti / Direct3D11; desktop 1280×720 DPR1, debug overlays off. G1 baseline is the combined build validated against the deployed G1 merge; G2 is the production build. Reset + 2.2 s settle, 30 head-targeted Ball clicks, max 24 projectiles, then 1800 rAF intervals. Sampling reads only rAF timestamps, with diagnostics once after the measurement, so G2's larger diagnostic object is not built on every sample.
+Isolated loopback 64507, actual /goblin/ production base path; reload and JS/CSS paths verified. Server 5174 and root user/MCP files preserved. This is local production-browser evidence, not deployed Pages acceptance.
 
-| Metric | Fresh G1 | G2 |
-| --- | --- | --- |
-| rAF median / P95 | 6.1 / 6.2 ms | 6.1 / 6.2 ms |
-| 1800-interval elapsed time | 10.9229 s | 10.9229 s |
-| Bodies / joints / projectiles | 50 / 14 / 24 | 50 / 14 / 24 |
-| Render calls / triangles | 124 / 29288 | 124 / 29288 |
-| Geometries / textures | 71 / 3 | 71 / 3 |
+Desktop 1280x720 DPR1. Touch explicitly emulated via Edge CDP: 360x744 portrait / 744x360 landscape, device scale3/render DPR cap1.5. Grasp/drag/throw/cancel pass, canvas=viewport, no controls overlap. Secondary-pointer/coalesced checks are synthetic handler tests, not genuine multitouch-device proof.
 
-A single matching rAF pair does not establish unchanged CPU or GPU costs. No GPU timer result is available. The probe is the established projectile scene, not a measurement of the new active-grab solver. During a grip, G2 adds one small point-response matrix solve per fixed step and allocates temporary JS math values; it adds no Rapier/GPU resources. Diagnostic full-object sampling and browser automation have their own costs. No weak-device performance acceptance is inferred.
+Root local evidence: .playwright-mcp/g2-review-before-held.png, g2-review-after-held.png, g2-review-smoke-desktop.png, g2-review-smoke-mobile.png, g2-review-smoke.log. Before/after contact placement and layouts inspected. Red target/cyan contact markers are temporary QA DOM overlays, absent from product code.
 
-A separate G2 sustained off-centre head grip sampled 600 rAF intervals (no diagnostics during sampling): median/P95 6.1/6.2 ms, 26 bodies / 14 joints / 47 geometries / 3 textures. At the end: force about 71 N, head speed 0.146 m/s, mesh position error 0. This is an active-grab smoke measurement, not a matched G1 CPU/GPU comparison. The visible held pose was inspected in `g2-mcp-held-head.png`.
+## Performance: active grip separately from projectile baseline
 
-Free shoulder/hip joints, genuine Android, native OS-tab/visibility transitions, GPU-time profiling, finished GLB skinning and arbitrary thin-target CCD remain outside the proven scope. The body stays passive until G3. Issue #14 remains open pending review/merge and later live acceptance.
+Sequential foreground Windows-Edge-MCP, Edge154.0.4258.53, ANGLE NVIDIA RTX3070Ti/D3D11, 1280x720 DPR1, debug rendering off; no concurrent smoke browser. G1 is the combined production baseline previously verified against its deployed merge. G2 is corrected production. Sample 1800 rAF intervals only; diagnostics once afterward.
+
+Active: fresh reset, same head screen offset +14 px, drag +70/-35 px, 2.5 s settle, hold during measurement. G1 uses its original COM force/moving camera, so poses differ: matched input workload, not identical solver/pose benchmark. Projectiles separately: 30 head-targeted Ball clicks, cap24, 2.2 s settle.
+
+| Scene/build | rAF median/P95 | 1800 intervals | Bodies/joints/projectiles | Calls/triangles | Geometry/texture |
+| --- | --- | --- | --- | --- | --- |
+| Active G1 | 6.1/6.2 ms | 10.9228 s | 26/14/0 | 76/12392 | 47/3 |
+| Active G2 | 6.1/6.2 ms | 10.9229 s | 27/15/0 | 76/12392 | 47/3 |
+| Projectiles G1 | 6.1/6.2 ms | 10.9228 s | 50/14/24 | 124/29288 | 71/3 |
+| Projectiles G2 | 6.1/6.2 ms | 10.9228 s | 50/14/24 | 124/29288 | 71/3 |
+
+Sustained G2 head error: 0.0372 m. Matching rAF cadence is scheduling/foreground smoothness evidence, **not CPU/GPU cost proof**. G2 active adds one Rapier body/joint and four scoped solver iterations; CPU work can increase while this machine maintains cadence. No GPU timer, isolated physics CPU profile, heap-retention profile or weak-device acceptance. Counter stability proves cleanup of enumerated resources, not all allocator behaviour.
+
+Free shoulder/hip joints without guaranteed anatomical limits remain. Real Android/iOS, native OS visibility transitions, GLB and arbitrary thin-target CCD are outside evidence, not marked passed or turned into new blockers. Issue14 remains open pending later merge/live acceptance. Final commit/CI are recorded in PR/Issue after push; no deployment in this review.

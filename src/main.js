@@ -44,7 +44,7 @@ const round = new RoundLifecycle();
 const falls = new FallTracker();
 const hitParts = new Set();
 let thrownCount=0, score=0, combo=1, time=60, selectedTool="hand";
-const grab=new ContactGrab();
+const grab=new ContactGrab(world,RAPIER);
 let pointerDown=false, activePointer=null;
 let camMode=0;
 let frameMs=0, physicsMs=0, physicsSteps=0;
@@ -141,9 +141,9 @@ function getHit(ev){
   pointerRay(ev);
   return pickBody(RAPIER,world,rbToMesh.keys(),raycaster.ray.origin,raycaster.ray.direction);
 }
-function moveGrab(ev){
+function moveGrab(ev,final=false){
   pointerRay(ev);
-  if(grab.active&&raycaster.ray.intersectPlane(dragPlane,dragPoint))grab.move(dragPoint,ev.timeStamp/1000);
+  if(grab.active&&raycaster.ray.intersectPlane(dragPlane,dragPoint))grab.move(dragPoint,ev.timeStamp/1000,final);
 }
 function bodyPart(body){
   return rig.byBody.get(body.handle)?.spec.id ?? null;
@@ -198,7 +198,7 @@ renderer.domElement.addEventListener("pointerdown",ev=>{
   if((p && !["rock","ball","bowling","crate","barrel","fish"].includes(selectedTool)) || ["fan","magnet","spring"].includes(selectedTool))falls.markAction();
   if(selectedTool==="hand"){
     dragPlane.setFromNormalAndCoplanarPoint(camera.getWorldDirection(new THREE.Vector3()),r.hit.point);
-    grab.begin(r.body,r.hit.point,ev.timeStamp/1000);if(p)addScore(5,p);
+    grab.begin(r.body,r.hit.point,ev.timeStamp/1000,p?[...rig.byId.values()].reduce((m,e)=>m+e.body.mass(),0):r.body.mass());if(p)addScore(5,p);
   }
   else if(selectedTool==="glove") impulseTool(r.body,r.hit,3.2);
   else if(selectedTool==="hammer") impulseTool(r.body,r.hit,6.2);
@@ -229,7 +229,7 @@ renderer.domElement.addEventListener("pointerup",ev=>{
   if(ev.pointerId!==activePointer)return;
   const overUI=document.elementFromPoint(ev.clientX,ev.clientY)?.closest('button,input,fieldset,.overlay,#help,#toolbar,#actions,#hud,#objectives');
   if(round.canInteract&&!overUI){
-    moveGrab(ev);grab.release(ev.timeStamp/1000);
+    moveGrab(ev,true);grab.release(ev.timeStamp/1000);
   }
   cancelInteraction(overUI?"ui":"release");
 });
@@ -321,7 +321,6 @@ function animate(nowMs){
   const frameStart=performance.now();
   physicsSteps=clock.advance(nowMs/1000,round.paused || round.phase==="preparing" || round.phase==="ended",dt=>{
     clearToolForces();continuousTools(dt,nowMs/1000);world.step();
-    if(grab.active)grab.limitVelocity(grab.body);
     contactsValid=true;checkGoals();
   });
   if(round.advance(clock.elapsed))endRound();
@@ -354,7 +353,8 @@ resize();syncMeshes();
 // Opt-in read-only diagnostics for repeatable QA; never drives gameplay.
 if(debugEnabled){
   window.goblinDiagnostics=()=>({
-    phase:round.phase,paused:round.paused,score,time,grabbed:grab.active,pointerDown,grab:grab.diagnostics,camMode,
+    phase:round.phase,paused:round.paused,score,time,grabbed:grab.active,pointerDown,activePointer,grab:grab.diagnostics,camMode,
+    camera:{position:{...camera.position},rotation:{...camera.quaternion},planeNormal:{...dragPlane.normal}},
     bodies:world.bodies.len(),joints:world.impulseJoints.len(),projectiles:projectiles.size,
     geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures,
     drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,
