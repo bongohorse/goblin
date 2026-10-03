@@ -2,7 +2,7 @@
   "name": "Goblin \u2014 Node 24 / npm",
   "image": "mcr.microsoft.com/devcontainers/base:bookworm",
   "features": {
-    "ghcr.io/devcontainers/features/node:1": {
+    "ghcr.io/devcontainers/features/node:2": {
       "version": "24.21.0"
     },
     "ghcr.io/devcontainers/features/github-cli:1": {}
