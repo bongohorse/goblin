@@ -1,0 +1,242 @@
+﻿{
+  "core": {
+    "selected": [
+      "pelvis",
+      "torso",
+      "head",
+      "upperArmL",
+      "lowerArmL",
+      "handL",
+      "upperLegL",
+      "lowerLegL",
+      "footL",
+      "upperArmR",
+      "lowerArmR",
+      "handR",
+      "upperLegR",
+      "lowerLegR",
+      "footR",
+      "prop"
+    ],
+    "drags": [
+      {
+        "id": "head",
+        "transientError": 0.1641280702784728,
+        "error": 0.03522687990019863,
+        "forceLimit": 120,
+        "angularSpeed": 3.1160337684899777
+      },
+      {
+        "id": "handL",
+        "transientError": 0.0434311744270065,
+        "error": 0.07122655609779925,
+        "forceLimit": 120,
+        "angularSpeed": 7.840506507888947
+      },
+      {
+        "id": "lowerArmR",
+        "transientError": 0.12359843073593749,
+        "error": 0.017865763734373825,
+        "forceLimit": 120,
+        "angularSpeed": 17.06932490529225
+      },
+      {
+        "id": "torso",
+        "transientError": 0.2943827347109828,
+        "error": 0.028733248042332994,
+        "forceLimit": 120,
+        "angularSpeed": 3.706951318946879
+      },
+      {
+        "id": "upperLegL",
+        "transientError": 0.14095042451507567,
+        "error": 0.015186526580532694,
+        "forceLimit": 120,
+        "angularSpeed": 7.535024654628593
+      },
+      {
+        "id": "footR",
+        "transientError": 0.06060906669477164,
+        "error": 0.029067551573022665,
+        "forceLimit": 120,
+        "angularSpeed": 1.2372680101564155
+      },
+      {
+        "id": "prop",
+        "transientError": 0.3021654773882878,
+        "error": 0.025363912025586036,
+        "forceLimit": 30.18399953842163,
+        "angularSpeed": 11.229822777767856
+      }
+    ],
+    "slowRelease": {
+      "reason": "release",
+      "threw": false,
+      "speed": 0.5299543918528271
+    },
+    "fastRelease": {
+      "reason": "release",
+      "threw": true,
+      "speed": 7.113526291114391
+    },
+    "cameras": [
+      0,
+      1,
+      2
+    ]
+  },
+  "cleanupAndTouchEmulation": {
+    "cleanup": {
+      "cycles": 20,
+      "cancellations": [
+        {
+          "reason": "pointercancel",
+          "release": {
+            "reason": "pointercancel",
+            "threw": false
+          }
+        },
+        {
+          "reason": "lostpointercapture",
+          "release": {
+            "reason": "lostpointercapture",
+            "threw": false
+          }
+        },
+        {
+          "reason": "blur",
+          "release": {
+            "reason": "pause",
+            "threw": false
+          }
+        },
+        {
+          "reason": "pause",
+          "release": {
+            "reason": "pause",
+            "threw": false
+          }
+        },
+        {
+          "reason": "tool",
+          "release": {
+            "reason": "tool",
+            "threw": false
+          }
+        },
+        {
+          "reason": "camera",
+          "release": {
+            "reason": "camera",
+            "threw": false
+          }
+        },
+        {
+          "reason": "resize",
+          "release": {
+            "reason": "cancel",
+            "threw": false
+          }
+        },
+        {
+          "reason": "ui",
+          "release": {
+            "reason": "ui",
+            "threw": false
+          }
+        },
+        {
+          "reason": "ui-background",
+          "release": {
+            "reason": "ui",
+            "threw": false
+          }
+        }
+      ],
+      "immediate": {
+        "picked": [
+          "head"
+        ],
+        "grabbed": true
+      },
+      "pausedReset": true,
+      "secondPointer": true,
+      "coalesced": true,
+      "noRestart": true
+    },
+    "mobile": {
+      "emulation": true,
+      "results": [
+        {
+          "size": {
+            "width": 360,
+            "height": 744
+          },
+          "released": {
+            "active": false,
+            "connections": 0,
+            "lastRelease": {
+              "reason": "release",
+              "threw": true,
+              "speed": 2.7486504947799415
+            }
+          },
+          "cancel": {
+            "active": false,
+            "connections": 0,
+            "lastRelease": {
+              "reason": "pointercancel",
+              "threw": false
+            }
+          },
+          "layout": {
+            "overlap": false,
+            "canvas": [
+              360,
+              744
+            ],
+            "viewport": [
+              360,
+              744
+            ]
+          }
+        },
+        {
+          "size": {
+            "width": 744,
+            "height": 360
+          },
+          "released": {
+            "active": false,
+            "connections": 0,
+            "lastRelease": {
+              "reason": "release",
+              "threw": true,
+              "speed": 5.695593449327325
+            }
+          },
+          "cancel": {
+            "active": false,
+            "connections": 0,
+            "lastRelease": {
+              "reason": "pointercancel",
+              "threw": false
+            }
+          },
+          "layout": {
+            "overlap": false,
+            "canvas": [
+              744,
+              360
+            ],
+            "viewport": [
+              744,
+              360
+            ]
+          }
+        }
+      ],
+      "errors": []
+    }
+  }
+}
