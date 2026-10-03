@@ -2,6 +2,8 @@
 import R from '@dimforge/rapier3d-compat';
 import {fallenCase} from './getup-fixture.js';
 import {ContactGetup} from '../src/contact-getup.js';
+import {FourSupportRise} from '../src/four-support-rise.js';
+import {SideSupportProbe} from '../src/side-support-probe.js';
 import {observeGetup} from '../src/getup-observation.js';
 import {RIG_PARTS} from '../src/goblin-rig.js';
 await R.init();
@@ -26,14 +28,14 @@ const hull=line('#46f8a0'),feet=line('#ffb155');
 let fixture,controller,running=false,steps=0,disposed=false,last=0,accumulator=0,frame;
 const samples={controller:[],physics:[]};
 function disposeFixture(){controller?.stop('teardown');fixture?.world.free();fixture=null;controller=null;}
-function run(direction=-1){disposeFixture();fixture=fallenCase(R,direction);controller=new ContactGetup(R,fixture.world,fixture.rig,fixture.floor);running=false;steps=0;accumulator=0;samples.controller=[];samples.physics=[];draw();return status();}
+function run(direction=-1,mode=document.querySelector('#mode').value){document.querySelector('#mode').value=mode;disposeFixture();fixture=fallenCase(R,direction);controller=new ({four:FourSupportRise,side:SideSupportProbe,previous:ContactGetup}[mode])(R,fixture.world,fixture.rig,fixture.floor);running=false;steps=0;accumulator=0;samples.controller=[];samples.physics=[];draw();return status();}
 function advance(n=1){for(let i=0;i<n;i++){
  for(const {body} of fixture.rig.byId.values())body.resetTorques(false);
  let t=performance.now();const active=!controller.disposed;controller.step(1/60);if(active)samples.controller.push(performance.now()-t);
  t=performance.now();fixture.world.step();if(active)samples.physics.push(performance.now()-t);steps++;
  }draw();return status();}
 const stats=a=>({n:a.length,mean:a.reduce((n,v)=>n+v,0)/(a.length||1),p95:[...a].sort((a,b)=>a-b)[Math.floor(a.length*.95)]??0});
-function status(){const s=observeGetup(fixture.world,fixture.rig,fixture.floor);return {time:steps/60,phase:controller.phase,disposed:controller.disposed,footStep:controller.footStep,com:s.com,footMargin:Number.isFinite(s.footMargin)?s.footMargin:null,footForce:s.footForce,weight:s.weight,upY:s.upY,standing:s.standing,contacts:s.contacts.map(({id,force})=>({id,force})),bodies:fixture.world.bodies.len(),joints:fixture.world.impulseJoints.len(),iterationValues:[...new Set([...fixture.rig.byId.values()].map(e=>e.body.additionalSolverIterations()))],cpuCallMs:{controllerWithDiagnostics:stats(samples.controller),worldStep:stats(samples.physics)},renderer:{...renderer.info.memory,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles}};}
+function status(){const s=observeGetup(fixture.world,fixture.rig,fixture.floor);return {time:steps/60,phase:controller.phase,disposed:controller.disposed,footStep:controller.footStep,progress:controller.progress,dwell:controller.dwell,feedback:controller.feedback,planning:controller.planning,rejectedCorrection:controller.rejectedCorrection,com:s.com,footMargin:Number.isFinite(s.footMargin)?s.footMargin:null,footForce:s.footForce,weight:s.weight,upY:s.upY,standing:s.standing,contacts:s.contacts.map(({id,force})=>({id,force})),bodies:fixture.world.bodies.len(),joints:fixture.world.impulseJoints.len(),iterationValues:[...new Set([...fixture.rig.byId.values()].map(e=>e.body.additionalSolverIterations()))],cpuCallMs:{controllerWithDiagnostics:stats(samples.controller),worldStep:stats(samples.physics)},renderer:{...renderer.info.memory,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles}};}
 function polygon(line,points){const attribute=line.geometry.attributes.position;points.slice(0,30).forEach((p,i)=>attribute.setXYZ(i,p.x,.025,p.z));attribute.needsUpdate=true;line.geometry.setDrawRange(0,Math.min(points.length,30));}
 function draw(){const s=observeGetup(fixture.world,fixture.rig,fixture.floor);
  for(const [id,{body}] of fixture.rig.byId){const m=meshes.get(id);m.position.copy(body.translation());m.quaternion.copy(body.rotation());}
@@ -41,7 +43,7 @@ function draw(){const s=observeGetup(fixture.world,fixture.rig,fixture.floor);
  markers.forEach((m,i)=>{m.visible=i<points.length;if(m.visible)m.position.set(points[i].x,.025,points[i].z);});polygon(hull,s.hull);polygon(feet,s.footHull);
  camera.position.set(3,side?1.5:2.5,s.com.z+(side?0:3));camera.lookAt(0,.65,s.com.z);
  const w=canvas.clientWidth,h=canvas.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.render(scene,camera);
- const v=status();document.querySelector('#status').textContent=`t=${v.time.toFixed(2)} s | ${v.phase} | Fußstand=${v.standing} | Fußlast=${v.footForce.toFixed(1)} / ${v.weight.toFixed(1)} N | Fuß-COM-Rand=${v.footMargin?.toFixed(3)??'keine Fläche'} m\nRot: Schwerpunkt · Grün: belastete Kontakte / Hand-Fuß-Fläche · Orange: Füße / Fußfläche\n${JSON.stringify(v.footStep??{})}\nBodies=${v.bodies}, joints=${v.joints}, Iterationen=${v.iterationValues} (nach Abbruch 0)`;
+ const v=status();document.querySelector('#status').textContent=`t=${v.time.toFixed(2)} s | ${v.phase} | Fußstand=${v.standing} | Fußlast=${v.footForce.toFixed(1)} / ${v.weight.toFixed(1)} N | Fuß-COM-Rand=${v.footMargin?.toFixed(3)??'keine Fläche'} m\nRot: Schwerpunkt · Grün: belastete Kontakte / Hand-Fuß-Fläche · Orange: Füße / Fußfläche\n${JSON.stringify({progress:v.progress,dwell:v.dwell,feedback:v.feedback&&{...v.feedback,contacts:undefined},rejectedCorrection:v.rejectedCorrection})}\nBodies=${v.bodies}, joints=${v.joints}, Iterationen=${v.iterationValues} (nach Abbruch 0)`;
 }
 function tick(now){if(disposed)return;if(running){accumulator+=Math.min(.1,(now-last)/1000);let n=0;while(accumulator>=1/60&&n<6){accumulator-=1/60;n++;}if(n)advance(n);}last=now;frame=requestAnimationFrame(tick);}
 document.querySelector('#back').onclick=()=>run(-1);document.querySelector('#belly').onclick=()=>run(1);

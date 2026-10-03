@@ -2,6 +2,29 @@
 
 Base: `f353a51807a9d36380f266c49d78ae8c82eb2781` (G2 merged main). Issue #15, master #11.
 
+## Current continuation: four-support / head unloading
+
+`FourSupportRise` checks a shared pelvis/torso/arm/leg pose and its sampled
+connecting path with 4 cm extension reserve, existing hinge stops and central
+floor clearance. Actual hand positions remain dynamic movement goals. Measured
+contact normal load, COM movement, tracking and hand slip gate progress.
+Rejected correction retains the entire accepted pose and progress.
+
+Before foot unloading, require one continuous second of head load <5% weight,
+head centre >0.53 m, each foot >15%, hands+feet >80%, COM speed <0.12 m/s,
+every body speed <0.25 m/s and angular speed <0.70 rad/s. Quiet foot-supported
+stand guards remain unchanged. Hand error >5 cm for >0.20 s aborts; tracking/
+support stall >2 s or attempt >10 s also aborts. **The intermediate has not
+been reached. No foot is commanded to lift.**
+
+`SideSupportProbe` investigates changing contacts with a bounded internal
+roll/reaction couple; it is not a validated get-up path. Back/belly trials do
+not stand. Both candidates keep +16 as a fixture-only budget and restore
+captured frames/settings on stop/pause. Stop before G2 owns the rig.
+Neither candidate is imported by main.js. See [current review and next
+technical decision](g3-four-support-review.md) and [traces/screenshots](g3-four-support-evidence/).
+The following sections preserve earlier experimental history, not new success.
+
 `PostureState` is an isolated transition contract. It is deliberately **not imported
 by main.js**. Gameplay remains the accepted G2 build until the physical controller
 passes its gates. Unit samples are not proof of balance, contacts or get-up.

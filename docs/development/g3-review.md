@@ -5,6 +5,14 @@ Continues report [5969619341](https://github.com/bongohorse/goblin/issues/15#iss
 AGENTS, #11/#15, G1/G2 contracts and applicable Rapier, gameplay, diagnosing-bugs,
 visual-validation, QA-release, code-review and PR skills used. No engine/version change.
 
+## Current continuation from d396d69
+
+See [four-support / side-support review](g3-four-support-review.md) for the
+current shared-path check, load/slip feedback and Windows Edge sequences.
+Back aborts on hand slip, belly rejects the back-specific path, and lateral
+alternatives also fail to stand. G3 remains open and blocked; 42 tests pass.
+The following report preserves the previous gate and its previous evidence.
+
 ## Spec
 
 **P1 — reliable contact-assisted get-up still fails.** `src/contact-getup.js`
