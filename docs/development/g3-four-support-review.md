@@ -154,7 +154,7 @@ neither newly increased nor recommended for production. Edge CPU call samples:
 | back lateral | 181 | 0.280 / 0.400 | 0.045 / 0.100 |
 | belly lateral | 181 | 0.265 / 0.400 | 0.052 / 0.100 |
 
-Sequential single runs, different durations/motions, no warmup or confidence
+Sequential single runs, different durations/motions, no dedicated warmup or confidence
 intervals, timer resolution about 0.1 ms; includes contact diagnostics and
 common-path checks. Final stop sample runs at restored solver settings.
 These values describe calls in this fixture, not rendering/GPU cost or proof
@@ -196,4 +196,3 @@ G0/G1/G2 behavioral tests pass. The complete unchanged G2 browser suite from
 d396d69 was not repeated: its source paths and exact production bundle are
 unchanged. This is not a new browser approval for G2 or Android.
 Final commit and exact-head CI are recorded in #15 / #29.
-
