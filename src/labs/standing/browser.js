@@ -16,7 +16,7 @@ async function start(){
   const f=sim.config.floor,fg=new THREE.BoxGeometry(f.half.x*2,f.half.y*2,f.half.z*2),fm=new THREE.MeshStandardMaterial({color:0x42535c,roughness:1});owned.push(fg,fm);const floor=new THREE.Mesh(fg,fm);floor.position.copy(f.position);scene.add(floor);
   const bindings=[];function listen(target,type,fn){target.addEventListener(type,fn);bindings.push([target,type,fn]);}
   const pause=()=>{sim.paused=true;clock.reset();};
-  listen(document.querySelector('#resume'),'click',()=>{sim.paused=false;clock.reset();});listen(document.querySelector('#pause'),'click',pause);
+  listen(document.querySelector('#resume'),'click',()=>{if(!sim.terminal)sim.paused=false;clock.reset();});listen(document.querySelector('#pause'),'click',pause);
   listen(document.querySelector('#step'),'click',()=>{pause();sim.step();});listen(document.querySelector('#reset'),'click',()=>{sim.reset();clock.reset();});
   listen(document,'visibilitychange',pause);
   const exportButton=document.querySelector('#export');exportButton.disabled=false;
