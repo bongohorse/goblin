@@ -7,7 +7,7 @@ export function standingBuild(){
   const walk=dir=>readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(dir+'/'+e.name):[dir+'/'+e.name]);
   const files=[...walk('src'),...walk('labs'),...walk('public'),...walk('tests'),...walk('scripts'),
     'index.html','vite.config.js','package.json','package-lock.json',
-    ...['baseline-config.json','config.schema.json','result.schema.json'].map(n=>'docs/research/standing-lab/'+n)].sort();
+    ...['baseline-config.json','config.schema.json','result.schema.json','motor-config.schema.json','motor-result.schema.json'].map(n=>'docs/research/standing-lab/'+n)].sort();
   const hash=createHash('sha256');for(const file of files)hash.update(file).update('\0').update(readFileSync(file)).update('\0');
   const git_commit=execSync('git rev-parse HEAD',{encoding:'utf8'}).trim();
   return {git_commit,dirty:!!execSync('git status --porcelain',{encoding:'utf8'}).trim(),build_id:git_commit+':'+hash.digest('hex')};

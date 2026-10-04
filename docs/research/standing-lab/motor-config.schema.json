@@ -1,0 +1,601 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bongohorse.github.io/goblin/schemas/standing-motor-config-v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "controller_id",
+    "rig",
+    "solver_config",
+    "actuation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "controller_id": {
+      "const": "native-pose-hold-force-v1"
+    },
+    "rig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "rig_id",
+        "controller_id",
+        "fixed_dt",
+        "max_steps",
+        "gravity",
+        "solver_config",
+        "floor",
+        "bodies",
+        "joints"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "rig_id": {
+          "const": "goblin-passive-v1"
+        },
+        "controller_id": {
+          "const": "none"
+        },
+        "fixed_dt": {
+          "const": 0.016666666666666666
+        },
+        "max_steps": {
+          "const": 3600
+        },
+        "gravity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "x",
+            "y",
+            "z"
+          ],
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        },
+        "solver_config": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "numSolverIterations",
+            "numInternalPgsIterations",
+            "maxCcdSubsteps",
+            "lengthUnit",
+            "normalizedAllowedLinearError",
+            "normalizedPredictionDistance",
+            "additionalSolverIterations"
+          ],
+          "properties": {
+            "numSolverIterations": {
+              "const": 8
+            },
+            "numInternalPgsIterations": {
+              "const": 1
+            },
+            "maxCcdSubsteps": {
+              "const": 1
+            },
+            "lengthUnit": {
+              "const": 1
+            },
+            "normalizedAllowedLinearError": {
+              "const": 0.005
+            },
+            "normalizedPredictionDistance": {
+              "const": 0.02
+            },
+            "additionalSolverIterations": {
+              "const": 0
+            }
+          }
+        },
+        "floor": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "position",
+            "half",
+            "friction",
+            "restitution"
+          ],
+          "properties": {
+            "id": {
+              "const": "floor"
+            },
+            "position": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "x",
+                "y",
+                "z"
+              ],
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              }
+            },
+            "half": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "x",
+                "y",
+                "z"
+              ],
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              }
+            },
+            "friction": {
+              "type": "number"
+            },
+            "restitution": {
+              "type": "number"
+            }
+          }
+        },
+        "bodies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "collider_id",
+              "body_class",
+              "position",
+              "rotation",
+              "shape",
+              "mass",
+              "friction",
+              "linearDamping",
+              "angularDamping",
+              "restitution"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "collider_id": {
+                "type": "string"
+              },
+              "body_class": {
+                "enum": [
+                  "foot",
+                  "non_foot"
+                ]
+              },
+              "position": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "rotation": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z",
+                  "w"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  },
+                  "w": {
+                    "type": "number"
+                  }
+                }
+              },
+              "shape": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "radius"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "ball"
+                      },
+                      "radius": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "half",
+                      "radius"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "capsule"
+                      },
+                      "half": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "radius": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "half"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "cuboid"
+                      },
+                      "half": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "x",
+                          "y",
+                          "z"
+                        ],
+                        "properties": {
+                          "x": {
+                            "type": "number"
+                          },
+                          "y": {
+                            "type": "number"
+                          },
+                          "z": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "mass": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "friction": {
+                "type": "number"
+              },
+              "linearDamping": {
+                "type": "number"
+              },
+              "angularDamping": {
+                "type": "number"
+              },
+              "restitution": {
+                "type": "number"
+              }
+            }
+          },
+          "minItems": 15,
+          "maxItems": 15
+        },
+        "joints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "parent",
+              "child",
+              "position",
+              "type",
+              "anchorA",
+              "anchorB",
+              "axis",
+              "limits"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "parent": {
+                "type": "string"
+              },
+              "child": {
+                "type": "string"
+              },
+              "position": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "type": {
+                "enum": [
+                  "spherical",
+                  "revolute"
+                ]
+              },
+              "anchorA": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "anchorB": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "axis": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "limits": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "minItems": 14,
+          "maxItems": 14
+        }
+      }
+    },
+    "solver_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "numSolverIterations",
+        "numInternalPgsIterations",
+        "maxCcdSubsteps",
+        "lengthUnit",
+        "normalizedAllowedLinearError",
+        "normalizedPredictionDistance",
+        "additionalSolverIterations"
+      ],
+      "properties": {
+        "numSolverIterations": {
+          "const": 32
+        },
+        "numInternalPgsIterations": {
+          "const": 1
+        },
+        "maxCcdSubsteps": {
+          "const": 1
+        },
+        "lengthUnit": {
+          "const": 1
+        },
+        "normalizedAllowedLinearError": {
+          "const": 0.005
+        },
+        "normalizedPredictionDistance": {
+          "const": 0.02
+        },
+        "additionalSolverIterations": {
+          "const": 0
+        }
+      }
+    },
+    "actuation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "controller_id",
+        "model",
+        "target_convention",
+        "stiffness",
+        "damping",
+        "max_torque_Nm",
+        "targets"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "controller_id": {
+          "const": "native-pose-hold-force-v1"
+        },
+        "model": {
+          "const": "ForceBased"
+        },
+        "target_convention": {
+          "const": "moving-frame-v1"
+        },
+        "stiffness": {
+          "const": 100
+        },
+        "damping": {
+          "const": 12
+        },
+        "max_torque_Nm": {
+          "enum": [
+            20,
+            1
+          ]
+        },
+        "targets": {
+          "type": "array",
+          "minItems": 14,
+          "maxItems": 14,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "target"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "target": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "x",
+                      "y",
+                      "z",
+                      "w"
+                    ],
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      },
+                      "z": {
+                        "type": "number"
+                      },
+                      "w": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
