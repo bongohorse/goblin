@@ -86,7 +86,7 @@ export function verifyTargetFixtures(){
     for(const a of MOTOR_AXES)probe.joint.configureMotor(a,0,100,100,12);
     probe.world.step();const residual=norm(add(momentum(probe.a),momentum(probe.b)));
     report.counterreaction_resolution_probe={representation:'fixed-native',frames:worlds[1],cap:20,sign:1,momentum_residual:residual,strict_1e_6_pass:residual<1e-6,
-      classification:'Separate rotated-body float32 resolution limit; not counted as a passing cap/reaction fixture'};
+      classification:'Strict momentum-oracle miss with rotated bodies; cause not diagnosed; not a passing cap/reaction fixture'};
   }finally{probe.world.free();}
   // Algebraic coordinate oracle, independent of project Hamilton-product helpers.
   report.mapping_oracle=targets.map(target=>{

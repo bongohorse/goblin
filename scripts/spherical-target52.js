@@ -29,6 +29,8 @@ async function measurementProjection(report){
   return {...report.measurement,schema_version:2,controller_id:experiment.controller_id,config:experiment,...await configIdentity(experiment)};
 }
 export async function validateTargetRun(report){
+  const keys=['schema_version','report_kind','mode','diagnostic_only','accepted_standing_evidence','config','config_id','experiment_id','steps','standing_time','first_terminal','end_reason','invalid','invalid_measurement','metrics','end','contact_onsets','state_sequence_hash','measurement'];
+  assert.equal(Object.keys(report).sort().join(),keys.sort().join(),'Unknown or missing target-study fields');
   validateTargetConfig(report.config);
   const id=targetIdentity(report.config);
   assert.equal(report.schema_version,1);assert.equal(report.report_kind,'spherical-target-run-v1');
@@ -101,7 +103,7 @@ export async function runStudy(directory){
       }
       for(const run of runs)assert.equal(canonical(physical(run)),canonical(physical(runs[0])),'fresh-world reproducibility');
       report.groups.push({representation,cap,config,...targetIdentity(config),runs:5,steps:runs[0].steps,terminal:runs[0].first_terminal,metrics:runs[0].metrics,state_sequence_hash:runs[0].state_sequence_hash,reproducible_exact:true});paired.push(runs[0]);
-      console.log(JSON.stringify(report.groups.at(-1)));
+      const {config:unused,...summary}=report.groups.at(-1);console.log(JSON.stringify(summary));
     }
     assert.equal(canonical(physical(paired[0])),canonical(physical(paired[1])),'neutral physical sequence must be no-op');
     assert.equal(canonical(paired[0].measurement.checkpoints),canonical(paired[1].measurement.checkpoints));

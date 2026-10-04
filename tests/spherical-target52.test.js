@@ -31,7 +31,7 @@ test('target reader rejects legacy/mixed/corrupt reports and verifies neutral A/
   const moving=await targetRun(targetConfig('moving-frame',1)),fixed=await targetRun(targetConfig('fixed-native',1));
   assert.equal(fixed.steps,187);assert.deepEqual(fixed.measurement.checkpoints,moving.measurement.checkpoints);assert.equal(fixed.state_sequence_hash,moving.state_sequence_hash);
   assert.equal(fixed.first_terminal.termination_reason,'non_foot_contact');assert.deepEqual(fixed.first_terminal.failure_bodies,['handL','handR']);
-  for(const mutate of [r=>r.config.representation='moving-frame',r=>r.config.reference_experiment.actuation.stiffness=99,r=>r.schema_version=2,r=>delete r.end,r=>delete r.metrics,r=>r.metrics.drift_peak_m=-1,r=>r.steps++,r=>r.first_terminal.standing_time=60,r=>r.end.motor_tracking.pop(),r=>r.measurement.checkpoints.at(-1).bodies[0].rotation.x+=.1,r=>r.measurement.schema_version=2,r=>r.state_sequence_hash='bad',r=>r.measurement.telemetry.motor_effort=1,r=>r.end_reason='timeout']){
+  for(const mutate of [r=>r.result={schema_version:2},r=>r.config.representation='moving-frame',r=>r.config.reference_experiment.actuation.stiffness=99,r=>r.schema_version=2,r=>delete r.end,r=>delete r.metrics,r=>r.metrics.drift_peak_m=-1,r=>r.steps++,r=>r.first_terminal.standing_time=60,r=>r.end.motor_tracking.pop(),r=>r.measurement.checkpoints.at(-1).bodies[0].rotation.x+=.1,r=>r.measurement.schema_version=2,r=>r.state_sequence_hash='bad',r=>r.measurement.telemetry.motor_effort=1,r=>r.end_reason='timeout']){
     const bad=structuredClone(fixed);mutate(bad);await assert.rejects(()=>validateTargetRun(bad));
   }
 });
