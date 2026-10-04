@@ -1,22 +1,11 @@
 {
-  "command": "npm run lab:browser",
-  "method": "Playwright direct",
-  "playwright_version": "1.63.0",
-  "executable_path": "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
-  "headless": false,
-  "harness_provenance": {
-    "git_commit": "1c86764570c08c341e1cafdfef2f4eecccd35077",
-    "dirty": false,
-    "build_id": "1c86764570c08c341e1cafdfef2f4eecccd35077:d79c39f9e0fe7190c79884078ade663928ed8915d3aee9bcbc2c6e6aa8465445"
-  },
-  "node": "v24.21.0",
   "platform": "win32 10.0.26300 x64",
   "browser": "154.0.4258.53",
   "mode": "headed production build; not GPU performance",
   "build_provenance": {
-    "git_commit": "1c86764570c08c341e1cafdfef2f4eecccd35077",
-    "dirty": false,
-    "build_id": "1c86764570c08c341e1cafdfef2f4eecccd35077:d79c39f9e0fe7190c79884078ade663928ed8915d3aee9bcbc2c6e6aa8465445"
+    "git_commit": "c961c78e7d29a79c4703f2a1374ccf0e3b3b6df9",
+    "dirty": true,
+    "build_id": "c961c78e7d29a79c4703f2a1374ccf0e3b3b6df9:650441f4b6d40862c53c79ba42cf9cada1b96a5cf96a8138cbfc6d3b96be118d"
   },
   "checks": [
     "Pages direct/reload/assets",

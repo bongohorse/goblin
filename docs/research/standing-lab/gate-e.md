@@ -1,8 +1,12 @@
 # Gate E — built browser QA and review / #37
 
 `npm run build` then `npm run lab:browser`, Windows x64 10.0.26300, Edge **154.0.4258.53**,
-Node v24.21.0. Headless and headed runs passed; browser-qa.json records the headed run
-with code/build provenance. An ephemeral HTTP server mounts only built dist under
+Node v24.21.0. Historical Gate E headless/headed runs preceded the final c19 commit;
+the old dirty report is archived at review-39/historical-browser-qa.json. The current
+browser-qa.json and passive-fall.png come from the clean #39 code-head 1c86764570c08c341e1cafdfef2f4eecccd35077,
+with Playwright 1.63.0 direct and headed Edge (headless:false); no claim of a newly
+rerun headless check or user-observed window. Build/harness provenance both clean;
+review-39/review.md and checks.json describe commands and artifact hashes. An ephemeral HTTP server mounts only built dist under
 `/goblin/`; no existing processes/ports stopped. passive-fall.png inspected visually:
 full body/floor visible, handL floor contact and terminal/telemetry readable.
 
