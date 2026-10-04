@@ -53,6 +53,9 @@ Standing research:
 - `docs/research/active-ragdoll-standing-recovery.md`
 - `docs/research/standing-literature-review-2026-10-04.md`
 
+Dimforge ecosystem evaluation:
+- `docs/research/dimforge-ecosystem-evaluation-2026-10-04.md`
+
 ## Current primary metric: Standing Time
 
 For the Standing Lab, the primary outcome is deliberately simple.
@@ -856,6 +859,23 @@ A higher-level review should decide:
 10. where experiment result artifacts should live;
 11. how Lab-proven code graduates into production;
 12. which optimization methods belong in the near-term roadmap.
+
+## Dimforge ecosystem decision
+
+For the current Labs program:
+
+- keep Rapier as the runtime and acceptance physics engine;
+- do not add other Dimforge libraries now;
+- keep Nexus on the future research list for GPU-batched simulation, evolutionary search or RL;
+- if Nexus is ever used as a search accelerator, revalidate all finalists in real Rapier because the solvers are not identical;
+- do not add Parry separately unless a future Rust-native analysis tool requires it;
+- keep Three.js instead of Kiss3d;
+- ignore nalgebra/Simba directly in the browser project;
+- revisit Salva or Nexus MPM only if fluids/deformable materials become a concrete gameplay feature;
+- treat Vortx/Khal as lower-level infrastructure that Nexus should own for us unless a future scoped task proves otherwise.
+
+Detailed evaluation:
+- `docs/research/dimforge-ecosystem-evaluation-2026-10-04.md`
 
 ## Current recommendation
 
