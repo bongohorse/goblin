@@ -1,5 +1,7 @@
 # G3 groundwork — NOT an accepted gameplay implementation
 
+Latest bounded gate from 910e82a: [controller audit, sole-roll contract, evidence and decision](g3-feasibility-review.md). The older sections below are historical failed candidates. The first head-free intermediate still fails; no stand/belly expansion or production integration. G3 remains open; PR #29 remains Draft.
+
 Base: `f353a51807a9d36380f266c49d78ae8c82eb2781` (G2 merged main). Issue #15, master #11.
 
 ## Current continuation: four-support / head unloading

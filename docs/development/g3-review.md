@@ -1,5 +1,7 @@
 ﻿# G3 contact-assisted investigation and review
 
+Latest bounded gate from 910e82a: [controller audit, sole-roll contract, evidence and decision](g3-feasibility-review.md). The older sections below are historical failed candidates. The first head-free intermediate still fails; no stand/belly expansion or production integration. G3 remains open; PR #29 remains Draft.
+
 2026-10-03?04. Existing Draft PR #29; fixed base `f353a51807a9d36380f266c49d78ae8c82eb2781`.
 Continues report [5969619341](https://github.com/bongohorse/goblin/issues/15#issuecomment-5969619341).
 AGENTS, #11/#15, G1/G2 contracts and applicable Rapier, gameplay, diagnosing-bugs,
