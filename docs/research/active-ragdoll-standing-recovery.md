@@ -488,3 +488,21 @@ When new standing research is performed:
 6. do not expand scope into get-up or locomotion until standing is accepted.
 
 This file is the durable research memory for the current standing problem.
+
+
+### Issue #48 controlled motor model comparison (2026-10-04)
+
+Preregistered ForceBased versus AccelerationBased100/12 on frozen Solver32 rig,
+physical per-axis caps20/1 validated against installed0.21.0 and pinned source.
+Exactly one analytical AB2343.75/281.25 pair matches isolated isotropic scalar
+response, not all rig inertias. Five normal runs each: FB20=3600/60s, FB1=187/both
+hands; AB100/12=69/73 handL; calibrated AB=252/242 head. All valid/reproducible;
+20 separate original-gain post-contact worlds valid through3600, StandingTime=null.
+Passive and v2-FB checkpoints unchanged (deviation0). ABcal1's longer time has
+mixed support/drift/joint metrics; ABcal20 loses support and drifts farther. Retain
+ForceBased, no consistent AB winner or complete standing approval. Matched60-step
+Node physics medians ~.329ms FB, .351?.353ms AB100/12, calibrated close with host
+variability. Clean Windows built browser matches all six; native hidden/GPU/weak
+device/production budgets and actual motor effort remain unavailable/unaccepted.
+See [full evidence and decision](standing-lab/model-ab48.md). No balance controller,
+default switch, merge or deployment; any further experiment needs explicit scope.
