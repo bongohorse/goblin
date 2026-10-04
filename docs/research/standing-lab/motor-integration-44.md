@@ -1,5 +1,9 @@
 # Motor Solver32 integration — Issue #44
 
+Subsequent #46 review found and fixed two export/reader consistency gaps and repeated
+numerical/browser acceptance. See [current review and recommendation](review-46.md).
+The #44 results below remain historical clean-head evidence, not final PR-head QA.
+
 Issue #44 explicitly resumes #41 Gate C after the bounded #42 diagnosis and #43
 candidate decision. Passive v1/Solver8 is preserved; Solver32 is selectable only in
 the separately versioned motor Lab. No arena/controller/balance integration,
