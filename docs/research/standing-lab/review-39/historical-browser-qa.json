@@ -1,0 +1,252 @@
+{
+  "platform": "win32 10.0.26300 x64",
+  "browser": "154.0.4258.53",
+  "mode": "headed production build; not GPU performance",
+  "build_provenance": {
+    "git_commit": "c961c78e7d29a79c4703f2a1374ccf0e3b3b6df9",
+    "dirty": true,
+    "build_id": "c961c78e7d29a79c4703f2a1374ccf0e3b3b6df9:650441f4b6d40862c53c79ba42cf9cada1b96a5cf96a8138cbfc6d3b96be118d"
+  },
+  "checks": [
+    "Pages direct/reload/assets",
+    "pause/resume bounded",
+    "single-step",
+    "resize while paused",
+    "visibility handler",
+    "20 fresh resets/counts stable",
+    "render on/off",
+    "Node/browser checkpoints",
+    "failure/export",
+    "touch landscape",
+    "production start/pointer/reset",
+    "destroy/retained refs"
+  ],
+  "native_tab_hidden_observed": false,
+  "synthetic_visibility_handler_checked": true,
+  "resource_samples": [
+    {
+      "generation": 3,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 4,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 5,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 6,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 7,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 8,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 9,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 10,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 11,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 12,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 13,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 14,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 15,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 16,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 17,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 18,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 19,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 20,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 21,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    {
+      "generation": 22,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 7,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    }
+  ],
+  "standing_time": 1.1666666666666667,
+  "failure_bodies": [
+    "handL"
+  ],
+  "node_comparison": {
+    "pass": true,
+    "errors": [],
+    "max_deviation": {
+      "position": 0,
+      "rotation": 0,
+      "linear_velocity": 0,
+      "angular_velocity": 0,
+      "contact_point": 0,
+      "contact_load": 0
+    }
+  },
+  "disposal": {
+    "removed": true,
+    "canvasRemoved": true,
+    "retainedRejects": true
+  },
+  "errors": [],
+  "warnings": [],
+  "failedResponses": []
+}

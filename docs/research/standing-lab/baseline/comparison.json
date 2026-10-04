@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "command": "npm run lab:baseline",
+  "git_commit": "4fe374e94e3b2ade77c636f25cf561d011448a98",
+  "dirty": true,
+  "build_id": "4fe374e94e3b2ade77c636f25cf561d011448a98:ad3b68353a1793d668a97351d09b099f08ac155e7ce8b94fbdf16d374ab09206",
+  "platform": {
+    "os": "win32 10.0.26300 x64",
+    "runtime": "Node v24.21.0",
+    "host": "PC",
+    "user_agent": null
+  },
+  "tolerances": {
+    "step": 0,
+    "time": 1e-12,
+    "position": 0.000001,
+    "rotation": 0.000001,
+    "linear_velocity": 0.000001,
+    "angular_velocity": 0.000001,
+    "contact_point": 0.000001,
+    "contact_load": 0.00001
+  },
+  "pass": true,
+  "standing_times": [
+    1.1666666666666667,
+    1.1666666666666667,
+    1.1666666666666667,
+    1.1666666666666667,
+    1.1666666666666667
+  ],
+  "steps": [
+    70,
+    70,
+    70,
+    70,
+    70
+  ],
+  "failure_bodies": [
+    [
+      "handL"
+    ],
+    [
+      "handL"
+    ],
+    [
+      "handL"
+    ],
+    [
+      "handL"
+    ],
+    [
+      "handL"
+    ]
+  ],
+  "comparisons": [
+    {
+      "run_index": 2,
+      "pass": true,
+      "errors": [],
+      "max_deviation": {
+        "position": 0,
+        "rotation": 0,
+        "linear_velocity": 0,
+        "angular_velocity": 0,
+        "contact_point": 0,
+        "contact_load": 0
+      }
+    },
+    {
+      "run_index": 3,
+      "pass": true,
+      "errors": [],
+      "max_deviation": {
+        "position": 0,
+        "rotation": 0,
+        "linear_velocity": 0,
+        "angular_velocity": 0,
+        "contact_point": 0,
+        "contact_load": 0
+      }
+    },
+    {
+      "run_index": 4,
+      "pass": true,
+      "errors": [],
+      "max_deviation": {
+        "position": 0,
+        "rotation": 0,
+        "linear_velocity": 0,
+        "angular_velocity": 0,
+        "contact_point": 0,
+        "contact_load": 0
+      }
+    },
+    {
+      "run_index": 5,
+      "pass": true,
+      "errors": [],
+      "max_deviation": {
+        "position": 0,
+        "rotation": 0,
+        "linear_velocity": 0,
+        "angular_velocity": 0,
+        "contact_point": 0,
+        "contact_load": 0
+      }
+    }
+  ]
+}

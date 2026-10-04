@@ -1,0 +1,27 @@
+{
+  "code_head": "1c86764570c08c341e1cafdfef2f4eecccd35077",
+  "clean_at_build_and_checks": true,
+  "node": "v24.21.0",
+  "checks": {
+    "npm test": {
+      "pass": 38,
+      "fail": 0
+    },
+    "npm run build": "pass; existing shared Rapier chunk-size warning",
+    "npm run lab:baseline": "pass; five fresh runs",
+    "npm run lab:browser": "pass; headed Edge/Playwright, native hidden transition unverified"
+  },
+  "artifact_sha256": {
+    "dist/assets/game-BFkQ9IsO.js": "2b1c6524c6c62afa6bcc74dd7d365be76a6304fdc1d364db1882d46cacbb93a8",
+    "dist/assets/game-BFkQ9IsO.js.map": "0e3213220f6f0b604375deab9228f2186be5b84a8338f7175d11d42e89bb2a97",
+    "dist/assets/game-CP0aMMiy.css": "5fb1b065ec05d792501c276efda3a27d20e961cca948f5aeb88f8276ce6d87d2",
+    "dist/assets/rapier-DiMiCsrO.js": "41f69c4ae6f62e8ac503709928574abd6dbf2de3aa7966f16097939142d7054c",
+    "dist/assets/rapier-DiMiCsrO.js.map": "a265f987b35a8d40f79dd89bc71576135b252a0c1d1a4fec45609f173a06595e",
+    "dist/assets/standing-CIYFPvl9.css": "caf8c5813ca7ac111701f0f611957e1d230258043e2dbeaf10d74df3bbd89694",
+    "dist/assets/standing-DCWj8T9i.js": "5706db503203c2a3200cf64861e2d22f50a18cc5c9597ec0a1e12e4f603769f8",
+    "dist/assets/standing-DCWj8T9i.js.map": "67bc930fcbb053bc6eababd3012c9321f917ba4787458ef93aa3ebc490e92277",
+    "dist/favicon.svg": "ca38f7bf05a78a220111e65c710a85bbc877aaeafde15e43faaf83aff29b3995",
+    "dist/index.html": "cdee49e7efaae70bc9c5662e7cc41f8d25e5b4434b616a32264f05347c348fb3",
+    "dist/labs/standing/index.html": "4523fc8df9055548f938cf01cfcb6be4e71aa5c312a8bf1e718896bb90d8983f"
+  }
+}
