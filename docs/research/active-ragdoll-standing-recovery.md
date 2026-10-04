@@ -439,6 +439,19 @@ They should not influence the standing implementation unless a finding is direct
 
 ## Update protocol
 
+### Issue #42 diagnosis (2026-10-04)
+
+The #41 motor-rig blocker is a real limit breach, confirmed by an independent
+matrix/tangent angle oracle. A five-body pelvis/torso/left-leg diagnostic reproduces
+kneeL failure at step70 under the existing solver8 and neutral ForceBased100/12/20.
+No floor, spherical motors off, or diagnostic solver32 removes that breach through180
+steps; self-contact off leaves it identical. This supports a loaded coupled-constraint
+convergence/compliance explanation; engine-row residuals and the separate1 Nm elbow
+impact are not fully resolved. See [cause report and decision proposal](standing-lab/motor-cause-42.md).
+Candidate decision is a separately versioned motor-only solver32 experiment, never a
+passive-baseline replacement or accepted stand result. No local command/measurement
+fix proven; #41 remains stopped pending an explicit decision and new continuation order.
+
 When new standing research is performed:
 
 1. record the source or fixture;
