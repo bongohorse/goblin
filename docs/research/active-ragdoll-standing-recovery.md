@@ -70,6 +70,9 @@ Do not convert a hypothesis into production code before a bounded standing fixtu
 
 Before implementation, verify APIs against the installed `@dimforge/rapier3d-compat` version. Current upstream Rapier docs can differ from 0.21.0.
 
+Detailed literature/industry review:
+- `docs/research/standing-literature-review-2026-10-04.md`
+
 ## What we already know
 
 ### Current rig
@@ -140,179 +143,199 @@ Any future standing pose or correction must remain physically collision-valid.
 
 ## Most promising standing architecture
 
-The current leading hypothesis is to separate **pose control** from **balance control**.
+The 2026-10-04 literature review sharpened the leading hypothesis:
+
+> **Pose tracking is not balance control.**
+
+SIMBICON shows this directly: local PD pose targets alone do not provide robust balance. Its controller adds world-space torso control and feedback from COM position and velocity. This is a better match for our problem than another get-up path or a hidden pelvis support.
 
 ```text
 standing reference pose
         |
-   joint PD motors
+native joint motors ("muscles")
         |
-  physical ragdoll
+fully dynamic ragdoll
         |
- contacts + COM + velocity
+COM + COM velocity + foot contacts / CoP
         |
-    balance controller
+world-space torso + ankle/hip balance feedback
 ```
 
-### 1. Joint PD for posture
+### 1. Motor model first: ForceBased vs AccelerationBased
 
-**PRIMARY SOURCE — high confidence**
+**PRIMARY SOURCE + PROJECT CODE AUDIT — very high priority**
 
-Rapier joint motors are PD-style controllers using target position/velocity, stiffness, damping and bounded force/torque.
+Current G3 experiments explicitly select `MotorModel.ForceBased`.
+
+Rapier documents `MotorModel.AccelerationBased` as its default and says stiffness/damping are mass-scaled, which makes motors easier to tune across bodies with different masses.
 
 Sources:
 - https://rapier.rs/docs/user_guides/javascript/joints/
-- https://rapier.rs/javascript3d/classes/SphericalImpulseJoint.html
+- https://github.com/dimforge/rapier/blob/master/bindings/typescript/src.ts/dynamics/impulse_joint.ts
 
-Use joint motors as the Goblin's "muscles".
+**HYPOTHESIS:** `AccelerationBased` will give the heterogeneous Goblin rig more consistent joint response than the current force-based motor configuration.
 
-**HYPOTHESIS:** direct native per-axis spherical motor targets may be easier to tune and reason about than the current experimental technique of changing joint frames and driving toward zero.
+This does not mean it will solve balance by itself. Test it first because it is small, native and directly relevant.
 
-This needs an isolated A/B test.
-
-### 2. Pelvis/root balance controller
+### 2. Direct native spherical motor targets
 
 **PRIMARY SOURCE + HYPOTHESIS**
 
-Rapier provides a PID controller for dynamic rigid bodies.
+Rapier's TypeScript API exposes per-axis spherical motor position/velocity targets and per-axis torque caps.
 
-Source:
-- https://rapier.rs/docs/user_guides/javascript/pid_controller/
+Current G3 changes `frameX1` over time and drives motor coordinates toward zero. That method already converges in an unloaded Goblin diagnostic, but direct angular motor targets are a simpler native abstraction.
 
-A root/pelvis controller may stabilize the overall body while limb joints maintain the standing pose.
+Required A/B:
 
-This must not teleport the pelvis or make it effectively kinematic.
+- current frame-reorientation method;
+- fixed frames + direct spherical angular targets.
 
-Required experiment:
+### 3. World-space torso balance
 
-- joint PD only;
-- joint PD + bounded pelvis/root PID;
-- same initial pose and solver settings;
-- compare survival, drift, COM motion, joint error and physical response.
+**PRIMARY SOURCE + HYPOTHESIS — very high priority**
 
-### 3. Solver iterations
+SIMBICON controls torso orientation relative to the world and realizes the desired effect through internal torques. It also modifies stance control from COM position and velocity.
 
-**PRIMARY SOURCE + PROJECT EVIDENCE**
+Sources:
+- https://www.microsoft.com/en-us/research/publication/simbicon-simple-biped-locomotion-control/
+- https://www.microsoft.com/en-us/research/wp-content/uploads/2007/08/Yin_SIG07.pdf
 
-Rapier exposes solver iteration controls, and higher iteration counts improve constraint accuracy at a CPU cost.
+For Goblin, test a bounded torso-upright controller that is physically realized through the torso/pelvis/hip chain.
 
-Source:
-- https://rapier.rs/docs/user_guides/javascript/integration_parameters/
+Do **not** use an unpaired free world torque or invisible world anchor as the accepted production solution.
 
-Required experiment:
+### 4. COM position + velocity feedback
 
-Compare a bounded solver sweep such as:
+**PRIMARY SOURCE + HYPOTHESIS**
 
-`0 / 2 / 4 / 8 / 12 / 16` additional iterations.
+For quiet stance, use horizontal COM offset and COM velocity to make small bounded adjustments to ankle/hip targets.
 
-Measure both standing quality and physics cost.
+Conceptually:
 
-The goal is the **lowest solver budget that remains robust**, not simply the highest number.
+`target = neutral + Kp_balance * COM_error + Kd_balance * COM_velocity`
 
-### 4. Joint warm-starting
+This is a simplified game-oriented feedback law inspired by SIMBICON, not a reproduction of the full locomotion controller.
 
-**PRIMARY SOURCE — installed-version verification required**
-
-Current Rapier documentation describes joint warm-starting as useful for convergence of stiff impulse-joint assemblies.
-
-Source:
-- https://rapier.rs/docs/user_guides/javascript/integration_parameters/
-
-First question:
-
-Does installed Rapier 0.21.0 expose and support this setting exactly as documented?
-
-If yes, test it independently before combining it with other changes.
-
-### 5. Hip and shoulder limits
-
-**PROJECT EVIDENCE + HYPOTHESIS**
-
-Hips and shoulders currently use unrestricted spherical joints.
-
-A standing character may be easier to stabilize if useless swing/twist configurations are physically bounded.
-
-Required research:
-
-- verify the installed 0.21.0 API for multi-axis angular limits;
-- create a standing-only A/B fixture;
-- compare unrestricted versus anatomically bounded hips/shoulders.
-
-Do not mix this test with a new get-up controller.
-
-### 6. Real support/contact measurements
+### 5. Contact pressure / support measurement
 
 **PRIMARY SOURCE**
 
-Rapier exposes contact manifolds and solver-contact information.
+Biomechanics/animation research on ballet balance shows that center of pressure (CoP) can provide useful balance information beyond COM alone.
+
+Sources:
+- https://doi.org/10.1016/j.simpat.2006.09.009
+- https://researchprofiles.ku.dk/en/publications/ballet-balance-strategies-2/
+
+Use validated Rapier foot contact points and normal loads to log:
+
+- COM;
+- COM velocity;
+- CoP;
+- support polygon;
+- left/right foot load;
+- slip.
+
+Initially this is diagnostic telemetry, not another controller.
+
+### 6. Solver iterations remain a separate variable
+
+**PRIMARY SOURCE + PROJECT EVIDENCE**
+
+Rapier solves impulse-joint constraints iteratively. Goblin already shows that more solver work greatly reduces drift.
 
 Source:
-- https://rapier.rs/docs/user_guides/javascript/advanced_collision_detection/
+- https://rapier.rs/docs/user_guides/javascript/integration_parameters/
 
-Standing diagnostics should measure:
+Keep controller quality and solver convergence separate. After a controller candidate exists, sweep solver budget and choose the lowest robust value.
 
-- which foot is loaded;
-- real contact points;
-- support region;
-- foot slip;
-- COM position;
-- COM velocity.
+### 7. Joint warm-starting is not currently an assumed JS knob
 
-A binary "foot touching floor" signal is not enough.
+General Rapier documentation describes `warmstart_joints`, but the current public TypeScript `IntegrationParameters` wrapper inspected on 2026-10-04 does not expose `warmstartJoints`.
+
+Source:
+- https://github.com/dimforge/rapier/blob/master/bindings/typescript/src.ts/dynamics/integration_parameters.ts
+
+Therefore do not plan around joint warm-starting unless the exact installed 0.21.0 runtime/API proves it accessible through a supported path.
+
+### 8. Pelvis/root PID is a later experiment, not the first fix
+
+Rapier includes a dynamic-body `PidController`, but a pelvis position controller can easily become a hidden world-space support.
+
+Additionally, the upstream TypeScript source inspected on 2026-10-04 has suspicious `setKi`/`setKd` implementations that delegate to the raw `set_kp`; verify exact installed behavior before depending on live gain setters.
+
+Sources:
+- https://github.com/dimforge/rapier/blob/master/bindings/typescript/src.ts/control/pid_controller.ts
+- https://github.com/dimforge/rapier/blob/master/bindings/typescript/CHANGELOG.md
+
+Keep PID as a controlled later experiment, preferably angular-only first.
+
+### 9. Hip limits remain a structural fallback
+
+Hips and shoulders are currently unrestricted spherical joints. Anatomical limits may reduce wasted DOF, but they should be tested **after** the controller experiments above so we do not confuse controller and rig changes.
 
 ## Research order
 
-### R1 — Verify Rapier 0.21.0 APIs
+### R1 — Freeze the standing benchmark
 
-Check the installed package for:
+Use one deterministic standing fixture with no get-up logic.
 
-- spherical motor position/velocity APIs;
-- per-axis motor force limits;
-- PID controller support;
-- solver/integration settings;
-- joint warm-starting;
-- multi-axis joint limits;
-- contact-manifold data.
+Record:
 
-Deliverable: a compatibility table:
-
-`feature | current Rapier docs | installed 0.21.0 | usable for Goblin`
-
-### R2 — Establish one deterministic standing fixture
-
-Use one known standing pose and one fixed simulation setup.
-
-Record at least:
-
-- fall/survival time;
+- survival/fall time;
 - floor drift;
-- COM trajectory;
-- foot loads;
-- pelvis/torso orientation;
+- COM and COM velocity;
+- foot loads/contact points;
+- torso orientation;
 - joint tracking error;
-- maximum applied motor force/torque;
+- torque saturation;
 - physics-step cost.
 
-This fixture becomes the common benchmark for every standing experiment.
+### R2 — A/B Rapier motor model
 
-### R3 — Test controller variables independently
+Compare only:
 
-Recommended order:
+- current `ForceBased`;
+- `AccelerationBased`.
 
-1. current motor approach baseline;
-2. direct native spherical motor targets;
-3. solver sweep;
-4. joint warm-starting;
-5. bounded hip/shoulder limits;
-6. pelvis/root PID.
+Keep rig, pose, timestep, contacts and solver budget fixed.
 
-Do not stack several unproven changes in the first comparison.
+### R3 — A/B spherical target representation
 
-### R4 — Combine only proven improvements
+Compare:
 
-After isolated experiments identify improvements, combine the smallest useful set and rerun the complete 60-second standing acceptance test.
+- current moving-frame method;
+- direct native per-axis spherical motor targets.
 
-Only after that result is repeatable should a production standing controller be designed.
+### R4 — Add world-space balance
+
+In this order:
+
+1. bounded torso-upright control realized through physical internal torque logic;
+2. bounded COM-position/velocity feedback into ankle/hip targets;
+3. CoP/contact telemetry for diagnosis.
+
+No pelvis position spring.
+
+### R5 — Solver sweep
+
+With the best controller candidate, measure the lowest solver budget that still satisfies the standing criteria.
+
+### R6 — Structural changes only if necessary
+
+Only if the existing rig still cannot stand robustly:
+
+- hip angular limits;
+- mass/inertia distribution;
+- foot contact geometry;
+- 60 Hz vs 120 Hz fixture.
+
+Change one variable at a time.
+
+### R7 — Combine only proven improvements
+
+Run the full repeated 60-second acceptance fixture.
+
+Only after that result is repeatable should a production standing controller be adopted.
 
 ## Current decision
 
@@ -342,14 +365,15 @@ They should not influence the standing implementation unless a finding is direct
 
 ## Open questions
 
-- Does Rapier 0.21.0 expose joint warm-starting in the installed JS package?
-- Can we drive spherical hips/shoulders directly with native per-axis motor targets?
-- Can we give spherical hips/shoulders useful angular limits in 0.21.0?
-- What is the minimum solver budget required for stable standing?
-- Does root/pelvis PID materially improve balance without making the Goblin feel non-physical?
-- Which standing failures are controller failures versus solver/convergence failures?
-- What COM/contact measurements best predict an imminent loss of balance?
-- Can the current 15-body rig stand robustly as designed, or does the rig itself require a bounded structural change?
+- Does `AccelerationBased` materially improve standing versus the current `ForceBased` motors?
+- Are direct spherical angular targets more stable under load than the current moving-frame method?
+- Can a SIMBICON-style world-space torso controller stabilize the Goblin using only physically realizable internal torque logic?
+- What COM-position/velocity gains create a quiet standing attractor without making the body rigid?
+- Does CoP telemetry explain drift or impending falls better than COM alone?
+- What is the minimum solver budget required after the controller is improved?
+- Can spherical hips receive useful limits through a supported 0.21.0 API, or only through raw/internal access?
+- Is joint warm-starting available through any supported installed JS 0.21.0 surface?
+- Can the current 15-body rig stand robustly as designed, or does it eventually require a bounded mass/inertia/contact change?
 
 ## Source register
 
@@ -363,6 +387,16 @@ They should not influence the standing implementation unless a finding is direct
 - PID controller: https://rapier.rs/docs/user_guides/javascript/pid_controller/
 - Advanced collision detection: https://rapier.rs/docs/user_guides/javascript/advanced_collision_detection/
 - SphericalImpulseJoint API: https://rapier.rs/javascript3d/classes/SphericalImpulseJoint.html
+
+### Character-control research and industry references
+
+- Detailed review: `docs/research/standing-literature-review-2026-10-04.md`
+- SIMBICON: https://www.microsoft.com/en-us/research/publication/simbicon-simple-biped-locomotion-control/
+- Stable PD controllers: https://faculty.cc.gatech.edu/~turk/my_papers/stable_pd.pdf
+- Ballet balance strategies: https://doi.org/10.1016/j.simpat.2006.09.009
+- Virtual Model Control: https://doi.org/10.1177/02783640122067309
+- Rockstar on Euphoria as a behavior system: https://www.rockstargames.com/newswire/article/ak14o88381o725/asked-answered-max-payne-3-la-noire-red-dead-and-more.html
+- EA/Frostbite driven ragdolls: https://www.gdcvault.com/play/1025210/Physics-Driven-Ragdolls-and-Animation
 
 ### Existing Goblin evidence
 
