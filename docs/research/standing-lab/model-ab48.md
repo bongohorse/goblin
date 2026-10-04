@@ -1,4 +1,4 @@
-# Controlled native motor model comparison ? Issue #48
+# Controlled native motor model comparison - Issue #48
 
 Decision: retain the existing ForceBased100/12 Solver32 Lab reference. No model/default/production switch. AccelerationBased100/12 is a weaker response on this frozen rig; the one analytically calibrated pair is only scalar-equivalent and shows mixed or worse full-rig behavior. No consistent benefit justifies advancing it here. No balance controller, merge or deployment.
 
@@ -12,7 +12,7 @@ Clean code/harness/measurement head `ac3ebadd7dea7e2a3f3d53062afbcdf5065e44bd`, 
 
 Installed @dimforge/rapier3d-compat0.21.0 impulse_joint.d.ts supplies AccelerationBased, revolute configureMotorModel(model) and spherical configureMotorModel(axis,model). The pinned [motor_model.rs](https://github.com/dimforge/rapier/blob/b716d375efc0201003f0cd9ef7168eee0b62c177/src/dynamics/joint/motor_model.rs) returns cfm_coeff for AB versus cfm_gain for FB. [Constraint builder](https://github.com/dimforge/rapier/blob/b716d375efc0201003f0cd9ef7168eee0b62c177/src/dynamics/solver/joint_constraint/generic_joint_constraint_builder.rs) uses dot_jj*cfm_coeff+cfm_gain: AB scales by effective inverse inertia. Thus angular gains are s^-2/s^-1 for AB versus Nm/rad and Nm*s/rad for FB; identical100/12 are not equal actuation strength. [Generic joint](https://github.com/dimforge/rapier/blob/b716d375efc0201003f0cd9ef7168eee0b62c177/src/dynamics/joint/generic_joint.rs) converts max_force to max_force*dt impulse, with angular bounds in the builder. Configured angular cap is physical Nm per axis for either model, not a vector-norm cap. Full-rig actual effort/saturation remains N/A.
 
-Evidence:24 real saturated cap/reaction cases (both models/joint types/signs, .05/1/20Nm),36 tracking cases with rotated bases, every spherical axis and combined targets; motor-off/wrong-sign/wrong-axis/missing-cap negatives. Two dynamic centered r.4 spheres1/2kg give I=.064/.128kg*m? and I_eff=.04266666666666667. AB2343.75/281.25 equals FB100/12 divided by I_eff. Over240steps, hinge and spherical, caps20/1: max angle difference9.52e-8rad and velocity difference1.057e-6rad/s, below predeclared1e-5/1e-4. Doubling masses leaves AB first response identical; FB first-step difference.005436325rad. This does not equalize all coupled rig inertias. Raw [fixture results](model-ab48/fixtures.json); reproduction `node scripts/motor-model48-fixtures.js`.
+Evidence:24 real saturated cap/reaction cases (both models/joint types/signs, .05/1/20Nm),36 tracking cases with rotated bases, every spherical axis and combined targets; motor-off/wrong-sign/wrong-axis/missing-cap negatives. Two dynamic centered r.4 spheres1/2kg give I=.064/.128kg*m^2 and I_eff=.04266666666666667. AB2343.75/281.25 equals FB100/12 divided by I_eff. Over240steps, hinge and spherical, caps20/1: max angle difference9.52e-8rad and velocity difference1.057e-6rad/s, below predeclared1e-5/1e-4. Doubling masses leaves AB first response identical; FB first-step difference.005436325rad. This does not equalize all coupled rig inertias. Raw [fixture results](model-ab48/fixtures.json); reproduction `node scripts/motor-model48-fixtures.js`.
 
 ## Normal runs (five identical repeats each)
 
@@ -64,7 +64,7 @@ Node wall timings in ms on the same Windows host, rendering excluded. First60 no
 | scalar-calibrated/1/ForceBased | 0.330100/0.589100/0.753000 | 0.005900/0.013300/0.019500 | 0.073400/0.173300/0.232300 |
 | scalar-calibrated/1/AccelerationBased | 0.328700/0.503200/0.673600 | 0.005700/0.010000/0.016600 | 0.075600/0.134400/0.564100 |
 
-Same-numbers AB physics medians are ~7% above FB on this host. Calibrated medians are close; cap1 FB per-world medians vary .3215?.4896ms versus AB .3233?.3442ms, so no CPU superiority/significance claim. Different trajectories/contact durations are not comparable total cost. Browser/GPU timings and weak-device budgets are not inferred from this Node measurement.
+Same-numbers AB physics medians are ~7% above FB on this host. Calibrated medians are close; cap1 FB per-world medians vary .3215-.4896ms versus AB .3233-.3442ms, so no CPU superiority/significance claim. Different trajectories/contact durations are not comparable total cost. Browser/GPU timings and weak-device budgets are not inferred from this Node measurement.
 
 ## Decision by question
 

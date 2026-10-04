@@ -9,6 +9,7 @@ import {canonical,validateResultProvenance,configIdentity} from '../src/labs/sta
 import {compareResults} from '../src/labs/standing/compare.js';
 import {jointObservation} from '../src/labs/standing/math.js';
 import {standingBuild} from './standing-provenance.js';
+import {validateModelPayload} from './motor-model48-payload.js';
 export const quantiles=values=>{const s=values.slice().sort((a,b)=>a-b);return {count:s.length,median:s[Math.floor(s.length/2)]??null,p95:s[Math.max(0,Math.ceil(s.length*.95)-1)]??null,max:s.at(-1)??null};};
 export async function modelRun(config,{diagnostic=false,metadata={}}={}){
   validateModelExperiment(config);if(diagnostic&&config.comparison_question!=='same-numbers')throw Error('No calibrated diagnostic continuation');
@@ -43,6 +44,7 @@ export async function validateModelRun(report){
   if(report.invalid_measurement!==null)throw Error('Incomplete model measurements');
   if(report.mode==='normal'){await validateResultProvenance(report.result);if(report.diagnostic_only!==false||canonical(report.result.config)!==canonical(report.config)||report.result.simulation_steps!==report.steps||report.result.standing_time!==report.standing_time||report.result.termination_reason!==report.end_reason||report.result.invalid_detail!==report.invalid)throw Error('Inconsistent normal model run');}
   else if(report.mode!=='diagnostic-after-contact'||report.diagnostic_only!==true||report.standing_time!==null||report.result!==undefined||report.config.comparison_question!=='same-numbers')throw Error('Diagnostic cannot claim normal Standing result');
+  validateModelPayload(report);
   return report;
 }
 function benchmarkWorld(config){

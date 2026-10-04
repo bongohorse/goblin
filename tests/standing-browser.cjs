@@ -119,11 +119,17 @@ async function main(){
     // Issue48: separate schema3 identities; normal clock/termination, no contact continuation.
     const studyResults=[];
     if(process.env.GOBLIN_MODEL_OUTPUT){
+      const studyResources=await diag();
       for(const [label,model,calibrated] of [['force','ForceBased',false],['acceleration','AccelerationBased',false],['calibrated','AccelerationBased',true]])for(const cap of [20,1]){
         const mode=`study-${label}-${cap}`;await page.locator('#mode').selectOption(mode);
+        await page.evaluate(()=>new Promise(requestAnimationFrame));const fresh=await diag();
+        assert.equal(fresh.step,0);assert.equal(fresh.motor_entries,14);assert.equal(fresh.solver,32);
+        for(const k of ['bodies','colliders','joints','listeners','geometries','textures','programs'])assert.equal(fresh[k],studyResources[k],k+' stable on Study changes');
         await page.locator('#step').click();await page.locator('#step').click();
         const partial=await page.evaluate(()=>standingLab.result());await validateResultProvenance(partial);
         assert.equal(partial.schema_version,3);assert.equal(partial.simulation_steps,2);assert.equal(partial.config.actuation.model,model);
+        const studyRace=await page.evaluate(async()=>{const pending=standingLab.result();const mode=document.querySelector('#mode');mode.value='passive';mode.dispatchEvent(new Event('change'));return {result:await pending,current:standingLab.diagnostics()};});
+        assert.deepEqual(studyRace.result,partial);assert.equal(studyRace.current.motor_entries,0);await page.locator('#mode').selectOption(mode);
         await page.locator('#reset').click();assert.equal((await diag()).step,0);
         await page.locator('#resume').click();await page.waitForFunction(()=>standingLab.diagnostics().step>=10||standingLab.diagnostics().termination!==null);
         await page.locator('#pause').click();const stopped=await diag();await page.waitForTimeout(100);assert.equal((await diag()).step,stopped.step);
