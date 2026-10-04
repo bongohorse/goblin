@@ -70,16 +70,25 @@ export function validateResult(result){
     const tracking=result.telemetry.motor_tracking;
     if(result.motor_commands_timing.count!==result.simulation_steps)throw Error('Motor command count mismatch');
     const latest=result.checkpoints.find(c=>c.step===result.simulation_steps);
+    if(!latest)throw Error('Missing motor same-step checkpoint');
     if(canonical(tracking.map(t=>t.joint_id).sort())!==canonical(jointIds))throw Error('Motor tracking taxonomy');
     for(const t of tracking){const j=rig.joints.find(j=>j.id===t.joint_id),target=result.config.actuation.targets.find(a=>a.id===t.joint_id).target;
       if(t.kind!==j.type||canonical(t.target)!==canonical(target)||canonical(t.limits)!==canonical(j.limits)||t.configured_axis_cap_Nm!==result.config.actuation.max_torque_Nm)throw Error('Motor tracking config mismatch');
+      // This frozen rig has identity bind frames and neutral targets on every
+      // joint. Cross-check observations against bodies, not another telemetry field.
+      const a=latest.bodies.find(b=>b.id===j.parent),b=latest.bodies.find(b=>b.id===j.child);
+      const relative=multiply(conjugate(a.rotation),b.rotation);
+      const velocity=rotate(sub(b.angular_velocity,a.angular_velocity),conjugate(a.rotation));
+      if(norm(sub(t.relative_angular_velocity_rad_s,velocity))>1e-6)throw Error('Motor velocity/checkpoint mismatch');
       if(j.type==='revolute'){const observation=result.telemetry.joints.find(o=>o.id===j.id);if(typeof t.actual!=='number'||typeof observation.angle!=='number'||Math.abs(t.actual)>Math.PI||Math.abs(t.actual-observation.angle)>1e-8)throw Error('Motor hinge actual');
         if(typeof observation.limit_violation!=='number'||Math.abs(observation.limit_violation-Math.max(0,j.limits[0]-t.actual,t.actual-j.limits[1]))>1e-8)throw Error('Motor hinge limit error');
+        const raw=2*Math.atan2(relative.x,relative.w),angle=Math.atan2(Math.sin(raw),Math.cos(raw));
+        if(Math.abs(t.actual-angle)>1e-8)throw Error('Motor hinge/checkpoint mismatch');
       }
       else {if(typeof t.actual!=='object'||Math.abs(Math.hypot(...Object.values(t.actual))-1)>1e-4)throw Error('Motor quaternion actual');
         // Frozen neutral rig has identity spherical bind frames. Verify recorded
         // tracking independently against the same-step body snapshot when present.
-        if(latest){const a=latest.bodies.find(b=>b.id===j.parent),b=latest.bodies.find(b=>b.id===j.child);if(rotationDistance(t.actual,multiply(conjugate(a.rotation),b.rotation))>1e-8)throw Error('Motor actual/checkpoint mismatch');}
+        if(rotationDistance(t.actual,relative)>1e-8)throw Error('Motor actual/checkpoint mismatch');
       }
       const error=j.type==='revolute'?Math.abs(target-t.actual):rotationDistance(target,t.actual);
       if(Math.abs(t.error_rad-error)>1e-8)throw Error('Motor tracking error mismatch');
