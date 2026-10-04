@@ -73,6 +73,11 @@ Before implementation, verify APIs against the installed `@dimforge/rapier3d-com
 Detailed literature/industry review:
 - `docs/research/standing-literature-review-2026-10-04.md`
 
+Physics Lab workflow:
+- `docs/development/labs.md`
+
+**Development rule:** standing experiments must now run in the isolated Standing Lab, not in the normal gameplay arena. Build the Lab before the next controller A/B experiment.
+
 ## What we already know
 
 ### Current rig
@@ -275,9 +280,11 @@ Hips and shoulders are currently unrestricted spherical joints. Anatomical limit
 
 ## Research order
 
-### R1 — Freeze the standing benchmark
+### R1 — Build the isolated Standing Lab
 
-Use one deterministic standing fixture with no get-up logic.
+Before further controller work, create the sterile Standing Lab defined in `docs/development/labs.md`.
+
+It must exclude weapons, props, combat, AI, normal arena logic and unrelated gameplay UI. Use one deterministic standing fixture with no get-up logic.
 
 Record:
 
