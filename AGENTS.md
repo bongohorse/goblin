@@ -82,6 +82,7 @@ Project dependency: `@dimforge/rapier3d-compat ^0.21.0`. Upstream Rapier master 
 Canonical standing/recovery research: `docs/research/active-ragdoll-standing-recovery.md`. Read it before G3 standing, balance, push-recovery or get-up work; update it when new research changes evidence, tradeoffs or the recommended experiment order.
 
 Physics Lab workflow: `docs/development/labs.md`. Develop unresolved low-level physics behaviors in a minimal isolated Lab before integrating them into the normal arena. For current G3 work, the Standing Lab is the required first environment for all new standing experiments.
+Broader Physics Labs research/backlog: `docs/research/physics-labs-experiment-program.md` (Issue #31). Treat optimization, evolution and learned-control ideas there as deferred research unless a scoped issue explicitly activates them.
 
 ### Three.js WebGPU / TSL
 - `threejs-webgpu-tsl`: optional WebGPU renderer and TSL/node-material work
