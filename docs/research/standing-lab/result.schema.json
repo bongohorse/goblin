@@ -1,0 +1,1312 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bongohorse.github.io/goblin/schemas/standing-result-v1",
+  "description": "SI telemetry; timing ms; null means unavailable/inapplicable per contracts.md, never implicit success.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "config_id",
+    "run_id",
+    "run_index",
+    "rig_id",
+    "controller_id",
+    "config",
+    "git_commit",
+    "dirty",
+    "build_id",
+    "rapier_js_version",
+    "rapier_upstream_commit",
+    "fixed_dt",
+    "solver_config",
+    "simulation_steps",
+    "observed_time",
+    "standing_time",
+    "failure_step",
+    "failure_body",
+    "failure_bodies",
+    "failure_reason",
+    "termination_reason",
+    "fall_cause",
+    "telemetry",
+    "physics_timing",
+    "observation_timing",
+    "platform",
+    "checkpoints",
+    "unreached_checkpoints",
+    "invalid_detail"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "experiment_id": {
+      "type": "string"
+    },
+    "config_id": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "run_index": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "rig_id": {
+      "type": "string"
+    },
+    "controller_id": {
+      "const": "none"
+    },
+    "config": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "rig_id",
+        "controller_id",
+        "fixed_dt",
+        "max_steps",
+        "gravity",
+        "solver_config",
+        "floor",
+        "bodies",
+        "joints"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "rig_id": {
+          "const": "goblin-passive-v1"
+        },
+        "controller_id": {
+          "const": "none"
+        },
+        "fixed_dt": {
+          "const": 0.016666666666666666
+        },
+        "max_steps": {
+          "const": 3600
+        },
+        "gravity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "x",
+            "y",
+            "z"
+          ],
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        },
+        "solver_config": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "numSolverIterations",
+            "numInternalPgsIterations",
+            "maxCcdSubsteps",
+            "lengthUnit",
+            "normalizedAllowedLinearError",
+            "normalizedPredictionDistance",
+            "additionalSolverIterations"
+          ],
+          "properties": {
+            "numSolverIterations": {
+              "const": 4
+            },
+            "numInternalPgsIterations": {
+              "const": 1
+            },
+            "maxCcdSubsteps": {
+              "const": 1
+            },
+            "lengthUnit": {
+              "const": 1
+            },
+            "normalizedAllowedLinearError": {
+              "const": 0.005
+            },
+            "normalizedPredictionDistance": {
+              "const": 0.02
+            },
+            "additionalSolverIterations": {
+              "const": 0
+            }
+          }
+        },
+        "floor": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "position",
+            "half",
+            "friction",
+            "restitution"
+          ],
+          "properties": {
+            "id": {
+              "const": "floor"
+            },
+            "position": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "x",
+                "y",
+                "z"
+              ],
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              }
+            },
+            "half": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "x",
+                "y",
+                "z"
+              ],
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              }
+            },
+            "friction": {
+              "type": "number"
+            },
+            "restitution": {
+              "type": "number"
+            }
+          }
+        },
+        "bodies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "collider_id",
+              "body_class",
+              "position",
+              "rotation",
+              "shape",
+              "mass",
+              "friction",
+              "linearDamping",
+              "angularDamping",
+              "restitution"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "collider_id": {
+                "type": "string"
+              },
+              "body_class": {
+                "enum": [
+                  "foot",
+                  "non_foot"
+                ]
+              },
+              "position": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "rotation": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z",
+                  "w"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  },
+                  "w": {
+                    "type": "number"
+                  }
+                }
+              },
+              "shape": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "radius"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "ball"
+                      },
+                      "radius": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "half",
+                      "radius"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "capsule"
+                      },
+                      "half": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "radius": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "half"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "cuboid"
+                      },
+                      "half": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "x",
+                          "y",
+                          "z"
+                        ],
+                        "properties": {
+                          "x": {
+                            "type": "number"
+                          },
+                          "y": {
+                            "type": "number"
+                          },
+                          "z": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "mass": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "friction": {
+                "type": "number"
+              },
+              "linearDamping": {
+                "type": "number"
+              },
+              "angularDamping": {
+                "type": "number"
+              },
+              "restitution": {
+                "type": "number"
+              }
+            }
+          },
+          "minItems": 15,
+          "maxItems": 15
+        },
+        "joints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "parent",
+              "child",
+              "position",
+              "type",
+              "anchorA",
+              "anchorB",
+              "axis",
+              "limits"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "parent": {
+                "type": "string"
+              },
+              "child": {
+                "type": "string"
+              },
+              "position": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "type": {
+                "enum": [
+                  "spherical",
+                  "revolute"
+                ]
+              },
+              "anchorA": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "anchorB": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "axis": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "limits": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "minItems": 14,
+          "maxItems": 14
+        }
+      }
+    },
+    "git_commit": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "dirty": {
+      "type": "boolean"
+    },
+    "build_id": {
+      "type": "string"
+    },
+    "rapier_js_version": {
+      "const": "0.21.0"
+    },
+    "rapier_upstream_commit": {
+      "const": "b716d375efc0201003f0cd9ef7168eee0b62c177"
+    },
+    "fixed_dt": {
+      "type": "number"
+    },
+    "solver_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "numSolverIterations",
+        "numInternalPgsIterations",
+        "maxCcdSubsteps",
+        "lengthUnit",
+        "normalizedAllowedLinearError",
+        "normalizedPredictionDistance",
+        "additionalSolverIterations"
+      ],
+      "properties": {
+        "numSolverIterations": {
+          "const": 4
+        },
+        "numInternalPgsIterations": {
+          "const": 1
+        },
+        "maxCcdSubsteps": {
+          "const": 1
+        },
+        "lengthUnit": {
+          "const": 1
+        },
+        "normalizedAllowedLinearError": {
+          "const": 0.005
+        },
+        "normalizedPredictionDistance": {
+          "const": 0.02
+        },
+        "additionalSolverIterations": {
+          "const": 0
+        }
+      }
+    },
+    "simulation_steps": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "observed_time": {
+      "type": "number"
+    },
+    "standing_time": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "failure_step": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "failure_body": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "failure_bodies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "failure_reason": {
+      "anyOf": [
+        {
+          "enum": [
+            "non_foot_floor_contact",
+            "invalid_start_contact",
+            "invalid_simulation"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "termination_reason": {
+      "enum": [
+        "non_foot_contact",
+        "timeout",
+        "invalid_start",
+        "invalid_simulation",
+        "incomplete"
+      ]
+    },
+    "fall_cause": {
+      "const": "unknown"
+    },
+    "telemetry": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "com",
+            "com_velocity",
+            "drift",
+            "pelvis_orientation",
+            "torso_orientation",
+            "contacts",
+            "foot_loads",
+            "joints",
+            "motor_tracking",
+            "motor_saturation"
+          ],
+          "properties": {
+            "com": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "x",
+                "y",
+                "z"
+              ],
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              }
+            },
+            "com_velocity": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "x",
+                "y",
+                "z"
+              ],
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              }
+            },
+            "drift": {
+              "type": "number"
+            },
+            "pelvis_orientation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "x",
+                "y",
+                "z",
+                "w"
+              ],
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                },
+                "w": {
+                  "type": "number"
+                }
+              }
+            },
+            "torso_orientation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "x",
+                "y",
+                "z",
+                "w"
+              ],
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                },
+                "w": {
+                  "type": "number"
+                }
+              }
+            },
+            "contacts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "body_id",
+                  "collider_id",
+                  "point",
+                  "normal",
+                  "distance",
+                  "normal_impulse",
+                  "normal_load"
+                ],
+                "properties": {
+                  "body_id": {
+                    "type": "string"
+                  },
+                  "collider_id": {
+                    "type": "string"
+                  },
+                  "point": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "x",
+                      "y",
+                      "z"
+                    ],
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      },
+                      "z": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "normal": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "x",
+                      "y",
+                      "z"
+                    ],
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      },
+                      "z": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "distance": {
+                    "type": "number"
+                  },
+                  "normal_impulse": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "normal_load": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "foot_loads": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "footL",
+                "footR"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "measured",
+                    "unmeasured"
+                  ]
+                },
+                "footL": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "footR": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            "joints": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "anchor_error",
+                  "axis_error",
+                  "angle",
+                  "limit_violation"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "anchor_error": {
+                    "type": "number"
+                  },
+                  "axis_error": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "angle": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "limit_violation": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "motor_tracking": {
+              "const": "not_applicable"
+            },
+            "motor_saturation": {
+              "const": "not_applicable"
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "physics_timing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "min",
+        "mean",
+        "p95",
+        "max"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mean": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "p95": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "observation_timing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "min",
+        "mean",
+        "p95",
+        "max"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mean": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "p95": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "platform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "os",
+        "runtime",
+        "host",
+        "user_agent"
+      ],
+      "properties": {
+        "os": {
+          "type": "string"
+        },
+        "runtime": {
+          "type": "string"
+        },
+        "host": {
+          "type": "string"
+        },
+        "user_agent": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "checkpoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "step",
+          "bodies",
+          "contacts"
+        ],
+        "properties": {
+          "step": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "bodies": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "position",
+                "rotation",
+                "linear_velocity",
+                "angular_velocity"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "x",
+                    "y",
+                    "z"
+                  ],
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "z": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "rotation": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "x",
+                    "y",
+                    "z",
+                    "w"
+                  ],
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "z": {
+                      "type": "number"
+                    },
+                    "w": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "linear_velocity": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "x",
+                    "y",
+                    "z"
+                  ],
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "z": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "angular_velocity": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "x",
+                    "y",
+                    "z"
+                  ],
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "z": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "body_id",
+                "collider_id",
+                "point",
+                "normal",
+                "distance",
+                "normal_impulse",
+                "normal_load"
+              ],
+              "properties": {
+                "body_id": {
+                  "type": "string"
+                },
+                "collider_id": {
+                  "type": "string"
+                },
+                "point": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "x",
+                    "y",
+                    "z"
+                  ],
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "z": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "normal": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "x",
+                    "y",
+                    "z"
+                  ],
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "z": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "distance": {
+                  "type": "number"
+                },
+                "normal_impulse": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "normal_load": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "unreached_checkpoints": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "invalid_detail": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}
