@@ -1,0 +1,1375 @@
+{
+  "git_commit": "a780c7e03604d091e8ce4de4a6aefe3d70d50fce",
+  "dirty": false,
+  "build_id": "a780c7e03604d091e8ce4de4a6aefe3d70d50fce:3fb4620de1f8c06dd812c2aefed9791c94db97ffd9c990da84a9570dacb2d9c8",
+  "command": "node scripts/standing-motor-baseline.js",
+  "caps": [
+    {
+      "cap": 20,
+      "config_id": "config:sha256:4daade1f6f3eb77c40553ad6c656f71efec617087a863448b2a37b4aa5578808",
+      "experiment_id": "native-force-solver32-v2:4daade1f6f3eb77c40553ad6c656f71efec617087a863448b2a37b4aa5578808",
+      "steps": [
+        3600,
+        3600,
+        3600,
+        3600,
+        3600
+      ],
+      "standing_times": [
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "failure_bodies": [
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "comparisons": [
+        {
+          "pass": true,
+          "errors": [],
+          "max_deviation": {
+            "position": 0,
+            "rotation": 0,
+            "linear_velocity": 0,
+            "angular_velocity": 0,
+            "contact_point": 0,
+            "contact_load": 0
+          }
+        },
+        {
+          "pass": true,
+          "errors": [],
+          "max_deviation": {
+            "position": 0,
+            "rotation": 0,
+            "linear_velocity": 0,
+            "angular_velocity": 0,
+            "contact_point": 0,
+            "contact_load": 0
+          }
+        },
+        {
+          "pass": true,
+          "errors": [],
+          "max_deviation": {
+            "position": 0,
+            "rotation": 0,
+            "linear_velocity": 0,
+            "angular_velocity": 0,
+            "contact_point": 0,
+            "contact_load": 0
+          }
+        },
+        {
+          "pass": true,
+          "errors": [],
+          "max_deviation": {
+            "position": 0,
+            "rotation": 0,
+            "linear_velocity": 0,
+            "angular_velocity": 0,
+            "contact_point": 0,
+            "contact_load": 0
+          }
+        }
+      ],
+      "peak_metrics": [
+        {
+          "drift_m": 0.1941255964679424,
+          "anchor_error_m": 0.0003140059290564595,
+          "limit_error_rad": 0.00015922392931590895,
+          "tracking_error_rad": 0.14890787814756662
+        },
+        {
+          "drift_m": 0.1941255964679424,
+          "anchor_error_m": 0.0003140059290564595,
+          "limit_error_rad": 0.00015922392931590895,
+          "tracking_error_rad": 0.14890787814756662
+        },
+        {
+          "drift_m": 0.1941255964679424,
+          "anchor_error_m": 0.0003140059290564595,
+          "limit_error_rad": 0.00015922392931590895,
+          "tracking_error_rad": 0.14890787814756662
+        },
+        {
+          "drift_m": 0.1941255964679424,
+          "anchor_error_m": 0.0003140059290564595,
+          "limit_error_rad": 0.00015922392931590895,
+          "tracking_error_rad": 0.14890787814756662
+        },
+        {
+          "drift_m": 0.1941255964679424,
+          "anchor_error_m": 0.0003140059290564595,
+          "limit_error_rad": 0.00015922392931590895,
+          "tracking_error_rad": 0.14890787814756662
+        }
+      ],
+      "end_telemetry": {
+        "com": {
+          "x": -0.08058736907767126,
+          "y": 1.201415081069492,
+          "z": -0.018506063350972025
+        },
+        "com_velocity": {
+          "x": -0.001322187684562881,
+          "y": 0.0006872478127354409,
+          "z": -0.0037092672511348334
+        },
+        "drift": 0.08402950743702146,
+        "pelvis_orientation": {
+          "x": 0.11478132009506226,
+          "y": 0.002625690307468176,
+          "z": -0.000284077919786796,
+          "w": 0.9933872818946838
+        },
+        "torso_orientation": {
+          "x": 0.13518157601356506,
+          "y": 0.0026164031587541103,
+          "z": -0.00033818918745964766,
+          "w": 0.9908173680305481
+        },
+        "contacts": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "point": {
+              "x": -0.05251726073094909,
+              "y": -0.0007141283103163781,
+              "z": -0.3594375826352606
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.0007123351097106934,
+            "normal_impulse": 0.05356638878583908,
+            "normal_load": 3.213983159528061
+          },
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "point": {
+              "x": -0.050447157317449004,
+              "y": -0.0015551425041685774,
+              "z": 0.08055687560976851
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.0015541017055511475,
+            "normal_impulse": 0.33158886432647705,
+            "normal_load": 19.89533082196626
+          },
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "point": {
+              "x": 0.20747992312010632,
+              "y": -0.0008100602942145985,
+              "z": -0.36066098737830665
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.0008106976747512817,
+            "normal_impulse": 0.12228047102689743,
+            "normal_load": 7.336827878968454
+          },
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "point": {
+              "x": 0.2095499817605146,
+              "y": -0.0016510744430918711,
+              "z": 0.07933345617610382
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.0016524642705917358,
+            "normal_impulse": 0.24839018285274506,
+            "normal_load": 14.903410193891292
+          },
+          {
+            "body_id": "footR",
+            "collider_id": "collider:footR",
+            "point": {
+              "x": -0.37241272264205333,
+              "y": -0.0006495702796802671,
+              "z": -0.35826036882330803
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.0006493180990219116,
+            "normal_impulse": 0.04516962170600891,
+            "normal_load": 2.7101771610137813
+          },
+          {
+            "body_id": "footR",
+            "collider_id": "collider:footR",
+            "point": {
+              "x": -0.37040959807861235,
+              "y": -0.0015211863565982447,
+              "z": 0.08173423558145312
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.0015206187963485718,
+            "normal_impulse": 0.3269025385379791,
+            "normal_load": 19.614151289321043
+          },
+          {
+            "body_id": "footR",
+            "collider_id": "collider:footR",
+            "point": {
+              "x": -0.11241542466781723,
+              "y": -0.0007297834563692318,
+              "z": -0.35944417684112767
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.0007302314043045044,
+            "normal_impulse": 0.11164692044258118,
+            "normal_load": 6.69881487718445
+          },
+          {
+            "body_id": "footR",
+            "collider_id": "collider:footR",
+            "point": {
+              "x": -0.11041231493517917,
+              "y": -0.0016013921076427906,
+              "z": 0.08055044254720622
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.0016015321016311646,
+            "normal_impulse": 0.24175259470939636,
+            "normal_load": 14.505154926061001
+          }
+        ],
+        "foot_loads": {
+          "status": "measured",
+          "footL": 45.34955205435407,
+          "footR": 43.528298253580274
+        },
+        "joints": [
+          {
+            "id": "spine",
+            "anchor_error": 0.000016797026256832722,
+            "axis_error": 0.000005794468370406832,
+            "angle": 0.0411238510296681,
+            "limit_violation": 0
+          },
+          {
+            "id": "neck",
+            "anchor_error": 0.0000019952410715976393,
+            "axis_error": 1.0243638364643423e-7,
+            "angle": 0.01804017885709832,
+            "limit_violation": 0
+          },
+          {
+            "id": "shoulderL",
+            "anchor_error": 0.000002957413087359908,
+            "axis_error": null,
+            "angle": null,
+            "limit_violation": null
+          },
+          {
+            "id": "elbowL",
+            "anchor_error": 0.000008577105692142248,
+            "axis_error": 7.669044466205672e-8,
+            "angle": -0.007928125589403397,
+            "limit_violation": 0
+          },
+          {
+            "id": "wristL",
+            "anchor_error": 7.200314531401175e-8,
+            "axis_error": 3.8215316984277274e-10,
+            "angle": -0.0006788924218661303,
+            "limit_violation": 0
+          },
+          {
+            "id": "hipL",
+            "anchor_error": 0.00003441860531768161,
+            "axis_error": null,
+            "angle": null,
+            "limit_violation": null
+          },
+          {
+            "id": "kneeL",
+            "anchor_error": 1.67491626770507e-8,
+            "axis_error": 2.1501155623328552e-10,
+            "angle": -0.05000005366397358,
+            "limit_violation": 5.3663973577366963e-8
+          },
+          {
+            "id": "ankleL",
+            "anchor_error": 0.00006694874994468964,
+            "axis_error": 0.000010363501425625988,
+            "angle": -0.1378614142771699,
+            "limit_violation": 0
+          },
+          {
+            "id": "shoulderR",
+            "anchor_error": 3.451558899913263e-8,
+            "axis_error": null,
+            "angle": null,
+            "limit_violation": null
+          },
+          {
+            "id": "elbowR",
+            "anchor_error": 0.00000863858483698867,
+            "axis_error": 0.0000024887738482819953,
+            "angle": -0.00804403508711136,
+            "limit_violation": 0
+          },
+          {
+            "id": "wristR",
+            "anchor_error": 4.120644942729542e-8,
+            "axis_error": 1.9849742542536113e-10,
+            "angle": -0.0006542433484910134,
+            "limit_violation": 0
+          },
+          {
+            "id": "hipR",
+            "anchor_error": 7.182104496033363e-8,
+            "axis_error": null,
+            "angle": null,
+            "limit_violation": null
+          },
+          {
+            "id": "kneeR",
+            "anchor_error": 0.000030676876515651675,
+            "axis_error": 0.000017704964219247108,
+            "angle": -0.05014545907304074,
+            "limit_violation": 0.00014545907304074068
+          },
+          {
+            "id": "ankleR",
+            "anchor_error": 0.00006918722188262275,
+            "axis_error": 0.000023163890273974236,
+            "angle": -0.13839793667595482,
+            "limit_violation": 0
+          }
+        ],
+        "motor_tracking": [
+          {
+            "joint_id": "spine",
+            "kind": "revolute",
+            "target": 0,
+            "actual": 0.0411238510296681,
+            "error_rad": 0.0411238510296681,
+            "relative_angular_velocity_rad_s": {
+              "x": -0.003599619397607841,
+              "y": 0.010893889089373587,
+              "z": -0.00016070630023087926
+            },
+            "limits": [
+              -0.3,
+              0.3
+            ],
+            "configured_axis_cap_Nm": 20
+          },
+          {
+            "joint_id": "neck",
+            "kind": "revolute",
+            "target": 0,
+            "actual": 0.01804017885709832,
+            "error_rad": 0.01804017885709832,
+            "relative_angular_velocity_rad_s": {
+              "x": 0.005131263924763104,
+              "y": -0.00017785874762806715,
+              "z": 0.00008464137954603084
+            },
+            "limits": [
+              -0.45,
+              0.45
+            ],
+            "configured_axis_cap_Nm": 20
+          },
+          {
+            "joint_id": "shoulderL",
+            "kind": "spherical",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            },
+            "actual": {
+              "x": -0.005022433745210781,
+              "y": 0.000008774936243383623,
+              "z": -9.152379013260131e-7,
+              "w": 0.999987481924855
+            },
+            "error_rad": 0.010044924270136524,
+            "relative_angular_velocity_rad_s": {
+              "x": 0.007969123652191714,
+              "y": -0.00031738386735138675,
+              "z": 0.00001973795556561446
+            },
+            "limits": null,
+            "configured_axis_cap_Nm": 20
+          },
+          {
+            "joint_id": "elbowL",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.007928125589403397,
+            "error_rad": 0.007928125589403397,
+            "relative_angular_velocity_rad_s": {
+              "x": 0.003215810995543604,
+              "y": 0.00013819191913587566,
+              "z": 0.00009892291869156001
+            },
+            "limits": [
+              -2.35,
+              0.05
+            ],
+            "configured_axis_cap_Nm": 20
+          },
+          {
+            "joint_id": "wristL",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.0006788924218661303,
+            "error_rad": 0.0006788924218661303,
+            "relative_angular_velocity_rad_s": {
+              "x": -0.006137477083189136,
+              "y": 8.237266589483747e-10,
+              "z": -2.0869732091972513e-10
+            },
+            "limits": [
+              -0.35,
+              0.35
+            ],
+            "configured_axis_cap_Nm": 20
+          },
+          {
+            "joint_id": "hipL",
+            "kind": "spherical",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            },
+            "actual": {
+              "x": -0.020147371303964077,
+              "y": -0.0003246014554948596,
+              "z": -0.0001339483451387579,
+              "w": 0.9997969929415158
+            },
+            "error_rad": 0.04030358889996579,
+            "relative_angular_velocity_rad_s": {
+              "x": -0.008778964596619606,
+              "y": 0.013763769685215576,
+              "z": -0.0002931579058063653
+            },
+            "limits": null,
+            "configured_axis_cap_Nm": 20
+          },
+          {
+            "joint_id": "kneeL",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.05000005366397358,
+            "error_rad": 0.05000005366397358,
+            "relative_angular_velocity_rad_s": {
+              "x": -5.583409948070212e-9,
+              "y": -4.112547686308471e-10,
+              "z": -8.961011566099336e-10
+            },
+            "limits": [
+              -0.05,
+              2.3
+            ],
+            "configured_axis_cap_Nm": 20
+          },
+          {
+            "joint_id": "ankleL",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.1378614142771699,
+            "error_rad": 0.1378614142771699,
+            "relative_angular_velocity_rad_s": {
+              "x": 0.012431754586659509,
+              "y": -0.0013030010082085435,
+              "z": 0.012792026760032757
+            },
+            "limits": [
+              -0.4,
+              0.4
+            ],
+            "configured_axis_cap_Nm": 20
+          },
+          {
+            "joint_id": "shoulderR",
+            "kind": "spherical",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            },
+            "actual": {
+              "x": -0.005049787252554583,
+              "y": -0.0003356453391854478,
+              "z": -0.00038628649823320774,
+              "w": 0.9999871830012624
+            },
+            "error_rad": 0.010151343610489352,
+            "relative_angular_velocity_rad_s": {
+              "x": 0.005981226218204103,
+              "y": 0.003830398824570384,
+              "z": 0.0019690145747127564
+            },
+            "limits": null,
+            "configured_axis_cap_Nm": 20
+          },
+          {
+            "joint_id": "elbowR",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.00804403508711136,
+            "error_rad": 0.00804403508711136,
+            "relative_angular_velocity_rad_s": {
+              "x": 0.005419452193585191,
+              "y": -0.003987583422048992,
+              "z": -0.0019347121467152043
+            },
+            "limits": [
+              -2.35,
+              0.05
+            ],
+            "configured_axis_cap_Nm": 20
+          },
+          {
+            "joint_id": "wristR",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.0006542433484910134,
+            "error_rad": 0.0006542433484910134,
+            "relative_angular_velocity_rad_s": {
+              "x": -0.006497229414089385,
+              "y": 5.821013687844014e-10,
+              "z": -1.7249107277608235e-10
+            },
+            "limits": [
+              -0.35,
+              0.35
+            ],
+            "configured_axis_cap_Nm": 20
+          },
+          {
+            "joint_id": "hipR",
+            "kind": "spherical",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            },
+            "actual": {
+              "x": -0.01977170779411891,
+              "y": -0.0003756419739818521,
+              "z": -0.00008212672478565518,
+              "w": 0.9998045485559757
+            },
+            "error_rad": 0.03955346710043208,
+            "relative_angular_velocity_rad_s": {
+              "x": 0.0003849067270162617,
+              "y": 0.001483654607297996,
+              "z": -0.005481850250939685
+            },
+            "limits": null,
+            "configured_axis_cap_Nm": 20
+          },
+          {
+            "joint_id": "kneeR",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.05014545907304074,
+            "error_rad": 0.05014545907304074,
+            "relative_angular_velocity_rad_s": {
+              "x": -0.009332724979503151,
+              "y": 0.00902604982291886,
+              "z": 0.005819094285421608
+            },
+            "limits": [
+              -0.05,
+              2.3
+            ],
+            "configured_axis_cap_Nm": 20
+          },
+          {
+            "joint_id": "ankleR",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.13839793667595482,
+            "error_rad": 0.13839793667595482,
+            "relative_angular_velocity_rad_s": {
+              "x": 0.012615363679488697,
+              "y": 0.001746659113573434,
+              "z": 0.012814977979309864
+            },
+            "limits": [
+              -0.4,
+              0.4
+            ],
+            "configured_axis_cap_Nm": 20
+          }
+        ],
+        "motor_saturation": null,
+        "motor_effort": null,
+        "motor_effort_reason": "Unavailable: supported getters cannot separate motor, contact and limit impulses"
+      },
+      "physics_timing": [
+        {
+          "count": 3600,
+          "min": 0.3170999999997548,
+          "mean": 0.39236399999999916,
+          "p95": 0.5895000000000437,
+          "max": 61.519000000000005
+        },
+        {
+          "count": 3600,
+          "min": 0.3162000000002081,
+          "mean": 0.33856394444444377,
+          "p95": 0.4050999999999476,
+          "max": 0.7470000000002983
+        },
+        {
+          "count": 3600,
+          "min": 0.3150999999998021,
+          "mean": 0.34239355555556156,
+          "p95": 0.4238000000004831,
+          "max": 0.800600000000486
+        },
+        {
+          "count": 3600,
+          "min": 0.31570000000010623,
+          "mean": 0.3508565000000077,
+          "p95": 0.46450000000004366,
+          "max": 0.8051999999997861
+        },
+        {
+          "count": 3600,
+          "min": 0.3153999999994994,
+          "mean": 0.40327844444443245,
+          "p95": 0.5792999999994208,
+          "max": 8.32260000000133
+        }
+      ]
+    },
+    {
+      "cap": 1,
+      "config_id": "config:sha256:36bbd0efbdf51a2bf03d0fc40dc2a110b22950588c7380f4999309d307302d57",
+      "experiment_id": "native-force-solver32-v2:36bbd0efbdf51a2bf03d0fc40dc2a110b22950588c7380f4999309d307302d57",
+      "steps": [
+        187,
+        187,
+        187,
+        187,
+        187
+      ],
+      "standing_times": [
+        3.1166666666666667,
+        3.1166666666666667,
+        3.1166666666666667,
+        3.1166666666666667,
+        3.1166666666666667
+      ],
+      "failure_bodies": [
+        [
+          "handL",
+          "handR"
+        ],
+        [
+          "handL",
+          "handR"
+        ],
+        [
+          "handL",
+          "handR"
+        ],
+        [
+          "handL",
+          "handR"
+        ],
+        [
+          "handL",
+          "handR"
+        ]
+      ],
+      "comparisons": [
+        {
+          "pass": true,
+          "errors": [],
+          "max_deviation": {
+            "position": 0,
+            "rotation": 0,
+            "linear_velocity": 0,
+            "angular_velocity": 0,
+            "contact_point": 0,
+            "contact_load": 0
+          }
+        },
+        {
+          "pass": true,
+          "errors": [],
+          "max_deviation": {
+            "position": 0,
+            "rotation": 0,
+            "linear_velocity": 0,
+            "angular_velocity": 0,
+            "contact_point": 0,
+            "contact_load": 0
+          }
+        },
+        {
+          "pass": true,
+          "errors": [],
+          "max_deviation": {
+            "position": 0,
+            "rotation": 0,
+            "linear_velocity": 0,
+            "angular_velocity": 0,
+            "contact_point": 0,
+            "contact_load": 0
+          }
+        },
+        {
+          "pass": true,
+          "errors": [],
+          "max_deviation": {
+            "position": 0,
+            "rotation": 0,
+            "linear_velocity": 0,
+            "angular_velocity": 0,
+            "contact_point": 0,
+            "contact_load": 0
+          }
+        }
+      ],
+      "peak_metrics": [
+        {
+          "drift_m": 0.8640533270172851,
+          "anchor_error_m": 0.00038077232138602243,
+          "limit_error_rad": 0.001974001787948265,
+          "tracking_error_rad": 1.2842769217577366
+        },
+        {
+          "drift_m": 0.8640533270172851,
+          "anchor_error_m": 0.00038077232138602243,
+          "limit_error_rad": 0.001974001787948265,
+          "tracking_error_rad": 1.2842769217577366
+        },
+        {
+          "drift_m": 0.8640533270172851,
+          "anchor_error_m": 0.00038077232138602243,
+          "limit_error_rad": 0.001974001787948265,
+          "tracking_error_rad": 1.2842769217577366
+        },
+        {
+          "drift_m": 0.8640533270172851,
+          "anchor_error_m": 0.00038077232138602243,
+          "limit_error_rad": 0.001974001787948265,
+          "tracking_error_rad": 1.2842769217577366
+        },
+        {
+          "drift_m": 0.8640533270172851,
+          "anchor_error_m": 0.00038077232138602243,
+          "limit_error_rad": 0.001974001787948265,
+          "tracking_error_rad": 1.2842769217577366
+        }
+      ],
+      "end_telemetry": {
+        "com": {
+          "x": -0.0015806252020584743,
+          "y": 0.6377693280479836,
+          "z": 0.8693498945867345
+        },
+        "com_velocity": {
+          "x": 0.0005668827226849028,
+          "y": -1.1848331599239112,
+          "z": 1.1543132962141094
+        },
+        "drift": 0.8640533270172851,
+        "pelvis_orientation": {
+          "x": 0.8506056666374207,
+          "y": -0.0002839963126461953,
+          "z": 0.0003306291182525456,
+          "w": 0.5258041024208069
+        },
+        "torso_orientation": {
+          "x": 0.7669171690940857,
+          "y": -0.00032940367236733437,
+          "z": 0.0002856407954823226,
+          "w": 0.6417460441589355
+        },
+        "contacts": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "point": {
+              "x": 0.028744478970352594,
+              "y": -0.0011499627036194726,
+              "z": 0.29704807061413413
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.0012392401695251465,
+            "normal_impulse": 0.1794029176235199,
+            "normal_load": 10.764174496015746
+          },
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "point": {
+              "x": 0.28874455849881875,
+              "y": -0.0011447913025726675,
+              "z": 0.2970357835808288
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.0012273341417312622,
+            "normal_impulse": 0.18365858495235443,
+            "normal_load": 11.019514522428798
+          },
+          {
+            "body_id": "footR",
+            "collider_id": "collider:footR",
+            "point": {
+              "x": -0.29119268961214284,
+              "y": -0.0012292620546396904,
+              "z": 0.2970636702015664
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.0012785643339157104,
+            "normal_impulse": 0.20769783854484558,
+            "normal_load": 12.461869662753585
+          },
+          {
+            "body_id": "footR",
+            "collider_id": "collider:footR",
+            "point": {
+              "x": -0.031192729789106866,
+              "y": -0.0012094002884525668,
+              "z": 0.2970572500500211
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.0012508779764175415,
+            "normal_impulse": 0.21332548558712006,
+            "normal_load": 12.799528467679774
+          },
+          {
+            "body_id": "handL",
+            "collider_id": "collider:handL",
+            "point": {
+              "x": 0.39854923352889277,
+              "y": -0.015613100091811008,
+              "z": 0.6876636047753496
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.01934836059808731,
+            "normal_impulse": 3.151310682296753,
+            "normal_load": 189.0786310765861
+          },
+          {
+            "body_id": "handR",
+            "collider_id": "collider:handR",
+            "point": {
+              "x": -0.40169075024987666,
+              "y": -0.015300503476194174,
+              "z": 0.6855595301077064
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.01885349303483963,
+            "normal_impulse": 3.1416032314300537,
+            "normal_load": 188.49618405496113
+          }
+        ],
+        "foot_loads": {
+          "status": "measured",
+          "footL": 21.783689018444544,
+          "footR": 25.26139813043336
+        },
+        "joints": [
+          {
+            "id": "spine",
+            "anchor_error": 0.0000029188136107356654,
+            "axis_error": 0.000003194433024980634,
+            "angle": -0.28622531506969723,
+            "limit_violation": 0
+          },
+          {
+            "id": "neck",
+            "anchor_error": 0.0000058261701287016485,
+            "axis_error": 5.396320631514516e-7,
+            "angle": -0.38190766610181665,
+            "limit_violation": 0
+          },
+          {
+            "id": "shoulderL",
+            "anchor_error": 0.000007984614655785801,
+            "axis_error": null,
+            "angle": null,
+            "limit_violation": null
+          },
+          {
+            "id": "elbowL",
+            "anchor_error": 0.000017958828028179226,
+            "axis_error": 0.000016596678615982484,
+            "angle": 0.03851109231526957,
+            "limit_violation": 0
+          },
+          {
+            "id": "wristL",
+            "anchor_error": 3.3454600363018615e-7,
+            "axis_error": 6.76706046527592e-9,
+            "angle": -0.23044988024021448,
+            "limit_violation": 0
+          },
+          {
+            "id": "hipL",
+            "anchor_error": 0.000014030708302913186,
+            "axis_error": null,
+            "angle": null,
+            "limit_violation": null
+          },
+          {
+            "id": "kneeL",
+            "anchor_error": 2.434239744451594e-7,
+            "axis_error": 1.0769373823764714e-11,
+            "angle": -0.04999999118854901,
+            "limit_violation": 0
+          },
+          {
+            "id": "ankleL",
+            "anchor_error": 0.000022035094487450912,
+            "axis_error": 0.000010281078013252554,
+            "angle": -0.40014298055284764,
+            "limit_violation": 0.0001429805528476158
+          },
+          {
+            "id": "shoulderR",
+            "anchor_error": 9.6629757042033e-7,
+            "axis_error": null,
+            "angle": null,
+            "limit_violation": null
+          },
+          {
+            "id": "elbowR",
+            "anchor_error": 0.000016988766050467842,
+            "axis_error": 0.000011629229679664417,
+            "angle": 0.04113029133259333,
+            "limit_violation": 0
+          },
+          {
+            "id": "wristR",
+            "anchor_error": 3.514320490472034e-7,
+            "axis_error": 2.0381517208946122e-8,
+            "angle": -0.22345718707643905,
+            "limit_violation": 0
+          },
+          {
+            "id": "hipR",
+            "anchor_error": 0.000011419372411371957,
+            "axis_error": null,
+            "angle": null,
+            "limit_violation": null
+          },
+          {
+            "id": "kneeR",
+            "anchor_error": 2.843058514048557e-7,
+            "axis_error": 2.6151288601487548e-11,
+            "angle": -0.05000000529048052,
+            "limit_violation": 5.290480518949092e-9
+          },
+          {
+            "id": "ankleR",
+            "anchor_error": 0.000014974935806170015,
+            "axis_error": 0.000009755608335139613,
+            "angle": -0.40011456864027695,
+            "limit_violation": 0.00011456864027692415
+          }
+        ],
+        "motor_tracking": [
+          {
+            "joint_id": "spine",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.28622531506969723,
+            "error_rad": 0.28622531506969723,
+            "relative_angular_velocity_rad_s": {
+              "x": 0.9906202473290355,
+              "y": -0.001207505996685784,
+              "z": -0.00008592714806577402
+            },
+            "limits": [
+              -0.3,
+              0.3
+            ],
+            "configured_axis_cap_Nm": 1
+          },
+          {
+            "joint_id": "neck",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.38190766610181665,
+            "error_rad": 0.38190766610181665,
+            "relative_angular_velocity_rad_s": {
+              "x": 3.4005826050872887,
+              "y": 0.0018711117355861102,
+              "z": 0.0006579999869818359
+            },
+            "limits": [
+              -0.45,
+              0.45
+            ],
+            "configured_axis_cap_Nm": 1
+          },
+          {
+            "joint_id": "shoulderL",
+            "kind": "spherical",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            },
+            "actual": {
+              "x": -0.5012387696376343,
+              "y": -0.00008369829526682108,
+              "z": 0.00003032031690344654,
+              "w": 0.8653090258095042
+            },
+            "error_rad": 1.0500595557598262,
+            "relative_angular_velocity_rad_s": {
+              "x": 3.9260121047651984,
+              "y": 0.02789261454604479,
+              "z": 0.015318444158695762
+            },
+            "limits": null,
+            "configured_axis_cap_Nm": 1
+          },
+          {
+            "joint_id": "elbowL",
+            "kind": "revolute",
+            "target": 0,
+            "actual": 0.03851109231526957,
+            "error_rad": 0.03851109231526957,
+            "relative_angular_velocity_rad_s": {
+              "x": -3.277315826888778,
+              "y": 0.00810422444163199,
+              "z": -0.002053059442365667
+            },
+            "limits": [
+              -2.35,
+              0.05
+            ],
+            "configured_axis_cap_Nm": 1
+          },
+          {
+            "joint_id": "wristL",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.23044988024021448,
+            "error_rad": 0.23044988024021448,
+            "relative_angular_velocity_rad_s": {
+              "x": -5.8946874051967955,
+              "y": 0.000025375799032250528,
+              "z": 0.000006209909087658526
+            },
+            "limits": [
+              -0.35,
+              0.35
+            ],
+            "configured_axis_cap_Nm": 1
+          },
+          {
+            "joint_id": "hipL",
+            "kind": "spherical",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            },
+            "actual": {
+              "x": -0.5969645940513226,
+              "y": 0.00015240320656421182,
+              "z": -0.0004299878921867857,
+              "w": 0.8022674747026595
+            },
+            "error_rad": 1.2794248593321755,
+            "relative_angular_velocity_rad_s": {
+              "x": 0.6128211269069875,
+              "y": 0.017948532825473165,
+              "z": 0.0017341700058298125
+            },
+            "limits": null,
+            "configured_axis_cap_Nm": 1
+          },
+          {
+            "joint_id": "kneeL",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.04999999118854901,
+            "error_rad": 0.04999999118854901,
+            "relative_angular_velocity_rad_s": {
+              "x": -1.1920940758990875e-7,
+              "y": 5.243802305735944e-9,
+              "z": 8.146468332040936e-10
+            },
+            "limits": [
+              -0.05,
+              2.3
+            ],
+            "configured_axis_cap_Nm": 1
+          },
+          {
+            "joint_id": "ankleL",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.40014298055284764,
+            "error_rad": 0.40014298055284764,
+            "relative_angular_velocity_rad_s": {
+              "x": -0.012935750918610482,
+              "y": 0.007474251197128229,
+              "z": 0.00006924321540923914
+            },
+            "limits": [
+              -0.4,
+              0.4
+            ],
+            "configured_axis_cap_Nm": 1
+          },
+          {
+            "joint_id": "shoulderR",
+            "kind": "spherical",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            },
+            "actual": {
+              "x": -0.5019222320490134,
+              "y": -0.0011734559433273107,
+              "z": 0.0005884919828038921,
+              "w": 0.8649117613736741
+            },
+            "error_rad": 1.0516435742745425,
+            "relative_angular_velocity_rad_s": {
+              "x": 3.8640820057304412,
+              "y": 0.03376225265739619,
+              "z": 0.0002087168564312708
+            },
+            "limits": null,
+            "configured_axis_cap_Nm": 1
+          },
+          {
+            "joint_id": "elbowR",
+            "kind": "revolute",
+            "target": 0,
+            "actual": 0.04113029133259333,
+            "error_rad": 0.04113029133259333,
+            "relative_angular_velocity_rad_s": {
+              "x": -3.0881062953096055,
+              "y": 0.0030507336937861586,
+              "z": -0.011826527943440822
+            },
+            "limits": [
+              -2.35,
+              0.05
+            ],
+            "configured_axis_cap_Nm": 1
+          },
+          {
+            "joint_id": "wristR",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.22345718707643905,
+            "error_rad": 0.22345718707643905,
+            "relative_angular_velocity_rad_s": {
+              "x": -6.494226925941775,
+              "y": -0.00007005549507029495,
+              "z": -0.00003326632180562783
+            },
+            "limits": [
+              -0.35,
+              0.35
+            ],
+            "configured_axis_cap_Nm": 1
+          },
+          {
+            "joint_id": "hipR",
+            "kind": "spherical",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            },
+            "actual": {
+              "x": -0.5971034562092544,
+              "y": 0.00018102982026199426,
+              "z": -0.00041261406617810895,
+              "w": 0.8021642371281177
+            },
+            "error_rad": 1.2797709199580245,
+            "relative_angular_velocity_rad_s": {
+              "x": 0.6086338660484611,
+              "y": 0.016764126668194247,
+              "z": -0.0005152661272780322
+            },
+            "limits": null,
+            "configured_axis_cap_Nm": 1
+          },
+          {
+            "joint_id": "kneeR",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.05000000529048052,
+            "error_rad": 0.05000000529048052,
+            "relative_angular_velocity_rad_s": {
+              "x": 1.192094683872008e-7,
+              "y": 5.559037130106621e-9,
+              "z": 1.1677730982496244e-9
+            },
+            "limits": [
+              -0.05,
+              2.3
+            ],
+            "configured_axis_cap_Nm": 1
+          },
+          {
+            "joint_id": "ankleR",
+            "kind": "revolute",
+            "target": 0,
+            "actual": -0.40011456864027695,
+            "error_rad": 0.40011456864027695,
+            "relative_angular_velocity_rad_s": {
+              "x": 0.008448664554364542,
+              "y": 0.01016706562371409,
+              "z": 0.005102364326937231
+            },
+            "limits": [
+              -0.4,
+              0.4
+            ],
+            "configured_axis_cap_Nm": 1
+          }
+        ],
+        "motor_saturation": null,
+        "motor_effort": null,
+        "motor_effort_reason": "Unavailable: supported getters cannot separate motor, contact and limit impulses"
+      },
+      "physics_timing": [
+        {
+          "count": 187,
+          "min": 0.3058000000000902,
+          "mean": 0.38833957219245874,
+          "p95": 0.5504000000000815,
+          "max": 0.7317000000002736
+        },
+        {
+          "count": 187,
+          "min": 0.30500000000029104,
+          "mean": 0.3431064171122452,
+          "p95": 0.4098999999987427,
+          "max": 0.5048000000006141
+        },
+        {
+          "count": 187,
+          "min": 0.3026000000008935,
+          "mean": 0.3443283422459797,
+          "p95": 0.4175999999988562,
+          "max": 0.7467000000015105
+        },
+        {
+          "count": 187,
+          "min": 0.3018000000010943,
+          "mean": 0.3490529411764411,
+          "p95": 0.4812000000001717,
+          "max": 0.6418999999987136
+        },
+        {
+          "count": 187,
+          "min": 0.30320000000028813,
+          "mean": 0.3374877005347452,
+          "p95": 0.4068999999999505,
+          "max": 0.5522999999993772
+        }
+      ]
+    }
+  ],
+  "passive": {
+    "steps": 70,
+    "standing_time": 1.1666666666666667,
+    "config_id": "config:sha256:414ed28b04c2fd0351554014f1c7e8637c5bd8674477c8a13483f410ed31e2aa",
+    "comparison": {
+      "pass": true,
+      "errors": [],
+      "max_deviation": {
+        "position": 0,
+        "rotation": 0,
+        "linear_velocity": 0,
+        "angular_velocity": 0,
+        "contact_point": 0,
+        "contact_load": 0
+      }
+    }
+  },
+  "pass": true
+}

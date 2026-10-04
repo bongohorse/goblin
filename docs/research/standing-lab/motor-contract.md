@@ -72,7 +72,15 @@ Full results must report null/N/A with that reason, never infer actual torque fr
 requested cap or zero tracking error. Diagnostic measurements do not certify every
 full-rig torque; the engine's per-axis cap is a configuration and fixture-validated bound.
 
-## Versioning and gates
+## Current continuation (#44)
+
+The previously planned v2 contract is now implemented with experiment identity
+`native-force-solver32-v2:<hash>`, solely for the explicitly authorized motor-only
+Solver32 Lab continuation. Passive v1/Solver8 is unchanged. See
+[integration and acceptance report](motor-integration-44.md). The Solver8 failures
+below remain historical negative evidence; they are not corrected or reclassified.
+
+## Versioning and gates (historical #41 plan)
 
 Passive config/result schema-v1 is preserved. The planned motor experiment/result schema-v2 embeds
 rig-v1 plus explicitly versioned actuation config, controller_id native-pose-hold-force-v1,

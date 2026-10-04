@@ -465,6 +465,19 @@ Candidate decision is a separately versioned motor-only solver32 experiment, nev
 passive-baseline replacement or accepted stand result. No local command/measurement
 fix proven; #41 remains stopped pending an explicit decision and new continuation order.
 
+### Issue #44 integration (2026-10-04)
+
+#44 explicitly accepts the #43 Solver32 candidate only in the separately versioned
+native ForceBased Motor Lab. Passive v1/Solver8 remains unchanged. Five normal20 Nm
+runs reach60s, five1 Nm runs end at step187/both hands; original passive checkpoints
+match with deviation0. Clean built browser confirms both normal terminal behaviors,
+fresh-world lifecycle and versioned exports. Full-rig actual effort/saturation stays
+unavailable. See [integration report](standing-lab/motor-integration-44.md).
+60s is solely a time criterion: nonzero drift/tracking and no complete secondary
+criteria mean no complete standing acceptance. Native hidden transition, weak-device
+and production CPU budgets remain open. Next step is separate Draft-PR review;
+model A/B, balance and recovery remain separate future work. No production integration.
+
 When new standing research is performed:
 
 1. record the source or fixture;

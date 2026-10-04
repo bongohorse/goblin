@@ -42,7 +42,16 @@ passive run reproduces70 Steps /1.1666666666666667 s /handL and original checkpo
 Build success is not a Gate C pass. No new UI/browser/Live/GPU/Android evidence claimed.
 The existing native hidden-tab QA limit is unchanged.
 
-## Reproduce and resume gate
+## Authorized continuation (#44)
+
+#42 isolated the loaded-chain convergence issue; #43 separately tested motor-only
+Solver32. #44 explicitly authorized integrating that candidate. The v2/UI/lifecycle
+and remaining normal-run/browser checks are now implemented and evidenced in
+[the #44 report](motor-integration-44.md), Draft PR #45. The original Solver8 failure
+and diagnostic script below remain preserved historical evidence. Passive Solver8
+is unchanged. Issues remain open pending separate review/merge; no deployment.
+
+## Reproduce and resume gate (historical #41 handoff)
 
 Use Node24.21.0 and npm ci. Run `npm test`, `npm run build`, then
 `node scripts/standing-motor-diagnostic.js`; optional GOBLIN_MOTOR_DIAGNOSTIC_OUTPUT
