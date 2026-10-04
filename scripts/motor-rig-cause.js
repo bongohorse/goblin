@@ -10,17 +10,17 @@ import {commandMotor,neutralMotorConfig,sphericalMotorView} from '../src/labs/st
 import {jointObservation} from '../src/labs/standing/math.js';
 import {hingeOracle} from './motor-rig-oracle.js';
 await initRapier();
-function entries(world,joints){return [...joints.values()].map(e=>({...e,joint:e.spec.type==='spherical'?sphericalMotorView(world,e.joint,R.JointData.spherical(e.spec.anchorA,e.spec.anchorB)):e.joint,frame:{...e.joint.frameX1()}}));}
-function contacts(sim){
+export function entries(world,joints){return [...joints.values()].map(e=>({...e,joint:e.spec.type==='spherical'?sphericalMotorView(world,e.joint,R.JointData.spherical(e.spec.anchorA,e.spec.anchorB)):e.joint,frame:{...e.joint.frameX1()}}));}
+export function contacts(sim){
   const colliders=[{id:'floor',collider:sim.floor},...[...sim.bodies.values()].map(e=>({id:e.spec.id,collider:e.collider}))].filter(e=>e.collider);
   const out=[];
   for(let a=0;a<colliders.length;a++)for(let b=a+1;b<colliders.length;b++)sim.world.contactPair(colliders[a].collider,colliders[b].collider,(m,flipped)=>{
     for(let i=0;i<m.numContacts();i++)if(m.contactDist(i)<=0)out.push({a:colliders[a].id,b:colliders[b].id,flipped,normal:{...m.normal()},distance:m.contactDist(i),point1:{...m.localContactPoint1(i)},point2:{...m.localContactPoint2(i)},normal_impulse:m.contactImpulse(i),normal_load_N:m.contactImpulse(i)/sim.world.timestep});
   });return out;
 }
-function raw(e,cap){const j=e.joint,a=j.body1(),b=j.body2(),f1=j.frameX1(),f2=j.frameX2();
+export function raw(e,cap){const j=e.joint,a=j.body1(),b=j.body2(),f1=j.frameX1(),f2=j.frameX2();
   return {id:e.spec.id,parent:{rotation:{...a.rotation()},position:{...a.translation()},angular_velocity:{...a.angvel()}},child:{rotation:{...b.rotation()},position:{...b.translation()},angular_velocity:{...b.angvel()}},anchor1:{...j.anchor1()},anchor2:{...j.anchor2()},frame1:{...f1},frame2:{...f2},bind_frame:e.frame,target:e.spec.type==='spherical'?{x:0,y:0,z:0,w:1}:0,cap_Nm:cap,limits:e.spec.limits,existing:jointObservation(e),oracle:e.spec.type==='revolute'?hingeOracle(a.rotation(),b.rotation(),f1,f2):null};}
-function minimal(ids,jointIds,gravity,floor){
+export function minimal(ids,jointIds,gravity,floor){
   const world=new R.World(gravity?BASELINE.gravity:{x:0,y:0,z:0});world.timestep=BASELINE.fixed_dt;
   for(const [k,v] of Object.entries(BASELINE.solver_config))if(k!=='additionalSolverIterations')world.integrationParameters[k]=v;
   const sim={world,bodies:new Map(),joints:new Map(),floor:null,steps:0,terminal:null};
