@@ -144,3 +144,13 @@ For the present G3 work:
 Canonical standing research:
 - `docs/research/active-ragdoll-standing-recovery.md`
 - `docs/research/standing-literature-review-2026-10-04.md`
+
+
+## Broader experiment program
+
+The long-term Labs research backlog, including multi-rig comparison, automated experiment runners, parameter sweeps, evolutionary optimization and deferred learning approaches, is documented in:
+
+- `docs/research/physics-labs-experiment-program.md`
+- GitHub Issue #31
+
+Do not expand a concrete Lab implementation to cover that entire backlog unless a reviewed issue explicitly scopes it.
