@@ -117,3 +117,12 @@ are not assumed deterministic or GPU-equivalent; keep their results separate.
 inner results also use `validateResultProvenance`. `model-ab48/sha256.json` records
 SHA256 for all raw evidence files and the preregistered protocol. No generated
 outputs are runtime assets and no deployment is required for these local checks.
+
+
+## Follow-up review #50
+
+[Review report and fresh evidence](review-50/README.md) confirms the controlled comparison
+and ForceBased decision. A P2 outer report reader gap was fixed; all original evidence
+remains unchanged and valid,30 fresh normal worlds match exactly. See the follow-up
+for clean code/evidence provenance,60 tests, browser reproduction and final CI links
+on Issue50/PR49. No merge or deployment in this review.
