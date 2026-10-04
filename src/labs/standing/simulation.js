@@ -1,18 +1,20 @@
 import RAPIER from '@dimforge/rapier3d-compat';
-import {BASELINE,validateConfig} from './config.js';
+import {BASELINE,validateConfig,validateResult,configIdentity} from './config.js';
 import {vec,norm,sub,jointObservation,freeze} from './math.js';
+import {observe,termination,timingStats} from './measurement.js';
 let initialization;
 export const initRapier=()=>initialization??=RAPIER.init();
 export function colliderDesc(shape){return shape.type==='ball'?RAPIER.ColliderDesc.ball(shape.radius):shape.type==='capsule'?RAPIER.ColliderDesc.capsule(shape.half,shape.radius):RAPIER.ColliderDesc.cuboid(shape.half.x,shape.half.y,shape.half.z);}
 
 export class StandingSimulation {
-  constructor(config=BASELINE){
-    this.config=validateConfig(config);this.disposed=false;this.generation=0;this.reset();
+  constructor(config=BASELINE,metadata={}){
+    this.config=validateConfig(config);this.metadata=freeze(structuredClone(metadata));this.disposed=false;this.generation=0;this.reset();
   }
   reset(){
     if(this.disposed)throw Error('Disposed simulation');
     this.release();this.generation++;this.steps=0;this.paused=true;this.invalid=null;
     this.runId=globalThis.crypto.randomUUID();this.physicsTimes=[];
+    this.observationTimes=[];this.checkpoints=[];this.terminal=null;this.telemetry=null;this.initialCom=null;
     this.bodies=new Map();this.colliders=new Map();this.joints=new Map();
     try{
       this.world=new RAPIER.World(this.config.gravity);this.events=new RAPIER.EventQueue(true);
@@ -32,6 +34,9 @@ export class StandingSimulation {
         joint.setContactsEnabled(false);if(spec.limits)joint.setLimits(...spec.limits);this.joints.set(spec.id,{spec,joint});
       }
       this.auditRig();
+      this.telemetry=observe(this,true);this.initialCom={...this.telemetry.com};
+      this.terminal=termination(this.telemetry.contacts,this.config,0);
+      this.checkpoints.push(this.snapshot());
     }catch(error){this.release();throw error;}
     return this;
   }
@@ -49,10 +54,19 @@ export class StandingSimulation {
   get time(){return this.steps*this.config.fixed_dt;}
   assertLive(){if(this.disposed||!this.world)throw Error('Disposed simulation');}
   step(){
-    this.assertLive();if(this.invalid||this.steps>=this.config.max_steps)return false;
-    const before=performance.now();this.world.step(this.events);this.physicsTimes.push(performance.now()-before);this.steps++;
-    this.events.drainCollisionEvents(()=>{});this.events.drainContactForceEvents(()=>{});
-    this.invalid=this.anomaly();return true;
+    this.assertLive();if(this.terminal)return false;
+    try{
+      this.invalid=this.anomaly();if(this.invalid)throw Error(this.invalid);
+      const before=performance.now();this.world.step(this.events);this.physicsTimes.push(performance.now()-before);this.steps++;
+      this.events.drainCollisionEvents(()=>{});this.events.drainContactForceEvents(()=>{});
+      this.invalid=this.anomaly();
+      if(this.invalid)throw Error(this.invalid);
+      const observationStart=performance.now();this.telemetry=observe(this);this.observationTimes.push(performance.now()-observationStart);
+      this.terminal=termination(this.telemetry.contacts,this.config,this.steps);
+      if([1,10,30,60].includes(this.steps)||this.terminal)this.checkpoints.push(this.snapshot());
+    }catch(error){this.invalid=String(error.message);this.telemetry=null;this.terminal=termination([],this.config,this.steps,this.invalid);}
+    if(this.terminal)this.paused=true;
+    return true;
   }
   anomaly(){
     if(this.world.bodies.len()!==15||this.world.colliders.len()!==16||this.world.impulseJoints.len()!==14)return 'lost_resource';
@@ -65,8 +79,14 @@ export class StandingSimulation {
     for(const j of this.joints.values()){const o=jointObservation(j);if(o.anchor_error>.08||(o.limit_violation??0)>.05)return 'constraint_error:'+o.id;}
     return null;
   }
-  snapshot(){this.assertLive();return freeze({step:this.steps,bodies:[...this.bodies.values()].sort((a,b)=>a.spec.id.localeCompare(b.spec.id)).map(({spec,body})=>({id:spec.id,position:{...body.translation()},rotation:{...body.rotation()},linear_velocity:{...body.linvel()},angular_velocity:{...body.angvel()}})),contacts:[]});}
+  snapshot(){this.assertLive();return freeze({step:this.steps,bodies:[...this.bodies.values()].sort((a,b)=>a.spec.id.localeCompare(b.spec.id)).map(({spec,body})=>({id:spec.id,position:{...body.translation()},rotation:{...body.rotation()},linear_velocity:{...body.linvel()},angular_velocity:{...body.angvel()}})),contacts:structuredClone(this.telemetry?.contacts??[])});}
+  async result(){
+    this.assertLive();
+    // Capture synchronously before hash awaits: reset/export races cannot mix runs.
+    const result={schema_version:1,run_id:this.runId,run_index:this.metadata.run_index??1,rig_id:this.config.rig_id,controller_id:'none',config:structuredClone(this.config),git_commit:this.metadata.git_commit??'0000000000000000000000000000000000000000',dirty:this.metadata.dirty??true,build_id:this.metadata.build_id??'unspecified',rapier_js_version:RAPIER.version(),rapier_upstream_commit:'b716d375efc0201003f0cd9ef7168eee0b62c177',fixed_dt:this.config.fixed_dt,solver_config:structuredClone(this.config.solver_config),simulation_steps:this.steps,observed_time:this.time,...(this.terminal??{termination_reason:'incomplete',failure_reason:null,failure_bodies:[],failure_body:null,failure_step:null,standing_time:null,invalid_detail:null}),fall_cause:'unknown',telemetry:structuredClone(this.telemetry),physics_timing:timingStats(this.physicsTimes),observation_timing:timingStats(this.observationTimes),platform:structuredClone(this.metadata.platform??{os:'unspecified',runtime:'unspecified',host:'unspecified',user_agent:null}),checkpoints:structuredClone(this.checkpoints),unreached_checkpoints:[0,1,10,30,60].filter(n=>!this.checkpoints.some(c=>c.step===n))};
+    Object.assign(result,await configIdentity(result.config));validateResult(result);return freeze(result);
+  }
   counts(){this.assertLive();return {bodies:this.world.bodies.len(),colliders:this.world.colliders.len(),joints:this.world.impulseJoints.len()};}
   release(){this.events?.free();this.world?.free();this.events=null;this.world=null;this.floor=null;this.bodies?.clear();this.colliders?.clear();this.joints?.clear();}
-  dispose(){if(this.disposed)return;this.release();this.disposed=true;this.paused=true;this.physicsTimes=[];}
+  dispose(){if(this.disposed)return;this.release();this.disposed=true;this.paused=true;this.physicsTimes=[];this.observationTimes=[];this.checkpoints=[];this.telemetry=null;this.initialCom=null;this.terminal=null;}
 }

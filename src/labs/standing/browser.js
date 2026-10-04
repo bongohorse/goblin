@@ -5,7 +5,7 @@ import './style.css';
 
 const panel=document.querySelector('#readout');
 async function start(){
-  await initRapier();const sim=new StandingSimulation(),clock=new LabClock(sim.config.fixed_dt);
+  await initRapier();const sim=new StandingSimulation(undefined,{...__STANDING_BUILD__,platform:{os:navigator.platform,runtime:'browser',host:location.host,user_agent:navigator.userAgent}}),clock=new LabClock(sim.config.fixed_dt);
   const host=document.querySelector('#view'),renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));host.append(renderer.domElement);
   const scene=new THREE.Scene();scene.background=new THREE.Color('#19222c');
   const camera=new THREE.PerspectiveCamera(40,1,.05,50);camera.position.set(4,2.8,5);camera.lookAt(0,1.25,0);
@@ -19,17 +19,25 @@ async function start(){
   listen(document.querySelector('#resume'),'click',()=>{sim.paused=false;clock.reset();});listen(document.querySelector('#pause'),'click',pause);
   listen(document.querySelector('#step'),'click',()=>{pause();sim.step();});listen(document.querySelector('#reset'),'click',()=>{sim.reset();clock.reset();});
   listen(document,'visibilitychange',pause);
+  const exportButton=document.querySelector('#export');exportButton.disabled=false;
+  listen(exportButton,'click',async()=>{
+    try{
+      const result=await sim.result(),url=URL.createObjectURL(new Blob([JSON.stringify(result,null,2)],{type:'application/json'}));
+      const a=document.createElement('a');a.href=url;a.download=result.run_id+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),0);
+    }catch(error){panel.textContent='Export failed: '+error.message;console.error(error);}
+  });
   let lastWidth=0,lastHeight=0;
   function frame(now){
-    clock.advance(now/1000,sim.paused||!!sim.invalid,()=>sim.step());
+    clock.advance(now/1000,sim.paused||!!sim.terminal,()=>sim.step());
     const width=host.clientWidth,height=host.clientHeight;if(width!==lastWidth||height!==lastHeight){renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();lastWidth=width;lastHeight=height;}
     const state=sim.snapshot();for(const b of state.bodies){meshes.get(b.id).position.copy(b.position);meshes.get(b.id).quaternion.copy(b.rotation);}
     if(document.querySelector('#render').checked)renderer.render(scene,camera);
-    panel.textContent=JSON.stringify({step:sim.steps,time_s:sim.time,paused:sim.paused,invalid:sim.invalid,...sim.counts()},null,2);
+    const t=sim.telemetry;
+    panel.textContent=JSON.stringify({step:sim.steps,time_s:sim.time,paused:sim.paused,termination:sim.terminal?.termination_reason??'incomplete',failure_bodies:sim.terminal?.failure_bodies??[],invalid:sim.invalid,com_m:t?.com,com_velocity_m_s:t?.com_velocity,drift_m:t?.drift,foot_loads_N:t?.foot_loads,joint_anchor_error_m:t?Math.max(...t.joints.map(j=>j.anchor_error)):null,joint_limit_violation_rad:t?Math.max(...t.joints.map(j=>j.limit_violation??0)):null,...sim.counts()},null,2);
   }
   renderer.setAnimationLoop(frame);
   // Lab-only diagnostics; no production dependency or physical transform mutation.
-  window.standingLab={snapshot:()=>sim.snapshot(),counts:()=>sim.counts(),diagnostics:()=>({generation:sim.generation,run_id:sim.runId,step:sim.steps,paused:sim.paused,invalid:sim.invalid,...sim.counts(),listeners:bindings.length,geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures,programs:renderer.info.programs.length}),destroy(){renderer.setAnimationLoop(null);sim.dispose();bindings.forEach(([t,e,f])=>t.removeEventListener(e,f));owned.forEach(r=>r.dispose());renderer.dispose();renderer.domElement.remove();delete window.standingLab;}};
+  window.standingLab={snapshot:()=>sim.snapshot(),result:()=>sim.result(),counts:()=>sim.counts(),diagnostics:()=>({generation:sim.generation,run_id:sim.runId,step:sim.steps,paused:sim.paused,invalid:sim.invalid,termination:sim.terminal,...sim.counts(),listeners:bindings.length,geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures,programs:renderer.info.programs.length}),destroy(){renderer.setAnimationLoop(null);sim.dispose();bindings.forEach(([t,e,f])=>t.removeEventListener(e,f));owned.forEach(r=>r.dispose());renderer.dispose();renderer.domElement.remove();delete window.standingLab;}};
   listen(window,'pagehide',()=>window.standingLab?.destroy());
 }
 start().catch(error=>{panel.textContent='Lab failed: '+error.message;console.error(error);});

@@ -12,6 +12,7 @@ export function validateConfig(input){
   if(ids.size!==15||new Set(config.bodies.map(b=>b.collider_id)).size!==15||new Set(config.joints.map(j=>j.id)).size!==14)throw Error('Duplicate IDs');
   if(config.bodies.filter(b=>b.body_class==='foot').map(b=>b.id).sort().join()!=='footL,footR')throw Error('Foot taxonomy');
   if(!['pelvis','torso','head'].every(id=>ids.has(id)))throw Error('Missing trunk');
+  if(Object.values(config.floor.half).some(n=>n<=0)||config.floor.friction<0||config.floor.restitution<0||config.floor.restitution>1)throw Error('Invalid floor');
   for(const b of config.bodies){
     if(Math.abs(Math.hypot(...Object.values(b.rotation))-1)>1e-6)throw Error('Nonunit quaternion');
     if(b.shape.type==='cuboid'&&Object.values(b.shape.half).some(x=>x<=0))throw Error('Invalid cuboid');
@@ -30,6 +31,20 @@ export function validateConfig(input){
   if(reached.size!==15)throw Error('Disconnected rig');
   return freeze(config);
 }
-export function validateResult(result){if(!resultValidator(result))throw Error('Invalid result: '+ajv.errorsText(resultValidator.errors));return result;}
+export function validateResult(result){
+  if(!resultValidator(result))throw Error('Invalid result: '+ajv.errorsText(resultValidator.errors));
+  validateConfig(result.config);
+  if(result.fixed_dt!==result.config.fixed_dt||canonical(result.solver_config)!==canonical(result.config.solver_config)||result.rig_id!==result.config.rig_id||result.simulation_steps>result.config.max_steps||Math.abs(result.observed_time-result.simulation_steps*result.fixed_dt)>1e-12)throw Error('Inconsistent result config/time');
+  const ids=[...new Set(result.failure_bodies)].sort();
+  if(canonical(ids)!==canonical(result.failure_bodies)||ids.some(id=>!result.config.bodies.some(b=>b.id===id&&b.body_class==='non_foot')))throw Error('Inconsistent failure taxonomy');
+  const reason=result.termination_reason;
+  if(['non_foot_contact','invalid_start'].includes(reason)){
+    if(!ids.length||result.failure_body!==ids[0]||result.failure_step!==result.simulation_steps||result.standing_time!==result.observed_time||result.failure_reason!==(reason==='invalid_start'?'invalid_start_contact':'non_foot_floor_contact')||(reason==='invalid_start'&&result.simulation_steps!==0))throw Error('Inconsistent contact termination');
+  }else if(reason==='timeout'){
+    if(result.simulation_steps!==result.config.max_steps||ids.length||result.failure_body!==null||result.failure_step!==null||result.failure_reason!==null||result.standing_time!==result.observed_time)throw Error('Inconsistent timeout');
+  }else if(result.standing_time!==null||ids.length||result.failure_body!==null)throw Error('Invalid/incomplete result cannot claim standing time');
+  if(reason==='invalid_simulation'&&(!result.invalid_detail||result.failure_reason!=='invalid_simulation'))throw Error('Missing invalid cause');
+  return result;
+}
 export function canonical(value){if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';if(value&&typeof value==='object')return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+canonical(value[k])).join(',')+'}';return JSON.stringify(value);}
 export async function configIdentity(config){const hash=await globalThis.crypto.subtle.digest('SHA-256',new TextEncoder().encode(canonical(config)));const hex=Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');return {config_id:'config:sha256:'+hex,experiment_id:'passive-v1:'+hex};}

@@ -52,7 +52,7 @@ test('one fixed step path, pause/resume/stall discard and passive fall remain bo
   try{
     clock.advance(0,false,()=>a.step());for(let i=1;i<=60;i++)clock.advance(i/60,false,()=>a.step());for(let i=0;i<60;i++)b.step();assert.deepEqual(a.snapshot(),b.snapshot());
     const steps=a.steps;clock.advance(100,true,()=>a.step());clock.advance(200,false,()=>a.step());assert.equal(a.steps,steps);clock.advance(300,false,()=>a.step());assert.equal(a.steps,steps+3);a.step();assert.equal(a.steps,steps+4);
-    for(let i=0;i<400;i++){a.step();assert.equal(a.invalid,null);}assert.ok(a.bodies.get('head').body.translation().y<1,'passive fall');
+    for(let i=0;i<400;i++){a.step();assert.equal(a.invalid,null);}assert.equal(a.terminal.termination_reason,'non_foot_contact','passive fall stops at first non-foot contact');
   }finally{a.dispose();b.dispose();}
 });
 
