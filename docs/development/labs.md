@@ -77,9 +77,19 @@ No weapons, boxes, combat, AI, normal arena logic or gameplay objectives.
 
 ## Standing Lab measurements
 
+### Primary standing metric
+
+Standing time is measured from simulation start until the **first floor contact by any Goblin body part other than the feet**.
+
+- Foot-floor contacts are allowed and expected.
+- The first hand, knee, shin, pelvis, torso, head, arm or other non-foot floor contact ends the run.
+- Record the exact elapsed time for every run.
+- **60.0 seconds or more is the full Standing Lab success condition.**
+- Shorter runs remain valid measurements for regression and A/B comparison; they are not separate pass gates.
+
 Expose at minimum:
 
-- elapsed standing time / fall time;
+- standing time as defined above;
 - pelvis and torso orientation;
 - center of mass;
 - center-of-mass velocity;
