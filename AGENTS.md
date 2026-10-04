@@ -79,6 +79,8 @@ Project dependency: `three ^0.186.1`. The official `mrdoob/three.js` `dev` branc
 
 Project dependency: `@dimforge/rapier3d-compat ^0.21.0`. Upstream Rapier master is newer, so agents must verify the installed version before using APIs from current upstream docs/changelog.
 
+Canonical standing/recovery research: `docs/research/active-ragdoll-standing-recovery.md`. Read it before G3 standing, balance, push-recovery or get-up work; update it when new research changes evidence, tradeoffs or the recommended experiment order.
+
 ### Three.js WebGPU / TSL
 - `threejs-webgpu-tsl`: optional WebGPU renderer and TSL/node-material work
 - `threejs-webgpu-compute`: measured GPU-compute workloads such as large visual particle simulations
