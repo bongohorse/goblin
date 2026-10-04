@@ -439,6 +439,19 @@ They should not influence the standing implementation unless a finding is direct
 
 ## Update protocol
 
+### Issue #43 candidate validation (2026-10-04)
+
+Separately hashed motor-solver-candidate-v1 configurations (caps20/1, solver8/32)
+keep passive-v1/solver8 unchanged. Five fresh normal plus five separate diagnostic
+continuations per case: solver8 repeats110/ankleL and140/elbowR invalids; solver32
+both caps reaches60s diagnostics within the unchanged .05/.08 bounds.20 Nm normal
+times out60s;1 Nm normal ends at187/hand contact (3.1166666666666667s), subsequent
+head impact192 is included only in the diagnostic continuation. Median matched
+early-segment world.step cost is about3.3x solver8 on Windows/Ryzen5600X; no dedicated
+motor CPU budget or weak-device/browser acceptance established. See
+[full candidate decision](standing-lab/motor-solver43.md). Suitable numerical candidate
+for a separately authorized next Lab integration; #41 remains stopped, no merge.
+
 ### Issue #42 diagnosis (2026-10-04)
 
 The #41 motor-rig blocker is a real limit breach, confirmed by an independent
