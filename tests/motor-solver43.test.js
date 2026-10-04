@@ -25,3 +25,12 @@ test('diagnostic continuation retains the original anomaly guard and never expor
   assert.equal(r.standing_time,null);assert.equal(r.accepted_standing_evidence,false);assert.ok(r.first_nonfoot_contact);
   assert.ok(r.metrics.first_limit_safety_crossing.value>.05);
 });
+test('solver32 contact end remains separate from guarded diagnostic continuation through the head impact',()=>{
+  const config=experimentConfig(1,32),normal=candidateRun(config,{horizon:200}),diagnostic=candidateRun(config,{mode:'diagnostic-after-contact',horizon:200});
+  assert.equal(normal.steps,187);assert.equal(normal.end.termination_reason,'non_foot_contact');
+  assert.deepEqual(normal.end.failure_bodies,['handL','handR']);assert.equal(normal.standing_time,187/60);
+  assert.equal(diagnostic.steps,200);assert.equal(diagnostic.standing_time,null);
+  assert.equal(diagnostic.first_normal_terminal.failure_step,187);assert.ok(diagnostic.contact_onsets.some(e=>e.step===192&&e.pair==='floor/head'));
+  assert.ok(diagnostic.metrics.limit_error_rad.value<.05);assert.equal(diagnostic.metrics.first_limit_safety_crossing,null);
+  assert.notEqual(normal.state_contact_sequence_hash,diagnostic.state_contact_sequence_hash);
+});
