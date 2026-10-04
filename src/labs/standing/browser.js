@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {StandingSimulation,initRapier} from './simulation.js';
 import {LabClock} from './clock.js';
 import {motorExperiment} from './motor-config.js';
+import {modelExperiment} from './model-config.js';
 import './style.css';
 
 const panel=document.querySelector('#readout');
@@ -21,8 +22,8 @@ async function start(){
   listen(document.querySelector('#resume'),'click',()=>{if(!sim.terminal)sim.paused=false;clock.reset();});listen(document.querySelector('#pause'),'click',pause);
   listen(document.querySelector('#step'),'click',()=>{pause();sim.step();});listen(document.querySelector('#reset'),'click',()=>{sim.reset();generation++;clock.reset();});
   const selection=document.querySelector('#mode'),description=document.querySelector('#mode-note');
-  function describeMode(){description.textContent=sim.motor?'Native ForceBased100/12, Moving-Frame targets, Solver32. Lab candidate; actual motor torque/saturation unavailable.60s is only the time criterion.':'Passive v1, Solver8, no active motors. Original baseline unchanged.';}
-  listen(selection,'change',()=>{const next=selection.value==='passive'?null:motorExperiment(selection.value==='motor1'?1:20);const previous=sim;sim=new StandingSimulation(undefined,metadata,next);previous.dispose();generation++;clock.reset();describeMode();});
+  function describeMode(){const a=sim.motor?.config;description.textContent=a?`Native ${a.model} ${a.stiffness}/${a.damping}, ${a.gain_units??'Nm/rad;Nm*s/rad'}, Moving-Frame targets, Solver32. ${sim.experiment.comparison_question==='scalar-calibrated'?'Scalar fixture calibration only; no equivalence across rig axes. ':''}Lab candidate; actual motor torque/saturation unavailable.60s is only the time criterion.`:'Passive v1, Solver8, no active motors. Original baseline unchanged.';}
+  listen(selection,'change',()=>{const key=selection.value;const next=key==='passive'?null:key.startsWith('study-')?modelExperiment(key.split('-')[1]==='force'?'ForceBased':'AccelerationBased',Number(key.split('-')[2]),key.split('-')[1]==='calibrated'):motorExperiment(key==='motor1'?1:20);const previous=sim;sim=new StandingSimulation(undefined,metadata,next);previous.dispose();generation++;clock.reset();describeMode();});
   describeMode();
   listen(document,'visibilitychange',pause);
   const exportButton=document.querySelector('#export');exportButton.disabled=false;

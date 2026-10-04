@@ -116,11 +116,37 @@ async function main(){
     const quantiles=xs=>{const s=xs.slice().sort((a,b)=>a-b);return {count:s.length,median:s[Math.floor(s.length/2)],p95:s[Math.floor(s.length*.95)],max:s.at(-1)};};
     const motorCPUSummary=motorCPU.map(({cap,samples})=>({cap,warmup_discarded_steps:20,physics:quantiles(samples.physics.slice(20)),commands:quantiles(samples.commands.slice(20)),observation:quantiles(samples.observation.slice(20)),scope:'Browser wall time; world.step separate from commands/observation, rendering excluded; full trajectory, not Node43 matched60-step benchmark',samples}));
 
+    // Issue48: separate schema3 identities; normal clock/termination, no contact continuation.
+    const studyResults=[];
+    if(process.env.GOBLIN_MODEL_OUTPUT){
+      for(const [label,model,calibrated] of [['force','ForceBased',false],['acceleration','AccelerationBased',false],['calibrated','AccelerationBased',true]])for(const cap of [20,1]){
+        const mode=`study-${label}-${cap}`;await page.locator('#mode').selectOption(mode);
+        await page.locator('#step').click();await page.locator('#step').click();
+        const partial=await page.evaluate(()=>standingLab.result());await validateResultProvenance(partial);
+        assert.equal(partial.schema_version,3);assert.equal(partial.simulation_steps,2);assert.equal(partial.config.actuation.model,model);
+        await page.locator('#reset').click();assert.equal((await diag()).step,0);
+        await page.locator('#resume').click();await page.waitForFunction(()=>standingLab.diagnostics().step>=10||standingLab.diagnostics().termination!==null);
+        await page.locator('#pause').click();const stopped=await diag();await page.waitForTimeout(100);assert.equal((await diag()).step,stopped.step);
+        await page.locator('#reset').click();await page.locator('#resume').click();
+        await page.waitForFunction(()=>standingLab.diagnostics().termination!==null,null,{timeout:180000});
+        const result=await page.evaluate(()=>standingLab.result());await validateResultProvenance(result);
+        const expected=JSON.parse(fs.readFileSync(`${process.env.GOBLIN_MODEL_OUTPUT}/${model}-${cap}-${calibrated?'calibrated':'numbers'}-normal-1.json`)).result;
+        const comparison=compareResults(expected,result);assert.equal(comparison.pass,true);
+        const endStep=(await diag()).step;await page.locator('#step').click();assert.equal((await diag()).step,endStep);
+        const pending=page.waitForEvent('download');await page.locator('#export').click();const exported=await pending;
+        assert.deepEqual(JSON.parse(fs.readFileSync(await exported.path())),result);
+        await page.screenshot({path:directory+`/${mode}.png`});
+        studyResults.push({mode,result,comparison});
+        console.log(JSON.stringify({study_mode:mode,steps:result.simulation_steps,termination:result.termination_reason,browser_node_match:comparison.pass}));
+      }
+      await page.locator('#mode').selectOption('passive');await page.reload();await page.waitForFunction(()=>window.standingLab);assert.equal((await diag()).mode,'passive');
+    }
+
     const mobileContext=await browser.newContext({viewport:{width:744,height:360},hasTouch:true,isMobile:true,deviceScaleFactor:2});
     const mobile=await mobileContext.newPage();monitor(mobile);await mobile.goto(base+'labs/standing/');await mobile.waitForFunction(()=>window.standingLab);
     await mobile.locator('#step').tap();assert.equal((await mobile.evaluate(()=>standingLab.diagnostics())).step,1);
     await mobile.locator('#reset').tap();assert.equal((await mobile.evaluate(()=>standingLab.diagnostics())).step,0);
-    await mobile.locator('#mode').selectOption('motor1');await mobile.locator('#step').tap();assert.equal((await mobile.evaluate(()=>standingLab.diagnostics())).step,1);
+    await mobile.locator('#mode').selectOption(process.env.GOBLIN_MODEL_OUTPUT?'study-calibrated-20':'motor1');await mobile.locator('#step').tap();assert.equal((await mobile.evaluate(()=>standingLab.diagnostics())).step,1);
     await mobile.locator('#reset').tap();assert.equal((await mobile.evaluate(()=>standingLab.diagnostics())).motor_entries,14);
     await mobile.screenshot({path:directory+'/motor-mobile-landscape.png'});
     const overflow=await mobile.evaluate(()=>document.documentElement.scrollWidth>innerWidth);assert.equal(overflow,false);
@@ -135,7 +161,7 @@ async function main(){
     assert.deepEqual(disposal,{removed:true,canvasRemoved:true,retainedRejects:true});
     assert.deepEqual(errors,[]);assert.deepEqual(failedResponses,[]);
     const report={command:'npm run lab:browser',method:'Playwright direct',playwright_version:require('playwright/package.json').version,executable_path:options.executablePath||chromium.executablePath(),headless:options.headless,harness_provenance:harness,node:process.version,platform:`${os.platform()} ${os.release()} ${os.arch()}`,browser:await browser.version(),mode:(options.headless?'headless':'headed')+' production build; not GPU performance',build_provenance:{git_commit:rendered[0].git_commit,dirty:rendered[0].dirty,build_id:rendered[0].build_id},checks:['Pages direct/reload/assets','pause/resume bounded','single-step','resize while paused','visibility handler','20 fresh resets/counts stable','render on/off','Node/browser checkpoints','failure/export','touch landscape','production start/pointer/reset','destroy/retained refs'],native_tab_hidden_observed:actualHidden,synthetic_visibility_handler_checked:true,resource_samples:resetSamples.map(({generation,bodies,colliders,joints,listeners,geometries,textures,programs})=>({generation,bodies,colliders,joints,listeners,geometries,textures,programs})),standing_time:rendered[0].standing_time,failure_bodies:rendered[0].failure_bodies,node_comparison:nodeComparison,disposal,errors,warnings,failedResponses};
-    Object.assign(report,{motor20_wall_seconds:motor20WallSeconds,motor_mode_samples:modeSamples,motor_results:motorResults.map(({config_id,experiment_id,schema_version,simulation_steps,standing_time,failure_bodies,telemetry})=>({config_id,experiment_id,schema_version,simulation_steps,standing_time,failure_bodies,telemetry})),motor_export_race:{old_schema:exportRace.result.schema_version,current_mode:exportRace.current.mode},motor_cpu:motorCPUSummary});
+    Object.assign(report,{study_results:studyResults,motor20_wall_seconds:motor20WallSeconds,motor_mode_samples:modeSamples,motor_results:motorResults.map(({config_id,experiment_id,schema_version,simulation_steps,standing_time,failure_bodies,telemetry})=>({config_id,experiment_id,schema_version,simulation_steps,standing_time,failure_bodies,telemetry})),motor_export_race:{old_schema:exportRace.result.schema_version,current_mode:exportRace.current.mode},motor_cpu:motorCPUSummary});
     fs.writeFileSync(directory+'/browser-qa.json',JSON.stringify(report)+'\n');for(const r of motorResults)fs.writeFileSync(directory+`/browser-motor${r.config.actuation.max_torque_Nm}.json`,JSON.stringify(r)+'\n');
     console.log(JSON.stringify({browser:report.browser,build_provenance:report.build_provenance,native_hidden:report.native_tab_hidden_observed,errors,warnings,failedResponses,motor20_wall_seconds:motor20WallSeconds,motor_steps:motorResults.map(r=>r.simulation_steps),motor_cpu:motorCPUSummary.map(({samples,...s})=>s)}));
   }finally{await browser?.close();await new Promise(resolve=>server.close(resolve));}

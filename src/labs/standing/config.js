@@ -3,11 +3,14 @@ import baseline from '../../../docs/research/standing-lab/baseline-config.json' 
 import configSchema from '../../../docs/research/standing-lab/config.schema.json' with {type:'json'};
 import resultSchema from '../../../docs/research/standing-lab/result.schema.json' with {type:'json'};
 import motorResultSchema from '../../../docs/research/standing-lab/motor-result.schema.json' with {type:'json'};
+import modelResultSchema from '../../../docs/research/standing-lab/model-result.schema.json' with {type:'json'};
 import {validateMotorExperiment} from './motor-config.js';
+import {validateModelExperiment} from './model-config.js';
 import {freeze,norm,sub,add,rotate,vec,rotationDistance,multiply,conjugate} from './math.js';
 const ajv=new Ajv({allErrors:true,strict:true});
 const configValidator=ajv.compile(configSchema),resultValidator=ajv.compile(resultSchema);
 const motorResultValidator=ajv.compile(motorResultSchema);
+const modelResultValidator=ajv.compile(modelResultSchema);
 export const BASELINE=freeze(baseline);
 export function validateConfig(input){
   if(!configValidator(input))throw Error('Invalid config: '+ajv.errorsText(configValidator.errors));
@@ -37,9 +40,9 @@ export function validateConfig(input){
   return freeze(config);
 }
 export function validateResult(result){
-  const motor=result?.schema_version===2,validator=motor?motorResultValidator:resultValidator;
+  const study=result?.schema_version===3,motor=study||result?.schema_version===2,validator=study?modelResultValidator:motor?motorResultValidator:resultValidator;
   if(!validator(result))throw Error('Invalid result: '+ajv.errorsText(validator.errors));
-  if(motor)validateMotorExperiment(result.config);else validateConfig(result.config);
+  if(study)validateModelExperiment(result.config);else if(motor)validateMotorExperiment(result.config);else validateConfig(result.config);
   const rig=motor?result.config.rig:result.config;
   if(result.fixed_dt!==rig.fixed_dt||canonical(result.solver_config)!==canonical(result.config.solver_config)||result.rig_id!==rig.rig_id||result.simulation_steps>rig.max_steps||Math.abs(result.observed_time-result.simulation_steps*result.fixed_dt)>1e-12)throw Error('Inconsistent result config/time');
   const ids=[...new Set(result.failure_bodies)].sort();
@@ -51,7 +54,7 @@ export function validateResult(result){
     if(result.simulation_steps!==rig.max_steps||ids.length||result.failure_body!==null||result.failure_step!==null||result.failure_reason!==null||result.standing_time!==result.observed_time)throw Error('Inconsistent timeout');
   }else if(result.standing_time!==null||ids.length||result.failure_body!==null)throw Error('Invalid/incomplete result cannot claim standing time');
   if(reason==='invalid_simulation'&&(!result.invalid_detail||result.failure_reason!=='invalid_simulation'))throw Error('Missing invalid cause');
-  if(!/^config:sha256:[a-f0-9]{64}$/.test(result.config_id)||result.experiment_id!==(motor?'native-force-solver32-v2:':'passive-v1:')+result.config_id.slice(14))throw Error('Invalid config identity');
+  if(!/^config:sha256:[a-f0-9]{64}$/.test(result.config_id)||result.experiment_id!==experimentPrefix(result.schema_version)+result.config_id.slice(14))throw Error('Invalid config identity');
   const bodyIds=rig.bodies.map(b=>b.id).sort(),jointIds=rig.joints.map(j=>j.id).sort();
   const steps=result.checkpoints.map(c=>c.step);
   if(!steps.length||steps[0]!==0||steps.some((s,i)=>s>result.simulation_steps||(i>0&&s<=steps[i-1])))throw Error('Invalid checkpoint steps');
@@ -103,4 +106,5 @@ export async function validateResultProvenance(result){
   return result;
 }
 export function canonical(value){if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';if(value&&typeof value==='object')return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+canonical(value[k])).join(',')+'}';return JSON.stringify(value);}
-export async function configIdentity(config){const hash=await globalThis.crypto.subtle.digest('SHA-256',new TextEncoder().encode(canonical(config)));const hex=Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');return {config_id:'config:sha256:'+hex,experiment_id:(config.schema_version===2?'native-force-solver32-v2:':'passive-v1:')+hex};}
+const experimentPrefix=version=>version===3?'native-model-ab-v3:':version===2?'native-force-solver32-v2:':'passive-v1:';
+export async function configIdentity(config){const hash=await globalThis.crypto.subtle.digest('SHA-256',new TextEncoder().encode(canonical(config)));const hex=Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');return {config_id:'config:sha256:'+hex,experiment_id:experimentPrefix(config.schema_version)+hex};}

@@ -4,15 +4,16 @@ import {vec,norm,sub,jointObservation,freeze} from './math.js';
 import {observe,termination,timingStats} from './measurement.js';
 import {NativePoseHold} from './motors.js';
 import {validateMotorExperiment} from './motor-config.js';
+import {validateModelExperiment,validateModelActuation} from './model-config.js';
 let initialization;
 export const initRapier=()=>initialization??=RAPIER.init();
 export function colliderDesc(shape){return shape.type==='ball'?RAPIER.ColliderDesc.ball(shape.radius):shape.type==='capsule'?RAPIER.ColliderDesc.capsule(shape.half,shape.radius):RAPIER.ColliderDesc.cuboid(shape.half.x,shape.half.y,shape.half.z);}
 
 export class StandingSimulation {
   constructor(config=BASELINE,metadata={},experiment=null){
-    this.config=validateConfig(config);this.metadata=freeze(structuredClone(metadata));this.experiment=experiment?validateMotorExperiment(experiment):null;
+    this.config=validateConfig(config);this.metadata=freeze(structuredClone(metadata));this.experiment=experiment?(experiment.schema_version===3?validateModelExperiment(experiment):validateMotorExperiment(experiment)):null;
     if(this.experiment&&canonical(this.config)!==canonical(BASELINE))throw Error('Motor rig must be the frozen baseline');
-    this.motor=this.experiment?new NativePoseHold(this.experiment.actuation,this.config):null;this.disposed=false;this.generation=0;this.reset();
+    this.motor=this.experiment?new NativePoseHold(this.experiment.actuation,this.config,this.experiment.schema_version===3?validateModelActuation:undefined):null;this.disposed=false;this.generation=0;this.reset();
   }
   reset(){
     if(this.disposed)throw Error('Disposed simulation');
@@ -91,7 +92,7 @@ export class StandingSimulation {
     this.assertLive();
     // Capture synchronously before hash awaits: reset/export races cannot mix runs.
     const result={schema_version:1,run_id:this.runId,run_index:this.metadata.run_index??1,rig_id:this.config.rig_id,controller_id:'none',config:structuredClone(this.config),git_commit:this.metadata.git_commit??'0000000000000000000000000000000000000000',dirty:this.metadata.dirty??true,build_id:this.metadata.build_id??'unspecified',rapier_js_version:RAPIER.version(),rapier_upstream_commit:'b716d375efc0201003f0cd9ef7168eee0b62c177',fixed_dt:this.config.fixed_dt,solver_config:structuredClone(this.config.solver_config),simulation_steps:this.steps,observed_time:this.time,...(this.terminal??{termination_reason:'incomplete',failure_reason:null,failure_bodies:[],failure_body:null,failure_step:null,standing_time:null,invalid_detail:null}),fall_cause:'unknown',telemetry:structuredClone(this.telemetry),physics_timing:timingStats(this.physicsTimes),observation_timing:timingStats(this.observationTimes),platform:structuredClone(this.metadata.platform??{os:'unspecified',runtime:'unspecified',host:'unspecified',user_agent:null}),checkpoints:structuredClone(this.checkpoints),unreached_checkpoints:[0,1,10,30,60].filter(n=>!this.checkpoints.some(c=>c.step===n))};
-    if(this.experiment)Object.assign(result,{schema_version:2,controller_id:this.experiment.controller_id,config:structuredClone(this.experiment),solver_config:structuredClone(this.experiment.solver_config),motor_commands_timing:timingStats(this.commandTimes)});
+    if(this.experiment)Object.assign(result,{schema_version:this.experiment.schema_version,controller_id:this.experiment.controller_id,config:structuredClone(this.experiment),solver_config:structuredClone(this.experiment.solver_config),motor_commands_timing:timingStats(this.commandTimes)});
     // Motor tracking must have body evidence at the clicked step, including
     // incomplete exports between scheduled checkpoints. Do not mutate the run.
     if(this.experiment&&this.telemetry&&result.checkpoints.at(-1).step!==this.steps)result.checkpoints.push(structuredClone(this.snapshot()));
