@@ -1,0 +1,438 @@
+{
+  "diagnostic_only": true,
+  "accepted_standing_evidence": false,
+  "command": "node scripts/standing-motor-diagnostic.js",
+  "base": "06b520628502593d034485ee21fb8428daa6781b",
+  "git_commit": "e15d1137a2bff251cbcf063c9cb36fd75e07ad76",
+  "dirty": false,
+  "node": "v24.21.0",
+  "os": "win32 10.0.26300",
+  "rapier": "0.21.0",
+  "motor_runs": [
+    {
+      "config": {
+        "schema_version": 1,
+        "controller_id": "native-pose-hold-force-v1",
+        "model": "ForceBased",
+        "target_convention": "moving-frame-v1",
+        "stiffness": 100,
+        "damping": 12,
+        "max_torque_Nm": 20,
+        "targets": [
+          {
+            "id": "spine",
+            "target": 0
+          },
+          {
+            "id": "neck",
+            "target": 0
+          },
+          {
+            "id": "shoulderL",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            }
+          },
+          {
+            "id": "elbowL",
+            "target": 0
+          },
+          {
+            "id": "wristL",
+            "target": 0
+          },
+          {
+            "id": "hipL",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            }
+          },
+          {
+            "id": "kneeL",
+            "target": 0
+          },
+          {
+            "id": "ankleL",
+            "target": 0
+          },
+          {
+            "id": "shoulderR",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            }
+          },
+          {
+            "id": "elbowR",
+            "target": 0
+          },
+          {
+            "id": "wristR",
+            "target": 0
+          },
+          {
+            "id": "hipR",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            }
+          },
+          {
+            "id": "kneeR",
+            "target": 0
+          },
+          {
+            "id": "ankleR",
+            "target": 0
+          }
+        ]
+      },
+      "steps": 110,
+      "observed_time_s": 1.8333333333333333,
+      "termination": {
+        "termination_reason": "invalid_simulation",
+        "failure_reason": "invalid_simulation",
+        "failure_bodies": [],
+        "failure_body": null,
+        "failure_step": 110,
+        "standing_time": null,
+        "invalid_detail": "constraint_error:ankleL"
+      },
+      "invalid_detail": "constraint_error:ankleL",
+      "max_anchor_error_m": 0.001700177162750929,
+      "constraints": [
+        {
+          "id": "spine",
+          "anchor_error": 0.00029241882367226117,
+          "axis_error": 0.00009453329071254392,
+          "angle": 0.04897540069271531,
+          "limit_violation": 0
+        },
+        {
+          "id": "neck",
+          "anchor_error": 0.000031466493413531577,
+          "axis_error": 0.000003836864760060989,
+          "angle": 0.0139137934867661,
+          "limit_violation": 0
+        },
+        {
+          "id": "shoulderL",
+          "anchor_error": 0.00004971025898636273,
+          "axis_error": null,
+          "angle": null,
+          "limit_violation": null
+        },
+        {
+          "id": "elbowL",
+          "anchor_error": 0.0001479424036090228,
+          "axis_error": 0.00004643302521482642,
+          "angle": -0.03733758536242582,
+          "limit_violation": 0
+        },
+        {
+          "id": "wristL",
+          "anchor_error": 4.4642668833698545e-7,
+          "axis_error": 8.001788762871373e-10,
+          "angle": -0.0031532968682416672,
+          "limit_violation": 0
+        },
+        {
+          "id": "hipL",
+          "anchor_error": 0.0007630418640435903,
+          "axis_error": null,
+          "angle": null,
+          "limit_violation": null
+        },
+        {
+          "id": "kneeL",
+          "anchor_error": 5.226602576756968e-7,
+          "axis_error": 3.1715619252671015e-9,
+          "angle": -0.047672715794707596,
+          "limit_violation": 0
+        },
+        {
+          "id": "ankleL",
+          "anchor_error": 0.0015293475740714981,
+          "axis_error": 0.00018915972984351765,
+          "angle": -0.45085027377044007,
+          "limit_violation": 0.050850273770440046
+        },
+        {
+          "id": "shoulderR",
+          "anchor_error": 1.3821354834731373e-7,
+          "axis_error": null,
+          "angle": null,
+          "limit_violation": null
+        },
+        {
+          "id": "elbowR",
+          "anchor_error": 0.0001522384795930266,
+          "axis_error": 0.00004239868747491278,
+          "angle": -0.037930666352501474,
+          "limit_violation": 0
+        },
+        {
+          "id": "wristR",
+          "anchor_error": 4.185145963059426e-7,
+          "axis_error": 3.748480813124624e-10,
+          "angle": -0.002845089626168251,
+          "limit_violation": 0
+        },
+        {
+          "id": "hipR",
+          "anchor_error": 3.8243203047544025e-7,
+          "axis_error": null,
+          "angle": null,
+          "limit_violation": null
+        },
+        {
+          "id": "kneeR",
+          "anchor_error": 0.0007856355863932767,
+          "axis_error": 0.0011230880253515904,
+          "angle": -0.0540063957962601,
+          "limit_violation": 0.0040063957962600955
+        },
+        {
+          "id": "ankleR",
+          "anchor_error": 0.001700177162750929,
+          "axis_error": 0.00156647001615309,
+          "angle": -0.450267951417704,
+          "limit_violation": 0.05026795141770396
+        }
+      ]
+    },
+    {
+      "config": {
+        "schema_version": 1,
+        "controller_id": "native-pose-hold-force-v1",
+        "model": "ForceBased",
+        "target_convention": "moving-frame-v1",
+        "stiffness": 100,
+        "damping": 12,
+        "max_torque_Nm": 1,
+        "targets": [
+          {
+            "id": "spine",
+            "target": 0
+          },
+          {
+            "id": "neck",
+            "target": 0
+          },
+          {
+            "id": "shoulderL",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            }
+          },
+          {
+            "id": "elbowL",
+            "target": 0
+          },
+          {
+            "id": "wristL",
+            "target": 0
+          },
+          {
+            "id": "hipL",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            }
+          },
+          {
+            "id": "kneeL",
+            "target": 0
+          },
+          {
+            "id": "ankleL",
+            "target": 0
+          },
+          {
+            "id": "shoulderR",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            }
+          },
+          {
+            "id": "elbowR",
+            "target": 0
+          },
+          {
+            "id": "wristR",
+            "target": 0
+          },
+          {
+            "id": "hipR",
+            "target": {
+              "x": 0,
+              "y": 0,
+              "z": 0,
+              "w": 1
+            }
+          },
+          {
+            "id": "kneeR",
+            "target": 0
+          },
+          {
+            "id": "ankleR",
+            "target": 0
+          }
+        ]
+      },
+      "steps": 140,
+      "observed_time_s": 2.3333333333333335,
+      "termination": {
+        "termination_reason": "invalid_simulation",
+        "failure_reason": "invalid_simulation",
+        "failure_bodies": [],
+        "failure_body": null,
+        "failure_step": 140,
+        "standing_time": null,
+        "invalid_detail": "constraint_error:elbowR"
+      },
+      "invalid_detail": "constraint_error:elbowR",
+      "max_anchor_error_m": 0.0018391194406941708,
+      "constraints": [
+        {
+          "id": "spine",
+          "anchor_error": 0.00012031104904732144,
+          "axis_error": 0.00084191729501367,
+          "angle": -0.2929402711369392,
+          "limit_violation": 0
+        },
+        {
+          "id": "neck",
+          "anchor_error": 0.00036826062829021394,
+          "axis_error": 0.001919726978550203,
+          "angle": -0.33428735665695397,
+          "limit_violation": 0
+        },
+        {
+          "id": "shoulderL",
+          "anchor_error": 0.0004321934304214916,
+          "axis_error": null,
+          "angle": null,
+          "limit_violation": null
+        },
+        {
+          "id": "elbowL",
+          "anchor_error": 0.00031750651441724486,
+          "axis_error": 0.0026278237294713814,
+          "angle": 0.07742408856490836,
+          "limit_violation": 0.027424088564908355
+        },
+        {
+          "id": "wristL",
+          "anchor_error": 0.000004020307543883152,
+          "axis_error": 0.000008637564170259347,
+          "angle": -0.3395300602170868,
+          "limit_violation": 0
+        },
+        {
+          "id": "hipL",
+          "anchor_error": 0.00026715887255195894,
+          "axis_error": null,
+          "angle": null,
+          "limit_violation": null
+        },
+        {
+          "id": "kneeL",
+          "anchor_error": 0.000003931547495600768,
+          "axis_error": 9.852749908569437e-11,
+          "angle": -0.04999998725945399,
+          "limit_violation": 0
+        },
+        {
+          "id": "ankleL",
+          "anchor_error": 0.00018143956405967373,
+          "axis_error": 0.000881010443160163,
+          "angle": -0.3987616840812316,
+          "limit_violation": 0
+        },
+        {
+          "id": "shoulderR",
+          "anchor_error": 0.00000969599692543001,
+          "axis_error": null,
+          "angle": null,
+          "limit_violation": null
+        },
+        {
+          "id": "elbowR",
+          "anchor_error": 0.0018391194406941708,
+          "axis_error": 0.003384367218901031,
+          "angle": 0.12239659971514594,
+          "limit_violation": 0.07239659971514593
+        },
+        {
+          "id": "wristR",
+          "anchor_error": 0.0002936427799825508,
+          "axis_error": 0.00003442102896741735,
+          "angle": -0.2723378392750652,
+          "limit_violation": 0
+        },
+        {
+          "id": "hipR",
+          "anchor_error": 0.00045101577373991104,
+          "axis_error": null,
+          "angle": null,
+          "limit_violation": null
+        },
+        {
+          "id": "kneeR",
+          "anchor_error": 0.0000031958951986035524,
+          "axis_error": 2.9444575418376946e-10,
+          "angle": -0.04999997889636284,
+          "limit_violation": 0
+        },
+        {
+          "id": "ankleR",
+          "anchor_error": 0.0006952802465152626,
+          "axis_error": 0.0005411441758595973,
+          "angle": -0.4096266774898478,
+          "limit_violation": 0.009626677489847801
+        }
+      ]
+    }
+  ],
+  "passive": {
+    "config_id": "config:sha256:414ed28b04c2fd0351554014f1c7e8637c5bd8674477c8a13483f410ed31e2aa",
+    "steps": 70,
+    "standing_time": 1.1666666666666667,
+    "failure_bodies": [
+      "handL"
+    ],
+    "termination_reason": "non_foot_contact",
+    "original_checkpoint_comparison": {
+      "pass": true,
+      "errors": [],
+      "max_deviation": {
+        "position": 0,
+        "rotation": 0,
+        "linear_velocity": 0,
+        "angular_velocity": 0,
+        "contact_point": 0,
+        "contact_load": 0
+      }
+    }
+  }
+}

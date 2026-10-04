@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "controller_id": "native-pose-hold-force-v1",
+  "model": "ForceBased",
+  "target_convention": "moving-frame-v1",
+  "stiffness": 100,
+  "damping": 12,
+  "max_torque_Nm": 20,
+  "targets": [
+    {
+      "id": "spine",
+      "target": 0
+    },
+    {
+      "id": "neck",
+      "target": 0
+    },
+    {
+      "id": "shoulderL",
+      "target": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      }
+    },
+    {
+      "id": "elbowL",
+      "target": 0
+    },
+    {
+      "id": "wristL",
+      "target": 0
+    },
+    {
+      "id": "hipL",
+      "target": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      }
+    },
+    {
+      "id": "kneeL",
+      "target": 0
+    },
+    {
+      "id": "ankleL",
+      "target": 0
+    },
+    {
+      "id": "shoulderR",
+      "target": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      }
+    },
+    {
+      "id": "elbowR",
+      "target": 0
+    },
+    {
+      "id": "wristR",
+      "target": 0
+    },
+    {
+      "id": "hipR",
+      "target": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      }
+    },
+    {
+      "id": "kneeR",
+      "target": 0
+    },
+    {
+      "id": "ankleR",
+      "target": 0
+    }
+  ]
+}

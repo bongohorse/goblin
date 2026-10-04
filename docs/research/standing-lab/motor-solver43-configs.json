@@ -1,0 +1,3818 @@
+{
+  "schema_version": 1,
+  "experiment_kind": "motor-solver-candidate-v1",
+  "configs": [
+    {
+      "config": {
+        "schema_version": 1,
+        "experiment_kind": "motor-solver-candidate-v1",
+        "baseline": {
+          "schema_version": 1,
+          "rig_id": "goblin-passive-v1",
+          "controller_id": "none",
+          "fixed_dt": 0.016666666666666666,
+          "max_steps": 3600,
+          "gravity": {
+            "x": 0,
+            "y": -9.81,
+            "z": 0
+          },
+          "solver_config": {
+            "numSolverIterations": 8,
+            "numInternalPgsIterations": 1,
+            "maxCcdSubsteps": 1,
+            "lengthUnit": 1,
+            "normalizedAllowedLinearError": 0.005,
+            "normalizedPredictionDistance": 0.02,
+            "additionalSolverIterations": 0
+          },
+          "floor": {
+            "id": "floor",
+            "position": {
+              "x": 0,
+              "y": -0.2,
+              "z": 0
+            },
+            "half": {
+              "x": 6,
+              "y": 0.2,
+              "z": 6
+            },
+            "friction": 0.9,
+            "restitution": 0.03
+          },
+          "bodies": [
+            {
+              "id": "pelvis",
+              "position": {
+                "x": 0,
+                "y": 1.14,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.09,
+                "radius": 0.2
+              },
+              "mass": 1.6,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:pelvis",
+              "restitution": 0.03
+            },
+            {
+              "id": "torso",
+              "position": {
+                "x": 0,
+                "y": 1.49,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.15,
+                "radius": 0.24
+              },
+              "mass": 2,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:torso",
+              "restitution": 0.03
+            },
+            {
+              "id": "head",
+              "position": {
+                "x": 0,
+                "y": 2.3,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.48
+              },
+              "mass": 1.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:head",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.46,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.09
+              },
+              "mass": 0.35,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperArmL",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.12,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.1,
+                "radius": 0.085
+              },
+              "mass": 0.25,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerArmL",
+              "restitution": 0.03
+            },
+            {
+              "id": "handL",
+              "position": {
+                "x": 0.4,
+                "y": 0.85,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.115
+              },
+              "mass": 0.18,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:handL",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.84,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.12
+              },
+              "mass": 0.55,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperLegL",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.44,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.105
+              },
+              "mass": 0.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerLegL",
+              "restitution": 0.03
+            },
+            {
+              "id": "footL",
+              "position": {
+                "x": 0.16,
+                "y": 0.12,
+                "z": 0.08
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "cuboid",
+                "half": {
+                  "x": 0.13,
+                  "y": 0.1,
+                  "z": 0.22
+                }
+              },
+              "mass": 0.3,
+              "friction": 1,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "foot",
+              "collider_id": "collider:footL",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.46,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.09
+              },
+              "mass": 0.35,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperArmR",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.12,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.1,
+                "radius": 0.085
+              },
+              "mass": 0.25,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerArmR",
+              "restitution": 0.03
+            },
+            {
+              "id": "handR",
+              "position": {
+                "x": -0.4,
+                "y": 0.85,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.115
+              },
+              "mass": 0.18,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:handR",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.84,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.12
+              },
+              "mass": 0.55,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperLegR",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.44,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.105
+              },
+              "mass": 0.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerLegR",
+              "restitution": 0.03
+            },
+            {
+              "id": "footR",
+              "position": {
+                "x": -0.16,
+                "y": 0.12,
+                "z": 0.08
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "cuboid",
+                "half": {
+                  "x": 0.13,
+                  "y": 0.1,
+                  "z": 0.22
+                }
+              },
+              "mass": 0.3,
+              "friction": 1,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "foot",
+              "collider_id": "collider:footR",
+              "restitution": 0.03
+            }
+          ],
+          "joints": [
+            {
+              "id": "spine",
+              "parent": "pelvis",
+              "child": "torso",
+              "position": {
+                "x": 0,
+                "y": 1.34,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": 0.20000000000000018,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": -0.1499999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.3,
+                0.3
+              ]
+            },
+            {
+              "id": "neck",
+              "parent": "torso",
+              "child": "head",
+              "position": {
+                "x": 0,
+                "y": 1.83,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": 0.3400000000000001,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": -0.46999999999999975,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.45,
+                0.45
+              ]
+            },
+            {
+              "id": "shoulderL",
+              "parent": "torso",
+              "child": "upperArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.64,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": 0.4,
+                "y": 0.1499999999999999,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.17999999999999994,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "elbowL",
+              "parent": "upperArmL",
+              "child": "lowerArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.28,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.17999999999999994,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.15999999999999992,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -2.35,
+                0.05
+              ]
+            },
+            {
+              "id": "wristL",
+              "parent": "lowerArmL",
+              "child": "handL",
+              "position": {
+                "x": 0.4,
+                "y": 0.96,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.16000000000000014,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.10999999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.35,
+                0.35
+              ]
+            },
+            {
+              "id": "hipL",
+              "parent": "pelvis",
+              "child": "upperLegL",
+              "position": {
+                "x": 0.16,
+                "y": 1.04,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": 0.16,
+                "y": -0.09999999999999987,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.20000000000000007,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "kneeL",
+              "parent": "upperLegL",
+              "child": "lowerLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.64,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.19999999999999996,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.2,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.05,
+                2.3
+              ]
+            },
+            {
+              "id": "ankleL",
+              "parent": "lowerLegL",
+              "child": "footL",
+              "position": {
+                "x": 0.16,
+                "y": 0.24,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.2,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.12,
+                "z": -0.08
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.4,
+                0.4
+              ]
+            },
+            {
+              "id": "shoulderR",
+              "parent": "torso",
+              "child": "upperArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.64,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": -0.4,
+                "y": 0.1499999999999999,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.17999999999999994,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "elbowR",
+              "parent": "upperArmR",
+              "child": "lowerArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.28,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.17999999999999994,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.15999999999999992,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -2.35,
+                0.05
+              ]
+            },
+            {
+              "id": "wristR",
+              "parent": "lowerArmR",
+              "child": "handR",
+              "position": {
+                "x": -0.4,
+                "y": 0.96,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.16000000000000014,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.10999999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.35,
+                0.35
+              ]
+            },
+            {
+              "id": "hipR",
+              "parent": "pelvis",
+              "child": "upperLegR",
+              "position": {
+                "x": -0.16,
+                "y": 1.04,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": -0.16,
+                "y": -0.09999999999999987,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.20000000000000007,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "kneeR",
+              "parent": "upperLegR",
+              "child": "lowerLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.64,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.19999999999999996,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.2,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.05,
+                2.3
+              ]
+            },
+            {
+              "id": "ankleR",
+              "parent": "lowerLegR",
+              "child": "footR",
+              "position": {
+                "x": -0.16,
+                "y": 0.24,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.2,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.12,
+                "z": -0.08
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.4,
+                0.4
+              ]
+            }
+          ]
+        },
+        "effective_solver_config": {
+          "numSolverIterations": 8,
+          "numInternalPgsIterations": 1,
+          "maxCcdSubsteps": 1,
+          "lengthUnit": 1,
+          "normalizedAllowedLinearError": 0.005,
+          "normalizedPredictionDistance": 0.02,
+          "additionalSolverIterations": 0
+        },
+        "actuation": {
+          "schema_version": 1,
+          "controller_id": "native-pose-hold-force-v1",
+          "model": "ForceBased",
+          "target_convention": "moving-frame-v1",
+          "stiffness": 100,
+          "damping": 12,
+          "max_torque_Nm": 20,
+          "targets": [
+            {
+              "id": "spine",
+              "target": 0
+            },
+            {
+              "id": "neck",
+              "target": 0
+            },
+            {
+              "id": "shoulderL",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "elbowL",
+              "target": 0
+            },
+            {
+              "id": "wristL",
+              "target": 0
+            },
+            {
+              "id": "hipL",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "kneeL",
+              "target": 0
+            },
+            {
+              "id": "ankleL",
+              "target": 0
+            },
+            {
+              "id": "shoulderR",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "elbowR",
+              "target": 0
+            },
+            {
+              "id": "wristR",
+              "target": 0
+            },
+            {
+              "id": "hipR",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "kneeR",
+              "target": 0
+            },
+            {
+              "id": "ankleR",
+              "target": 0
+            }
+          ]
+        },
+        "horizon_steps": 3600,
+        "safety": {
+          "anchor_error_m": 0.08,
+          "limit_error_rad": 0.05
+        },
+        "standing_end": "first_non_foot_floor_contact_or_invalid",
+        "diagnostic_end": "invalid_or_3600_steps",
+        "actual_motor_effort": "unavailable: coupled contact/limit impulses"
+      },
+      "config_hash": "sha256:60816caddbb6cfec592fe73bc91b563263d165674e6921baa0c35360350e298d",
+      "experiment_id": "motor-solver-candidate-v1:60816caddbb6cfec592fe73bc91b563263d165674e6921baa0c35360350e298d"
+    },
+    {
+      "config": {
+        "schema_version": 1,
+        "experiment_kind": "motor-solver-candidate-v1",
+        "baseline": {
+          "schema_version": 1,
+          "rig_id": "goblin-passive-v1",
+          "controller_id": "none",
+          "fixed_dt": 0.016666666666666666,
+          "max_steps": 3600,
+          "gravity": {
+            "x": 0,
+            "y": -9.81,
+            "z": 0
+          },
+          "solver_config": {
+            "numSolverIterations": 8,
+            "numInternalPgsIterations": 1,
+            "maxCcdSubsteps": 1,
+            "lengthUnit": 1,
+            "normalizedAllowedLinearError": 0.005,
+            "normalizedPredictionDistance": 0.02,
+            "additionalSolverIterations": 0
+          },
+          "floor": {
+            "id": "floor",
+            "position": {
+              "x": 0,
+              "y": -0.2,
+              "z": 0
+            },
+            "half": {
+              "x": 6,
+              "y": 0.2,
+              "z": 6
+            },
+            "friction": 0.9,
+            "restitution": 0.03
+          },
+          "bodies": [
+            {
+              "id": "pelvis",
+              "position": {
+                "x": 0,
+                "y": 1.14,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.09,
+                "radius": 0.2
+              },
+              "mass": 1.6,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:pelvis",
+              "restitution": 0.03
+            },
+            {
+              "id": "torso",
+              "position": {
+                "x": 0,
+                "y": 1.49,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.15,
+                "radius": 0.24
+              },
+              "mass": 2,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:torso",
+              "restitution": 0.03
+            },
+            {
+              "id": "head",
+              "position": {
+                "x": 0,
+                "y": 2.3,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.48
+              },
+              "mass": 1.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:head",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.46,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.09
+              },
+              "mass": 0.35,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperArmL",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.12,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.1,
+                "radius": 0.085
+              },
+              "mass": 0.25,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerArmL",
+              "restitution": 0.03
+            },
+            {
+              "id": "handL",
+              "position": {
+                "x": 0.4,
+                "y": 0.85,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.115
+              },
+              "mass": 0.18,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:handL",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.84,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.12
+              },
+              "mass": 0.55,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperLegL",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.44,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.105
+              },
+              "mass": 0.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerLegL",
+              "restitution": 0.03
+            },
+            {
+              "id": "footL",
+              "position": {
+                "x": 0.16,
+                "y": 0.12,
+                "z": 0.08
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "cuboid",
+                "half": {
+                  "x": 0.13,
+                  "y": 0.1,
+                  "z": 0.22
+                }
+              },
+              "mass": 0.3,
+              "friction": 1,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "foot",
+              "collider_id": "collider:footL",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.46,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.09
+              },
+              "mass": 0.35,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperArmR",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.12,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.1,
+                "radius": 0.085
+              },
+              "mass": 0.25,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerArmR",
+              "restitution": 0.03
+            },
+            {
+              "id": "handR",
+              "position": {
+                "x": -0.4,
+                "y": 0.85,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.115
+              },
+              "mass": 0.18,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:handR",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.84,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.12
+              },
+              "mass": 0.55,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperLegR",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.44,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.105
+              },
+              "mass": 0.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerLegR",
+              "restitution": 0.03
+            },
+            {
+              "id": "footR",
+              "position": {
+                "x": -0.16,
+                "y": 0.12,
+                "z": 0.08
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "cuboid",
+                "half": {
+                  "x": 0.13,
+                  "y": 0.1,
+                  "z": 0.22
+                }
+              },
+              "mass": 0.3,
+              "friction": 1,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "foot",
+              "collider_id": "collider:footR",
+              "restitution": 0.03
+            }
+          ],
+          "joints": [
+            {
+              "id": "spine",
+              "parent": "pelvis",
+              "child": "torso",
+              "position": {
+                "x": 0,
+                "y": 1.34,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": 0.20000000000000018,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": -0.1499999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.3,
+                0.3
+              ]
+            },
+            {
+              "id": "neck",
+              "parent": "torso",
+              "child": "head",
+              "position": {
+                "x": 0,
+                "y": 1.83,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": 0.3400000000000001,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": -0.46999999999999975,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.45,
+                0.45
+              ]
+            },
+            {
+              "id": "shoulderL",
+              "parent": "torso",
+              "child": "upperArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.64,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": 0.4,
+                "y": 0.1499999999999999,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.17999999999999994,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "elbowL",
+              "parent": "upperArmL",
+              "child": "lowerArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.28,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.17999999999999994,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.15999999999999992,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -2.35,
+                0.05
+              ]
+            },
+            {
+              "id": "wristL",
+              "parent": "lowerArmL",
+              "child": "handL",
+              "position": {
+                "x": 0.4,
+                "y": 0.96,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.16000000000000014,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.10999999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.35,
+                0.35
+              ]
+            },
+            {
+              "id": "hipL",
+              "parent": "pelvis",
+              "child": "upperLegL",
+              "position": {
+                "x": 0.16,
+                "y": 1.04,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": 0.16,
+                "y": -0.09999999999999987,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.20000000000000007,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "kneeL",
+              "parent": "upperLegL",
+              "child": "lowerLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.64,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.19999999999999996,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.2,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.05,
+                2.3
+              ]
+            },
+            {
+              "id": "ankleL",
+              "parent": "lowerLegL",
+              "child": "footL",
+              "position": {
+                "x": 0.16,
+                "y": 0.24,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.2,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.12,
+                "z": -0.08
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.4,
+                0.4
+              ]
+            },
+            {
+              "id": "shoulderR",
+              "parent": "torso",
+              "child": "upperArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.64,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": -0.4,
+                "y": 0.1499999999999999,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.17999999999999994,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "elbowR",
+              "parent": "upperArmR",
+              "child": "lowerArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.28,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.17999999999999994,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.15999999999999992,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -2.35,
+                0.05
+              ]
+            },
+            {
+              "id": "wristR",
+              "parent": "lowerArmR",
+              "child": "handR",
+              "position": {
+                "x": -0.4,
+                "y": 0.96,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.16000000000000014,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.10999999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.35,
+                0.35
+              ]
+            },
+            {
+              "id": "hipR",
+              "parent": "pelvis",
+              "child": "upperLegR",
+              "position": {
+                "x": -0.16,
+                "y": 1.04,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": -0.16,
+                "y": -0.09999999999999987,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.20000000000000007,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "kneeR",
+              "parent": "upperLegR",
+              "child": "lowerLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.64,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.19999999999999996,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.2,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.05,
+                2.3
+              ]
+            },
+            {
+              "id": "ankleR",
+              "parent": "lowerLegR",
+              "child": "footR",
+              "position": {
+                "x": -0.16,
+                "y": 0.24,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.2,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.12,
+                "z": -0.08
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.4,
+                0.4
+              ]
+            }
+          ]
+        },
+        "effective_solver_config": {
+          "numSolverIterations": 32,
+          "numInternalPgsIterations": 1,
+          "maxCcdSubsteps": 1,
+          "lengthUnit": 1,
+          "normalizedAllowedLinearError": 0.005,
+          "normalizedPredictionDistance": 0.02,
+          "additionalSolverIterations": 0
+        },
+        "actuation": {
+          "schema_version": 1,
+          "controller_id": "native-pose-hold-force-v1",
+          "model": "ForceBased",
+          "target_convention": "moving-frame-v1",
+          "stiffness": 100,
+          "damping": 12,
+          "max_torque_Nm": 20,
+          "targets": [
+            {
+              "id": "spine",
+              "target": 0
+            },
+            {
+              "id": "neck",
+              "target": 0
+            },
+            {
+              "id": "shoulderL",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "elbowL",
+              "target": 0
+            },
+            {
+              "id": "wristL",
+              "target": 0
+            },
+            {
+              "id": "hipL",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "kneeL",
+              "target": 0
+            },
+            {
+              "id": "ankleL",
+              "target": 0
+            },
+            {
+              "id": "shoulderR",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "elbowR",
+              "target": 0
+            },
+            {
+              "id": "wristR",
+              "target": 0
+            },
+            {
+              "id": "hipR",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "kneeR",
+              "target": 0
+            },
+            {
+              "id": "ankleR",
+              "target": 0
+            }
+          ]
+        },
+        "horizon_steps": 3600,
+        "safety": {
+          "anchor_error_m": 0.08,
+          "limit_error_rad": 0.05
+        },
+        "standing_end": "first_non_foot_floor_contact_or_invalid",
+        "diagnostic_end": "invalid_or_3600_steps",
+        "actual_motor_effort": "unavailable: coupled contact/limit impulses"
+      },
+      "config_hash": "sha256:405fc035c61485fcd77a7c5273bf7c7630fafd81c0c265fd41c5ebe64d8562ec",
+      "experiment_id": "motor-solver-candidate-v1:405fc035c61485fcd77a7c5273bf7c7630fafd81c0c265fd41c5ebe64d8562ec"
+    },
+    {
+      "config": {
+        "schema_version": 1,
+        "experiment_kind": "motor-solver-candidate-v1",
+        "baseline": {
+          "schema_version": 1,
+          "rig_id": "goblin-passive-v1",
+          "controller_id": "none",
+          "fixed_dt": 0.016666666666666666,
+          "max_steps": 3600,
+          "gravity": {
+            "x": 0,
+            "y": -9.81,
+            "z": 0
+          },
+          "solver_config": {
+            "numSolverIterations": 8,
+            "numInternalPgsIterations": 1,
+            "maxCcdSubsteps": 1,
+            "lengthUnit": 1,
+            "normalizedAllowedLinearError": 0.005,
+            "normalizedPredictionDistance": 0.02,
+            "additionalSolverIterations": 0
+          },
+          "floor": {
+            "id": "floor",
+            "position": {
+              "x": 0,
+              "y": -0.2,
+              "z": 0
+            },
+            "half": {
+              "x": 6,
+              "y": 0.2,
+              "z": 6
+            },
+            "friction": 0.9,
+            "restitution": 0.03
+          },
+          "bodies": [
+            {
+              "id": "pelvis",
+              "position": {
+                "x": 0,
+                "y": 1.14,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.09,
+                "radius": 0.2
+              },
+              "mass": 1.6,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:pelvis",
+              "restitution": 0.03
+            },
+            {
+              "id": "torso",
+              "position": {
+                "x": 0,
+                "y": 1.49,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.15,
+                "radius": 0.24
+              },
+              "mass": 2,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:torso",
+              "restitution": 0.03
+            },
+            {
+              "id": "head",
+              "position": {
+                "x": 0,
+                "y": 2.3,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.48
+              },
+              "mass": 1.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:head",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.46,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.09
+              },
+              "mass": 0.35,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperArmL",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.12,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.1,
+                "radius": 0.085
+              },
+              "mass": 0.25,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerArmL",
+              "restitution": 0.03
+            },
+            {
+              "id": "handL",
+              "position": {
+                "x": 0.4,
+                "y": 0.85,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.115
+              },
+              "mass": 0.18,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:handL",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.84,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.12
+              },
+              "mass": 0.55,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperLegL",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.44,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.105
+              },
+              "mass": 0.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerLegL",
+              "restitution": 0.03
+            },
+            {
+              "id": "footL",
+              "position": {
+                "x": 0.16,
+                "y": 0.12,
+                "z": 0.08
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "cuboid",
+                "half": {
+                  "x": 0.13,
+                  "y": 0.1,
+                  "z": 0.22
+                }
+              },
+              "mass": 0.3,
+              "friction": 1,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "foot",
+              "collider_id": "collider:footL",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.46,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.09
+              },
+              "mass": 0.35,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperArmR",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.12,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.1,
+                "radius": 0.085
+              },
+              "mass": 0.25,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerArmR",
+              "restitution": 0.03
+            },
+            {
+              "id": "handR",
+              "position": {
+                "x": -0.4,
+                "y": 0.85,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.115
+              },
+              "mass": 0.18,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:handR",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.84,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.12
+              },
+              "mass": 0.55,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperLegR",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.44,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.105
+              },
+              "mass": 0.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerLegR",
+              "restitution": 0.03
+            },
+            {
+              "id": "footR",
+              "position": {
+                "x": -0.16,
+                "y": 0.12,
+                "z": 0.08
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "cuboid",
+                "half": {
+                  "x": 0.13,
+                  "y": 0.1,
+                  "z": 0.22
+                }
+              },
+              "mass": 0.3,
+              "friction": 1,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "foot",
+              "collider_id": "collider:footR",
+              "restitution": 0.03
+            }
+          ],
+          "joints": [
+            {
+              "id": "spine",
+              "parent": "pelvis",
+              "child": "torso",
+              "position": {
+                "x": 0,
+                "y": 1.34,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": 0.20000000000000018,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": -0.1499999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.3,
+                0.3
+              ]
+            },
+            {
+              "id": "neck",
+              "parent": "torso",
+              "child": "head",
+              "position": {
+                "x": 0,
+                "y": 1.83,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": 0.3400000000000001,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": -0.46999999999999975,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.45,
+                0.45
+              ]
+            },
+            {
+              "id": "shoulderL",
+              "parent": "torso",
+              "child": "upperArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.64,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": 0.4,
+                "y": 0.1499999999999999,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.17999999999999994,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "elbowL",
+              "parent": "upperArmL",
+              "child": "lowerArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.28,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.17999999999999994,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.15999999999999992,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -2.35,
+                0.05
+              ]
+            },
+            {
+              "id": "wristL",
+              "parent": "lowerArmL",
+              "child": "handL",
+              "position": {
+                "x": 0.4,
+                "y": 0.96,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.16000000000000014,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.10999999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.35,
+                0.35
+              ]
+            },
+            {
+              "id": "hipL",
+              "parent": "pelvis",
+              "child": "upperLegL",
+              "position": {
+                "x": 0.16,
+                "y": 1.04,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": 0.16,
+                "y": -0.09999999999999987,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.20000000000000007,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "kneeL",
+              "parent": "upperLegL",
+              "child": "lowerLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.64,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.19999999999999996,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.2,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.05,
+                2.3
+              ]
+            },
+            {
+              "id": "ankleL",
+              "parent": "lowerLegL",
+              "child": "footL",
+              "position": {
+                "x": 0.16,
+                "y": 0.24,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.2,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.12,
+                "z": -0.08
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.4,
+                0.4
+              ]
+            },
+            {
+              "id": "shoulderR",
+              "parent": "torso",
+              "child": "upperArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.64,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": -0.4,
+                "y": 0.1499999999999999,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.17999999999999994,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "elbowR",
+              "parent": "upperArmR",
+              "child": "lowerArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.28,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.17999999999999994,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.15999999999999992,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -2.35,
+                0.05
+              ]
+            },
+            {
+              "id": "wristR",
+              "parent": "lowerArmR",
+              "child": "handR",
+              "position": {
+                "x": -0.4,
+                "y": 0.96,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.16000000000000014,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.10999999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.35,
+                0.35
+              ]
+            },
+            {
+              "id": "hipR",
+              "parent": "pelvis",
+              "child": "upperLegR",
+              "position": {
+                "x": -0.16,
+                "y": 1.04,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": -0.16,
+                "y": -0.09999999999999987,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.20000000000000007,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "kneeR",
+              "parent": "upperLegR",
+              "child": "lowerLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.64,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.19999999999999996,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.2,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.05,
+                2.3
+              ]
+            },
+            {
+              "id": "ankleR",
+              "parent": "lowerLegR",
+              "child": "footR",
+              "position": {
+                "x": -0.16,
+                "y": 0.24,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.2,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.12,
+                "z": -0.08
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.4,
+                0.4
+              ]
+            }
+          ]
+        },
+        "effective_solver_config": {
+          "numSolverIterations": 8,
+          "numInternalPgsIterations": 1,
+          "maxCcdSubsteps": 1,
+          "lengthUnit": 1,
+          "normalizedAllowedLinearError": 0.005,
+          "normalizedPredictionDistance": 0.02,
+          "additionalSolverIterations": 0
+        },
+        "actuation": {
+          "schema_version": 1,
+          "controller_id": "native-pose-hold-force-v1",
+          "model": "ForceBased",
+          "target_convention": "moving-frame-v1",
+          "stiffness": 100,
+          "damping": 12,
+          "max_torque_Nm": 1,
+          "targets": [
+            {
+              "id": "spine",
+              "target": 0
+            },
+            {
+              "id": "neck",
+              "target": 0
+            },
+            {
+              "id": "shoulderL",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "elbowL",
+              "target": 0
+            },
+            {
+              "id": "wristL",
+              "target": 0
+            },
+            {
+              "id": "hipL",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "kneeL",
+              "target": 0
+            },
+            {
+              "id": "ankleL",
+              "target": 0
+            },
+            {
+              "id": "shoulderR",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "elbowR",
+              "target": 0
+            },
+            {
+              "id": "wristR",
+              "target": 0
+            },
+            {
+              "id": "hipR",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "kneeR",
+              "target": 0
+            },
+            {
+              "id": "ankleR",
+              "target": 0
+            }
+          ]
+        },
+        "horizon_steps": 3600,
+        "safety": {
+          "anchor_error_m": 0.08,
+          "limit_error_rad": 0.05
+        },
+        "standing_end": "first_non_foot_floor_contact_or_invalid",
+        "diagnostic_end": "invalid_or_3600_steps",
+        "actual_motor_effort": "unavailable: coupled contact/limit impulses"
+      },
+      "config_hash": "sha256:12938457c2fec2d7532661b511351c5a0e48b570532ad8ed3590ac92f23fba22",
+      "experiment_id": "motor-solver-candidate-v1:12938457c2fec2d7532661b511351c5a0e48b570532ad8ed3590ac92f23fba22"
+    },
+    {
+      "config": {
+        "schema_version": 1,
+        "experiment_kind": "motor-solver-candidate-v1",
+        "baseline": {
+          "schema_version": 1,
+          "rig_id": "goblin-passive-v1",
+          "controller_id": "none",
+          "fixed_dt": 0.016666666666666666,
+          "max_steps": 3600,
+          "gravity": {
+            "x": 0,
+            "y": -9.81,
+            "z": 0
+          },
+          "solver_config": {
+            "numSolverIterations": 8,
+            "numInternalPgsIterations": 1,
+            "maxCcdSubsteps": 1,
+            "lengthUnit": 1,
+            "normalizedAllowedLinearError": 0.005,
+            "normalizedPredictionDistance": 0.02,
+            "additionalSolverIterations": 0
+          },
+          "floor": {
+            "id": "floor",
+            "position": {
+              "x": 0,
+              "y": -0.2,
+              "z": 0
+            },
+            "half": {
+              "x": 6,
+              "y": 0.2,
+              "z": 6
+            },
+            "friction": 0.9,
+            "restitution": 0.03
+          },
+          "bodies": [
+            {
+              "id": "pelvis",
+              "position": {
+                "x": 0,
+                "y": 1.14,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.09,
+                "radius": 0.2
+              },
+              "mass": 1.6,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:pelvis",
+              "restitution": 0.03
+            },
+            {
+              "id": "torso",
+              "position": {
+                "x": 0,
+                "y": 1.49,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.15,
+                "radius": 0.24
+              },
+              "mass": 2,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:torso",
+              "restitution": 0.03
+            },
+            {
+              "id": "head",
+              "position": {
+                "x": 0,
+                "y": 2.3,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.48
+              },
+              "mass": 1.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:head",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.46,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.09
+              },
+              "mass": 0.35,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperArmL",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.12,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.1,
+                "radius": 0.085
+              },
+              "mass": 0.25,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerArmL",
+              "restitution": 0.03
+            },
+            {
+              "id": "handL",
+              "position": {
+                "x": 0.4,
+                "y": 0.85,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.115
+              },
+              "mass": 0.18,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:handL",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.84,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.12
+              },
+              "mass": 0.55,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperLegL",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.44,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.105
+              },
+              "mass": 0.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerLegL",
+              "restitution": 0.03
+            },
+            {
+              "id": "footL",
+              "position": {
+                "x": 0.16,
+                "y": 0.12,
+                "z": 0.08
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "cuboid",
+                "half": {
+                  "x": 0.13,
+                  "y": 0.1,
+                  "z": 0.22
+                }
+              },
+              "mass": 0.3,
+              "friction": 1,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "foot",
+              "collider_id": "collider:footL",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.46,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.09
+              },
+              "mass": 0.35,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperArmR",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.12,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.1,
+                "radius": 0.085
+              },
+              "mass": 0.25,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerArmR",
+              "restitution": 0.03
+            },
+            {
+              "id": "handR",
+              "position": {
+                "x": -0.4,
+                "y": 0.85,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.115
+              },
+              "mass": 0.18,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:handR",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.84,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.12
+              },
+              "mass": 0.55,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperLegR",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.44,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.105
+              },
+              "mass": 0.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerLegR",
+              "restitution": 0.03
+            },
+            {
+              "id": "footR",
+              "position": {
+                "x": -0.16,
+                "y": 0.12,
+                "z": 0.08
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "cuboid",
+                "half": {
+                  "x": 0.13,
+                  "y": 0.1,
+                  "z": 0.22
+                }
+              },
+              "mass": 0.3,
+              "friction": 1,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "foot",
+              "collider_id": "collider:footR",
+              "restitution": 0.03
+            }
+          ],
+          "joints": [
+            {
+              "id": "spine",
+              "parent": "pelvis",
+              "child": "torso",
+              "position": {
+                "x": 0,
+                "y": 1.34,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": 0.20000000000000018,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": -0.1499999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.3,
+                0.3
+              ]
+            },
+            {
+              "id": "neck",
+              "parent": "torso",
+              "child": "head",
+              "position": {
+                "x": 0,
+                "y": 1.83,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": 0.3400000000000001,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": -0.46999999999999975,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.45,
+                0.45
+              ]
+            },
+            {
+              "id": "shoulderL",
+              "parent": "torso",
+              "child": "upperArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.64,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": 0.4,
+                "y": 0.1499999999999999,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.17999999999999994,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "elbowL",
+              "parent": "upperArmL",
+              "child": "lowerArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.28,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.17999999999999994,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.15999999999999992,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -2.35,
+                0.05
+              ]
+            },
+            {
+              "id": "wristL",
+              "parent": "lowerArmL",
+              "child": "handL",
+              "position": {
+                "x": 0.4,
+                "y": 0.96,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.16000000000000014,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.10999999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.35,
+                0.35
+              ]
+            },
+            {
+              "id": "hipL",
+              "parent": "pelvis",
+              "child": "upperLegL",
+              "position": {
+                "x": 0.16,
+                "y": 1.04,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": 0.16,
+                "y": -0.09999999999999987,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.20000000000000007,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "kneeL",
+              "parent": "upperLegL",
+              "child": "lowerLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.64,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.19999999999999996,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.2,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.05,
+                2.3
+              ]
+            },
+            {
+              "id": "ankleL",
+              "parent": "lowerLegL",
+              "child": "footL",
+              "position": {
+                "x": 0.16,
+                "y": 0.24,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.2,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.12,
+                "z": -0.08
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.4,
+                0.4
+              ]
+            },
+            {
+              "id": "shoulderR",
+              "parent": "torso",
+              "child": "upperArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.64,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": -0.4,
+                "y": 0.1499999999999999,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.17999999999999994,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "elbowR",
+              "parent": "upperArmR",
+              "child": "lowerArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.28,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.17999999999999994,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.15999999999999992,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -2.35,
+                0.05
+              ]
+            },
+            {
+              "id": "wristR",
+              "parent": "lowerArmR",
+              "child": "handR",
+              "position": {
+                "x": -0.4,
+                "y": 0.96,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.16000000000000014,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.10999999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.35,
+                0.35
+              ]
+            },
+            {
+              "id": "hipR",
+              "parent": "pelvis",
+              "child": "upperLegR",
+              "position": {
+                "x": -0.16,
+                "y": 1.04,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": -0.16,
+                "y": -0.09999999999999987,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.20000000000000007,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "kneeR",
+              "parent": "upperLegR",
+              "child": "lowerLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.64,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.19999999999999996,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.2,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.05,
+                2.3
+              ]
+            },
+            {
+              "id": "ankleR",
+              "parent": "lowerLegR",
+              "child": "footR",
+              "position": {
+                "x": -0.16,
+                "y": 0.24,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.2,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.12,
+                "z": -0.08
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.4,
+                0.4
+              ]
+            }
+          ]
+        },
+        "effective_solver_config": {
+          "numSolverIterations": 32,
+          "numInternalPgsIterations": 1,
+          "maxCcdSubsteps": 1,
+          "lengthUnit": 1,
+          "normalizedAllowedLinearError": 0.005,
+          "normalizedPredictionDistance": 0.02,
+          "additionalSolverIterations": 0
+        },
+        "actuation": {
+          "schema_version": 1,
+          "controller_id": "native-pose-hold-force-v1",
+          "model": "ForceBased",
+          "target_convention": "moving-frame-v1",
+          "stiffness": 100,
+          "damping": 12,
+          "max_torque_Nm": 1,
+          "targets": [
+            {
+              "id": "spine",
+              "target": 0
+            },
+            {
+              "id": "neck",
+              "target": 0
+            },
+            {
+              "id": "shoulderL",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "elbowL",
+              "target": 0
+            },
+            {
+              "id": "wristL",
+              "target": 0
+            },
+            {
+              "id": "hipL",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "kneeL",
+              "target": 0
+            },
+            {
+              "id": "ankleL",
+              "target": 0
+            },
+            {
+              "id": "shoulderR",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "elbowR",
+              "target": 0
+            },
+            {
+              "id": "wristR",
+              "target": 0
+            },
+            {
+              "id": "hipR",
+              "target": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            {
+              "id": "kneeR",
+              "target": 0
+            },
+            {
+              "id": "ankleR",
+              "target": 0
+            }
+          ]
+        },
+        "horizon_steps": 3600,
+        "safety": {
+          "anchor_error_m": 0.08,
+          "limit_error_rad": 0.05
+        },
+        "standing_end": "first_non_foot_floor_contact_or_invalid",
+        "diagnostic_end": "invalid_or_3600_steps",
+        "actual_motor_effort": "unavailable: coupled contact/limit impulses"
+      },
+      "config_hash": "sha256:0d90673fe0def6323d18d6771ac5e905ebf9eef3d91ca4af8113d3e14ce06116",
+      "experiment_id": "motor-solver-candidate-v1:0d90673fe0def6323d18d6771ac5e905ebf9eef3d91ca4af8113d3e14ce06116"
+    }
+  ]
+}

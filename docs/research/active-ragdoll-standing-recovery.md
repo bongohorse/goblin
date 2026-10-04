@@ -306,6 +306,23 @@ Record:
 - torque saturation;
 - physics-step cost.
 
+### R1b - Verify native actuation before motor-model A/B
+
+**PROJECT EVIDENCE - Issue #41**: installed 0.21.0's spherical factory returns a
+GenericImpulseJoint (type6) without motor methods. The publicly declared spherical
+wrapper constructor provides the same-handle view used by the PR29 reference; no
+physics masks or targets are changed. See standing-lab/motor-contract.md for the
+version-specific adapter, positive/negative tracking and indirect first-step angular
+momentum cap/reaction fixtures. Full-rig actual motor effort is unavailable through
+supported getters and must remain N/A rather than inferred from contact-contaminated
+angular velocity. Complete native ForceBased baseline first; motor-model A/B remains
+a separately scoped follow-up. This is actuation evidence, not standing acceptance. The full
+neutral motor gate is blocked:100/12/20 fails the existing .05 rad joint-limit bound
+at step110/ankleL; the single predeclared cap-only reduction to1 Nm fails at
+step140/elbowR (.072396600 rad). Both standing_time values are null. Do not change
+the passive numerical bounds or pursue A/B/balance before diagnosing that loaded-chain
+constraint error. See motor-contract.md and the diagnostic script for the handoff.
+
 ### R2 — A/B Rapier motor model
 
 Compare only:
@@ -421,6 +438,45 @@ They should not influence the standing implementation unless a finding is direct
 - Goblin rig: https://github.com/bongohorse/goblin/blob/57eb17c23884c6b8d94dd679b88447c2fc164f81/src/goblin-rig.js
 
 ## Update protocol
+
+### Issue #43 candidate validation (2026-10-04)
+
+Separately hashed motor-solver-candidate-v1 configurations (caps20/1, solver8/32)
+keep passive-v1/solver8 unchanged. Five fresh normal plus five separate diagnostic
+continuations per case: solver8 repeats110/ankleL and140/elbowR invalids; solver32
+both caps reaches60s diagnostics within the unchanged .05/.08 bounds.20 Nm normal
+times out60s;1 Nm normal ends at187/hand contact (3.1166666666666667s), subsequent
+head impact192 is included only in the diagnostic continuation. Median matched
+early-segment world.step cost is about3.3x solver8 on Windows/Ryzen5600X; no dedicated
+motor CPU budget or weak-device/browser acceptance established. See
+[full candidate decision](standing-lab/motor-solver43.md). Suitable numerical candidate
+for a separately authorized next Lab integration; #41 remains stopped, no merge.
+
+### Issue #42 diagnosis (2026-10-04)
+
+The #41 motor-rig blocker is a real limit breach, confirmed by an independent
+matrix/tangent angle oracle. A five-body pelvis/torso/left-leg diagnostic reproduces
+kneeL failure at step70 under the existing solver8 and neutral ForceBased100/12/20.
+No floor, spherical motors off, or diagnostic solver32 removes that breach through180
+steps; self-contact off leaves it identical. This supports a loaded coupled-constraint
+convergence/compliance explanation; engine-row residuals and the separate1 Nm elbow
+impact are not fully resolved. See [cause report and decision proposal](standing-lab/motor-cause-42.md).
+Candidate decision is a separately versioned motor-only solver32 experiment, never a
+passive-baseline replacement or accepted stand result. No local command/measurement
+fix proven; #41 remains stopped pending an explicit decision and new continuation order.
+
+### Issue #44 integration (2026-10-04)
+
+#44 explicitly accepts the #43 Solver32 candidate only in the separately versioned
+native ForceBased Motor Lab. Passive v1/Solver8 remains unchanged. Five normal20 Nm
+runs reach60s, five1 Nm runs end at step187/both hands; original passive checkpoints
+match with deviation0. Clean built browser confirms both normal terminal behaviors,
+fresh-world lifecycle and versioned exports. Full-rig actual effort/saturation stays
+unavailable. See [integration report](standing-lab/motor-integration-44.md).
+60s is solely a time criterion: nonzero drift/tracking and no complete secondary
+criteria mean no complete standing acceptance. Native hidden transition, weak-device
+and production CPU budgets remain open. Next step is separate Draft-PR review;
+model A/B, balance and recovery remain separate future work. No production integration.
 
 When new standing research is performed:
 
