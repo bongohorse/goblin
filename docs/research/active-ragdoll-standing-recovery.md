@@ -38,11 +38,19 @@ Small natural body motion is acceptable. The goal is not a perfectly frozen stat
 
 ## Success criteria
 
+The primary metric is **time until first non-foot ground contact**:
+
+- start timing when the standing simulation begins;
+- allow normal foot-floor contact;
+- stop at the first floor contact by any other Goblin body part;
+- record the exact elapsed time for every run;
+- **60.0 seconds or more = full standing success**;
+- shorter times are useful comparison data, but are not passing gates.
+
 A standing solution is accepted only when it:
 
-1. survives 60 seconds in the standing fixture;
+1. reaches 60.0 seconds without any non-foot body part contacting the floor;
 2. keeps both feet meaningfully loaded;
-3. keeps the head and torso off the floor;
 4. does not drift excessively across the floor;
 5. keeps joint errors bounded;
 6. uses bounded motor forces/torques;
