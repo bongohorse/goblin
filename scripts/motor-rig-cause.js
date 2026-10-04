@@ -32,7 +32,8 @@ function minimal(ids,jointIds,gravity,floor){
 export function runCase(c){
   const sim=c.parts?minimal(c.parts,c.joints,c.gravity,c.floor):new StandingSimulation();
   try{
-    if(!c.parts){if(c.zeroGravity)sim.world.gravity={x:0,y:0,z:0};if(c.noFloor)sim.floor.setEnabled(false);if(c.noSelf){sim.floor.setCollisionGroups((2<<16)|1);for(const e of sim.bodies.values())e.collider.setCollisionGroups((1<<16)|2);}if(c.solver)sim.world.integrationParameters.numSolverIterations=c.solver;}
+    if(c.solver)sim.world.integrationParameters.numSolverIterations=c.solver;
+    if(!c.parts){if(c.zeroGravity)sim.world.gravity={x:0,y:0,z:0};if(c.noFloor)sim.floor.setEnabled(false);if(c.noSelf){sim.floor.setCollisionGroups((2<<16)|1);for(const e of sim.bodies.values())e.collider.setCollisionGroups((1<<16)|2);}}
     const es=entries(sim.world,sim.joints),settings={...neutralMotorConfig(BASELINE),max_torque_Nm:c.cap};
     let firstLimit=null,maxViolation=0,maxOracleDifference=0,maxEngineDifference=0,maxAxisError=0;const ring=[];
     while(sim.steps<180&&!sim.terminal){
@@ -51,7 +52,10 @@ for(const [prefix,parts,joints,cap] of [['ankle2',['lowerLegL','footL'],['ankleL
   cases.push({id:prefix+'-free',parts,joints,cap,gravity:false,floor:false},{id:prefix+'-gravity',parts,joints,cap,gravity:true,floor:false},{id:prefix+'-floor',parts,joints,cap,gravity:true,floor:true},{id:prefix+'-off',parts,joints,cap,gravity:true,floor:true,motors:'off'});
 }
 if(process.argv[1]?.endsWith('motor-rig-cause.js')){
- const report={diagnostic_only:true,accepted_standing_evidence:false,base:'9263a0dfe178b83f4734431196d6a0658c7d6318',git_commit:execSync('git rev-parse HEAD',{encoding:'utf8'}).trim(),dirty:!!execSync('git status --porcelain',{encoding:'utf8'}).trim(),node:process.version,os:os.platform()+' '+os.release(),rapier:R.version(),fixed_dt:BASELINE.fixed_dt,baseline_identity:await configIdentity(BASELINE),runs:cases.map(runCase)};
+ const chainCases=[];
+ for(const [prefix,parts,joints,cap] of [['leg4',['pelvis','upperLegL','lowerLegL','footL'],['hipL','kneeL','ankleL'],20],['leg5',['pelvis','torso','upperLegL','lowerLegL','footL'],['spine','hipL','kneeL','ankleL'],20],['arm4',['torso','upperArmR','lowerArmR','handR'],['shoulderR','elbowR','wristR'],1]])chainCases.push({id:prefix+'-free',parts,joints,cap,gravity:false,floor:false},{id:prefix+'-floor',parts,joints,cap,gravity:true,floor:true});
+ const selected=process.argv.includes('--chains')?chainCases:cases;
+ const report={diagnostic_only:true,accepted_standing_evidence:false,base:'9263a0dfe178b83f4734431196d6a0658c7d6318',git_commit:execSync('git rev-parse HEAD',{encoding:'utf8'}).trim(),dirty:!!execSync('git status --porcelain',{encoding:'utf8'}).trim(),node:process.version,os:os.platform()+' '+os.release(),rapier:R.version(),fixed_dt:BASELINE.fixed_dt,baseline_identity:await configIdentity(BASELINE),runs:selected.map(runCase)};
  const passive=new StandingSimulation();try{while(!passive.terminal)passive.step();const result=await passive.result();report.passive=compareResults(JSON.parse(fs.readFileSync('docs/research/standing-lab/review-39/baseline/run-1.json','utf8')),result);}finally{passive.dispose();}
  fs.writeFileSync(process.env.GOBLIN_CAUSE_OUTPUT??'../.standing-tools/motor42-cause.json',JSON.stringify(report,null,2)+'\n');
  console.table(report.runs.map(r=>({id:r.case.id,steps:r.steps,termination:r.termination.invalid_detail??r.termination.invalid??r.termination.termination_reason??'horizon',violation:r.max_violation_rad,oracle_diff:r.max_oracle_difference_rad,engine_diff:r.max_engine_angle_difference_rad,axis_error:r.max_axis_error})));console.log('Passive',JSON.stringify(report.passive));
