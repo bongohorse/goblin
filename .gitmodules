@@ -1,0 +1,3 @@
+[submodule "vendor/rapier"]
+	path = vendor/rapier
+	url = https://github.com/dimforge/rapier.git

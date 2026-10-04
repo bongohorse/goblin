@@ -77,7 +77,7 @@ Project dependency: `three ^0.186.1`. The official `mrdoob/three.js` `dev` branc
 - `rapier-simulation-stability`: fixed timestep, sleeping, solver accuracy, scale and tunneling control
 - `rapier-debug-reset-performance`: debug rendering, deterministic reset, lifecycle, leaks and physics profiling
 
-Project dependency: `@dimforge/rapier3d-compat ^0.21.0`. Upstream Rapier master is newer, so agents must verify the installed version before using APIs from current upstream docs/changelog.
+Project dependency: `@dimforge/rapier3d-compat ^0.21.0`; `package-lock.json` currently resolves **0.21.0**. A matching upstream Rapier snapshot is pinned locally as the `vendor/rapier` submodule at tag `js-v0.21.0`, commit `b716d375efc0201003f0cd9ef7168eee0b62c177`. Read `docs/rapier/README.md` before external Rapier research. Prefer the installed package first, then the pinned local TypeScript bindings/user guide/source. Use current online docs/master only when the local reference is insufficient. Treat `vendor/rapier` as read-only and do not advance it independently of a scoped Rapier dependency upgrade.
 
 Canonical standing/recovery research: `docs/research/active-ragdoll-standing-recovery.md`. Read it before G3 standing, balance, push-recovery or get-up work; update it when new research changes evidence, tradeoffs or the recommended experiment order.
 
