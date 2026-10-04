@@ -11,11 +11,17 @@ Create an empty **Goblin** profile using VS Code's Profiles editor. Install the 
 Install Git and Node 24.21.0 (or a later Node 24 release). In Windows PowerShell:
 
 ```powershell
-git clone https://github.com/bongohorse/goblin.git
+git clone --recurse-submodules https://github.com/bongohorse/goblin.git
 code --new-window --profile Goblin .\goblin
 ```
 
-If already cloned, open that folder instead of cloning over it. `--profile Goblin` creates the named profile if absent. Verify the selected profile and install the recommendations through the Extensions panel.
+If already cloned, open that folder instead of cloning over it. After pulling changes that add or update submodules, run:
+
+```powershell
+git submodule update --init --recursive
+```
+
+This initializes the pinned local Rapier reference at `vendor/rapier`, including the matching website docs and TypeScript/Rust source used for Codex physics research. `--profile Goblin` creates the named profile if absent. Verify the selected profile and install the recommendations through the Extensions panel.
 
 In the Goblin terminal:
 
