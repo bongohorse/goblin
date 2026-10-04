@@ -372,6 +372,22 @@ Only after that result is repeatable should a production standing controller be 
 
 ## Current decision
 
+### R3 target representation evidence — 2026-10-05 / Issue52
+
+[Controlled spherical-target study](standing-lab/target-study52/README.md): pinned
+Rapier0.21.0 rigid-body angular motor coordinates are 2asin of canonical relative
+quaternion components, not Euler angles.144 real small-target tracking fixtures
+(signs/axes/combined targets, different world/bind frames, q/-q) support the bounded
+mapping. Global/pi/multibody control is not certified. Fixed and MovingFrame share
+the tested equilibrium but have different axes/cap boxes/error fields and measured
+nonzero transient trajectories; they are not generally dynamically interchangeable.
+All20 neutral full-rig runs reproduce exactly: cap20=60s timeout, cap1=187-step
+hand contact, no stability gain. Passive/v2/v3 regressions have zero deviation.
+A strict rotated-body momentum-oracle precision miss remains negative/undiagnosed;
+common-frame cap diagnostics pass without changing thresholds. Retain MovingFrame
+and ForceBased as references; fixed-native remains a bounded research candidate.
+No balance feedback, production integration, full standing or recovery acceptance.
+
 **Do not continue physical get-up development yet.**
 
 Draft PR #29 demonstrated useful physics findings, but the Goblin still lacks a proven standing foundation.
