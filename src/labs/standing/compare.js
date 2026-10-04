@@ -1,8 +1,11 @@
 import {rotationDistance,norm,sub,freeze} from './math.js';
+import {validateResult,canonical} from './config.js';
 // Gate A tolerances; never inferred from results.
 export const TOLERANCES=freeze({step:0,time:1e-12,position:1e-6,rotation:1e-6,linear_velocity:1e-6,angular_velocity:1e-6,contact_point:1e-6,contact_load:1e-5});
 export function compareResults(reference,candidate){
   const errors=[],max={position:0,rotation:0,linear_velocity:0,angular_velocity:0,contact_point:0,contact_load:0};
+  try{validateResult(reference);validateResult(candidate);}catch(error){return {pass:false,errors:['invalid_result:'+error.message],max_deviation:max};}
+  if(canonical(reference.config)!==canonical(candidate.config))errors.push('config');
   for(const key of ['config_id','experiment_id','termination_reason','failure_reason','failure_body','failure_step','simulation_steps'])if(reference[key]!==candidate[key])errors.push(key);
   for(const key of ['failure_bodies','unreached_checkpoints'])if(JSON.stringify(reference[key])!==JSON.stringify(candidate[key]))errors.push(key);
   if(reference.standing_time===null||candidate.standing_time===null){if(reference.standing_time!==candidate.standing_time)errors.push('standing_time');}else if(Math.abs(reference.standing_time-candidate.standing_time)>TOLERANCES.time)errors.push('standing_time');

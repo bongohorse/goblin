@@ -102,8 +102,12 @@ is a valid passive failure; save all sorted IDs once, canonical first, stop imme
 Contact at step 3600 wins over timeout. Timeout means only “60 seconds without non-foot
 contact”, no full standing/production success claim. Physical fall cause remains unknown.
 
-COM = Σ mass×worldCom / Σ mass. Velocity = Σ mass×(linear velocity + omega×(worldCom−
-body translation)) / Σ mass; offset-COM fixture validates this formula. Drift = horizontal
+COM = sum(mass * worldCom) / sum(mass). Velocity = sum(mass * linvel) / sum(mass):
+Rapier's `linvel()` is already the mass-centre velocity. The offset-COM fixture checks
+it against `velocityAtPoint(worldCom())` and actual COM displacement over a free step.
+The former omega-cross-offset term was an implementation/calibration defect corrected
+in #39; the intended world-space COM-velocity field and symmetric baseline are unchanged.
+Drift = horizontal
 XZ distance of COM from step 0. Pelvis/torso quaternion is world orientation. Passive
 joint data = anchor gap, hinge twist/limit violation and hinge-axis misalignment; spherical
 limit/twist null with N/A. Motor tracking/saturation explicitly N/A. Physics timing brackets
@@ -122,6 +126,12 @@ is null; `observed_time` preserves counter time. A paused partial export has ter
 `incomplete` and standing_time null. Build provenance includes git SHA, dirty flag,
 build_id and runtime/platform strings. Commit SHA refers to code that ran, not later
 evidence commits. No silent unknown provenance in final evidence.
+The build digest includes path-delimited contents of src/, labs/, public/, tests/,
+scripts/, index.html, vite.config.js, package.json/lock and three Lab config/schema JSON
+files. Evidence/docs are excluded. Vite and Node use the same helper.
+`validateResult` rejects missing/inconsistent measurements and checkpoint taxonomy;
+`validateResultProvenance` additionally recomputes the embedded config SHA-256. Neither
+claims a third-party signature or proves arbitrary supplied git/platform metadata.
 
 ## Predeclared five-run tolerances
 

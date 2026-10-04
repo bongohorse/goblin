@@ -8,7 +8,11 @@ const {chromium}=require('playwright');
 
 async function main(){
   const {compareResults}=await import('../src/labs/standing/compare.js');
-  const {validateResult}=await import('../src/labs/standing/config.js');
+  const {validateResultProvenance}=await import('../src/labs/standing/config.js');
+  const {standingBuild}=await import('../scripts/standing-provenance.js');
+  const harness=standingBuild();
+  const directory=process.env.GOBLIN_STANDING_EVIDENCE_DIR||'docs/research/standing-lab';
+  fs.mkdirSync(directory,{recursive:true});
   const root=path.resolve('dist');
   const server=http.createServer((req,res)=>{
     let relative=new URL(req.url,'http://local').pathname.replace(/^\/goblin\//,'');
@@ -24,7 +28,7 @@ async function main(){
   try{
     const options={headless:process.env.GOBLIN_HEADED_BROWSER!=='1'};
     if(process.env.GOBLIN_CHROMIUM_EXECUTABLE)options.executablePath=process.env.GOBLIN_CHROMIUM_EXECUTABLE;
-    else if(os.platform()==='win32')options.channel='msedge';
+    else if(os.platform()==='win32')options.executablePath='C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
     browser=await chromium.launch(options);
     const context=await browser.newContext({viewport:{width:1280,height:800}});
     const page=await context.newPage(),errors=[],warnings=[],failedResponses=[];
@@ -62,18 +66,17 @@ async function main(){
     for(const enabled of [true,false]){
       await page.locator('#reset').click();await page.locator('#render').setChecked(enabled);
       await page.evaluate(async()=>{for(let i=0;i<70;i++){document.querySelector('#step').click();await new Promise(requestAnimationFrame);}});
-      const r=await page.evaluate(()=>standingLab.result());validateResult(r);rendered.push(r);
+      const r=await page.evaluate(()=>standingLab.result());await validateResultProvenance(r);rendered.push(r);
       assert.equal(r.termination_reason,'non_foot_contact');assert.equal(r.simulation_steps,70);assert.deepEqual(r.failure_bodies,['handL']);
       await page.locator('#step').click();assert.equal((await diag()).step,70);
     }
     assert.equal(compareResults(rendered[0],rendered[1]).pass,true);
-    const nodeBaseline=JSON.parse(fs.readFileSync('docs/research/standing-lab/baseline/run-1.json','utf8'));
+    const nodeBaseline=JSON.parse(fs.readFileSync(directory+'/baseline/run-1.json','utf8'));
     const nodeComparison=compareResults(nodeBaseline,rendered[0]);assert.equal(nodeComparison.pass,true);
     const downloadPromise=page.waitForEvent('download');await page.locator('#export').click();
     const download=await downloadPromise;const downloaded=JSON.parse(fs.readFileSync(await download.path(),'utf8'));
-    validateResult(downloaded);assert.deepEqual(downloaded,rendered[1]);
+    await validateResultProvenance(downloaded);assert.deepEqual(downloaded,rendered[1]);
     await page.locator('#render').check();await page.evaluate(()=>new Promise(requestAnimationFrame));
-    const directory='docs/research/standing-lab';
     await page.screenshot({path:directory+'/passive-fall.png'});
     await page.reload();await page.waitForFunction(()=>window.standingLab);assert.equal((await diag()).step,0);
 
@@ -92,7 +95,7 @@ async function main(){
     const disposal=await page.evaluate(()=>{const retained=standingLab;retained.destroy();let rejects=false;try{retained.snapshot();}catch{rejects=true;}return {removed:!window.standingLab,canvasRemoved:document.querySelectorAll('canvas').length===0,retainedRejects:rejects};});
     assert.deepEqual(disposal,{removed:true,canvasRemoved:true,retainedRejects:true});
     assert.deepEqual(errors,[]);assert.deepEqual(failedResponses,[]);
-    const report={platform:`${os.platform()} ${os.release()} ${os.arch()}`,browser:await browser.version(),mode:(options.headless?'headless':'headed')+' production build; not GPU performance',build_provenance:{git_commit:rendered[0].git_commit,dirty:rendered[0].dirty,build_id:rendered[0].build_id},checks:['Pages direct/reload/assets','pause/resume bounded','single-step','resize while paused','visibility handler','20 fresh resets/counts stable','render on/off','Node/browser checkpoints','failure/export','touch landscape','production start/pointer/reset','destroy/retained refs'],native_tab_hidden_observed:actualHidden,synthetic_visibility_handler_checked:true,resource_samples:resetSamples.map(({generation,bodies,colliders,joints,listeners,geometries,textures,programs})=>({generation,bodies,colliders,joints,listeners,geometries,textures,programs})),standing_time:rendered[0].standing_time,failure_bodies:rendered[0].failure_bodies,node_comparison:nodeComparison,disposal,errors,warnings,failedResponses};
+    const report={command:'npm run lab:browser',method:'Playwright direct',playwright_version:require('playwright/package.json').version,executable_path:options.executablePath||chromium.executablePath(),headless:options.headless,harness_provenance:harness,node:process.version,platform:`${os.platform()} ${os.release()} ${os.arch()}`,browser:await browser.version(),mode:(options.headless?'headless':'headed')+' production build; not GPU performance',build_provenance:{git_commit:rendered[0].git_commit,dirty:rendered[0].dirty,build_id:rendered[0].build_id},checks:['Pages direct/reload/assets','pause/resume bounded','single-step','resize while paused','visibility handler','20 fresh resets/counts stable','render on/off','Node/browser checkpoints','failure/export','touch landscape','production start/pointer/reset','destroy/retained refs'],native_tab_hidden_observed:actualHidden,synthetic_visibility_handler_checked:true,resource_samples:resetSamples.map(({generation,bodies,colliders,joints,listeners,geometries,textures,programs})=>({generation,bodies,colliders,joints,listeners,geometries,textures,programs})),standing_time:rendered[0].standing_time,failure_bodies:rendered[0].failure_bodies,node_comparison:nodeComparison,disposal,errors,warnings,failedResponses};
     fs.writeFileSync(directory+'/browser-qa.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
   }finally{await browser?.close();await new Promise(resolve=>server.close(resolve));}
 }

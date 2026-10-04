@@ -11,7 +11,9 @@ points contribute load (predictive support deliberately excluded). Tangential da
 CoP omitted, never reported as zero. This remains the narrowly documented contact rule.
 
 Offset-centre analytical fixture: masses 2 and 1 kg, COM x=2/3, y=4/3 m; translated body
-velocity plus omega×COM-offset produces aggregate velocity (2/3,5/3,0) m/s. A common
+velocity is already COM velocity in Rapier: aggregate (2/3,1,0) m/s. Review #39
+corrected the former double-counted angular offset term and erroneous (2/3,5/3,0)
+test oracle; public velocityAtPoint and free-step displacement independently verify it. A common
 (3,0,4) m translation gives 5 m horizontal COM drift; displaced neck anchor gives .02 m
 constraint error. Independent quaternion/torque fixture verifies hinge angle and limits.
 Canonical failure body lexical; simultaneous list deduplicated and sorted; endstep contact

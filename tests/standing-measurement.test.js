@@ -35,12 +35,15 @@ test('exact initial contact detects touching/penetration; predictive gap never c
   }finally{gap.world.free();}
 });
 
-test('COM uses mass centres including offset angular velocity; known drift and quaternion error',()=>{
+test('COM velocity uses Rapier mass-centre velocity, not rotating body-origin velocity',()=>{
   const world=new R.World(vec());try{
     const a=world.createRigidBody(R.RigidBodyDesc.dynamic().setTranslation(1,2,0));world.createCollider(R.ColliderDesc.ball(.2).setTranslation(.5,0,0).setMass(2),a);
     const b=world.createRigidBody(R.RigidBodyDesc.dynamic().setTranslation(-1,0,0));world.createCollider(R.ColliderDesc.ball(.2).setMass(1),b);
     a.setLinvel(vec(1),true);a.setAngvel(vec(0,0,2),true);b.setLinvel(vec(0,3),true);
-    const measured=centreOfMass([{body:a},{body:b}]);near(measured.com.x,2/3);near(measured.com.y,4/3);near(measured.com_velocity.x,2/3);near(measured.com_velocity.y,5/3);
+    const measured=centreOfMass([{body:a},{body:b}]);near(measured.com.x,2/3);near(measured.com.y,4/3);near(measured.com_velocity.x,2/3);near(measured.com_velocity.y,1);
+    near(a.velocityAtPoint(a.worldCom()).y,0);near(a.velocityAtPoint(a.translation()).y,-1);
+    const before={...measured.com};world.step();const after=centreOfMass([{body:a},{body:b}]);
+    near((after.com.x-before.x)/world.timestep,measured.com_velocity.x);near((after.com.y-before.y)/world.timestep,measured.com_velocity.y);
   }finally{world.free();}
   const sim=new StandingSimulation();try{for(const {body} of sim.bodies.values())body.setTranslation({...body.translation(),x:body.translation().x+3,z:body.translation().z+4},true);const current=centreOfMass(sim.bodies.values());near(Math.hypot(current.com.x-sim.initialCom.x,current.com.z-sim.initialCom.z),5);const j=sim.joints.get('neck');j.joint.setAnchor1({...j.joint.anchor1(),x:.02});near(jointObservation(j).anchor_error,.02,1e-5);}finally{sim.dispose();}
 });

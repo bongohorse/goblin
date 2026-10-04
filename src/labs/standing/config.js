@@ -10,6 +10,8 @@ export function validateConfig(input){
   if(!configValidator(input))throw Error('Invalid config: '+ajv.errorsText(configValidator.errors));
   const config=structuredClone(input),ids=new Set(config.bodies.map(b=>b.id));
   if(ids.size!==15||new Set(config.bodies.map(b=>b.collider_id)).size!==15||new Set(config.joints.map(j=>j.id)).size!==14)throw Error('Duplicate IDs');
+  for(const b of config.bodies){const reference=BASELINE.bodies.find(r=>r.id===b.id);if(!reference||b.collider_id!==reference.collider_id||b.body_class!==reference.body_class)throw Error('Unknown body/collider taxonomy');}
+  for(const j of config.joints){const reference=BASELINE.joints.find(r=>r.id===j.id);if(!reference||j.parent!==reference.parent||j.child!==reference.child||j.type!==reference.type)throw Error('Unknown joint topology');}
   if(config.bodies.filter(b=>b.body_class==='foot').map(b=>b.id).sort().join()!=='footL,footR')throw Error('Foot taxonomy');
   if(!['pelvis','torso','head'].every(id=>ids.has(id)))throw Error('Missing trunk');
   if(Object.values(config.floor.half).some(n=>n<=0)||config.floor.friction<0||config.floor.restitution<0||config.floor.restitution>1)throw Error('Invalid floor');
@@ -44,6 +46,27 @@ export function validateResult(result){
     if(result.simulation_steps!==result.config.max_steps||ids.length||result.failure_body!==null||result.failure_step!==null||result.failure_reason!==null||result.standing_time!==result.observed_time)throw Error('Inconsistent timeout');
   }else if(result.standing_time!==null||ids.length||result.failure_body!==null)throw Error('Invalid/incomplete result cannot claim standing time');
   if(reason==='invalid_simulation'&&(!result.invalid_detail||result.failure_reason!=='invalid_simulation'))throw Error('Missing invalid cause');
+  if(!/^config:sha256:[a-f0-9]{64}$/.test(result.config_id)||result.experiment_id!=='passive-v1:'+result.config_id.slice(14))throw Error('Invalid config identity');
+  const bodyIds=result.config.bodies.map(b=>b.id).sort(),jointIds=result.config.joints.map(j=>j.id).sort();
+  const steps=result.checkpoints.map(c=>c.step);
+  if(!steps.length||steps[0]!==0||steps.some((s,i)=>s>result.simulation_steps||(i>0&&s<=steps[i-1])))throw Error('Invalid checkpoint steps');
+  const scheduled=[0,1,10,30,60];
+  if(canonical(result.unreached_checkpoints)!==canonical(scheduled.filter(s=>!steps.includes(s))))throw Error('Inconsistent unreached checkpoints');
+  for(const c of result.checkpoints){
+    if(canonical(c.bodies.map(b=>b.id).sort())!==canonical(bodyIds)||c.bodies.some(b=>Math.abs(Math.hypot(...Object.values(b.rotation))-1)>1e-4))throw Error('Invalid checkpoint bodies');
+    for(const contact of c.contacts){const b=result.config.bodies.find(b=>b.id===contact.body_id);if(!b||b.collider_id!==contact.collider_id||contact.distance>0||(c.step===0?(contact.normal_load!==null||contact.normal_impulse!==null):(contact.normal_load===null||contact.normal_impulse===null||contact.normal_impulse<0)))throw Error('Invalid checkpoint contact');}
+  }
+  if(reason!=='invalid_simulation'){
+    if(!result.telemetry||canonical(result.telemetry.joints.map(j=>j.id).sort())!==canonical(jointIds))throw Error('Missing telemetry');
+    if(scheduled.filter(s=>s<=result.simulation_steps).some(s=>!steps.includes(s)))throw Error('Missing scheduled checkpoint');
+    if(reason!=='incomplete'&&!steps.includes(result.simulation_steps))throw Error('Missing terminal checkpoint');
+  }
+  return result;
+}
+// Hash integrity requires Web Crypto; synchronous comparisons still enforce semantic completeness.
+export async function validateResultProvenance(result){
+  validateResult(result);const identity=await configIdentity(result.config);
+  if(result.config_id!==identity.config_id||result.experiment_id!==identity.experiment_id)throw Error('Config hash mismatch');
   return result;
 }
 export function canonical(value){if(Array.isArray(value))return '['+value.map(canonical).join(',')+']';if(value&&typeof value==='object')return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+canonical(value[k])).join(',')+'}';return JSON.stringify(value);}

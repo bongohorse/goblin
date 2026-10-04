@@ -1,4 +1,4 @@
-import {vec,add,sub,scale,cross,point,jointObservation} from './math.js';
+import {vec,add,scale,point,jointObservation} from './math.js';
 
 // floor is always requested first; flipped describes Rapier's internal manifold order.
 export function floorContacts(world,floor,entries,initial=false){
@@ -26,7 +26,8 @@ export function floorContacts(world,floor,entries,initial=false){
 
 export function centreOfMass(entries){
   let mass=0,com=vec(),velocity=vec();
-  for(const {body} of entries){const m=body.mass(),c=body.worldCom();mass+=m;com=add(com,scale(c,m));const v=add(body.linvel(),cross(body.angvel(),sub(c,body.translation())));velocity=add(velocity,scale(v,m));}
+  // Rapier linvel is already the velocity at worldCom, including offset mass centres.
+  for(const {body} of entries){const m=body.mass(),c=body.worldCom();mass+=m;com=add(com,scale(c,m));velocity=add(velocity,scale(body.linvel(),m));}
   if(!Number.isFinite(mass)||mass<=0)throw Error('Unavailable COM');
   return {com:scale(com,1/mass),com_velocity:scale(velocity,1/mass)};
 }

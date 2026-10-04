@@ -13,6 +13,9 @@ const close=(a,b,t=1e-5)=>assert.ok(Math.abs(a-b)<t,`${a} != ${b}`);
 test('lab config is immutable, validated and transitively independent from production',()=>{
   assert.ok(Object.isFrozen(BASELINE.bodies[0]));
   for(const mutate of [c=>c.bodies[0].mass=-1,c=>c.bodies[0].id='footL',c=>c.bodies[0].rotation.w=2,c=>c.joints[0].anchorA.x+=.1,c=>c.bodies[0].shape.radius=0,c=>c.fixed_dt=.01]){const c=structuredClone(BASELINE);mutate(c);assert.throws(()=>validateConfig(c));}
+  const renamed=structuredClone(BASELINE);renamed.bodies.find(b=>b.id==='handR').id='unknown';for(const j of renamed.joints){if(j.parent==='handR')j.parent='unknown';if(j.child==='handR')j.child='unknown';}
+  assert.throws(()=>validateConfig(renamed),'renaming a complete connected limb cannot retain the frozen rig taxonomy');
+  const collider=structuredClone(BASELINE);collider.bodies[0].collider_id='unknown';assert.throws(()=>validateConfig(collider));
   const visited=new Set();
   function inspect(file){if(visited.has(file))return;visited.add(file);const source=fs.readFileSync(file,'utf8');for(const m of source.matchAll(/(?:from\s+|import\s*)['"]([^'"]+)['"]/g)){const dep=m[1];if(dep.startsWith('.')){const next=path.resolve(path.dirname(file),dep);assert.ok(next.includes(path.join('src','labs','standing'))||next.includes(path.join('docs','research','standing-lab')),next);if(next.endsWith('.js'))inspect(next);}else assert.ok(['ajv','@dimforge/rapier3d-compat'].includes(dep),dep);}}
   inspect(path.resolve('src/labs/standing/simulation.js'));
