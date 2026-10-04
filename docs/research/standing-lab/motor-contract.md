@@ -74,7 +74,7 @@ full-rig torque; the engine's per-axis cap is a configuration and fixture-valida
 
 ## Versioning and gates
 
-Passive config/result schema-v1 is preserved. Motor experiment/result schema-v2 embeds
+Passive config/result schema-v1 is preserved. The planned motor experiment/result schema-v2 embeds
 rig-v1 plus explicitly versioned actuation config, controller_id native-pose-hold-force-v1,
 different config SHA and native-force-v2 experiment identity. A compatible reader accepts
 both versions; motor tracking/effort semantics never masquerade as passive N/A fields.
@@ -85,3 +85,23 @@ then clean built browser checks in both modes. Early falls are valid measurement
 60-s timeout is not complete standing acceptance. No change to passive numerical bounds
 or predeclared repeatability tolerances to force a pass. Final evidence records clean
 code head separately from a later documentation/results-only head and current PR CI.
+
+## Gate C blocked - do not integrate
+
+The neutral full-rig hold with the reference100/12/20 configuration violates the
+unchanged .05 rad limit-error bound at step110 (ankleL). One predeclared corrective
+check reduced only the cap20 to1 Nm, reducing allowed step impulse95%, to test whether
+lower actuation load avoids this invalid state. No standing-time optimisation/sweep.
+That also fails at step140 (elbowR violation .072396600 rad). Both runs terminate
+invalid_simulation with standing_time=null, not first-contact baseline measurements.
+The source of loaded-chain error needs a bounded diagnostic before integration; the
+isolated tracking/cap positives do not establish valid full-chain actuation under load.
+No change to rig/pose/gains/dt/solver/materials/limits or passive safety tolerance.
+
+scripts/standing-motor-diagnostic.js reproduces these exact two diagnostic cases using
+the existing simulation step, then verifies passive checkpoints against the original
+review baseline. It deliberately exits2 on this blocker. Do not export these motor
+diagnostics as passive-v1 runs or count five identical invalid runs as an accepted motor
+baseline. No motor UI or accepted v2 result path has been integrated. Planned v2,
+full-rig lifecycle/browser proof and five valid motor runs remain incomplete. Stop
+here rather than add controller/model/solver/target or further parameter experiments.

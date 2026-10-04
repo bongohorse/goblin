@@ -316,7 +316,12 @@ version-specific adapter, positive/negative tracking and indirect first-step ang
 momentum cap/reaction fixtures. Full-rig actual motor effort is unavailable through
 supported getters and must remain N/A rather than inferred from contact-contaminated
 angular velocity. Complete native ForceBased baseline first; motor-model A/B remains
-a separately scoped follow-up. This is actuation evidence, not standing acceptance.
+a separately scoped follow-up. This is actuation evidence, not standing acceptance. The full
+neutral motor gate is blocked:100/12/20 fails the existing .05 rad joint-limit bound
+at step110/ankleL; the single predeclared cap-only reduction to1 Nm fails at
+step140/elbowR (.072396600 rad). Both standing_time values are null. Do not change
+the passive numerical bounds or pursue A/B/balance before diagnosing that loaded-chain
+constraint error. See motor-contract.md and the diagnostic script for the handoff.
 
 ### R2 — A/B Rapier motor model
 
