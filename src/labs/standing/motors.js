@@ -27,17 +27,19 @@ export function sphericalMotorView(world,joint,descriptor){
   return new R.SphericalImpulseJoint(world.impulseJoints.raw,world.bodies,joint.handle);
 }
 
-export function commandMotor(joint,type,target,{stiffness,damping,max_torque_Nm},bindFrame=IDENTITY){
+export function commandMotor(joint,type,target,{stiffness,damping,max_torque_Nm,model='ForceBased'},bindFrame=IDENTITY){
+  if(!['ForceBased','AccelerationBased'].includes(model))throw Error('Unsupported native motor model');
+  const nativeModel=R.MotorModel[model];
   if(type==='spherical'){
     joint.setFrameX1(multiply(bindFrame,target));
-    for(const axis of MOTOR_AXES){joint.configureMotorModel(axis,R.MotorModel.ForceBased);joint.setMotorMaxForce(axis,max_torque_Nm);joint.configureMotor(axis,0,0,stiffness,damping);}
+    for(const axis of MOTOR_AXES){joint.configureMotorModel(axis,nativeModel);joint.setMotorMaxForce(axis,max_torque_Nm);joint.configureMotor(axis,0,0,stiffness,damping);}
   }else{
-    joint.configureMotorModel(R.MotorModel.ForceBased);joint.setMotorMaxForce(max_torque_Nm);joint.configureMotor(target,0,stiffness,damping);
+    joint.configureMotorModel(nativeModel);joint.setMotorMaxForce(max_torque_Nm);joint.configureMotor(target,0,stiffness,damping);
   }
 }
 
 export class NativePoseHold {
-  constructor(config,rig){this.config=validateMotorConfig(config,rig);this.entries=[];}
+  constructor(config,rig,validator=validateMotorConfig){this.config=validator(config,rig);this.entries=[];}
   bind(sim){this.entries=this.config.targets.map(t=>{const entry=sim.joints.get(t.id);const joint=entry.spec.type==='spherical'?sphericalMotorView(sim.world,entry.joint,entry.descriptor):entry.joint;return {...entry,joint,target:t.target,bindFrame:{...joint.frameX1()},frame2:{...joint.frameX2()}};});this.command();}
   command(){for(const e of this.entries)commandMotor(e.joint,e.spec.type,e.target,this.config,e.bindFrame);}
   tracking(){return this.entries.map(e=>{
