@@ -1,635 +1,384 @@
-# Active Ragdoll Standing & Recovery Research
+# Goblin Standing Foundation Research
 
-**Status:** living research document  
+**Status:** active research document  
 **Last updated:** 2026-10-04  
-**Scope:** G3 standing, balance, push recovery, ground-contact transitions and physical get-up  
-**Repository:** `bongohorse/goblin`  
-**Current engine baseline:** Three.js 0.186.1, `@dimforge/rapier3d-compat` 0.21.0  
-**Related work:** Issue #15, Draft PR #29
+**Current scope:** stable physical standing only  
+**Related work:** Issue #15, Draft PR #29  
+**Engine baseline:** Three.js 0.186.1, `@dimforge/rapier3d-compat` 0.21.0
 
-This document is the shared research record for Goblin standing/recovery work. It exists so later agents/chats do not restart the same investigation, mistake a hypothesis for a fact, or repeat a failed controller path.
+## Current problem
+
+The Goblin cannot yet stand reliably on its own.
+
+That is the only problem this research document is trying to solve right now.
+
+We are **not** currently solving:
+
+- getting up from the floor;
+- walking or running;
+- stepping after large pushes;
+- sitting;
+- grabbing or carrying objects;
+- hiding, fleeing or other AI behavior.
+
+Those features depend on a stable physical body and are deferred until standing works.
+
+## Goal
+
+The Goblin must remain a fully dynamic physical ragdoll and stand reliably for **60 seconds** without:
+
+- teleporting bodies;
+- directly forcing transforms as a hidden correction;
+- invisible supports or world anchors;
+- resetting the character;
+- disabling the physical ragdoll;
+- relying on extreme force or friction as a brute-force workaround.
+
+Small natural body motion is acceptable. The goal is not a perfectly frozen statue.
+
+## Success criteria
+
+A standing solution is accepted only when it:
+
+1. survives 60 seconds in the standing fixture;
+2. keeps both feet meaningfully loaded;
+3. keeps the head and torso off the floor;
+4. does not drift excessively across the floor;
+5. keeps joint errors bounded;
+6. uses bounded motor forces/torques;
+7. remains fully dynamic and collision-reactive;
+8. is repeatable across multiple runs;
+9. has acceptable physics-step cost;
+10. does not depend on a reset or recovery shortcut.
+
+Exact numeric thresholds beyond the existing 60-second/stationary checks should be defined by the fixture before production adoption.
 
 ## Research rules
 
-Use these labels consistently:
+Use these labels:
 
-- **PROJECT EVIDENCE** — reproduced in this repository with current Goblin code/fixtures.
-- **PRIMARY SOURCE** — supported by Rapier documentation/source or a research paper.
-- **EXTERNAL PATTERN** — used successfully by another project, but not yet proven for Goblin.
-- **HYPOTHESIS** — plausible explanation or design direction that still requires a Goblin experiment.
-- **DEFERRED** — technically possible, but intentionally not the next path.
-- **REJECTED FOR NOW** — investigated and not justified by current evidence.
+- **PROJECT EVIDENCE** — reproduced with Goblin code/fixtures.
+- **PRIMARY SOURCE** — supported by Rapier docs/source or a research paper.
+- **EXTERNAL PATTERN** — used elsewhere but not proven for Goblin.
+- **HYPOTHESIS** — plausible and still needs a Goblin experiment.
+- **DEFERRED** — intentionally not part of the current standing problem.
+- **REJECTED FOR NOW** — tested or considered and not justified as the current solution.
 
-Before implementation, verify APIs against the installed `@dimforge/rapier3d-compat` version. Upstream/current Rapier documentation may contain APIs or behavior newer than the installed JS package.
+Test one meaningful variable at a time where practical.
 
-Do not turn an external pattern into production code without a bounded fixture and explicit acceptance criteria. Negative results belong in this document too.
+Do not convert a hypothesis into production code before a bounded standing fixture proves it.
 
-## Current Goblin evidence
+Before implementation, verify APIs against the installed `@dimforge/rapier3d-compat` version. Current upstream Rapier docs can differ from 0.21.0.
 
-The latest G3 investigation is Draft PR #29 at head `57eb17c23884c6b8d94dd679b88447c2fc164f81`.
+## What we already know
 
-Reference:
-- https://github.com/bongohorse/goblin/pull/29
-- https://github.com/bongohorse/goblin/blob/57eb17c23884c6b8d94dd679b88447c2fc164f81/docs/development/g3-feasibility-review.md
-
-### Rig facts
+### Current rig
 
 **PROJECT EVIDENCE**
 
-Current G1 rig:
+The Goblin currently uses:
 
-- 15 dynamic rigid bodies.
-- 14 impulse joints.
-- Spine and neck are revolute joints with limits.
-- Elbows, knees, wrists and ankles are revolute joints with limits.
-- Hips and shoulders are spherical joints and currently have no anatomical angular limits.
-- Adjacent connected bodies have their mutual contacts disabled; other self-collisions remain enabled.
-- Hands use ball colliders with radius 0.115 m and friction 0.7.
-- Feet use cuboid colliders with half-extents 0.13 × 0.10 × 0.22 m and friction 1.0.
-- Body linear damping is 0.35 and angular damping is 1.3.
-- Goblin masses are authored per body part instead of relying on default density.
+- 15 dynamic rigid bodies;
+- 14 impulse joints;
+- revolute limits on spine, neck, elbows, wrists, knees and ankles;
+- spherical hips and shoulders without authored anatomical angular limits;
+- self-collision between non-adjacent body parts;
+- ball colliders for hands;
+- cuboid colliders for feet;
+- authored masses, damping and friction.
 
-Current rig source:
+Source:
 https://github.com/bongohorse/goblin/blob/57eb17c23884c6b8d94dd679b88447c2fc164f81/src/goblin-rig.js
 
-### Standing/solver evidence
+### Solver convergence matters
 
 **PROJECT EVIDENCE**
 
-Earlier G3 balance fixtures showed:
+Earlier standing experiments showed that solver budget changes the result materially.
 
-- Passive ragdoll falls quickly.
-- Joint motors alone did not produce a durable stationary stance.
-- Extra solver iterations changed the result materially.
-- The +16-iteration fixture reached the existing 60 s standing/stationary criterion in the isolated experiment.
-- +12 iterations could remain standing for 60 s but exceeded the stationary drift criterion.
-- This is evidence that constraint convergence matters; it is not evidence that +16 should be adopted in production.
+- Passive ragdoll falls.
+- Joint motors alone were not enough for a durable stationary stance.
+- Additional solver iterations improved standing strongly.
+- The +16-iteration fixture reached the existing 60-second standing/stationary criterion.
+- +12 iterations could remain standing for 60 seconds but still exceeded the previous stationary-drift threshold.
 
-Latest G3 work keeps +16 as a fixture-only candidate. It is not a production decision.
+Conclusion:
 
-### Get-up evidence
+**Constraint convergence is part of the standing problem.**
 
-**PROJECT EVIDENCE**
+But +16 is fixture evidence, not yet a production setting.
 
-Current result is still **0 successful physical get-up cycles**.
-
-The latest bounded sole-roll mechanism:
-
-- moves physically through native joint motors;
-- uses real Rapier contacts;
-- rejects collision-invalid whole-body poses;
-- makes visible progress;
-- still loses foot load before the head becomes unloaded;
-- fails after about 1.8 s in the final repeated back-fall test;
-- produces zero head-free dwell.
-
-Previous fixed-support/four-support attempts also failed. The latest review showed an important causal distinction:
-
-1. Some older target poses were joint-reachable but self-collision-invalid.
-2. Correcting those invalid poses is necessary but not sufficient.
-3. The new collision-aware path still cannot keep both foot support and unload the head.
-4. Therefore the remaining problem is not simply "more torque", "more friction", or "better IK". Contact configuration and whole-body path have to change together.
-
-### Friction evidence
+### Friction alone is not the answer
 
 **PROJECT EVIDENCE**
 
-Changing all tested friction coefficients to 2 did not make the old bridge succeed and did not make the latest sole-roll path succeed. Therefore:
+Increasing tested friction values to 2 did not solve the previous standing/recovery problems.
 
-- friction can affect the behavior;
-- current experiments do **not** prove friction irrelevant;
-- friction alone is **not** a demonstrated solution.
+Conclusion:
 
-Legacy tangent-impulse getters were not validated as reliable solved-friction evidence in the current setup. Use measured slip and validated normal contact loads until a better friction diagnostic is proven.
+**Do not treat higher friction as the primary standing solution.**
 
-### Self-collision evidence
+### More torque alone is not the answer
 
 **PROJECT EVIDENCE**
 
-A previously selected deep-flexion target produced roughly 18–20 mm torso/thigh overlap. Native motors did not converge under real self-collision, even after gravity/floor isolation. A sensors-only diagnostic converged.
+The project has already shown that physically invalid or poorly supported poses cannot simply be forced into success with stronger actuation.
 
-Conclusion: a joint-reachable pose is not necessarily a physically reachable pose. Whole-body collision feasibility must be checked during planning.
+Conclusion:
 
-## Rapier findings
+**Do not solve standing by continuously increasing motor force.**
 
-### 1. Native joint motors are PD controllers
+### Self-collision can invalidate apparently reachable poses
+
+**PROJECT EVIDENCE**
+
+A previous deep-flexion target was joint-reachable but produced approximately 18–20 mm torso/thigh overlap. It converged only when collision behavior was removed diagnostically.
+
+Conclusion:
+
+Any future standing pose or correction must remain physically collision-valid.
+
+## Most promising standing architecture
+
+The current leading hypothesis is to separate **pose control** from **balance control**.
+
+```text
+standing reference pose
+        |
+   joint PD motors
+        |
+  physical ragdoll
+        |
+ contacts + COM + velocity
+        |
+    balance controller
+```
+
+### 1. Joint PD for posture
 
 **PRIMARY SOURCE — high confidence**
 
-Rapier documents joint motors as proportional-derivative controllers with target position, target velocity, stiffness and damping. Spherical joints expose per-axis motor control for AngX/AngY/AngZ, including force/torque caps.
+Rapier joint motors are PD-style controllers using target position/velocity, stiffness, damping and bounded force/torque.
 
 Sources:
 - https://rapier.rs/docs/user_guides/javascript/joints/
 - https://rapier.rs/javascript3d/classes/SphericalImpulseJoint.html
 
-Implication for Goblin:
+Use joint motors as the Goblin's "muscles".
 
-- Prefer native motor targets as the primitive for "muscle" control.
-- Keep explicit torque caps.
-- Separate desired pose from balance logic.
-- The current experimental spherical path changes `frameX1` and then drives motor targets toward zero. That technique has been validated for unloaded pose convergence in the existing fixture, but direct native angular targets deserve an isolated comparison because Rapier exposes them explicitly.
+**HYPOTHESIS:** direct native per-axis spherical motor targets may be easier to tune and reason about than the current experimental technique of changing joint frames and driving toward zero.
 
-**HYPOTHESIS:** a cleaner "reference pose -> per-axis native PD motor" layer will be easier to reason about than continuing to encode pose targets by mutating joint frames during recovery.
+This needs an isolated A/B test.
 
-### 2. Rapier provides a PID controller for dynamic rigid bodies
+### 2. Pelvis/root balance controller
 
-**PRIMARY SOURCE — high confidence**
+**PRIMARY SOURCE + HYPOTHESIS**
 
-Rapier provides a PID controller intended to steer a **dynamic** rigid body toward a target without teleporting it.
+Rapier provides a PID controller for dynamic rigid bodies.
 
 Source:
 - https://rapier.rs/docs/user_guides/javascript/pid_controller/
 
-Rapier explicitly warns against repeatedly setting body poses directly when physical interaction matters and presents PID-controlled velocity change as the alternative.
+A root/pelvis controller may stabilize the overall body while limb joints maintain the standing pose.
 
-Implication for Goblin:
+This must not teleport the pelvis or make it effectively kinematic.
 
-A pelvis/root PID is worth testing as a **balance/reference controller**, while the limb joints remain physical and motor-driven.
+Required experiment:
 
-It must first be tested as a fixture. We do not yet know whether its behavior under Goblin contacts, joint reactions and player interaction gives the kind of physical response we want.
+- joint PD only;
+- joint PD + bounded pelvis/root PID;
+- same initial pose and solver settings;
+- compare survival, drift, COM motion, joint error and physical response.
 
-**HYPOTHESIS:** two controller layers may be simpler and more robust:
+### 3. Solver iterations
 
-1. root/pelvis balance target;
-2. limb/joint pose targets.
+**PRIMARY SOURCE + PROJECT EVIDENCE**
 
-This matches common active-ragdoll architecture better than asking one get-up planner to simultaneously solve root balance, pose, support relocation and contact stability.
-
-### 3. Solver iterations are a legitimate stability lever
-
-**PRIMARY SOURCE — high confidence**
-
-Rapier's current integration-parameter documentation states:
-
-- default solver iterations: 4;
-- higher values improve accuracy/stability at performance cost;
-- 8–12 is described as a reasonable range for demanding scenes such as stiff joint assemblies;
-- rigid bodies can request additional solver iterations.
+Rapier exposes solver iteration controls, and higher iteration counts improve constraint accuracy at a CPU cost.
 
 Source:
 - https://rapier.rs/docs/user_guides/javascript/integration_parameters/
 
-This aligns with Goblin's existing fixture evidence that solver budget materially affects standing.
+Required experiment:
 
-Decision:
+Compare a bounded solver sweep such as:
 
-- Keep solver count as an explicit experimental variable.
-- Do not hide a weak controller by simply maximizing iterations.
-- Measure standing quality and CPU cost together.
+`0 / 2 / 4 / 8 / 12 / 16` additional iterations.
 
-### 4. Joint warm-starting deserves a direct test
+Measure both standing quality and physics cost.
 
-**PRIMARY SOURCE — high confidence, installed-version API must be verified**
+The goal is the **lowest solver budget that remains robust**, not simply the highest number.
 
-Current Rapier documentation exposes `warmstart_joints`, defaulting to false, and says enabling it noticeably improves convergence of stiff impulse-joint assemblies.
+### 4. Joint warm-starting
+
+**PRIMARY SOURCE — installed-version verification required**
+
+Current Rapier documentation describes joint warm-starting as useful for convergence of stiff impulse-joint assemblies.
 
 Source:
 - https://rapier.rs/docs/user_guides/javascript/integration_parameters/
 
-This is directly relevant to a 15-body/14-joint active ragdoll.
+First question:
 
-**NEXT RESEARCH QUESTION:** Does `@dimforge/rapier3d-compat 0.21.0` expose this setting in the installed JS API, and how does it affect Goblin standing at 0/2/4/8/12 additional solver iterations?
+Does installed Rapier 0.21.0 expose and support this setting exactly as documented?
 
-Do not assume the current upstream documentation exactly matches 0.21.0 until installed declarations/source are checked.
+If yes, test it independently before combining it with other changes.
 
-### 5. Contact geometry matters as much as contact existence
+### 5. Hip and shoulder limits
 
-**PRIMARY SOURCE — high confidence**
+**PROJECT EVIDENCE + HYPOTHESIS**
 
-Rapier contact pairs/manifolds expose real geometric contacts, normals and solver contacts. A broad-phase/contact-pair hit alone is not enough to prove an active supporting contact.
+Hips and shoulders currently use unrestricted spherical joints.
+
+A standing character may be easier to stabilize if useless swing/twist configurations are physically bounded.
+
+Required research:
+
+- verify the installed 0.21.0 API for multi-axis angular limits;
+- create a standing-only A/B fixture;
+- compare unrestricted versus anatomically bounded hips/shoulders.
+
+Do not mix this test with a new get-up controller.
+
+### 6. Real support/contact measurements
+
+**PRIMARY SOURCE**
+
+Rapier exposes contact manifolds and solver-contact information.
 
 Source:
 - https://rapier.rs/docs/user_guides/javascript/advanced_collision_detection/
 
-Implication for Goblin:
+Standing diagnostics should measure:
 
-Standing/recovery should reason about the actual support geometry:
+- which foot is loaded;
+- real contact points;
+- support region;
+- foot slip;
+- COM position;
+- COM velocity.
 
-- which foot/hand points are loaded;
-- whether a foot is on sole, heel, toe or edge;
-- contact normal;
-- contact point motion/slip;
-- resulting support polygon.
+A binary "foot touching floor" signal is not enough.
 
-This is more useful than a binary "foot touches ground" flag.
+## Research order
 
-### 6. Hand collider shape is a real research variable
+### R1 — Verify Rapier 0.21.0 APIs
 
-**PRIMARY SOURCE + HYPOTHESIS**
-
-Rapier friction follows Coulomb friction. Coefficients >=1 are allowed. The default combine rule is Average.
-
-Source:
-- https://rapier.rs/docs/user_guides/javascript/collider_friction/
-
-For the current rig:
-
-- hand friction 0.7;
-- arena/floor friction is currently 0.9 in production;
-- with Average combination, nominal hand-floor friction is 0.8;
-- foot friction 1.0 against floor 0.9 gives nominal 0.95.
-
-But the latest friction-2 test shows that simply raising coefficients does not solve G3.
-
-The more important question may be **contact shape**. Current hands are spheres. A sphere is convenient for interaction, but a palm support in a get-up maneuver naturally benefits from a stable area and orientation.
-
-**HYPOTHESIS:** a small palm-like box/rounded-box collider may create a more useful support manifold than the current ball hand, even without extreme friction.
-
-Required A/B fixture:
-
-- current sphere hand;
-- palm-like collider with comparable mass/visual ownership;
-- same controller and initial pose;
-- compare normal load, slip, contact points, head unloading and failure reason.
-
-Do not change the production rig until this is proven.
-
-### 7. Hip and shoulder freedom may be unnecessarily expensive to control
-
-**PRIMARY SOURCE + PROJECT EVIDENCE + OPEN API QUESTION**
-
-A Rapier spherical joint allows three rotational DOF. Goblin shoulders and hips currently use spherical joints without authored angular limits.
-
-Sources:
-- https://rapier.rs/docs/user_guides/javascript/joints/
-- https://rapier.rs/docs/user_guides/templates/joints/
-
-Current Rapier documentation describes limits on free angular axes, including multi-axis joints. However, the exact JS surface available in the installed 0.21.0 package must be checked before designing a production solution.
-
-**HYPOTHESIS:** anatomically bounded hip/shoulder swing/twist could reduce the controller's stabilization burden and prevent physically useless configurations.
-
-This must be tested independently. Do not combine it immediately with a new get-up algorithm, because that would destroy causal clarity.
-
-### 8. Multibody joints are not the default next move
-
-**PRIMARY SOURCE — mixed benefit**
-
-Rapier distinguishes impulse joints and multibody joints. Multibody constraints can offer strong structural properties, but the current JavaScript `MultibodyJoint` API surface is much thinner than `SphericalImpulseJoint`; the TypeDoc surface does not expose the same motor-control methods used by active ragdoll joints.
-
-Sources:
-- https://rapier.rs/docs/user_guides/javascript/joint_constraints
-- https://rapier.rs/javascript3d/classes/MultibodyJoint.html
-- https://rapier.rs/javascript3d/classes/SphericalImpulseJoint.html
-
-Also, joint warm-starting applies to impulse joints, not multibody joints, according to current integration-parameter documentation.
-
-Decision:
-
-**DEFERRED** as the production architecture.
-
-A tiny impulse-vs-multibody stability experiment may still be informative, but rewriting the Goblin rig around multibody joints is not justified while motor/control requirements remain central.
-
-## External active-ragdoll patterns
-
-These are not Rapier-specific proof. They are architecture references.
-
-### Target/master rig + physical/slave rig
-
-**EXTERNAL PATTERN**
-
-Multiple active-ragdoll projects use:
-
-- a target/master pose hierarchy;
-- a physical ragdoll hierarchy;
-- PD-controlled position/rotation following;
-- force/torque caps;
-- collision-aware weakening/recovery.
-
-Examples:
-- https://github.com/EggyStudio/Unity.Humanoid.ActiveRagdoll
-- https://github.com/sergioabreu-g/active-ragdolls
-
-Why it matters:
-
-Our "target rig" does not need to be a visible animation rig. It can be a mathematical/reference skeleton defining desired standing, crouch, brace and recovery poses.
-
-This suggests a cleaner separation:
-
-```text
-reference pose / desired motion
-            |
-       joint PD targets
-            |
-      physical ragdoll
-            |
- contacts + COM + velocity
-            |
- balance / step decision
-```
-
-### Separate balance and foot-placement modules
-
-**EXTERNAL PATTERN**
-
-One contemporary active-ragdoll project separates hips/balance, stepping and IK foot targets and uses ground raycasts for placement.
-
-Example:
-- https://github.com/mourlamjacob-ai/Active-Ragdoll
-
-This is useful as an architectural comparison, not authoritative physics guidance.
-
-**HYPOTHESIS:** Goblin should also separate:
-
-- pose tracking;
-- standing balance;
-- disturbance detection;
-- step/contact relocation;
-- get-up sequencing.
-
-The current G3 experiments combine several of these responsibilities inside a recovery planner, which increases complexity and makes failures difficult to isolate.
-
-## Balance and push-recovery research
-
-### Ankle, hip and stepping strategies
-
-**PRIMARY SOURCE**
-
-Humanoid balance literature commonly separates recovery into:
-
-1. ankle strategy for smaller disturbances;
-2. hip/angular-momentum strategy for larger disturbances;
-3. stepping when the existing base of support is no longer sufficient.
-
-Sources:
-- https://arxiv.org/abs/1710.10598
-- https://arxiv.org/abs/1612.08034
-
-This maps cleanly to Goblin:
-
-- small lean: ankle/hip joint targets;
-- larger push: pelvis/torso correction;
-- predicted failure: move a foot.
-
-Important: a controller should not keep increasing torque when a step is physically required.
-
-### Capture Point
-
-**PRIMARY SOURCE**
-
-Capture Point research addresses when and where a biped must step after a disturbance in order to recover.
-
-Source:
-- https://doi.org/10.1109/ICHR.2006.321385
-- https://xplorestaging.ieee.org/document/4115602
-
-For Goblin we do not need a research-grade humanoid MPC implementation. The useful idea is simpler:
-
-- current COM alone is insufficient;
-- COM velocity matters;
-- predict where balance is heading;
-- decide to step before the body has already fallen.
-
-A first game-oriented approximation can be evaluated:
-
-```text
-predicted_com = com + com_velocity * prediction_time
-```
-
-Then compare predicted COM against the support region.
-
-This is a **HYPOTHESIS/approximation**, not the formal Capture Point equation and must not be mislabeled as one.
-
-### SIMBICON
-
-**PRIMARY SOURCE**
-
-SIMBICON is a classic demonstration that simple state-machine control, feedback and physically simulated joint control can produce robust biped movement and transitions without solving one giant global optimization problem.
-
-Source:
-- https://www.microsoft.com/en-us/research/publication/simbicon-simple-biped-locomotion-control/
-
-Takeaway for Goblin:
-
-A small state machine with well-defined phase goals and feedback may be preferable to a large continuous planner.
-
-## Get-up architecture hypothesis
-
-The current evidence argues against immediately writing another monolithic get-up trajectory.
-
-A more testable structure is:
-
-```text
-RAGDOLL
-  |
-CLASSIFY (back / belly / side)
-  |
-BRACE / FIND SUPPORT
-  |
-CONTACT HANDOFF
-  |
-CROUCH OR FOUR-SUPPORT
-  |
-ONE FOOT PLANT
-  |
-WEIGHT TRANSFER
-  |
-SECOND FOOT PLANT
-  |
-CROUCH
-  |
-STAND
-```
-
-Each phase should define:
-
-- target/reference pose;
-- allowed/required contact set;
-- support/load criteria;
-- COM/support criterion;
-- velocity criterion;
-- maximum force/torque;
-- timeout/failure reason;
-- transition criteria.
-
-A phase may move a support contact. It should not demand that every hand/foot stay fixed while simultaneously asking for a pose that the contact geometry cannot support.
-
-**HYPOTHESIS:** the missing primitive in current G3 is not another fixed bridge. It is a controlled **contact handoff/reposition** that intentionally changes the support layout while preserving enough load to remain recoverable.
-
-This matches the final decision in the latest PR #29 feasibility review.
-
-## Deep reinforcement learning
-
-**PRIMARY SOURCE, DEFERRED**
-
-DeepMimic demonstrates robust physics-based character skills learned from motion examples, including recovery under perturbations.
-
-Source:
-- https://arxiv.org/abs/1804.02717
-
-This proves that learning-based control is viable in principle, but it would add training infrastructure, motion/reference data, policy runtime and a much larger validation surface.
-
-Decision:
-
-**DEFERRED.** Do not use RL to solve the current G3 blocker unless simpler controller architecture has been exhausted and the project explicitly accepts the added research/tooling scope.
-
-## Approach comparison
-
-| Approach | What it solves | Main benefit | Main risk | Current disposition |
-| --- | --- | --- | --- | --- |
-| Native per-joint PD motors | pose/muscle behavior | Rapier-native, force-capped, testable | tuning and axis conventions | **High-priority foundation** |
-| Pelvis/root PID | global target following/balance | separates root balance from limb pose | may feel over-controlled; interaction behavior unknown | **Research spike** |
-| More solver iterations | constraint convergence | already improves Goblin standing fixture | CPU cost; can hide weak control | **Measure, do not blindly adopt** |
-| Joint warm-starting | stiff impulse-joint convergence | specifically documented for joint assemblies | installed 0.21 API unverified | **High-priority verification** |
-| Contact manifolds/support geometry | actual support state | makes feedback physically meaningful | more diagnostics/controller complexity | **High priority** |
-| Palm-like hand collider | stable hand support | targets observed hand-support weakness | production rig change | **A/B fixture only first** |
-| Hip/shoulder limits | reduce uncontrolled DOF | less stabilization burden | exact JS API/anatomy tuning | **A/B fixture only first** |
-| Capture-point-inspired stepping | strong push recovery | decides when support must move | formal model simplification | **After standing foundation** |
-| State-machine recovery | decomposes get-up | debuggable and phase-specific | needs good reference poses | **Preferred architecture direction** |
-| Multibody-joint rewrite | structural constraint stability | potentially strong joint enforcement | weaker JS motor surface / rewrite cost | **Deferred** |
-| Higher friction only | reduce sliding | easy to test | latest tests already fail | **Rejected as standalone fix** |
-| Higher torque only | stronger pose tracking | easy to test | can fight impossible contact geometry | **Rejected as standalone fix** |
-| Deep RL / DeepMimic | learned robust behavior | high capability ceiling | major infrastructure/training scope | **Deferred** |
-
-## Proposed research sequence
-
-This is a research order, not authorization to implement all items at once.
-
-### R1 — Verify installed Rapier control surface
-
-Goal: remove documentation/version uncertainty.
-
-Check `node_modules/@dimforge/rapier3d-compat` 0.21.0 declarations/source for:
+Check the installed package for:
 
 - spherical motor position/velocity APIs;
-- per-axis max motor force;
-- integration parameter names;
+- per-axis motor force limits;
+- PID controller support;
+- solver/integration settings;
 - joint warm-starting;
 - multi-axis joint limits;
-- available PID controller APIs;
-- contact manifold/solver-contact APIs.
+- contact-manifold data.
 
-Deliverable: a small compatibility table with "documented upstream / present in installed 0.21 / usable for Goblin".
+Deliverable: a compatibility table:
 
-### R2 — Standing foundation fixture
+`feature | current Rapier docs | installed 0.21.0 | usable for Goblin`
 
-Do **not** attempt get-up.
+### R2 — Establish one deterministic standing fixture
 
-Compare one variable at a time:
+Use one known standing pose and one fixed simulation setup.
 
-- existing native motor path;
-- direct per-axis spherical motor targets;
-- optional root/pelvis PID;
-- solver sweep;
-- joint warm-starting;
-- optional hip/shoulder limits.
+Record at least:
 
-Keep the same rig, start pose and acceptance measurements wherever possible.
-
-Measure:
-
-- 60 s survival;
-- drift;
+- fall/survival time;
+- floor drift;
 - COM trajectory;
-- head/torso height;
-- joint error;
-- max torque;
-- solver cost;
-- failure time/reason.
+- foot loads;
+- pelvis/torso orientation;
+- joint tracking error;
+- maximum applied motor force/torque;
+- physics-step cost.
 
-### R3 — Support/contact fixture
+This fixture becomes the common benchmark for every standing experiment.
 
-Do **not** attempt full get-up.
+### R3 — Test controller variables independently
 
-Compare:
+Recommended order:
 
-- ball hand vs palm-like collider;
-- baseline friction vs bounded alternatives;
-- actual contact manifolds;
-- sole/heel/toe/edge state;
-- slip velocity/distance;
-- support polygon and load distribution.
+1. current motor approach baseline;
+2. direct native spherical motor targets;
+3. solver sweep;
+4. joint warm-starting;
+5. bounded hip/shoulder limits;
+6. pelvis/root PID.
 
-The question is: can the Goblin create and hold useful physical support configurations?
+Do not stack several unproven changes in the first comparison.
 
-### R4 — Push recovery fixture
+### R4 — Combine only proven improvements
 
-Only after stable standing.
+After isolated experiments identify improvements, combine the smallest useful set and rerun the complete 60-second standing acceptance test.
 
-Test:
+Only after that result is repeatable should a production standing controller be designed.
 
-- small perturbation recoverable without step;
-- medium perturbation with ankle/hip correction;
-- larger perturbation requiring one controlled step;
-- predicted COM/support logic versus simple current-COM logic.
+## Current decision
 
-### R5 — Get-up phase research
+**Do not continue physical get-up development yet.**
 
-Only after R1–R4 establish reliable primitives.
+Draft PR #29 demonstrated useful physics findings, but the Goblin still lacks a proven standing foundation.
 
-Start with one fall orientation and one intermediate. Do not expand to back + belly + full stand until the first intermediate succeeds repeatedly.
+The next work should answer:
 
-Candidate first problem:
+> What is the smallest Rapier-based controller and solver configuration that lets the existing fully dynamic Goblin stand reliably for 60 seconds?
 
-**from a true fallen back pose, perform one collision-valid contact handoff and reach a quiet head-free support state without recovery reset.**
+Until that question is answered, get-up work is deferred.
 
-Only then extend the state graph.
+## Deferred work
 
-## Current decisions
+These are intentionally outside the current research scope:
 
-1. Stay on Rapier for now.
-2. Keep `ImpulseJoint` as the production baseline while researching; do not rewrite to multibody yet.
-3. Do not increase torque or friction as the standalone solution.
-4. Do not weaken success guards to make G3 pass.
-5. Do not teleport/set body transforms as a hidden get-up mechanism.
-6. Keep support bodies dynamic.
-7. Separate "recovery/reset for playability" from "successful physical get-up".
-8. Treat +16 solver iterations as fixture evidence, not a production choice.
-9. Research standing/balance foundations before another full get-up implementation.
-10. Prefer isolated causal experiments over stacking several changes at once.
+- push-recovery stepping;
+- walking;
+- running/sprinting;
+- sitting;
+- back/belly/side get-up;
+- object manipulation;
+- autonomous behavior and AI.
+
+They should not influence the standing implementation unless a finding is directly necessary for stable standing.
 
 ## Open questions
 
-- Does installed Rapier 0.21.0 expose joint warm-starting exactly as current upstream docs describe?
-- Can spherical hip/shoulder angular limits be authored cleanly with the installed JS binding, or would we need a different joint descriptor/layout?
-- Does direct per-axis spherical motor targeting outperform the current frame-reorientation technique under loaded contacts?
-- Can a pelvis PID improve balance while preserving the physical "ragdoll" feel and reaction to tools/hits?
-- How much solver budget is actually necessary after controller and joint-limit improvements?
-- Does a palm-like collider materially improve four-support head unloading compared with the current spherical hand?
-- Which contact data is reliable enough to estimate support state and friction utilization in Rapier JS 0.21?
-- What simple predicted-COM/capture heuristic gives useful stepping decisions without importing a robotics-scale controller?
-- What is the minimum useful recovery state graph for back and belly falls?
-- Can the expensive current pose planner be replaced by cheap predefined reference poses plus local collision/contact validation?
+- Does Rapier 0.21.0 expose joint warm-starting in the installed JS package?
+- Can we drive spherical hips/shoulders directly with native per-axis motor targets?
+- Can we give spherical hips/shoulders useful angular limits in 0.21.0?
+- What is the minimum solver budget required for stable standing?
+- Does root/pelvis PID materially improve balance without making the Goblin feel non-physical?
+- Which standing failures are controller failures versus solver/convergence failures?
+- What COM/contact measurements best predict an imminent loss of balance?
+- Can the current 15-body rig stand robustly as designed, or does the rig itself require a bounded structural change?
 
 ## Source register
 
-### Rapier primary sources
+### Rapier
 
 - Rigid bodies: https://rapier.rs/docs/user_guides/javascript/rigid_bodies
 - Colliders: https://rapier.rs/docs/user_guides/javascript/colliders
-- Collider friction: https://rapier.rs/docs/user_guides/javascript/collider_friction/
 - Joints: https://rapier.rs/docs/user_guides/javascript/joints/
 - Joint constraints: https://rapier.rs/docs/user_guides/javascript/joint_constraints
 - Integration parameters: https://rapier.rs/docs/user_guides/javascript/integration_parameters/
 - PID controller: https://rapier.rs/docs/user_guides/javascript/pid_controller/
 - Advanced collision detection: https://rapier.rs/docs/user_guides/javascript/advanced_collision_detection/
 - SphericalImpulseJoint API: https://rapier.rs/javascript3d/classes/SphericalImpulseJoint.html
-- MultibodyJoint API: https://rapier.rs/javascript3d/classes/MultibodyJoint.html
-- JointData API: https://rapier.rs/javascript3d/classes/JointData.html
 
-### Physics/robotics primary sources
+### Existing Goblin evidence
 
-- SIMBICON: https://www.microsoft.com/en-us/research/publication/simbicon-simple-biped-locomotion-control/
-- Capture Point: https://doi.org/10.1109/ICHR.2006.321385
-- Push Recovery / Capture Point feedback: https://arxiv.org/abs/1710.10598
-- MPC + Capture Point: https://arxiv.org/abs/1612.08034
-- DeepMimic: https://arxiv.org/abs/1804.02717
-
-### External implementation references
-
-- EggyStudio active ragdoll: https://github.com/EggyStudio/Unity.Humanoid.ActiveRagdoll
-- Sergio Abreu active ragdolls: https://github.com/sergioabreu-g/active-ragdolls
-- Mourlam Jacob active ragdoll: https://github.com/mourlamjacob-ai/Active-Ragdoll
+- Draft PR #29: https://github.com/bongohorse/goblin/pull/29
+- G3 feasibility review: https://github.com/bongohorse/goblin/blob/57eb17c23884c6b8d94dd679b88447c2fc164f81/docs/development/g3-feasibility-review.md
+- Goblin rig: https://github.com/bongohorse/goblin/blob/57eb17c23884c6b8d94dd679b88447c2fc164f81/src/goblin-rig.js
 
 ## Update protocol
 
-When new research is performed:
+When new standing research is performed:
 
-1. add the source to the register;
-2. mark the finding with the correct evidence label;
-3. state what it changes for Goblin;
-4. record contradictory evidence instead of deleting it;
-5. update the approach comparison/disposition;
-6. add or close open questions;
-7. link any reproducible Goblin fixture/issue/PR evidence.
+1. record the source or fixture;
+2. mark the evidence type;
+3. record the result, including negative results;
+4. state what it changes about the current standing hypothesis;
+5. update the comparison/decision;
+6. do not expand scope into get-up or locomotion until standing is accepted.
 
-This file is the durable research memory. Implementation-specific acceptance evidence remains in the relevant issue/PR and development reports.
+This file is the durable research memory for the current standing problem.
