@@ -4,7 +4,7 @@ import configSchema from '../../../docs/research/standing-lab/config.schema.json
 import resultSchema from '../../../docs/research/standing-lab/result.schema.json' with {type:'json'};
 import motorResultSchema from '../../../docs/research/standing-lab/motor-result.schema.json' with {type:'json'};
 import {validateMotorExperiment} from './motor-config.js';
-import {freeze,norm,sub,add,rotate,vec,rotationDistance} from './math.js';
+import {freeze,norm,sub,add,rotate,vec,rotationDistance,multiply,conjugate} from './math.js';
 const ajv=new Ajv({allErrors:true,strict:true});
 const configValidator=ajv.compile(configSchema),resultValidator=ajv.compile(resultSchema);
 const motorResultValidator=ajv.compile(motorResultSchema);
@@ -68,11 +68,19 @@ export function validateResult(result){
   }
   if(motor&&result.telemetry){
     const tracking=result.telemetry.motor_tracking;
+    if(result.motor_commands_timing.count!==result.simulation_steps)throw Error('Motor command count mismatch');
+    const latest=result.checkpoints.find(c=>c.step===result.simulation_steps);
     if(canonical(tracking.map(t=>t.joint_id).sort())!==canonical(jointIds))throw Error('Motor tracking taxonomy');
     for(const t of tracking){const j=rig.joints.find(j=>j.id===t.joint_id),target=result.config.actuation.targets.find(a=>a.id===t.joint_id).target;
       if(t.kind!==j.type||canonical(t.target)!==canonical(target)||canonical(t.limits)!==canonical(j.limits)||t.configured_axis_cap_Nm!==result.config.actuation.max_torque_Nm)throw Error('Motor tracking config mismatch');
-      if(j.type==='revolute'){if(typeof t.actual!=='number'||Math.abs(t.actual)>Math.PI||Math.abs(t.actual-result.telemetry.joints.find(o=>o.id===j.id).angle)>1e-8)throw Error('Motor hinge actual');}
-      else if(typeof t.actual!=='object'||Math.abs(Math.hypot(...Object.values(t.actual))-1)>1e-4)throw Error('Motor quaternion actual');
+      if(j.type==='revolute'){const observation=result.telemetry.joints.find(o=>o.id===j.id);if(typeof t.actual!=='number'||typeof observation.angle!=='number'||Math.abs(t.actual)>Math.PI||Math.abs(t.actual-observation.angle)>1e-8)throw Error('Motor hinge actual');
+        if(typeof observation.limit_violation!=='number'||Math.abs(observation.limit_violation-Math.max(0,j.limits[0]-t.actual,t.actual-j.limits[1]))>1e-8)throw Error('Motor hinge limit error');
+      }
+      else {if(typeof t.actual!=='object'||Math.abs(Math.hypot(...Object.values(t.actual))-1)>1e-4)throw Error('Motor quaternion actual');
+        // Frozen neutral rig has identity spherical bind frames. Verify recorded
+        // tracking independently against the same-step body snapshot when present.
+        if(latest){const a=latest.bodies.find(b=>b.id===j.parent),b=latest.bodies.find(b=>b.id===j.child);if(rotationDistance(t.actual,multiply(conjugate(a.rotation),b.rotation))>1e-8)throw Error('Motor actual/checkpoint mismatch');}
+      }
       const error=j.type==='revolute'?Math.abs(target-t.actual):rotationDistance(target,t.actual);
       if(Math.abs(t.error_rad-error)>1e-8)throw Error('Motor tracking error mismatch');
     }
