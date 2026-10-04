@@ -141,3 +141,18 @@ static config independent, sources pinned, public required measurements availabl
 calibration remains a Gate C requirement. Browser N/A for documentation. Schema and
 anchor/mass consistency checked before commit. Subsequent gates must record runtime
 getter validation and any spec correction before experiments, never retrospectively tune.
+
+## Gate B corrective solver decision — before canonical freeze
+
+The Gate A four-iteration proposal fails the unchanged .05 rad constraint bound at step
+30 (ankleL .06217 rad); a 900-step diagnostic continuation (not a standing result) shows
+peak .19133 rad wristR at step 83, anchor gap .020405 m. No mass/inertia/anchor/axis or
+initial penetration defect found; isolated torque/hinge fixtures respect stops. Hypotheses:
+bad initial constraints (rejected by audits), angle getter error (rejected by independent
+quaternion fixture), insufficient convergence under coupled impacts (supported).
+One bounded corrective test, 8 solver iterations, reduces 900-step peak violation to
+.024166 rad and anchor gap .009360 m. No sweep and no controller/standing optimization.
+Adopt **8 solver iterations, 1 PGS, 0 additional iterations**, all other parameters unchanged.
+Config and schema revised explicitly before canonical five runs. Repeatability tolerances
+and .05 rad/.08 m safety bounds are unchanged. The baseline is frozen after Gate B;
+the historical four-iteration probe is not accepted baseline evidence.

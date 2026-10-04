@@ -65,7 +65,7 @@
       ],
       "properties": {
         "numSolverIterations": {
-          "const": 4
+          "const": 8
         },
         "numInternalPgsIterations": {
           "const": 1

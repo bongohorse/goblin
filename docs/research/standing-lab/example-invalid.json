@@ -18,7 +18,7 @@
       "z": 0
     },
     "solver_config": {
-      "numSolverIterations": 4,
+      "numSolverIterations": 8,
       "numInternalPgsIterations": 1,
       "maxCcdSubsteps": 1,
       "lengthUnit": 1,
@@ -854,7 +854,7 @@
   "rapier_upstream_commit": "b716d375efc0201003f0cd9ef7168eee0b62c177",
   "fixed_dt": 0.016666666666666666,
   "solver_config": {
-    "numSolverIterations": 4,
+    "numSolverIterations": 8,
     "numInternalPgsIterations": 1,
     "maxCcdSubsteps": 1,
     "lengthUnit": 1,
