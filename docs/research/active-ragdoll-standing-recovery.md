@@ -83,6 +83,7 @@ Detailed literature/industry review:
 
 Physics Lab workflow:
 - `docs/development/labs.md`
+- broader experiment program: `docs/research/physics-labs-experiment-program.md` / Issue #31
 
 **Development rule:** standing experiments must now run in the isolated Standing Lab, not in the normal gameplay arena. Build the Lab before the next controller A/B experiment.
 
