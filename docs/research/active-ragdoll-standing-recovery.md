@@ -306,6 +306,18 @@ Record:
 - torque saturation;
 - physics-step cost.
 
+### R1b - Verify native actuation before motor-model A/B
+
+**PROJECT EVIDENCE - Issue #41**: installed 0.21.0's spherical factory returns a
+GenericImpulseJoint (type6) without motor methods. The publicly declared spherical
+wrapper constructor provides the same-handle view used by the PR29 reference; no
+physics masks or targets are changed. See standing-lab/motor-contract.md for the
+version-specific adapter, positive/negative tracking and indirect first-step angular
+momentum cap/reaction fixtures. Full-rig actual motor effort is unavailable through
+supported getters and must remain N/A rather than inferred from contact-contaminated
+angular velocity. Complete native ForceBased baseline first; motor-model A/B remains
+a separately scoped follow-up. This is actuation evidence, not standing acceptance.
+
 ### R2 — A/B Rapier motor model
 
 Compare only:
