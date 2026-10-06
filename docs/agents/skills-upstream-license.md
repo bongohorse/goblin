@@ -7,6 +7,17 @@ The repo-local skills in `.agents/skills/` include adapted material from the fol
 Source:
 https://github.com/mattpocock/skills
 
+The 2026-10-06 workflow update adapts `implement-spec`, `pr`, `retro` and
+`domain-modeling` from tag `v1.3.1`, commit
+`24fe0ef7737efae15c87225755e9f6f5965e4888`.
+Sources: https://github.com/mattpocock/skills/tree/v1.3.1/skills/engineering
+and release notes for v1.3.0/v1.3.1.
+Goblin adaptations preserve research gates, draft PRs, local skill loading,
+meaningful regression checks and user-requested retrospectives/orchestration.
+The `pr` visual-summary concept also credits Dex Horthy / Humanlayer's
+`show-me`: https://github.com/humanlayer/skills/blob/main/plugins/show-me/skills/show-me/SKILL.md
+No additional upstream helper skills or global configuration are installed.
+
 MIT License
 
 Copyright (c) 2026 Matt Pocock

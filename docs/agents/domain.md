@@ -11,4 +11,4 @@ Important vocabulary:
 - pointer/touch input
 - CI build and GitHub Pages deployment
 
-Do not invent new architecture terminology for a small change. Add a glossary or ADR only when a decision must remain stable across future work.
+Canonical domain definitions live in `docs/GLOSSARY.md`. Keep this document as broader domain guidance, not a duplicate glossary. Do not invent architecture terminology for small changes. Record an ADR only for a consequential tradeoff that future readers need to understand.

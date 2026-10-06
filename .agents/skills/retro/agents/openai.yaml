@@ -1,0 +1,6 @@
+interface:
+  display_name: "Retro"
+  short_description: "Analyze Goblin agent session evidence"
+  default_prompt: "Use $retro for the authorized Goblin task."
+policy:
+  allow_implicit_invocation: false

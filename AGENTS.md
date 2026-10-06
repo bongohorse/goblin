@@ -34,7 +34,10 @@ Repo-local skills live in `.agents/skills/`.
 - `diagnosing-bugs`: reproduce, minimise, diagnose and lock down bugs
 - `code-review`: review a PR/diff against issue scope and engineering risks
 - `implement`: implement one issue/spec end-to-end
+- `implement-spec`: explicitly requested multi-ticket orchestration with dependencies and isolated worktrees; preserve gate stops
 - `pr`: write concise PR bodies with evidence and risk
+- `retro`: user-requested session analysis and environment recommendations; no automatic configuration edits
+- `domain-modeling`: clarify domain terms in `docs/GLOSSARY.md` and record consequential decisions
 - `research`: investigate technical questions from primary sources
 - `triage`: turn rough issues into agent-ready work
 - `grill-me`: sharpen unclear product/design decisions
