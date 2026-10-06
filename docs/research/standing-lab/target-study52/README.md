@@ -1,5 +1,8 @@
 # Issue52 decision: retain MovingFrame reference
 
+Later [Issue54 self-review, reproduction and reader fix](../review-54/README.md)
+records the current decision. The original evidence below remains unchanged.
+
 2026-10-05. **Retain MovingFrame/FB100/12/Solver32.** Fixed native spherical
 targets are a demonstrated candidate for the tested small orientations, not a
 globally interchangeable controller. Neutral full-rig inputs are physically
