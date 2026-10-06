@@ -31,6 +31,18 @@ async function measurementProjection(report){
 export async function validateTargetRun(report){
   const keys=['schema_version','report_kind','mode','diagnostic_only','accepted_standing_evidence','config','config_id','experiment_id','steps','standing_time','first_terminal','end_reason','invalid','invalid_measurement','metrics','end','contact_onsets','state_sequence_hash','measurement'];
   assert.equal(Object.keys(report).sort().join(),keys.sort().join(),'Unknown or missing target-study fields');
+  // The outer comparison payload has no legacy Ajv schema of its own. Its nested
+  // objects must not silently carry unknown model/frame/effort or nonfinite data.
+  const exactKeys=(value,keys)=>{
+    assert.ok(value&&typeof value==='object'&&!Array.isArray(value),'Target payload object');
+    assert.equal(Object.keys(value).sort().join(),keys.slice().sort().join(),'Unknown or missing target payload fields');
+  };
+  exactKeys(report.metrics,['drift_peak_m','tracking_peak_rad','anchor_peak_m','limit_peak_rad','axis_peak','foot_load_peak_N','both_feet_loaded_steps','both_feet_loaded_fraction']);
+  exactKeys(report.metrics.foot_load_peak_N,['footL','footR']);
+  assert.ok(Array.isArray(report.contact_onsets));
+  for(const onset of report.contact_onsets)exactKeys(onset,['step','body']);
+  const finite=value=>typeof value==='number'?Number.isFinite(value):!value||typeof value!=='object'||Object.values(value).every(finite);
+  assert.ok(finite(report),'Nonfinite target-study payload');
   validateTargetConfig(report.config);
   const id=targetIdentity(report.config);
   assert.equal(report.schema_version,1);assert.equal(report.report_kind,'spherical-target-run-v1');
