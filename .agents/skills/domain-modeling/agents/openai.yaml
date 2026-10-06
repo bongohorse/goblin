@@ -1,0 +1,6 @@
+interface:
+  display_name: "Domain Modeling"
+  short_description: "Clarify Goblin terms and decisions"
+  default_prompt: "Use $domain-modeling for the authorized Goblin task."
+policy:
+  allow_implicit_invocation: true
