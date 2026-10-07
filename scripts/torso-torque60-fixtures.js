@@ -12,7 +12,7 @@ export function fixture({connected=true,synthetic=false,rotation=unit,partnerRot
     for(const [j,s] of specs.entries()){
       const q=j?partnerRotation:rotation,anchor=V(s.anchor).applyQuaternion(Q(q)),desc=R.RigidBodyDesc.dynamic().setRotation(q).setTranslation(-anchor.x,-anchor.y,-anchor.z).setLinearDamping(0).setAngularDamping(0).setCanSleep(false);
       if(synthetic)desc.setAdditionalMassProperties(s.mass,zero,j?vec(.011,.017,.023):vec(.031,.049,.071),j?axis(1,0,0,-.5).multiply(axis(0,0,1,.3)):axis(0,0,1,.4).multiply(axis(0,1,0,-.3)));
-      const b=world.createRigidBody(desc);if(!synthetic)world.createCollider(R.ColliderDesc.capsule(s.half,s.radius).setMass(s.mass).setCollisionGroups(0),b);bodies.push(b);
+      const b=world.createRigidBody(desc);if(!synthetic)world.createCollider(R.ColliderDesc.capsule(s.half,s.radius).setMass(s.mass).setCollisionGroups(0),b);b.recomputeMassPropertiesFromColliders();bodies.push(b);
     }
     const joint=connected?world.createImpulseJoint(R.JointData.spherical(specs[0].anchor,specs[1].anchor),bodies[0],bodies[1],true):null;joint?.setContactsEnabled(false);
     return {world,bodies,specs,joint,state:()=>bodies.map((b,j)=>snapshot(b,specs[j])),dispose:()=>world.free()};
