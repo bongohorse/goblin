@@ -19,6 +19,6 @@ export async function runGateB(directory){
   validateGateB(report);
   fs.mkdirSync(directory,{recursive:true});fs.writeFileSync(directory+'/gate-b.json',JSON.stringify(report)+'\n');
   fs.writeFileSync(directory+'/sha256.json',JSON.stringify({'gate-b.json':createHash('sha256').update(fs.readFileSync(directory+'/gate-b.json')).digest('hex')})+'\n');
-  console.log(JSON.stringify({status:report.status,blocker:report.blocker,first_steps:report.first_steps.map(c=>({connected:c.connected,method:c.method,direction:c.direction,missing:c.missing_reaction,pass:c.pass,velocity_error:c.velocity_error,discrete:c.discrete_momentum_residual,physical:c.physical_momentum_residual,bound:c.physical_resolution_bound})),tracking:report.tracking.map(({trace,initial,...r})=>r),build}));return report;
+  console.log(JSON.stringify({status:report.status,blocker:report.blocker,first_steps:report.first_steps.map(c=>({connected:c.connected,method:c.method,direction:c.direction,missing:c.missing_reaction,pass:c.pass,velocity_error:c.velocity_error,discrete:c.discrete_momentum_residual,physical:c.physical_momentum_residual,bound:c.physical_resolution_bound})),tracking_runs:report.tracking.length,build}));return report;
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href)await runGateB(process.argv[2]??'docs/research/standing-lab/torso-torque60');
+if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){await runGateB(process.argv[2]??'docs/research/standing-lab/torso-torque60');process.exitCode=2;}
