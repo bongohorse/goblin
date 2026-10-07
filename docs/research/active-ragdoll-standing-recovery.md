@@ -555,3 +555,13 @@ Issue74 matrix:135 fresh worlds, actual wrong-frame/units/missing-reaction API
 commands, all frozen local separations pass. Commands, physical residuals and
 uncertified general precision remain separate. Local fixture evidence only;
 no upright/controller/standing approval. #60 still needs a separate execution order.
+
+### Separate bounded review decisions — Issue77 / 2026-10-07
+
+[Stacked review and own135-case reproduction](standing-lab/review77/README.md)
+reproduces75 exactly and fixes two data-validation findings without changing
+commands or criteria. Research integration is suitable after final-head checks.
+Separately, local evidence justifies proposing the original small-tilt behavior
+study; outcome unknown, original thresholds retained, no precision envelope
+required for that narrow claim. Proposed protocol is unexecuted, #60 still needs
+a separate execution order; no controller/Standing approval.

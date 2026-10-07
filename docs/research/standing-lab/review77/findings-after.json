@@ -1,0 +1,22 @@
+[
+  {
+    "name": "nonnumeric integration default",
+    "accepted": false,
+    "error": "integration getter must be finite number"
+  },
+  {
+    "name": "string body dynamic flag",
+    "accepted": false,
+    "error": "Expected values to be strictly equal:\n\n'false' !== true\n"
+  },
+  {
+    "name": "string POST quaternion component",
+    "accepted": false,
+    "error": "public numeric field must be finite number"
+  },
+  {
+    "name": "manifest missing README entry",
+    "accepted": false,
+    "error": "manifest must enumerate every covered sibling file\n+ actual - expected\n\n  [\n-   'README.md',\n    'attribution.json',\n    'budget-initial.json',\n    'budget.json',\n    'checks.json',\n    'config.json',"
+  }
+]

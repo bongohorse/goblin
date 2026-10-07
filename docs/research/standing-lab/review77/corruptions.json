@@ -1,0 +1,117 @@
+[
+  {
+    "name": "missing case",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  [\n    'impulse-free-0',\n    'torque-free-0',\n    'torque-connected-0',\n    'impulse-free-1',\n..."
+  },
+  {
+    "name": "repeat id",
+    "rejected": true,
+    "error": "Expected values to be strictly equal:\n\n6 !== 1\n"
+  },
+  {
+    "name": "wrong build id",
+    "rejected": true,
+    "error": "The input did not match the regular expression /^4cce5d01261eae0588a9fb75c75a2f6ab0de7371:[a-f0-9]{64}$/. Input:\n\n'not-a-build'\n"
+  },
+  {
+    "name": "positive torque beyond strict cap",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    api: 'addTorque',\n    api_units: 'Nm',\n    applied_encoded_pair: [\n      [\n+       0.15000000596046448,\n-   "
+  },
+  {
+    "name": "intervening step",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  [\n    {\n      body: 0,\n      op: 'addTorque',\n      step: 0,\n...\n    {\n+     body: undefined,\n+ "
+  },
+  {
+    "name": "wrong API units",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    api: 'addTorque',\n+   api_units: 'Nm*s',\n-   api_units: 'Nm',\n    applied_encoded_pair: [\n      [\n        0."
+  },
+  {
+    "name": "incorrect reset readback",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    {\n+     x: 1,\n-     x: 0,\n      y: 0,\n      z: 0\n    },\n    {\n      x: 0,\n"
+  },
+  {
+    "name": "fault actual readback changed to intended",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    {\n+     x: 0.14999999105930328,\n+     y: 0,\n+     z: 0\n-     x: 0.1325952261686325,\n-     y: 0.0450775362551"
+  },
+  {
+    "name": "physical POST H corrupted",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    POST: {\n      E: 0.00036039668095675303,\n      H: [\n        -3.2389307512079024e-10,\n...\n "
+  },
+  {
+    "name": "PRE alignment uncertainty corrupted",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    POST: {\n      E: 0.00036039915933432185,\n      H: [\n        -4.952902224204109e-9,\n...\n   "
+  },
+  {
+    "name": "convergence forged",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    POST: {\n      E: 0.00036039915933432185,\n      H: [\n        -4.952902224204109e-9,\n...\n   "
+  },
+  {
+    "name": "frozen discrimination guard enlarged",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    guard_uH: 1e-10,\n+   guard_uOmega: 1,\n-   guard_uOmega: 1e-10,\n    pass: true,\n    results: [\n      {\n      "
+  },
+  {
+    "name": "engine certification invented",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    H_acceptance_marker: null,\n    endpoint_acceptance_marker: null,\n+   general_envelope: 0.001,\n-   general_en"
+  },
+  {
+    "name": "unscoped physics approval",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  [\n    'bounded_actuation_evidence',\n    'case_count',\n    'cases',\n    'command_contract',\n...\n "
+  },
+  {
+    "name": "nested standing approval",
+    "rejected": true,
+    "error": "unscoped physics/standing approval field"
+  },
+  {
+    "name": "nonnumeric integration default",
+    "rejected": true,
+    "error": "integration getter must be finite number"
+  },
+  {
+    "name": "string dynamic flag",
+    "rejected": true,
+    "error": "Expected values to be strictly equal:\n\n'false' !== true\n"
+  },
+  {
+    "name": "string POST quaternion",
+    "rejected": true,
+    "error": "public numeric field must be finite number"
+  },
+  {
+    "name": "unknown POST state field",
+    "rejected": true,
+    "error": "unexpected public observation fields\n+ actual - expected\n... Skipped lines\n\n  [\n    'anchor',\n    'angular_velocity',\n    'id',\n    'inertia',\n...\n    'principal_frame',\n+   'refer"
+  },
+  {
+    "name": "missing integration default",
+    "rejected": true,
+    "error": "unexpected public observation fields\n+ actual - expected\n\n  [\n-   'contact_erp',\n    'dt',\n    'lengthUnit',\n    'maxCcdSubsteps',\n    'normalizedAllowedLinearError',\n    'normaliz"
+  },
+  {
+    "name": "string recovery boolean",
+    "rejected": true,
+    "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'string'\n- 'boolean'\n"
+  },
+  {
+    "name": "unexpected public inverse component",
+    "rejected": true,
+    "error": "Expected values to be strictly equal:\n\n10 !== 9\n"
+  },
+  {
+    "name": "unknown reset phase field",
+    "rejected": true,
+    "error": "unexpected public observation fields\n+ actual - expected\n\n  [\n    'body',\n+   'extra_force',\n    'op',\n    'step',\n    'wake'\n  ]\n"
+  }
+]

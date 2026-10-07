@@ -5,4 +5,6 @@ test('frozen actuation75 constructions preserve strict caps and expose actual fa
 import {validateActuation} from '../scripts/actuation75-reader.mjs';import {corruptions} from '../scripts/actuation75-corruptions.mjs';
 const raw=JSON.parse(fs.readFileSync('docs/research/standing-lab/actuation75/raw.json'));
 test('stored 135 real actuation observations satisfy the frozen local decision',()=>{const r=validateActuation(raw,cfg);assert.equal(r.valid,true);assert.equal(r.bounded_actuation_evidence,'local_supported');assert.equal(r.upright_approval,false);});
-test('reader rejects targeted provenance/phase/command/reference/decision corruption',()=>{for(const [name,mutate]of corruptions){const r=structuredClone(raw);mutate(r);assert.throws(()=>validateActuation(r,cfg),name);}});
+test('reader rejects targeted provenance/phase/command/reference/decision corruption',()=>{for(const [name,mutate]of corruptions.slice(0,15)){const r=structuredClone(raw);mutate(r);assert.throws(()=>validateActuation(r,cfg),name);}});
+
+test('nested public setup/state schema rejects type coercion and incomplete getter records',()=>{for(const [name,mutate]of corruptions.slice(15)){const b=structuredClone(raw);mutate(b);assert.throws(()=>validateActuation(b,cfg),name);}});

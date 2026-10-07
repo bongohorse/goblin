@@ -14,4 +14,12 @@ export const corruptions=[
  ['engine certification invented',r=>r.engine_precision.general_envelope=.001],
  ['unscoped physics approval',r=>r.pass_physics=true],
  ['nested standing approval',r=>r.cases[0].runs[0].metrics.standing_approved=true]
+ ,['nonnumeric integration default',r=>r.cases[1].runs.forEach(x=>x.environment.integration.contact_erp='NaN')]
+ ,['string dynamic flag',r=>r.cases[1].runs.forEach(x=>x.environment.bodies[0].dynamic='false')]
+ ,['string POST quaternion',r=>r.cases[1].runs.forEach(x=>x.post[0].rotation.x=String(x.post[0].rotation.x))]
+ ,['unknown POST state field',r=>r.cases[1].runs.forEach(x=>x.post[0].reference_frame='unknown')]
+ ,['missing integration default',r=>r.cases[1].runs.forEach(x=>delete x.environment.integration.contact_erp)]
+ ,['string recovery boolean',r=>r.cases[1].runs.forEach(x=>x.environment.integration.softBodiesRecovery.edgeSpeculation='false')]
+ ,['unexpected public inverse component',r=>r.cases[1].runs.forEach(x=>x.public_inverse_tensors[0].push(0))]
+ ,['unknown reset phase field',r=>r.cases[1].runs.forEach(x=>x.phase[0].extra_force=true)]
 ];

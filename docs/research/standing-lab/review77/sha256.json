@@ -1,0 +1,15 @@
+{
+  "README.md": "e5ceea3dfd8c16c901cdcab036349ed0296674e899a283949729c01727e563a6",
+  "checks.json": "c0c771e9f6343a173a818ab72762e03840d5f94e0c76e0f73904a39160a6d6f7",
+  "comparison.json": "18126783c16d310e658d67d3ff2a8805bb8081beee0250891c0352488f4b181e",
+  "corruptions.json": "89cd2e954f0fc9153587a6afdf7699b4c322884ab9eb91b0308ace1b0dedbfcd",
+  "findings-after.json": "87f0295b9cdc090e31fe60afbcefe9f67a770bf8b2ca8f0601d2eb504a7865b8",
+  "findings-before.json": "bf6ff17d06bf14be7e6b6c0ad09d4942608cf223b378da746fd3089b8e7c621c",
+  "historical-protection.json": "8ffacf3c311fe1d4049e883dd1023ea0a6b0ee53a988015482dd588d8dd6c59b",
+  "provenance.json": "9e9cdc08f0e7901f434cc6b2e63b2131448071c56f56e7ad86930ed36462c85e",
+  "raw-reproduction.json": "bea11f19d4133f85f8d10007b85f027abc3e20685f39a7e201489230cef33152",
+  "reproduction-reader.json": "a2a46fbe280e64a86dfedc9d5b096567218cee7fd16fca59567847a535c4e7ac",
+  "review.md": "fbb880dc8df5774808f3ed452f79257c4ee0f74a19bca163a2a90e7c4b91f363",
+  "upright-proposal.md": "25640b9394f3d619fc6452a8754351dcb9f74adf0de5f8354726e97d1c3199b0",
+  "upright-semantic-checks.json": "94369fb164b62f6914651adf558721cafb7bdd363b6b62bfb8f37812ef49c4fb"
+}
