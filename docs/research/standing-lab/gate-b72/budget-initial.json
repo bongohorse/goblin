@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "method": "independent capsule, Delassus projection and exact principal-axis sensitivities",
+  "validation": {
+    "zero_anchor_isotropic": true,
+    "constrained_anchor_acceleration_max": 4.224686731655424e-15,
+    "torque_linearity": true,
+    "known_axis_mobility": true,
+    "principal_axis_analytic_convergence": [
+      {
+        "n": 8,
+        "left_endpoint_error": 0.0019683801498884546,
+        "midpoint_error": 0
+      },
+      {
+        "n": 16,
+        "left_endpoint_error": 0.0009841900749442255,
+        "midpoint_error": 0
+      },
+      {
+        "n": 32,
+        "left_endpoint_error": 0.0004920950374721136,
+        "midpoint_error": 3.469446951953614e-18
+      },
+      {
+        "n": 64,
+        "left_endpoint_error": 0.0002460475187360568,
+        "midpoint_error": 3.469446951953614e-18
+      }
+    ],
+    "pass": true
+  },
+  "budget": {
+    "inputs": {
+      "schema_version": 1,
+      "protocol_id": "torso-gate-b72-v1",
+      "oracle_id": "continuous-newton-euler66-plus-matrix-world-L68-v1",
+      "base_main": "dd0cfed3ab14c0456152877cf85212c12b55e430",
+      "rapier": "0.21.0",
+      "upstream": "b716d375efc0201003f0cd9ef7168eee0b62c177",
+      "kp": 1.34,
+      "kd": 1.34,
+      "cap_Nm": 0.15,
+      "dt_s": 0.016666666666666666,
+      "solver": 32,
+      "internal_pgs": 1,
+      "horizon_steps": 360,
+      "tracking_angle_rad": 0.01,
+      "tracking_speed_rad_s": 0.02,
+      "initial_tilt_rad": 0.08,
+      "max_tilt_rad": 0.2,
+      "repeat_count": 5,
+      "reference_resolutions": [
+        16,
+        32,
+        64,
+        128,
+        256
+      ],
+      "reference_velocity_rad_s": 1e-10,
+      "reference_angle_rad": 1e-10,
+      "reference_position_m": 1e-11,
+      "reference_H_kg_m2_s": 1e-10,
+      "reference_energy_J": 1e-10,
+      "attribution": {
+        "direction_world_Nm": [
+          0.15,
+          0,
+          0
+        ],
+        "cases": [
+          "free",
+          "connected"
+        ],
+        "steps": 1,
+        "repeats": 5,
+        "torso_rotation": "yaw(.7)*roll(-.08)",
+        "partner_rotation": "yaw(-.3)*pitch(.06)",
+        "synthetic": false
+      },
+      "physical_acceptance": {
+        "status": "blocked_not_approved",
+        "velocity_limit": null,
+        "H_limit": null,
+        "engine_envelope": null,
+        "allocation_fraction": null
+      },
+      "hypothesis": "coherent lowest-principal-axis external bias over six seconds; screening only, not nonlinear trajectory proof"
+    },
+    "torso_inertia_kg_m2": [
+      0.09607354838709675,
+      0.051654193548387094,
+      0.09607354838709675
+    ],
+    "partner_inertia_kg_m2": [
+      0.0045955,
+      0.001323,
+      0.0045955
+    ],
+    "min_inertia_kg_m2": 0.001323,
+    "T_s": 0.01666666753590107,
+    "horizon_nominal_s": 6,
+    "mobility_basis": [
+      {
+        "torso": [
+          5.780196645484557,
+          22.956561308763423,
+          0
+        ],
+        "partner": [
+          -101.48815200267084,
+          0,
+          0
+        ],
+        "force": [
+          0,
+          0,
+          -2.9645066526207007
+        ],
+        "K": [
+          [
+            10.64171380031993,
+            -0.6245215359200613,
+            0
+          ],
+          [
+            -0.6245215359200613,
+            5.022533619596354,
+            0
+          ],
+          [
+            0,
+            0,
+            13.739235782734
+          ]
+        ]
+      },
+      {
+        "torso": [
+          0.8799930799437284,
+          14.994894434227941,
+          0
+        ],
+        "partner": [
+          -22.076568228819696,
+          -755.8578987150416,
+          0
+        ],
+        "force": [
+          0,
+          0,
+          0.563627051641894
+        ],
+        "K": [
+          [
+            10.64171380031993,
+            -0.6245215359200613,
+            0
+          ],
+          [
+            -0.6245215359200613,
+            5.022533619596354,
+            0
+          ],
+          [
+            0,
+            0,
+            13.739235782734
+          ]
+        ]
+      },
+      {
+        "torso": [
+          0,
+          0,
+          2.9848460279820124
+        ],
+        "partner": [
+          0,
+          0,
+          -68.50734175007906
+        ],
+        "force": [
+          3.806525061041732,
+          -0.355641228865942,
+          0
+        ],
+        "K": [
+          [
+            10.64171380031993,
+            -0.6245215359200613,
+            0
+          ],
+          [
+            -0.6245215359200613,
+            5.022533619596354,
+            0
+          ],
+          [
+            0,
+            0,
+            13.739235782734
+          ]
+        ]
+      }
+    ],
+    "initial_command_Nm": 0.1072,
+    "initial_cap_margin_Nm": 0.04279999999999999,
+    "measurement_ceiling_persistent_velocity_bias_rad_s": 0.0016666666666666668,
+    "command_error_from_that_velocity_Nm": 0.0022333333333333337,
+    "coherent_bias_screen": {
+      "model": "free principal-axis constant external torque, zero initial perturbation; worst principal inertia; no nonlinear or H-distribution guarantee",
+      "torque_Nm": 7.35e-7,
+      "per_step_H_kg_m2_s": 1.2250000638887285e-8,
+      "cap_fraction": 0.0000049,
+      "angle_at_6s_rad": 0.01,
+      "speed_at_6s_rad_s": 0.0033333333333333335
+    },
+    "principal_axis_sensitivity": {
+      "domega_dtau": 12.597632302268382,
+      "dtheta_dtau": 0.10498027466071755,
+      "quantized_T_error_s": 8.692344032057431e-10
+    },
+    "engine_envelope": null,
+    "decision": "blocked_not_approved"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "node": "v24.21.0",
+  "tests": 81,
+  "pass": 81,
+  "build": "pass; existing chunk warning",
+  "missing_manifest_entry_rejected": true,
+  "unknown_path_entry_rejected": true,
+  "old_hashes_preserved": true,
+  "new_engine_worlds_in_PR73": 0
+}

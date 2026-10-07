@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "base_main": "dd0cfed3ab14c0456152877cf85212c12b55e430",
+  "preregistration_commit": "c4e8168",
+  "measured_harness": "5632c0497d8fd151b4529fb3a0f0e105c6d9b536",
+  "measured_build_id": "5632c0497d8fd151b4529fb3a0f0e105c6d9b536:f70e1132dc7b0bbe6c8094c458f7ab5fc1a448f78a1b0470b4141a5d67e383de",
+  "attribution_harness_changed_after_measurement": false,
+  "budget_method_version": 2,
+  "withdrawn_budget": "budget-initial.json",
+  "explanation": "independent measurand self-review corrects free-arm axis to free-torso transverse; no engine measurements changed or rerun",
+  "config_sha256": "eb6991edaeaf0e7240828e187c607df69e2fa8a96a5964f1e62f92b581c2789b",
+  "protocol_sha256": "75fb03aa428dc1d31cd53fbf7caf3788c6af36f5700a98fd8c81439997393756",
+  "measured_attribution_source_sha256": "c7a3bfef6f04be49f530703e5627fc87bd208206e2a50a3128bbf194e6199a16",
+  "method_sources": [
+    {
+      "path": "scripts/torso-gate-b72-budget.mjs",
+      "sha256": "29f8d2b6b62fbac3940142a58098b6687078608bf358fea8d935df88c8d3d8e4"
+    },
+    {
+      "path": "scripts/torso-gate-b72-reader.mjs",
+      "sha256": "fa879578fee22894c3ca14a34d562fc2048e6ef8c0b4c3c15066363c4750a43d"
+    }
+  ],
+  "historical_manifests": [
+    {
+      "manifest": "torso-torque60",
+      "entries": 5,
+      "valid": true
+    },
+    {
+      "manifest": "finite-step66",
+      "entries": 9,
+      "valid": true
+    },
+    {
+      "manifest": "review68",
+      "entries": 14,
+      "valid": true
+    },
+    {
+      "manifest": "target-study52",
+      "entries": 22,
+      "valid": true
+    }
+  ]
+}
