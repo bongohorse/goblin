@@ -1,0 +1,12 @@
+{
+  "README.md": "6cd07a8af522279e729a9de7cb4fa0651d2d51888353cdf3ed83e3ad10fcf6fe",
+  "checks.json": "fe83aed2bfaf9ea88a8b46cb6bd74d94423c1d44c9dc0d40b4a22986b41dddcc",
+  "config.json": "24433a2f565a9dd98e2457ff5c8f7989139937c9e7ab8c457c2fad953181cb12",
+  "independent-checks.json": "e48a993273a16772ff6e4957dcc71d614bd695f23208b5553dd1716c6d20941e",
+  "independent-reference.json": "ea4041c55c52568952a3b1c9f6c407d7aeffef400395b037177f9cf75641d648",
+  "protocol.md": "750409855e633c0207bb7fc158699e2dfb234a2f1994096e2dbf718ed77c7b09",
+  "provenance.json": "74ff54dd24261ac07ebb22840f283a75dd01b783ed05d4089b577d4346bd0f9b",
+  "reader-after.json": "8e876a92ad4f8ba88e64230041c607319d10bd2c30f5bbb055367d75e6c4ba94",
+  "reader-before.json": "38b507e70d5514966b65a2de75ce88f4f793c856fcbad1f5a73434a5f6a8f444",
+  "review.md": "de06bf84cf47be9705f3098a0dbbc47ba3087e514dc5e32c0809b9543d2ff584"
+}
