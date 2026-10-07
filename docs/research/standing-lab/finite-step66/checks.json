@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "measured_harness": "d6091ce85b50173ee57034163e0d09ac7dbeab22",
+  "source_digest": "49d4c9e92141976573c45647b99bad6e8a1ffb8aabc3c945b382a651e170a96a",
+  "node": "v24.21.0",
+  "test": {
+    "command": "npm test",
+    "passed": 75,
+    "failed": 0,
+    "skipped": 0
+  },
+  "build": {
+    "command": "npm run build",
+    "exit_code": 0,
+    "warning": "Existing large Rapier chunk warning"
+  },
+  "reader": {
+    "command": "node scripts/finite-step66-reader.js docs/research/standing-lab/finite-step66/diagnosis.json",
+    "valid": true,
+    "reference_controls": 12,
+    "torque_cases": 17,
+    "fresh_sets": 5,
+    "measurements": 425
+  },
+  "original": {
+    "expected_exit_code": 2,
+    "exact_physical_payload": true,
+    "old_PR65_exports_modified": false,
+    "invalid_initialization_excluded": true
+  },
+  "invalid_reference_pilot": {
+    "file": "invalid-initial-velocity.json",
+    "classification": "invalid_initial_velocity",
+    "accepted": false,
+    "correction": "48cdbb8"
+  },
+  "browser": "N/A CLI-only",
+  "final_CI": "See final exact evidence-head GitHub Gate-C comment"
+}
