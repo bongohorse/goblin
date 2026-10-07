@@ -1,9 +1,8 @@
 import R from '@dimforge/rapier3d-compat';
-import {CONFIG,torque} from './torso-torque60-contract.js';
-import {vec,scale,norm,sub,rotate,rotationDistance} from '../src/labs/standing/math.js';
-import {V,Q,record,axis,tensor,capsule,constrained,momentum,rotationBound,tiltOracle} from './torso-torque60-oracle.js';
+import {CONFIG} from './torso-torque60-contract.js';
+import {vec,scale,norm,sub} from '../src/labs/standing/math.js';
+import {V,Q,record,axis,tensor,capsule,constrained,momentum,rotationBound} from './torso-torque60-oracle.js';
 const zero=vec(),unit={x:0,y:0,z:0,w:1};
-export const starts=[{id:'pitch+',tilt:axis(1,0,0,.08)},{id:'pitch-',tilt:axis(1,0,0,-.08)},{id:'roll+',tilt:axis(0,0,1,.08)},{id:'roll-',tilt:axis(0,0,1,-.08)},{id:'combined',tilt:axis(1,0,0,.06).multiply(axis(0,0,1,-.06))}];
 export function snapshot(b,s){return {id:s.id,mass:b.mass(),anchor:{...s.anchor},inertia:{...b.principalInertia()},principal_frame:{...b.principalInertiaLocalFrame()},rotation:{...b.rotation()},world_com:{...b.worldCom()},linear_velocity:{...b.linvel()},angular_velocity:{...b.angvel()}};}
 export function fixture({connected=true,synthetic=false,rotation=unit,partnerRotation=rotation}={}){
   const world=new R.World(zero);world.timestep=CONFIG.dt_s;world.integrationParameters.numSolverIterations=CONFIG.solver_iterations;world.integrationParameters.numInternalPgsIterations=CONFIG.internal_pgs_iterations;
@@ -38,7 +37,7 @@ export function firstStep({connected,synthetic,method='torque',direction,missing
     const discrete_momentum_residual=momentum(post,pre).sub(momentum(pre)).length(),physical_momentum_residual=momentum(post).sub(momentum(pre)).length(),physical_resolution_bound=rotationBound(pre,post)+CONFIG.tolerances.discrete_momentum;
     const accumulator_error=method==='impulse'?Math.max(...accumulators.map(norm)):Math.max(norm(sub(accumulators[0],t)),norm(sub(accumulators[1],missing?zero:scale(t,-1))));
     const anchor_initial_error=V(pre[0].world_com).add(V(pre[0].anchor).applyQuaternion(Q(pre[0].rotation))).distanceTo(V(pre[1].world_com).add(V(pre[1].anchor).applyQuaternion(Q(pre[1].rotation))));
-    const pass=missing?discrete_momentum_residual>100*CONFIG.tolerances.discrete_momentum:velocity_error<=CONFIG.tolerances.velocity&&inverse_tensor_error<=CONFIG.tolerances.inverse_tensor_relative&&discrete_momentum_residual<=CONFIG.tolerances.discrete_momentum&&physical_momentum_residual<=physical_resolution_bound&&accumulator_error<=CONFIG.tolerances.accumulator&&anchor_initial_error<=CONFIG.tolerances.anchor;
+    const pass=missing?discrete_momentum_residual>100*CONFIG.tolerances.discrete_momentum:tau.length()<=CONFIG.cap_Nm+CONFIG.tolerances.cap&&velocity_error<=CONFIG.tolerances.velocity&&inverse_tensor_error<=CONFIG.tolerances.inverse_tensor_relative&&discrete_momentum_residual<=CONFIG.tolerances.discrete_momentum&&physical_momentum_residual<=physical_resolution_bound&&accumulator_error<=CONFIG.tolerances.accumulator&&anchor_initial_error<=CONFIG.tolerances.anchor;
     return {connected,synthetic,method,direction,missing_reaction:missing,dt,requested_world_Nm:t,cap_norm_Nm:tau.length(),pre,post,oracle,accumulators,inverse_tensor_error,velocity_error,accumulator_error,anchor_initial_error,discrete_momentum_residual,physical_momentum_residual,physical_resolution_bound,pass};
   }finally{f.dispose();}
 }
@@ -48,20 +47,4 @@ export function verifyFirstSteps(){
     cases.push(firstStep({connected:true,synthetic:false,direction}));
   }
   cases.push(firstStep({connected:true,synthetic:false,direction:vec(1),missing:true}));return cases;
-}
-export function tracking(start,mode,index=1,negativeQuaternion=false){
-  const q=axis(0,1,0,.7).multiply(start.tilt);if(negativeQuaternion)q.set(-q.x,-q.y,-q.z,-q.w);
-  const f=fixture({rotation:q});const trace=[],initial=f.state();let termination='horizon',invalid=null;
-  try{
-    for(let step=0;step<CONFIG.horizon_steps;step++){
-      const pre=f.state();let c;try{c=torque(pre[0].rotation,pre[0].angular_velocity,mode);}catch(e){termination='invalid';invalid=e.message;break;}
-      command(f,c);f.world.step();clear(f);const post=f.state();
-      trace.push({step:step+1,command:c,bodies:post,torso_tilt_rad:tiltOracle(post[0].rotation),partner_rotation_from_start_rad:rotationDistance(initial[1].rotation,post[1].rotation),physical_momentum:record(momentum(post)),relative_world_rad_s:sub(post[0].angular_velocity,post[1].angular_velocity)});
-      if(!Object.values(post).every(s=>Object.values(s.rotation).every(Number.isFinite)&&norm(s.angular_velocity)<200)){termination='invalid';invalid='nonfinite_or_exploding';break;}
-      if(trace.at(-1).torso_tilt_rad>CONFIG.max_tilt_rad){termination='invalid';invalid='outside_small_tilt_domain';break;}
-    }
-    const end=trace.at(-1),tilt=end?.torso_tilt_rad??tiltOracle(initial[0].rotation),speed=end?V(end.bodies[0].angular_velocity).cross(V(vec(0,1,0)).applyQuaternion(Q(end.bodies[0].rotation))).length():0;
-    const pass=mode==='wrong-sign'?termination==='invalid'&&tilt>tiltOracle(initial[0].rotation):termination==='horizon'&&(mode==='off'?Math.abs(tilt-tiltOracle(initial[0].rotation))<=CONFIG.tolerances.off_rad:tilt<CONFIG.tolerances.tracking_rad&&speed<CONFIG.tolerances.tracking_speed);
-    return {case_id:start.id,mode,run_index:index,negative_quaternion:negativeQuaternion,initial,dt:f.world.timestep,termination,invalid,steps:trace.length,final_tilt_rad:tilt,final_transverse_speed_rad_s:speed,pass,trace};
-  }finally{f.dispose();}
 }
