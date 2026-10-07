@@ -1,0 +1,17 @@
+{
+  "source_file": "chrome61-identity.json",
+  "source_sha256": "a9db153e6642d43af1c3853599897715b3baeafa89c9ce1b6923aba7066236c4",
+  "sanitization": "Machine-specific executable/profile/argument paths omitted; measurement data retained",
+  "version": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/156.0.8078.4",
+    "revision": "@f842f52ef39fd97b449eb27cff414bf05a98ddce",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+    "jsVersion": "15.6.75"
+  },
+  "identity": {
+    "executable_matches_selected_installation": true,
+    "isolated_temporary_profile": true,
+    "headless": false
+  }
+}

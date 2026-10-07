@@ -24,7 +24,7 @@ async function main() {
   let browser;
   try {
   browser = await chromium.launch({
-    executablePath: process.env.GOBLIN_CHROMIUM_EXECUTABLE || undefined,
+    ...require('../scripts/chrome-portable.cjs').portableChrome(),
     args: process.env.GOBLIN_SOFTWARE_BROWSER ? ['--no-sandbox', '--no-zygote', '--single-process', '--in-process-gpu', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] : [],
   });
   const errors = [], warnings = [], failedResponses = [];

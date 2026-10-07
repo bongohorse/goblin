@@ -12,6 +12,7 @@ Browser game built with Three.js, Rapier 3D and Vite.
 - VS Code / container setup: `docs/development/vscode.md`
 - Keep Goblin tools/configuration scoped to this repo; do not modify MGD or global editor settings.
 - Windows browser MCP is optional and disabled by default. Only enable it when Codex executes on Windows; Linux container browsers do not prove Windows GPU performance.
+- Goblin browser QA uses only the selected Chrome Portable Beta x64 installation, with no Edge or automatic browser fallback. Verify the actual executable/version for each acceptance; see `docs/development/browser-qa.md`. Machine-specific paths remain in local configuration.
 - Build: `npm run build`
 - CI and GitHub Pages must stay green.
 

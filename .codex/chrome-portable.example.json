@@ -1,0 +1,9 @@
+{
+  "browser": {
+    "browserName": "chromium",
+    "launchOptions": {
+      "executablePath": "C:/path/to/Portable.Chrome.Updater/Chrome Beta x64/Chrome.exe",
+      "headless": false
+    }
+  }
+}
