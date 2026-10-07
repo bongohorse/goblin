@@ -1,5 +1,5 @@
 import {Quaternion,Vector3} from 'three';
-import {integrate,initialState,decode,derivative,invariants,difference,av,aq,ov,add,sub,mul,cross,dot,length,rotate,inertia} from './finite-step66-reference.js';
+import {integrate,initialState,decode,derivative,invariants,difference,av,aq,ov,add,sub,mul,cross,dot,length,rotate,inertia,normalize,oq} from './finite-step66-reference.js';
 export const RESOLUTIONS=[8,16,32,64,128];
 export const REF_LIMITS={velocity:1e-10,rotation:1e-10,position:1e-11,conservation:1e-10,anchor:1e-10,analytic:1e-11};
 const zero={x:0,y:0,z:0};
@@ -7,7 +7,7 @@ function convergence(bodies,tau,T,connected){const runs=RESOLUTIONS.map(n=>integ
 export function validateReference(seed,T){
   const cases=[];
   for(const kind of ['static','isotropic','principal-axis','free-gyro','connected-static','connected-moving']){
-    const b=structuredClone(seed),connected=kind.startsWith('connected');for(const s of b){s.angular_velocity={...zero};s.linear_velocity={...zero};}
+    const b=structuredClone(seed),connected=kind.startsWith('connected');for(const s of b){s.rotation=oq(normalize(aq(s.rotation)));s.angular_velocity={...zero};s.linear_velocity={...zero};}
     let tau=[[0,0,0],[0,0,0]],expected=null;
     if(kind==='isotropic'){for(const s of b){s.inertia={x:.04,y:.04,z:.04};s.principal_frame={x:0,y:0,z:0,w:1};}b[0].angular_velocity={x:.2,y:0,z:0};tau[0]=[.15,0,0];const q=new Quaternion(b[0].rotation.x,b[0].rotation.y,b[0].rotation.z,b[0].rotation.w).normalize(),angle=.2*T+.5*.15/.04*T*T;const endq=new Quaternion().setFromAxisAngle(new Vector3(1,0,0),angle).multiply(q);expected=structuredClone(b);expected[0].rotation={x:endq.x,y:endq.y,z:endq.z,w:endq.w};expected[0].angular_velocity={x:.2+.15/.04*T,y:0,z:0};}
     if(kind==='principal-axis'){const q=new Quaternion(b[0].rotation.x,b[0].rotation.y,b[0].rotation.z,b[0].rotation.w).normalize(),frame=new Quaternion(b[0].principal_frame.x,b[0].principal_frame.y,b[0].principal_frame.z,b[0].principal_frame.w).normalize(),axis=new Vector3(0,1,0).applyQuaternion(q.clone().multiply(frame));tau[0]=axis.clone().multiplyScalar(.15).toArray();const omega=axis.clone().multiplyScalar(.15/b[0].inertia.y*T),angle=.5*.15/b[0].inertia.y*T*T,endq=new Quaternion().setFromAxisAngle(axis,angle).multiply(q);expected=structuredClone(b);expected[0].rotation={x:endq.x,y:endq.y,z:endq.z,w:endq.w};expected[0].angular_velocity={x:omega.x,y:omega.y,z:omega.z};}
