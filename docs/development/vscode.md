@@ -58,6 +58,28 @@ Keep this server disabled when Codex executes inside Linux/WSL/devcontainer. Win
 
 Project config complements user-level Codex config; it does not disable unrelated global MCP servers. Confirm the server name before browser actions. VS Code's F5 debugger and Codex MCP are separate browser sessions.
 
+## Chrome DevTools MCP in the Codex VS Code extension
+
+The Codex extension can use MCP directly; installing Codex CLI is optional. For Windows Chrome Portable, configure a server named `chrome-devtools` through Codex Settings → MCP servers with type STDIO, command `npx`, and three separate argument fields:
+
+1. `-y`
+2. `chrome-devtools-mcp@latest`
+3. `--executablePath=<absolute path to the actual chrome.exe>`
+
+Use the actual browser binary rather than a portable launcher. Keep machine-specific paths in local Codex configuration; do not commit them or replace existing project MCP entries. The default server creates its own browser profile; verify profile identity before acceptance and do not reuse a personal profile or concurrently share a profile with Playwright. If a fixed profile is needed, configure a separate local `--userDataDir=<path>`.
+
+Save configuration, then use **Developer: Reload Window** in the VS Code command palette (Ctrl+Shift+P) and start a new Codex chat. This is separate from VS Code's F5 debugger. Preserve an already running devserver; otherwise start `npm run dev` on port 5174.
+
+For the connection smoke test, ask Codex to use `chrome-devtools` to open http://localhost:5174/?debug, report the actual browser version and URL, take a screenshot and read the console without editing files. A user-reported test on 2026-10-07 succeeded with Windows Chrome Portable **156.0.8078.4**: start/debug screen captured, no console errors or warnings, only Vite connecting/connected messages. This records connectivity only; it is not an independently repeated gameplay, GPU or Hidden/Resume acceptance.
+
+Use DevTools for console/network diagnosis and performance traces; use Playwright for repeatable gameplay/input tests, including coordinate-based canvas interactions. Report the tool/browser used and any fallback explicitly. Do not interpret a DOM accessibility snapshot as proof of rendered canvas behavior.
+
+### Foreground and Hidden/Resume checks
+
+For foreground measurements, record browser version, executable/profile identity, effective launch arguments, viewport/DPR and GPU/backend. Keep browser conditions consistent across comparisons. A Memory Saver exception can prevent discarding the test site but does not guarantee background animation.
+
+For native Hidden/Resume acceptance, inspect effective browser launch arguments for automation defaults that disable background throttling or occlusion behavior. Use normal Chrome behavior and require observed native hidden → visible events, pause evidence and actual simulation progress after resume. Dispatching synthetic events, switching an automation tab without observing visibility, or a successful connection smoke test cannot satisfy this gate. If native events cannot be produced, report the limitation and leave the gate open; use a manual check in the approved browser environment.
+
 ## Production browser checks and continuation
 
 ```powershell
@@ -79,3 +101,6 @@ G0 implementation was merged in PR #22. Real-device/live-play acceptance remains
 - Built-in browser debugging: https://code.visualstudio.com/docs/nodejs/browser-debugging
 - Codex project MCP configuration: https://developers.openai.com/codex/mcp
 - Playwright MCP: https://github.com/microsoft/playwright-mcp
+
+- Chrome DevTools MCP: https://developer.chrome.com/docs/devtools/agents
+- Chrome DevTools MCP configuration: https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/main/docs/configuration.md
