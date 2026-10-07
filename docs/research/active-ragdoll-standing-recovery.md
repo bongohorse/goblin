@@ -1,7 +1,7 @@
 # Goblin Standing Foundation Research
 
 **Status:** active research document  
-**Last updated:** 2026-10-04  
+**Last updated:** 2026-10-07
 **Current scope:** stable physical standing only  
 **Related work:** Issue #15, Draft PR #29  
 **Engine baseline:** Three.js 0.186.1, `@dimforge/rapier3d-compat` 0.21.0
@@ -80,6 +80,11 @@ Before implementation, verify APIs against the installed `@dimforge/rapier3d-com
 
 Detailed literature/industry review:
 - `docs/research/standing-literature-review-2026-10-04.md`
+- [Modern character-control shortlist, 2026-10-07](modern-character-control-2026-10-07.md): learned control, contact-guided planning and recovery references, with explicit transfer and evidence limits.
+
+### Modern control literature update — 2026-10-07
+
+**PRIMARY SOURCE + HYPOTHESIS + DEFERRED.** Newer work supports investigating contact-aware planning, learned joint control and reusable motion priors. PartwiseMPC, the 2022 get-up work, HumanUP, AdaptNet and the 2026 SMP/InstantMimic/LYRIC results are documented in the shortlist. None establishes standing on our Rapier rig or resolves the finite-step measurement blocker. Keep classical internal torso/COM feedback as the near-term hypothesis; a separately scoped MimicKit feasibility audit is a later option, not training authorization. Get-up and locomotion remain deferred, and existing gate stops/acceptance criteria remain unchanged.
 
 Physics Lab workflow:
 - `docs/development/labs.md`
