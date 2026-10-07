@@ -547,3 +547,11 @@ Decision: Gate B/#60 remains blocked. Physical error allocation, applied-cap rep
 [Bounded actuation protocol/review](standing-lab/actuation74/README.md) records the explicit project decision: missing general engine precision does not invalidate separately verified commands or local API/fixture controls. Preserve #72 broad-claim/unknown-budget artifacts as history. Versioned future actual frame/units/missing-reaction commands must demonstrate local empirical discrimination; endpoint and contemporaneous spin-plus-orbital POST-H are descriptive, no precision pass marker. Command pairing neither proves absence of common external/numerical moments nor does a residual establish hidden support or6s torque bias.
 
 Recommend a separate bounded27-case actuation execution, with strict requested/applied vector caps and explicit Float32 encoding. No new engine measurements, precision envelope, Gate-B/Upright/Standing permission or automatic #60 continuation here. Original .01rad/.02rad/s/6s small-upright behavior remains for later direct measurement only.
+
+### Bounded actual actuation evidence — Issue75 / 2026-10-07
+
+[Real actuation study](standing-lab/actuation75/README.md) executes the unchanged
+Issue74 matrix:135 fresh worlds, actual wrong-frame/units/missing-reaction API
+commands, all frozen local separations pass. Commands, physical residuals and
+uncertified general precision remain separate. Local fixture evidence only;
+no upright/controller/standing approval. #60 still needs a separate execution order.

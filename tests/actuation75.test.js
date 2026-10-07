@@ -1,3 +1,8 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import {construction} from '../scripts/actuation75-model.mjs';import {exactWithinCap} from '../scripts/review-actuation74.mjs';
 const cfg=JSON.parse(fs.readFileSync('docs/research/standing-lab/actuation74/config.json')),old=JSON.parse(fs.readFileSync('docs/research/standing-lab/torso-torque60/gate-b.json')),cap=JSON.parse(fs.readFileSync('docs/research/standing-lab/gate-b72/attribution.json')).cases[0].runs[0].pre;
 test('frozen actuation75 constructions preserve strict caps and expose actual fault vectors',()=>{for(const c of cfg.cases){const pre=c.synthetic?old.first_steps.find(x=>x.synthetic&&x.method==='impulse').pre:cap;const a=construction(c,pre,Math.fround(1/60));assert.ok(a.applied_encoded_pair.every(v=>exactWithinCap(v,a.cap)));assert.equal(JSON.stringify(a.applied_encoded_pair)!==JSON.stringify(a.correct_encoded_pair),!!c.fault);}});
+
+import {validateActuation} from '../scripts/actuation75-reader.mjs';import {corruptions} from '../scripts/actuation75-corruptions.mjs';
+const raw=JSON.parse(fs.readFileSync('docs/research/standing-lab/actuation75/raw.json'));
+test('stored 135 real actuation observations satisfy the frozen local decision',()=>{const r=validateActuation(raw,cfg);assert.equal(r.valid,true);assert.equal(r.bounded_actuation_evidence,'local_supported');assert.equal(r.upright_approval,false);});
+test('reader rejects targeted provenance/phase/command/reference/decision corruption',()=>{for(const [name,mutate]of corruptions){const r=structuredClone(raw);mutate(r);assert.throws(()=>validateActuation(r,cfg),name);}});
