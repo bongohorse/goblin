@@ -23,7 +23,7 @@ await initRapier();
 test('public mass initialization and rotated anisotropic impulse controls; preregistered misses remain failures',()=>{
   const f=fixture({connected:false,synthetic:true});try{assert.ok(f.state().every(s=>s.mass>0&&Object.values(s.inertia).every(v=>v>0)));assert.equal(f.world.bodies.len(),2);assert.equal(f.world.impulseJoints.len(),0);}finally{f.dispose();}
   const cases=verifyFirstSteps();validateFirstSteps(cases);assert.equal(cases.filter(c=>c.method==='impulse'&&c.pass).length,8);assert.equal(cases.filter(c=>!c.missing_reaction&&c.method==='torque'&&!c.pass).length,16);assert.equal(cases.at(-1).pass,true);
-  for(const corrupt of [c=>c.pop(),c=>c[0].pre[0].mass=0,c=>c[0].pre[0].rotation.x=NaN,c=>c[0].post[0].inertia.x=Infinity,c=>c[0].pass=true,c=>c[0].direction.x=-1,c=>c[0].extra=0,c=>c[0].post[1].unknown=0,c=>c[0].discrete_momentum_residual=0]){const bad=structuredClone(cases);corrupt(bad);assert.throws(()=>validateFirstSteps(bad));}
+  for(const corrupt of [c=>c.pop(),c=>c[0].pre[0].mass=0,c=>c[0].pre[0].rotation.x=NaN,c=>c[0].post[0].inertia.x=Infinity,c=>c[0].pass=true,c=>c[0].direction.x=-1,c=>c[0].extra=0,c=>c[0].post[1].unknown=0,c=>c[0].discrete_momentum_residual=0,c=>c[0].accumulators[0].x+=1,c=>c[0].accumulator_error=0,c=>c[0].anchor_initial_error=0]){const bad=structuredClone(cases);corrupt(bad);assert.throws(()=>validateFirstSteps(bad));}
 });
 
 import {validateGateB} from '../scripts/torso-torque60-reader.js';
