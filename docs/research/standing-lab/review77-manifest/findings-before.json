@@ -1,0 +1,19 @@
+[
+  {
+    "name": "nonnumeric integration default",
+    "accepted": true
+  },
+  {
+    "name": "string body dynamic flag",
+    "accepted": true
+  },
+  {
+    "name": "string POST quaternion component",
+    "accepted": true
+  },
+  {
+    "name": "manifest missing README entry",
+    "accepted": true,
+    "verified_entries": 11
+  }
+]

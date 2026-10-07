@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "review_issue": 77,
+  "input_pr73": "c8fc2816951a559b5b4fc5ff0c4c6e7b745985ea",
+  "base_main": "dd0cfed3ab14c0456152877cf85212c12b55e430",
+  "current_sources": [
+    {
+      "path": "scripts/review-actuation74.mjs",
+      "sha256": "e7bd4a90413864e00fdb8a4b34402818cc700ac33c63de04ebb0e92b6a08d1a6"
+    },
+    {
+      "path": "tests/actuation74.test.js",
+      "sha256": "c7c3c8a0992bf2b9a8e6744555625e71879e20b24890283823e3a1d794ab856f"
+    }
+  ],
+  "legacy_unhashed_README_sha256": {
+    "torso-torque60": "329a4eacc19e9e3e8bf76610bd13f41d003290340530036427f9b5ba58277638",
+    "review68": "6c54584cf7817e21f0bee2aa96a44285dfcb3d96154b2b1aa34c7b5c758a8dfb",
+    "target-study52": "edaea865e46e8cdf819fa7a2ecf20b7c71a8073d52f2e4297c313df20263f407"
+  }
+}
