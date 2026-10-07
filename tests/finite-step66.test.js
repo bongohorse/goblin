@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {validateReference} from '../scripts/finite-step66-validation.js';
+import {integrate,solve3,difference} from '../scripts/finite-step66-reference.js';
+import {readDiagnosis} from '../scripts/finite-step66-reader.js';
+const old=JSON.parse(fs.readFileSync('docs/research/standing-lab/torso-torque60/gate-b.json'));
+test('independent ODE passes analytic, gyro and spherical conservation/convergence controls',()=>{for(const j of [0,2])assert.ok(validateReference(old.first_steps[j].pre,old.first_steps[j].dt).pass);assert.ok(!fs.readFileSync('scripts/finite-step66-reference.js','utf8').includes('import '));});
+test('reference rejects singular constraints and invalid physical inputs',()=>{assert.throws(()=>solve3([[0,0,0],[0,0,0],[0,0,0]],[1,0,0]),/singular/);const b=structuredClone(old.first_steps[0].pre);b[0].inertia.x=0;assert.throws(()=>integrate(b,[[0,0,0],[0,0,0]],.01,8),/mass/);});
+test('rotation distance identifies quaternion signs and resolves tiny rotations',()=>{const b=structuredClone(old.first_steps[0].pre),c=structuredClone(b);for(const s of c)for(const k of ['x','y','z','w'])s.rotation[k]*=-1;assert.equal(difference(b,c).rotation,0);});
+test('raw reader rejects tampering, missing cases, stale config and false negative flags',()=>{const path='docs/research/standing-lab/finite-step66/diagnosis.json';if(!fs.existsSync(path))throw Error('final raw evidence required');const r=JSON.parse(fs.readFileSync(path));assert.ok(readDiagnosis(r,old).valid);for(const mutate of [x=>x.repetitions.pop(),x=>x.repetitions[0].cases[0].measurements[0].post[0].angular_velocity.x+=.01,x=>x.references[0].reference.wrong_frame_negative_detected=false,x=>x.config.rapier_refinements.push(32),x=>x.repetitions[0].cases.at(-1).measurements[0].paired_reaction_marker_pass=true,x=>x.repetitions[0].cases[0].measurements[0].dt_s*=2]){const bad=structuredClone(r);mutate(bad);assert.throws(()=>readDiagnosis(bad,old));}});
