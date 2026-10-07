@@ -59,3 +59,7 @@ Runner requires clean tree; use output outside the worktree. Measured harness d6
 Reader recalculates analytical controls, references, endpoint errors, physical POST H, PRE pseudo-H, exact horizon/case set/repeats and negatives. Corruption tests cover raw velocities, dt, missing cases, frame flags/config and paired-negative flags. This verifies internal consistency, not authenticity of an untrusted replacement state sequence; hashes/history provide traceability.
 
 Browser N/A: CLI/WASM only. No browser/GPU/arena/standing performance claim. No merge/deployment/production/baseline/dependency/configuration changes.
+
+## Separate Issue #68 review
+
+See [stacked review, fresh reproduction and two decisions](../review68/README.md). The original PR65 base/harness/data identifiers above are historical measurement provenance. Current PR67 is rebased onto the corrected PR65 head; old raw evidence and preregistrations stay byte-identical. Reader findings are fixed and independently reproduced; research merge suitability does not authorize Gate B or resume #60.
