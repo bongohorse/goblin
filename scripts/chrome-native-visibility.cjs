@@ -1,4 +1,5 @@
 const fs=require('node:fs'),path=require('node:path'),{spawn}=require('node:child_process'),assert=require('node:assert/strict');
+const {validateVisibility,validateResume,assess}=require('./chrome-visibility-oracle.cjs');
 const os=require('node:os');const identity=require('./chrome-portable.cjs').portableChromeIdentity();const binary=identity.executablePath;
 const profile=fs.mkdtempSync(path.join(process.env.GOBLIN_BROWSER_PROFILE_ROOT||os.tmpdir(),'goblin-chrome-visibility-'));
 const args=['--user-data-dir='+profile,'--remote-debugging-port=0','--remote-debugging-address=127.0.0.1','--no-first-run','--no-default-browser-check','about:blank'];
@@ -19,10 +20,28 @@ async function main(){try{
  const standalone=await observe(false);
  await rpc('Page.navigate',{url:'https://bongohorse.github.io/goblin/labs/standing/'},lab.sessionId);for(let i=0;i<200;i++){if(await evaluate('!!window.standingLab'))break;await sleep(50);}assert.equal(await evaluate('!!window.standingLab'),true);
  const live=await observe(true);assert.equal(live.before.hidden,false);assert.equal(live.before.d.paused,false);assert.ok(live.before.d.step>=10);assert.equal(live.before.d.termination,null);
- const resume=await evaluate("new Promise(resolve=>{document.querySelector('#resume').click();const start=performance.now(),rows=[];function tick(){rows.push({wall_ms:performance.now()-start,step:standingLab.diagnostics().step});if(performance.now()-start>=1000){document.querySelector('#pause').click();resolve({first:rows[0],last:rows.at(-1),delta:rows.at(-1).step-rows[0].step,max_per_frame:Math.max(...rows.slice(1).map((r,i)=>r.step-rows[i].step))});}else requestAnimationFrame(tick);}tick();})");
+ // Preserve live.still as the automatic-return evidence. Explicitly pause before
+ // this separate Resume check even if native visibility was never reached.
+ const resume=await evaluate(`new Promise(resolve=>{
+  const sample=()=>({hidden:document.hidden,d:standingLab.diagnostics()});
+  document.querySelector('#pause').click();const before=sample();
+  document.querySelector('#resume').click();const active=sample(),start=performance.now();
+  const rows=[{wall_ms:0,...active}];
+  function tick(){
+   rows.push({wall_ms:performance.now()-start,...sample()});
+   if(rows.at(-1).wall_ms>=1000){
+    document.querySelector('#pause').click();
+    resolve({before,active,rows,after:sample(),delta:rows.at(-1).d.step-rows[0].d.step,
+     max_per_frame:Math.max(...rows.slice(1).map((r,i)=>r.d.step-rows[i].d.step))});
+   }else requestAnimationFrame(tick);
+  }requestAnimationFrame(tick);
+ })`);
  const provenance=await evaluate('standingLab.result().then(r=>({git_commit:r.git_commit,dirty:r.dirty,build_id:r.build_id}))');
- const report={method:'Raw CDP with debugger detached during background interval; trusted in-page observer, no synthetic visibility or emulation',identity,binary,pid:child.pid,profile,args,version,standalone,live,resume,provenance};
- const output=process.env.GOBLIN_VISIBILITY_OUTPUT||path.join(os.tmpdir(),'goblin-chrome-visibility-'+Date.now()+'.json');fs.writeFileSync(output,JSON.stringify(report,null,2));console.log(JSON.stringify({output,version:version.product,pid:child.pid,standalone_events:standalone.events,lab_events:live.events,resume,provenance}));
- assert.ok(standalone.hidden.length>0);assert.ok(standalone.hidden.every(x=>x.hidden));assert.ok(standalone.events.some(e=>e.trusted&&e.hidden));assert.ok(live.hidden.every(x=>x.hidden&&x.d.paused));assert.equal(live.hidden[0].d.step,live.hidden.at(-1).d.step);assert.equal(live.returned.d.step,live.hidden[0].d.step);assert.equal(live.still.d.step,live.hidden[0].d.step);assert.ok(live.still.d.paused);assert.ok(live.events.some(e=>e.trusted&&e.hidden));assert.ok(live.events.some(e=>e.trusted&&!e.hidden));const hiddenEvent=live.events.find(e=>e.trusted&&e.hidden),visibleEvent=live.events.find(e=>e.trusted&&!e.hidden&&e.now>hiddenEvent.now);assert.ok(visibleEvent.now-hiddenEvent.now>=5000,'At least five seconds genuinely hidden');assert.equal(hiddenEvent.d.step,live.hidden[0].d.step);assert.ok(resume.delta<=Math.ceil(resume.last.wall_ms*60/1000)+2);
+ const checks={visibility:assess(()=>validateVisibility({standalone,live})),resume:assess(()=>validateResume(resume,live.before.d.run_id))};
+ const report={method:'Raw CDP with debugger detached during background interval; trusted in-page observer, no synthetic visibility or emulation',identity,binary,pid:child.pid,profile,args,version,standalone,live,resume,provenance,checks};
+ const output=process.env.GOBLIN_VISIBILITY_OUTPUT||path.join(os.tmpdir(),'goblin-chrome-visibility-'+Date.now()+'.json');fs.writeFileSync(output,JSON.stringify(report,null,2));console.log(JSON.stringify({output,version:version.product,pid:child.pid,standalone_events:standalone.events,lab_events:live.events,resume:{delta:resume.delta,max_per_frame:resume.max_per_frame,wall_ms:resume.rows.at(-1).wall_ms},provenance}));
+ console.log(JSON.stringify({checks}));
+ assert.equal(checks.resume.status,'pass','Resume oracle: '+checks.resume.reason);
+ assert.equal(checks.visibility.status,'pass','Native visibility prerequisite/contract: '+checks.visibility.reason);
  }finally{if(ws?.readyState===1){await rpc('Browser.close').catch(()=>{});ws.close();}else child.kill();}}
 main().catch(e=>{console.error(e);process.exitCode=1;});

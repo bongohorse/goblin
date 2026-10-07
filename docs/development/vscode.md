@@ -33,13 +33,21 @@ npm run build
 npm run dev
 ```
 
-Open http://localhost:5174/?debug in Edge. Tasks are available under **Terminal → Run Task**. F5 with **Goblin: Windows Edge** starts Vite and a debugging browser; Chrome is an alternative if installed. Stop the development task through **Terminal → Terminate Task** when finished. `start-windows.bat` is an alternative that installs locked dependencies, propagates failures and starts from its own directory.
+Open http://localhost:5174/?debug using only the selected Chrome Portable with an isolated test profile; see the command below. Tasks are available under **Terminal → Run Task**. The repository has no F5 browser launch profiles: the former profiles could launch Edge or an unspecified installed Chrome. Stop the development task through **Terminal → Terminate Task** when finished. `start-windows.bat` is an alternative that installs locked dependencies, propagates failures and starts from its own directory.
+
+After configuring the ignored portable JSON as described in [Browser QA](browser-qa.md), run this in a second Windows terminal from the repository root. It reads the verified contained binary, fails without that configuration, and creates a fresh profile instead of using your portable user profile:
+
+```powershell
+node -e "const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'); const {executablePath}=require('./scripts/chrome-portable.cjs').portableChrome(); const profile=fs.mkdtempSync(path.join(os.tmpdir(),'goblin-chrome-manual-')); console.log({executablePath,profile}); spawn(executablePath,['--user-data-dir='+profile,'--no-first-run','--no-default-browser-check','http://localhost:5174/?debug'],{stdio:'ignore'}).on('error',e=>{console.error(e);process.exitCode=1});"
+```
+
+Check `chrome://version` for the selected executable, version and printed test profile before acceptance. This manual start has no debugger attached and can also be used for the native visibility countercheck. Close only this test browser when finished. Temporary profiles remain separate from your private profile; do not update the portable installation.
 
 ## Optional separate devcontainer
 
 With the container engine used for your MGD environment running, install Dev Containers in the Goblin profile and select **Dev Containers: Reopen in Container**. This repo supplies its own container, Node 24.21.0, Git/GitHub CLI and Codex extension. Creation runs `npm ci`; dependencies live in a Goblin-specific Docker volume, separate from native Windows dependencies and from MGD. No MGD volumes, credentials or Codex home directory are mounted.
 
-The development server forwards 5174 to Windows. Start **Goblin: dev** and open the forwarded URL in the selected Chrome Portable. F5 is configured to launch the browser on the UI host rather than inside Linux. If a particular container engine/debugger cannot do this, open Chrome Portable manually using the Ports panel. A container browser does not establish Windows GPU performance.
+The development server forwards 5174 to Windows. Start **Goblin: dev** and open the forwarded URL in the selected Chrome Portable on the Windows host using the isolated manual start above (substitute the forwarded URL if necessary). The portable configuration and start command belong on Windows, not inside Linux. A container browser does not establish Windows GPU performance.
 
 The container config is supplied for standard Dev Containers-compatible engines. Its creation and host browser launch must still be verified on your Windows/WSLC setup; they were not executed in the cloud environment.
 

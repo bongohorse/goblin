@@ -30,6 +30,9 @@ For each acceptance, record actual executable/process, file version/hash, CDP
 Browser.getVersion, isolated profile and control method, plus deployed build SHA.
 Keep debugging local (pipe or loopback only), not an exposed network endpoint.
 No browser automation run alone certifies Windows GPU or weak-device budgets.
+VS Code has no repository browser F5 profiles. Use the isolated Windows manual
+start in [VS Code setup](vscode.md); installed-browser launch profiles do not meet
+this policy.
 
 ## Native visibility
 
@@ -78,3 +81,32 @@ GOBLIN_BROWSER_PROFILE_ROOT may place a fresh isolated profile in another local
 directory for an explicitly scoped environment comparison; never point it to a
 private browser profile. Native acceptance still needs a same-Chrome manual
 countercheck when the automation cannot reproduce the transition.
+
+## Resume oracle (Issue #63)
+
+The probe preserves the automatic return measurement, then explicitly pauses
+before a separate one-second Resume check. All frame samples retain run_id,
+FB20 mode, invalid/termination, paused and hidden state. A missing native event
+produces `missing-native-events`, not a product defect or a native pass; a Resume
+check can pass independently without establishing Hidden-Pause.
+
+The oracle follows the existing LabClock: 60Hz, up to three steps per frame,
+elapsed time clamped to 50ms. It checks positive plausible progress, the measured
+max_per_frame, each frame's elapsed-time budget (including a residual fraction of
+one step), the total wall-time budget and explicit paused finish. Slow frames may
+legitimately produce two or three steps. The lower bound uses the sum of clamped
+frame intervals, with three steps allowed for clock priming/sampling/rounding;
+zero progress always fails. It does not impose the historical run's max1/rAF on
+all devices. Tests drive the real LabClock at normal and slow frame intervals and
+reject stillstand, catch-up, run replacement, invalid/termination, wrong pause
+states and missing/untrusted native events. No Lab timing/runtime code changes.
+
+For the manual countercheck, use the same isolated Portable start and the live
+Standing Lab. Install a passive visibilitychange/interval logger via DevTools,
+then close DevTools before selecting another tab for at least six seconds.
+First do this on about:blank, then with active FB20. After return wait 500ms before
+reading the logger: require trusted hidden/visible spanning at least five seconds,
+stable step/paused=true from the hidden transition through return, unchanged
+run_id and no invalid/termination. Explicit Resume must advance without catch-up.
+The executable logger is in the [PR review](https://github.com/bongohorse/goblin/pull/62#pullrequestreview-5437575901).
+This manual countercheck remains pending; do not report it as performed.
