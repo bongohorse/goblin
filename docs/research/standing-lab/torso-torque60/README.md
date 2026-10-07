@@ -60,3 +60,13 @@ Import validateGateB from scripts/torso-torque60-reader.js to read the final rep
 Recommended next scoped task: establish an independent continuous/finite-step two-body reference with anisotropic inertia, moving principal frames, gyroscopic terms and joint/orbital reaction; compare the retained exact minimal cases and derive resolution **before** new acceptance measurements. Keep these failures and the old #54 strict-false probe unchanged. No gain/solver/rig tuning to hide the discrepancy. Only after that proof carries may the original small-tilt tracking protocol resume. Any later FullRig A/B additionally needs secondary standing/support/drift/joint-error criteria and an explicit conflict policy for shoulder/pose motors; shoulder is merely this primitive's reaction partner, not a prescribed production distribution. COM/ankle/hip feedback remains later work.
 
 **Stopped with blocker handoff. Draft only; no merge/deployment or issue closure.**
+
+## Issue #68 review errata — 2026-10-07
+
+The preserved preregistration says first-step body roll -0.4; the actual harness and all retained raw states use -0.08 (body yaw0.7, partner yaw-0.3/pitch0.06). This is a protocol/code discrepancy, not proof of the preregistered -0.4 fixture. The blocked observations are preserved; no replacement -0.4 run or retrospective acceptance was performed. A future protocol must state the actual chosen frames explicitly.
+
+The historical physical_resolution_bound is a measured tensor-rotation diagnostic plus the old1e-7 marker. It is not an a-priori bound on continuous-reference error or total physical H: it omits the orbital lever-arm change sum[(xPOST-xPRE) cross m*vPOST]. Review reproduction found a nonzero paired correction up to1.84678e-9kg*m²/s. Neither changing q nor this empirical bound establishes engine conservation. The old numbers/flags/protocol remain untouched; use the independent continuous endpoint and contemporaneous POST spin+orbital H from #66 for a separately reviewed future check.
+
+P2 reader findings fixed in #68: recompute accumulator_error from the exported accumulators and commanded torque, recompute anchor_initial_error from PRE COM/anchors/normalized rotations, and verify requested torque against case direction/cap. Previously a1Nm accumulator corruption and a falsely zero anchor metric were accepted; focused tests now reject both. This is evidence validation only, with unchanged measured physics, configuration and markers.
+
+Separate code-review-skill review on #65/#67/#68 is an agent self-review, not independent human approval. Restricted research merge suitability does not authorize Gate B or resume #60. No merge/deployment/upright experiment.
