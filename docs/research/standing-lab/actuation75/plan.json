@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "issue": 75,
+  "protocol_head": "c8fc2816951a559b5b4fc5ff0c4c6e7b745985ea",
+  "config_sha256": "24433a2f565a9dd98e2457ff5c8f7989139937c9e7ab8c457c2fad953181cb12",
+  "protocol_sha256": "750409855e633c0207bb7fc158699e2dfb234a2f1994096e2dbf718ed77c7b09",
+  "new_worlds": 135,
+  "case_count": 27,
+  "repeats": 5,
+  "positive_cases": 24,
+  "actual_negative_cases": 3,
+  "maximum_public_steps_per_world": 1,
+  "engine_precision": "indeterminate_not_certified",
+  "general_envelope": null,
+  "uOmega": 1e-10,
+  "uH": 1e-10,
+  "source_files": [
+    "scripts/actuation75-model.mjs",
+    "scripts/actuation75-runner.mjs",
+    "scripts/actuation75-reader.mjs",
+    "tests/actuation75.test.js"
+  ],
+  "source_sha256": {
+    "scripts/actuation75-model.mjs": "9f8259d16008df31ef40576b86c78c54067ce036394c5672bf4206ca514ef65d",
+    "scripts/actuation75-runner.mjs": "7758803f9c6660c3669aebfe9481a249721d44699fa648ce58ab9e15b2797058",
+    "scripts/actuation75-reader.mjs": "db8bc13abb4b3732cd79501696c4598573d407ea05c11ea8b184e57b14343bd1",
+    "tests/actuation75.test.js": "068e1361777c4d867bd592bce1bcf7c93ae281f7343596d238b2d3a207c70345"
+  },
+  "criteria": "unchanged actuation74 protocol; nearest-model discrimination, no fitted engine endpoint/H limit",
+  "stop": "local decision or specific blocker; no upright, merge or deployment"
+}

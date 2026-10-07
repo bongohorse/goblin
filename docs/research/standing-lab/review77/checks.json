@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "node": "v24.21.0",
+  "locked_npm_ci": "pass",
+  "PR73_tests": {
+    "tests": 81,
+    "pass": 81,
+    "fail": 0
+  },
+  "PR76_tests": {
+    "tests": 85,
+    "pass": 85,
+    "fail": 0
+  },
+  "builds": "both pass; existing Rapier chunk warning",
+  "new_actuation_worlds": 135,
+  "new_upright_worlds": 0,
+  "reproduction_cases_and_oracle_and_margins_identical": true,
+  "original83_manifest_entries_unchanged": true,
+  "reader_corruptions_rejected": 23,
+  "manifest_missing_empty_unknown_entries_rejected": true,
+  "pure_upright_tilts": 5,
+  "pure_compatible_velocity_controls": 3,
+  "engine_precision": "indeterminate_not_certified",
+  "browser": "N/A CLI-only",
+  "self_review": true
+}
