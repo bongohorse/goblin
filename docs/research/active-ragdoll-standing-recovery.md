@@ -522,3 +522,7 @@ variability. Clean Windows built browser matches all six; native hidden/GPU/weak
 device/production budgets and actual motor effort remain unavailable/unaccepted.
 See [full evidence and decision](standing-lab/model-ab48.md). No balance controller,
 default switch, merge or deployment; any further experiment needs explicit scope.
+
+## 2026-10-07 — isolated internal torso torque (#60)
+
+**PROJECT EVIDENCE, BLOCKED VALIDATION:** [Protocol](standing-lab/torso-torque60-protocol.md) and [minimal blocker/decision](standing-lab/torso-torque60/README.md). Five fresh identical first-step sets: anisotropic rotated-principal-frame instantaneous torque-impulse mapping passes, but continuous torque and offset shoulder-constraint responses miss the frozen initial-frame velocity/momentum oracle. That oracle is a linearized initial response, while pinned Rapier integrates32 substeps with evolving orientation and gyroscopic terms; its Float32-only acceptance-resolution argument is insufficient. No engine defect or controller instability established, no tolerance changes, no upright/FullRig-balance experiment or adoption. Diagnose independent finite-step reference/resolution first; keep MovingFrame/ForceBased100/12/Solver32 and original #54 strict-false result. A later FullRig torso A/B still needs secondary standing criteria and pose-motor conflict policy before COM feedback.
