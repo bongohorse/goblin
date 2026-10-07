@@ -1,0 +1,719 @@
+{
+  "frozen": {
+    "valid": true,
+    "worlds": 75,
+    "steps": 18330,
+    "decision": "local_smalltilt_supported",
+    "blocking_case": null,
+    "reaction": {
+      "status": "matched",
+      "positive_max": 5.3487746098939226e-8,
+      "negative_min": 0.0017866706196813713,
+      "actual_max": 5.728659974148249e-9,
+      "margins": [
+        0.0017866169319352722,
+        0.001786664691021397
+      ],
+      "pass": true
+    },
+    "engine_precision": "indeterminate_not_certified",
+    "scope": "local fixture only; no general controller release"
+  },
+  "independent": {
+    "worlds": 75,
+    "steps": 18330,
+    "terminals": [
+      {
+        "id": "motion/co-rotation/on/1",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 0.0015778847439240561,
+        "transverse_speed": 0.08966785049884017,
+        "partner_speed": 0.29841607306449247,
+        "pass": true
+      },
+      {
+        "id": "motion/co-rotation/on/2",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 0.0015778847439240561,
+        "transverse_speed": 0.08966785049884017,
+        "partner_speed": 0.29841607306449247,
+        "pass": true
+      },
+      {
+        "id": "motion/co-rotation/on/3",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 0.0015778847439240561,
+        "transverse_speed": 0.08966785049884017,
+        "partner_speed": 0.29841607306449247,
+        "pass": true
+      },
+      {
+        "id": "motion/co-rotation/on/4",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 0.0015778847439240561,
+        "transverse_speed": 0.08966785049884017,
+        "partner_speed": 0.29841607306449247,
+        "pass": true
+      },
+      {
+        "id": "motion/co-rotation/on/5",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 0.0015778847439240561,
+        "transverse_speed": 0.08966785049884017,
+        "partner_speed": 0.29841607306449247,
+        "pass": true
+      },
+      {
+        "id": "motion/partner-only/on/1",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 2.307846262435332e-7,
+        "transverse_speed": 0.00002373761358289397,
+        "partner_speed": 0.0999915679582729,
+        "pass": true
+      },
+      {
+        "id": "motion/partner-only/on/2",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 2.307846262435332e-7,
+        "transverse_speed": 0.00002373761358289397,
+        "partner_speed": 0.0999915679582729,
+        "pass": true
+      },
+      {
+        "id": "motion/partner-only/on/3",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 2.307846262435332e-7,
+        "transverse_speed": 0.00002373761358289397,
+        "partner_speed": 0.0999915679582729,
+        "pass": true
+      },
+      {
+        "id": "motion/partner-only/on/4",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 2.307846262435332e-7,
+        "transverse_speed": 0.00002373761358289397,
+        "partner_speed": 0.0999915679582729,
+        "pass": true
+      },
+      {
+        "id": "motion/partner-only/on/5",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 2.307846262435332e-7,
+        "transverse_speed": 0.00002373761358289397,
+        "partner_speed": 0.0999915679582729,
+        "pass": true
+      },
+      {
+        "id": "motion/axial-yaw/on/1",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 1.1268579439617867e-7,
+        "transverse_speed": 0.000006379945237418433,
+        "partner_speed": 0.00023946783638312787,
+        "pass": true
+      },
+      {
+        "id": "motion/axial-yaw/on/2",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 1.1268579439617867e-7,
+        "transverse_speed": 0.000006379945237418433,
+        "partner_speed": 0.00023946783638312787,
+        "pass": true
+      },
+      {
+        "id": "motion/axial-yaw/on/3",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 1.1268579439617867e-7,
+        "transverse_speed": 0.000006379945237418433,
+        "partner_speed": 0.00023946783638312787,
+        "pass": true
+      },
+      {
+        "id": "motion/axial-yaw/on/4",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 1.1268579439617867e-7,
+        "transverse_speed": 0.000006379945237418433,
+        "partner_speed": 0.00023946783638312787,
+        "pass": true
+      },
+      {
+        "id": "motion/axial-yaw/on/5",
+        "steps": 1,
+        "initial_tilt": 0,
+        "final_tilt": 1.1268579439617867e-7,
+        "transverse_speed": 0.000006379945237418433,
+        "partner_speed": 0.00023946783638312787,
+        "pass": true
+      },
+      {
+        "id": "negative/pitch+/wrong-sign/1",
+        "steps": 62,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.20094641056849497,
+        "transverse_speed": 0.32692929662875425,
+        "partner_speed": 21.983305138040702,
+        "pass": true
+      },
+      {
+        "id": "negative/pitch+/wrong-sign/2",
+        "steps": 62,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.20094641056849497,
+        "transverse_speed": 0.32692929662875425,
+        "partner_speed": 21.983305138040702,
+        "pass": true
+      },
+      {
+        "id": "negative/pitch+/wrong-sign/3",
+        "steps": 62,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.20094641056849497,
+        "transverse_speed": 0.32692929662875425,
+        "partner_speed": 21.983305138040702,
+        "pass": true
+      },
+      {
+        "id": "negative/pitch+/wrong-sign/4",
+        "steps": 62,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.20094641056849497,
+        "transverse_speed": 0.32692929662875425,
+        "partner_speed": 21.983305138040702,
+        "pass": true
+      },
+      {
+        "id": "negative/pitch+/wrong-sign/5",
+        "steps": 62,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.20094641056849497,
+        "transverse_speed": 0.32692929662875425,
+        "partner_speed": 21.983305138040702,
+        "pass": true
+      },
+      {
+        "id": "negative/pitch+/missing-reaction/1",
+        "steps": 1,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07984290262987315,
+        "transverse_speed": 0.018279906784416107,
+        "partner_speed": 0.007952601088644666,
+        "pass": true
+      },
+      {
+        "id": "negative/pitch+/missing-reaction/2",
+        "steps": 1,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07984290262987315,
+        "transverse_speed": 0.018279906784416107,
+        "partner_speed": 0.007952601088644666,
+        "pass": true
+      },
+      {
+        "id": "negative/pitch+/missing-reaction/3",
+        "steps": 1,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07984290262987315,
+        "transverse_speed": 0.018279906784416107,
+        "partner_speed": 0.007952601088644666,
+        "pass": true
+      },
+      {
+        "id": "negative/pitch+/missing-reaction/4",
+        "steps": 1,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07984290262987315,
+        "transverse_speed": 0.018279906784416107,
+        "partner_speed": 0.007952601088644666,
+        "pass": true
+      },
+      {
+        "id": "negative/pitch+/missing-reaction/5",
+        "steps": 1,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07984290262987315,
+        "transverse_speed": 0.018279906784416107,
+        "partner_speed": 0.007952601088644666,
+        "pass": true
+      },
+      {
+        "id": "core/pitch+/on/1",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.001277686740151832,
+        "transverse_speed": 0.0009298965209419244,
+        "partner_speed": 0.5774696184097851,
+        "pass": true
+      },
+      {
+        "id": "core/pitch+/on/2",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.001277686740151832,
+        "transverse_speed": 0.0009298965209419244,
+        "partner_speed": 0.5774696184097851,
+        "pass": true
+      },
+      {
+        "id": "core/pitch+/on/3",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.001277686740151832,
+        "transverse_speed": 0.0009298965209419244,
+        "partner_speed": 0.5774696184097851,
+        "pass": true
+      },
+      {
+        "id": "core/pitch+/on/4",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.001277686740151832,
+        "transverse_speed": 0.0009298965209419244,
+        "partner_speed": 0.5774696184097851,
+        "pass": true
+      },
+      {
+        "id": "core/pitch+/on/5",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.001277686740151832,
+        "transverse_speed": 0.0009298965209419244,
+        "partner_speed": 0.5774696184097851,
+        "pass": true
+      },
+      {
+        "id": "core/pitch+/off/1",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999999590730227,
+        "transverse_speed": 2.789885882328431e-12,
+        "partner_speed": 3.5309308979524112e-12,
+        "pass": true
+      },
+      {
+        "id": "core/pitch+/off/2",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999999590730227,
+        "transverse_speed": 2.789885882328431e-12,
+        "partner_speed": 3.5309308979524112e-12,
+        "pass": true
+      },
+      {
+        "id": "core/pitch+/off/3",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999999590730227,
+        "transverse_speed": 2.789885882328431e-12,
+        "partner_speed": 3.5309308979524112e-12,
+        "pass": true
+      },
+      {
+        "id": "core/pitch+/off/4",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999999590730227,
+        "transverse_speed": 2.789885882328431e-12,
+        "partner_speed": 3.5309308979524112e-12,
+        "pass": true
+      },
+      {
+        "id": "core/pitch+/off/5",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999999590730227,
+        "transverse_speed": 2.789885882328431e-12,
+        "partner_speed": 3.5309308979524112e-12,
+        "pass": true
+      },
+      {
+        "id": "core/pitch-/on/1",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.0012774038273154853,
+        "transverse_speed": 0.0009297344895176663,
+        "partner_speed": 0.5770459125639447,
+        "pass": true
+      },
+      {
+        "id": "core/pitch-/on/2",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.0012774038273154853,
+        "transverse_speed": 0.0009297344895176663,
+        "partner_speed": 0.5770459125639447,
+        "pass": true
+      },
+      {
+        "id": "core/pitch-/on/3",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.0012774038273154853,
+        "transverse_speed": 0.0009297344895176663,
+        "partner_speed": 0.5770459125639447,
+        "pass": true
+      },
+      {
+        "id": "core/pitch-/on/4",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.0012774038273154853,
+        "transverse_speed": 0.0009297344895176663,
+        "partner_speed": 0.5770459125639447,
+        "pass": true
+      },
+      {
+        "id": "core/pitch-/on/5",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.0012774038273154853,
+        "transverse_speed": 0.0009297344895176663,
+        "partner_speed": 0.5770459125639447,
+        "pass": true
+      },
+      {
+        "id": "core/pitch-/off/1",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999999787540704,
+        "transverse_speed": 4.019370001983139e-11,
+        "partner_speed": 2.6520064471415692e-11,
+        "pass": true
+      },
+      {
+        "id": "core/pitch-/off/2",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999999787540704,
+        "transverse_speed": 4.019370001983139e-11,
+        "partner_speed": 2.6520064471415692e-11,
+        "pass": true
+      },
+      {
+        "id": "core/pitch-/off/3",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999999787540704,
+        "transverse_speed": 4.019370001983139e-11,
+        "partner_speed": 2.6520064471415692e-11,
+        "pass": true
+      },
+      {
+        "id": "core/pitch-/off/4",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999999787540704,
+        "transverse_speed": 4.019370001983139e-11,
+        "partner_speed": 2.6520064471415692e-11,
+        "pass": true
+      },
+      {
+        "id": "core/pitch-/off/5",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999999787540704,
+        "transverse_speed": 4.019370001983139e-11,
+        "partner_speed": 2.6520064471415692e-11,
+        "pass": true
+      },
+      {
+        "id": "core/roll+/on/1",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.00013453757000400561,
+        "transverse_speed": 0.00014304471373736855,
+        "partner_speed": 0.0008478321875772315,
+        "pass": true
+      },
+      {
+        "id": "core/roll+/on/2",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.00013453757000400561,
+        "transverse_speed": 0.00014304471373736855,
+        "partner_speed": 0.0008478321875772315,
+        "pass": true
+      },
+      {
+        "id": "core/roll+/on/3",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.00013453757000400561,
+        "transverse_speed": 0.00014304471373736855,
+        "partner_speed": 0.0008478321875772315,
+        "pass": true
+      },
+      {
+        "id": "core/roll+/on/4",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.00013453757000400561,
+        "transverse_speed": 0.00014304471373736855,
+        "partner_speed": 0.0008478321875772315,
+        "pass": true
+      },
+      {
+        "id": "core/roll+/on/5",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.00013453757000400561,
+        "transverse_speed": 0.00014304471373736855,
+        "partner_speed": 0.0008478321875772315,
+        "pass": true
+      },
+      {
+        "id": "core/roll+/off/1",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.0800000067564619,
+        "transverse_speed": 5.472621958520773e-13,
+        "partner_speed": 1.0174787037307928e-11,
+        "pass": true
+      },
+      {
+        "id": "core/roll+/off/2",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.0800000067564619,
+        "transverse_speed": 5.472621958520773e-13,
+        "partner_speed": 1.0174787037307928e-11,
+        "pass": true
+      },
+      {
+        "id": "core/roll+/off/3",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.0800000067564619,
+        "transverse_speed": 5.472621958520773e-13,
+        "partner_speed": 1.0174787037307928e-11,
+        "pass": true
+      },
+      {
+        "id": "core/roll+/off/4",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.0800000067564619,
+        "transverse_speed": 5.472621958520773e-13,
+        "partner_speed": 1.0174787037307928e-11,
+        "pass": true
+      },
+      {
+        "id": "core/roll+/off/5",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.0800000067564619,
+        "transverse_speed": 5.472621958520773e-13,
+        "partner_speed": 1.0174787037307928e-11,
+        "pass": true
+      },
+      {
+        "id": "core/roll-/on/1",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.001030565760038695,
+        "transverse_speed": 0.0010753405532686344,
+        "partner_speed": 0.01083276361082278,
+        "pass": true
+      },
+      {
+        "id": "core/roll-/on/2",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.001030565760038695,
+        "transverse_speed": 0.0010753405532686344,
+        "partner_speed": 0.01083276361082278,
+        "pass": true
+      },
+      {
+        "id": "core/roll-/on/3",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.001030565760038695,
+        "transverse_speed": 0.0010753405532686344,
+        "partner_speed": 0.01083276361082278,
+        "pass": true
+      },
+      {
+        "id": "core/roll-/on/4",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.001030565760038695,
+        "transverse_speed": 0.0010753405532686344,
+        "partner_speed": 0.01083276361082278,
+        "pass": true
+      },
+      {
+        "id": "core/roll-/on/5",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.001030565760038695,
+        "transverse_speed": 0.0010753405532686344,
+        "partner_speed": 0.01083276361082278,
+        "pass": true
+      },
+      {
+        "id": "core/roll-/off/1",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999998766442627,
+        "transverse_speed": 1.3555598958674057e-12,
+        "partner_speed": 5.982955484715903e-12,
+        "pass": true
+      },
+      {
+        "id": "core/roll-/off/2",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999998766442627,
+        "transverse_speed": 1.3555598958674057e-12,
+        "partner_speed": 5.982955484715903e-12,
+        "pass": true
+      },
+      {
+        "id": "core/roll-/off/3",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999998766442627,
+        "transverse_speed": 1.3555598958674057e-12,
+        "partner_speed": 5.982955484715903e-12,
+        "pass": true
+      },
+      {
+        "id": "core/roll-/off/4",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999998766442627,
+        "transverse_speed": 1.3555598958674057e-12,
+        "partner_speed": 5.982955484715903e-12,
+        "pass": true
+      },
+      {
+        "id": "core/roll-/off/5",
+        "steps": 360,
+        "initial_tilt": 0.0799999965722579,
+        "final_tilt": 0.07999998766442627,
+        "transverse_speed": 1.3555598958674057e-12,
+        "partner_speed": 5.982955484715903e-12,
+        "pass": true
+      },
+      {
+        "id": "core/combined/on/1",
+        "steps": 360,
+        "initial_tilt": 0.08482734551824095,
+        "final_tilt": 0.0009790900236300577,
+        "transverse_speed": 0.001000125400172552,
+        "partner_speed": 0.8537436605789117,
+        "pass": true
+      },
+      {
+        "id": "core/combined/on/2",
+        "steps": 360,
+        "initial_tilt": 0.08482734551824095,
+        "final_tilt": 0.0009790900236300577,
+        "transverse_speed": 0.001000125400172552,
+        "partner_speed": 0.8537436605789117,
+        "pass": true
+      },
+      {
+        "id": "core/combined/on/3",
+        "steps": 360,
+        "initial_tilt": 0.08482734551824095,
+        "final_tilt": 0.0009790900236300577,
+        "transverse_speed": 0.001000125400172552,
+        "partner_speed": 0.8537436605789117,
+        "pass": true
+      },
+      {
+        "id": "core/combined/on/4",
+        "steps": 360,
+        "initial_tilt": 0.08482734551824095,
+        "final_tilt": 0.0009790900236300577,
+        "transverse_speed": 0.001000125400172552,
+        "partner_speed": 0.8537436605789117,
+        "pass": true
+      },
+      {
+        "id": "core/combined/on/5",
+        "steps": 360,
+        "initial_tilt": 0.08482734551824095,
+        "final_tilt": 0.0009790900236300577,
+        "transverse_speed": 0.001000125400172552,
+        "partner_speed": 0.8537436605789117,
+        "pass": true
+      },
+      {
+        "id": "core/combined/off/1",
+        "steps": 360,
+        "initial_tilt": 0.08482734551824095,
+        "final_tilt": 0.08482734551824095,
+        "transverse_speed": 1.1175397703073982e-11,
+        "partner_speed": 1.347921047377418e-10,
+        "pass": true
+      },
+      {
+        "id": "core/combined/off/2",
+        "steps": 360,
+        "initial_tilt": 0.08482734551824095,
+        "final_tilt": 0.08482734551824095,
+        "transverse_speed": 1.1175397703073982e-11,
+        "partner_speed": 1.347921047377418e-10,
+        "pass": true
+      },
+      {
+        "id": "core/combined/off/3",
+        "steps": 360,
+        "initial_tilt": 0.08482734551824095,
+        "final_tilt": 0.08482734551824095,
+        "transverse_speed": 1.1175397703073982e-11,
+        "partner_speed": 1.347921047377418e-10,
+        "pass": true
+      },
+      {
+        "id": "core/combined/off/4",
+        "steps": 360,
+        "initial_tilt": 0.08482734551824095,
+        "final_tilt": 0.08482734551824095,
+        "transverse_speed": 1.1175397703073982e-11,
+        "partner_speed": 1.347921047377418e-10,
+        "pass": true
+      },
+      {
+        "id": "core/combined/off/5",
+        "steps": 360,
+        "initial_tilt": 0.08482734551824095,
+        "final_tilt": 0.08482734551824095,
+        "transverse_speed": 1.1175397703073982e-11,
+        "partner_speed": 1.347921047377418e-10,
+        "pass": true
+      }
+    ],
+    "reaction": {
+      "positive_max": 5.3487746098611034e-8,
+      "negative_min": 0.0017866706196813709,
+      "actual_max": 5.7286599739316374e-9,
+      "pass": true
+    },
+    "negativeFailureAt": null,
+    "max_command_reference_difference": 0,
+    "max_H_reference_difference": 1.1485913163110961e-16,
+    "descriptive": {
+      "max_axial_Nm": 1.683389424383952e-9,
+      "max_partner_speed": 34.242619879418996,
+      "positive_pair_power_steps": 3125,
+      "energy_increase_steps": 6290
+    },
+    "scope": "isolated two-body SmallTilt only; not Standing/get-up/FullRig or certified engine precision"
+  }
+}

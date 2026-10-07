@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "format": "lossless-identical-runs-replay-v1",
+  "original_archive": "../smalltilt79/archive.json",
+  "reviewed_head": "5aa32acc5d4b71d4f5abc6b2d3bceee88da28669",
+  "header": {
+    "schema_version": 1,
+    "study": "smalltilt79-v1",
+    "provenance": {
+      "git_commit": "5aa32acc5d4b71d4f5abc6b2d3bceee88da28669",
+      "dirty": false,
+      "build_id": "5aa32acc5d4b71d4f5abc6b2d3bceee88da28669:53153280ebca8f947a37a60b365ab4774c506a7e9b809b11227bfd86779ed183",
+      "node": "v24.21.0",
+      "os": "win32 10.0.26300",
+      "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+      "rapier": "0.21.0",
+      "upstream": "b716d375efc0201003f0cd9ef7168eee0b62c177",
+      "config_sha256": "4d25b75469a23fd6fc56732e08e952b2e9dfa7a36f14baf53cdc03a270ee6a42",
+      "protocol_sha256": "938274db30281bd350789ae168a6a5dbf9bdf68043aa5723c3438b60909be9ea",
+      "source_pins_sha256": "8cad0410a0a0727ab1574b7d4d48e53151196cebb79eb0b03ad85ab8e3249884"
+    },
+    "fresh_worlds": 75,
+    "failed_world": null,
+    "reaction": {
+      "status": "matched",
+      "positive_max": 5.3487746098939226e-8,
+      "negative_min": 0.0017866706196813713,
+      "actual_max": 5.728659974148249e-9,
+      "margins": [
+        0.0017866169319352722,
+        0.001786664691021397
+      ],
+      "pass": true
+    },
+    "decision": "local_smalltilt_supported"
+  },
+  "runs_sha256": "f18c799b78e55d7c2688c9a251c776c91deeacc05d3c54c82f52aa55ac98f3cf",
+  "original_runs_sha256": "f18c799b78e55d7c2688c9a251c776c91deeacc05d3c54c82f52aa55ac98f3cf",
+  "raw_bytes": 287397917,
+  "raw_sha256": "c25e5aae9a410e1d0a1530756f4e41089f0c5954ea1b2124260f71e8991cce1e",
+  "fresh_worlds": 75,
+  "steps": 18330,
+  "note": "Independent fresh execution. All run objects byte-identical to original; only header provenance differs. Reconstruction is lossless and hash-checked."
+}
