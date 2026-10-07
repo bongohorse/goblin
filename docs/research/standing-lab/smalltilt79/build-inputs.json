@@ -1,0 +1,407 @@
+{
+  "schema_version": 1,
+  "harness_head": "7534e4e473b0371d4e54da553dd59b6ef4abbf6e",
+  "source_hash": "7f631637ac0e1dbef14e4e0dfbde1a7cbbfde6c5f686af4ac998001ac53a2d9d",
+  "files": [
+    {
+      "path": "docs/research/standing-lab/baseline-config.json",
+      "sha256": "828081f1428c3dc47439937602f31063c8e179826e7858cdd5a6567282b3bce3"
+    },
+    {
+      "path": "docs/research/standing-lab/config.schema.json",
+      "sha256": "fd8b38accf5e6eeb72fcad8dbc7303cacf9ca81234ede63c368f08e65e49e37f"
+    },
+    {
+      "path": "docs/research/standing-lab/model-config.schema.json",
+      "sha256": "a5dbed959ba31ca150dbf9ae467cdc673dbc61693fe4faf3fae38b2e730cc815"
+    },
+    {
+      "path": "docs/research/standing-lab/model-result.schema.json",
+      "sha256": "169d8c84f1a123202b79b3c6f1f3b4ee337328cff221bffc3ad8b8f8c91236bc"
+    },
+    {
+      "path": "docs/research/standing-lab/motor-config.schema.json",
+      "sha256": "c2a5cb37188917de531fbe81a6c36c4e89191238fb6aea20dc73b61306bf30d5"
+    },
+    {
+      "path": "docs/research/standing-lab/motor-result.schema.json",
+      "sha256": "2394af208bd616e393ea1aa910c03408bf44d683717c1ed7eca8bc151f931dda"
+    },
+    {
+      "path": "docs/research/standing-lab/result.schema.json",
+      "sha256": "19ec1f069f47aeb688fa63964e6c4f611e8f2a3f68c9599e35a3266c0891923f"
+    },
+    {
+      "path": "index.html",
+      "sha256": "6fd74fa94f6accd5dfd63d141294e6b434cd5c80b77c2231407bcdebd28a84d2"
+    },
+    {
+      "path": "labs/standing/index.html",
+      "sha256": "52d258aa4a09e6680bde5ae90d6404a72ad9fdc621fe8829ac6015685c122243"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ef94d22892912e94382c09af19eaf7d222caa07fff9876eadcd0434b8efe2ad3"
+    },
+    {
+      "path": "package.json",
+      "sha256": "afd1eb9400dbf38c546a4afccb9c9c214ff39b61f34ccf51bb1c233eb92cc4da"
+    },
+    {
+      "path": "public/favicon.svg",
+      "sha256": "ca38f7bf05a78a220111e65c710a85bbc877aaeafde15e43faaf83aff29b3995"
+    },
+    {
+      "path": "scripts/actuation75-analysis.mjs",
+      "sha256": "e4f4ff0a42a614de78ccf9184604d35e1468fb09e74d34e2aff2f5afb6e2ebd6"
+    },
+    {
+      "path": "scripts/actuation75-corruptions.mjs",
+      "sha256": "b8caf40211cf1d53fbf4972a25f72d4a2ddd2361a4be4b8d5b0b5478b5805671"
+    },
+    {
+      "path": "scripts/actuation75-model.mjs",
+      "sha256": "9f8259d16008df31ef40576b86c78c54067ce036394c5672bf4206ca514ef65d"
+    },
+    {
+      "path": "scripts/actuation75-reader.mjs",
+      "sha256": "0d5279509e10972b98503a5445e5c8bf6fbc7bde3ce4522d6cd888410cf4b017"
+    },
+    {
+      "path": "scripts/actuation75-runner.mjs",
+      "sha256": "7758803f9c6660c3669aebfe9481a249721d44699fa648ce58ab9e15b2797058"
+    },
+    {
+      "path": "scripts/finite-step66-diagnosis.js",
+      "sha256": "a3467b0dceabfd05d338ebd070db6b18b5cb56b762f98b3fabb9f4afbb3ad98f"
+    },
+    {
+      "path": "scripts/finite-step66-reader.js",
+      "sha256": "436333f7b4ce0b2c8d5bd9ba1083ea4a75b0e0c43d123816e0bf66265cdd3cb9"
+    },
+    {
+      "path": "scripts/finite-step66-reference.js",
+      "sha256": "e757ff1fa2bef089e7e46a8c96d202fe1ffab929e7949683a1084f04be4a1908"
+    },
+    {
+      "path": "scripts/finite-step66-validation.js",
+      "sha256": "205e8e5632ecc3511cc8d4e5e060d87e840e74483851bded0821a3a79dd6cac8"
+    },
+    {
+      "path": "scripts/motor-model48-fixtures.js",
+      "sha256": "c96bcdaa340cb9eb90b77941bb203a662d98272df86723970a9606bd3e351e51"
+    },
+    {
+      "path": "scripts/motor-model48-payload.js",
+      "sha256": "5505625c2ad53795b899bd1260bf6ba1ce8dd8c088bfbc44690ed980f14eaf71"
+    },
+    {
+      "path": "scripts/motor-model48.js",
+      "sha256": "f293caf8f5f175721ce029086a574dee6c9c7a653783600bde579c7bcf5c81db"
+    },
+    {
+      "path": "scripts/motor-rig-cause.js",
+      "sha256": "e990f0b7ce1a8e9eb52c98b04a65cbd56959c4e8c3b13028961a2f220a5af07a"
+    },
+    {
+      "path": "scripts/motor-rig-oracle.js",
+      "sha256": "dcf90f478ea5371ace09892ca52b517ee989d70083d2387ae8d9ad09a9191a84"
+    },
+    {
+      "path": "scripts/motor-solver43-config.js",
+      "sha256": "11427545c80152e1f5b865d22dd98b0a3abcc96ffbbd67b5bedd5320e5b32a8b"
+    },
+    {
+      "path": "scripts/motor-solver43.js",
+      "sha256": "154393b16726c75383dada702b788d6108de8eaa9c1b30d053ac867179a4581a"
+    },
+    {
+      "path": "scripts/review-actuation74.mjs",
+      "sha256": "e7bd4a90413864e00fdb8a4b34402818cc700ac33c63de04ebb0e92b6a08d1a6"
+    },
+    {
+      "path": "scripts/review-motor-model50.js",
+      "sha256": "170e709b0a5a80b981b6ccbfddb6867ad798b952e70cd028704156515b08f095"
+    },
+    {
+      "path": "scripts/review-spherical-target54.js",
+      "sha256": "a009b4cf9bbe436641ce89c4e288f98c91d73532672f052abf2d2a3b5e92afc5"
+    },
+    {
+      "path": "scripts/review-torso-reference68.mjs",
+      "sha256": "b6725572a5d253c8debe3493910723e3bfa1b5c3fc7ce6efd9a2b7b0b18aea4e"
+    },
+    {
+      "path": "scripts/review-upright77.mjs",
+      "sha256": "421cdf306f6d5f7a614e5d3c61b12276d346287e0c976fff2184b80f6ca06918"
+    },
+    {
+      "path": "scripts/setup-dev.sh",
+      "sha256": "cc1dfd15269294e041c080600a25165aac5a6e425480fc573fd2b3c6832df914"
+    },
+    {
+      "path": "scripts/smalltilt79-corruptions.mjs",
+      "sha256": "b1544c30989c3f775efdddbf5afa38611e3e7e7dbb036a96ed5879a02403b5af"
+    },
+    {
+      "path": "scripts/smalltilt79-model.mjs",
+      "sha256": "e7b2ffdfcc03ef8d2b865cbeb0fcaafabfa35050d4d096f5ac2c98def90ae13d"
+    },
+    {
+      "path": "scripts/smalltilt79-reader.mjs",
+      "sha256": "c4fbb4076f53d7138807f595f37a3e704a065832c9b3de9dd0620d6374557bf9"
+    },
+    {
+      "path": "scripts/smalltilt79-runner.mjs",
+      "sha256": "cca88915484d78416f07dbdeb665df921ca296a04cf205b602ec659767b8b65b"
+    },
+    {
+      "path": "scripts/spherical-target52-contract.js",
+      "sha256": "47e5fa1a1f71fcbe623578a618b05d1da845bccf40b9f5c1d149c6f391924057"
+    },
+    {
+      "path": "scripts/spherical-target52-fixtures.js",
+      "sha256": "4fa4ab5bf9f700cd0ae1a1793c3a1f8533aa0a13706d658511c1e5e68fcc4de1"
+    },
+    {
+      "path": "scripts/spherical-target52.js",
+      "sha256": "c92536d51cc15fa60483ce18abfa4033d9ffa26b4ebe179b6c355885888a8626"
+    },
+    {
+      "path": "scripts/standing-baseline.js",
+      "sha256": "b6002544fadcee5d3eb4e3b0f11ebee7e19460f6bab9886d9a5afd33df17d57c"
+    },
+    {
+      "path": "scripts/standing-motor-baseline.js",
+      "sha256": "d50a7868c341d2222def8196537ba3f3c3943aa1098613a0a823b16ff2d04898"
+    },
+    {
+      "path": "scripts/standing-motor-diagnostic.js",
+      "sha256": "90953226410f86bb8989b849aa4743a73cc4a8a7777a3ec2a40e824f4dd0e93a"
+    },
+    {
+      "path": "scripts/standing-provenance.js",
+      "sha256": "bf4532950c408c52344795707e4f543490d790671e0a63a5e3309fac3fcefcbe"
+    },
+    {
+      "path": "scripts/torso-gate-b72-attribution.mjs",
+      "sha256": "c7a3bfef6f04be49f530703e5627fc87bd208206e2a50a3128bbf194e6199a16"
+    },
+    {
+      "path": "scripts/torso-gate-b72-budget.mjs",
+      "sha256": "29f8d2b6b62fbac3940142a58098b6687078608bf358fea8d935df88c8d3d8e4"
+    },
+    {
+      "path": "scripts/torso-gate-b72-reader.mjs",
+      "sha256": "db679b759ff6d480f50d517ded6c51c5778138e141a8e5684f77e03f5fab2b1b"
+    },
+    {
+      "path": "scripts/torso-torque60-contract.js",
+      "sha256": "c06ccfe80ec6091b3df94d3b4e964169b8ffd89fa9e476b8641bf4e38c4ca16f"
+    },
+    {
+      "path": "scripts/torso-torque60-fixtures.js",
+      "sha256": "6c3c4b17c7ada57b304cca790e4b5f5dc2dfba28a061f4b333d710caaf8eef81"
+    },
+    {
+      "path": "scripts/torso-torque60-oracle.js",
+      "sha256": "1b2e0688cd1efcda1b906325e4dfd7988bc4b908da504d66db3d5b7229b2fd27"
+    },
+    {
+      "path": "scripts/torso-torque60-reader.js",
+      "sha256": "9630b69773e2f9c96727f94a22be67f00a5a0b5dd7bd3bc691706a30f5a18da8"
+    },
+    {
+      "path": "scripts/torso-torque60-regression.js",
+      "sha256": "917a506b624c3767f64b2761e10c89ac98bb865406c85bb93183ae05191b6c96"
+    },
+    {
+      "path": "scripts/torso-torque60.js",
+      "sha256": "8dcc1a07db80dfcd9851a132081844f3d094829f37c89c4a648e862bef00afc0"
+    },
+    {
+      "path": "src/goblin-rig.js",
+      "sha256": "8e8cdb0959fb91a5e5718c9b73e794756d54c8599175647599dd0da17236291c"
+    },
+    {
+      "path": "src/grab.js",
+      "sha256": "a75781d305339f67233bf3d88800787e2ab2aff35ef62d5ce2b43474a6246eef"
+    },
+    {
+      "path": "src/labs/standing/browser.js",
+      "sha256": "ce84d5cf4ca7b95a3202960b3b19e91226009549c92c5438a3bc126183c0cdb0"
+    },
+    {
+      "path": "src/labs/standing/clock.js",
+      "sha256": "83da03b7a9b125066818fe300492b927c2dc36e7d2c425bd8ec2debd83e1ac51"
+    },
+    {
+      "path": "src/labs/standing/compare.js",
+      "sha256": "b6d1949655ea97090ef128bd5c8e73d12460a64dbf163e90e835fe2872353db5"
+    },
+    {
+      "path": "src/labs/standing/config.js",
+      "sha256": "3f46489effb5eb4ff2df8e2af639f4279e2bd60e0f50f1315c474c0b42623161"
+    },
+    {
+      "path": "src/labs/standing/math.js",
+      "sha256": "b62cd8594983793c99636e16b7bf04bd888f4ba6c9ba6d723abfb39af082b7ce"
+    },
+    {
+      "path": "src/labs/standing/measurement.js",
+      "sha256": "44138b1ea619846c5cd99ff705a03c663999ada56beb517d9541f244b1592c07"
+    },
+    {
+      "path": "src/labs/standing/model-config.js",
+      "sha256": "4839c076dd28da4ef314f6caed39c27310836d88116dbd7570dfc5adf006e6a4"
+    },
+    {
+      "path": "src/labs/standing/motor-config.js",
+      "sha256": "92f1a36e53aa0c0af2a33848630466343cad64d6a814097505e74dc1c1c6506d"
+    },
+    {
+      "path": "src/labs/standing/motors.js",
+      "sha256": "70deb98ee8aa8384cd84e99b8222cb02edbd5d2f8b56dcb016c8c25a5a8eedf6"
+    },
+    {
+      "path": "src/labs/standing/simulation.js",
+      "sha256": "a092eba803a04f0eff8a5be46a67387b64f592b3ca625d41d2309b76b7a757b5"
+    },
+    {
+      "path": "src/labs/standing/style.css",
+      "sha256": "5888fb193622006d7a91d577e7f60a44b0194f3b7c6aa636eb8fd1de9f335ba8"
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "6c5c1ebd2d268b6eb48a348fcb71b3d49227df26d02d187c748c4912886e7a73"
+    },
+    {
+      "path": "src/rig-debug.js",
+      "sha256": "b44b400c22b34d7818374d15f790fafd8bf58e368d8d6e4c825be63c8761f111"
+    },
+    {
+      "path": "src/runtime.js",
+      "sha256": "1d7b98f4bf5598970a10aa8c7341bf8affc6eb585dfaf80061a88246ed0cbdc1"
+    },
+    {
+      "path": "src/style.css",
+      "sha256": "4ce6789d16666c37c8955aef67223fac9d3b6bdf8b888ad5864b1bf55e624de9"
+    },
+    {
+      "path": "tests/actuation74.test.js",
+      "sha256": "c7c3c8a0992bf2b9a8e6744555625e71879e20b24890283823e3a1d794ab856f"
+    },
+    {
+      "path": "tests/actuation75.test.js",
+      "sha256": "aee304ed68ecc08851ecd9b30b3426aa0170903e8f84ba0342955d8e052a4164"
+    },
+    {
+      "path": "tests/browser-smoke.cjs",
+      "sha256": "6850efe11e522fce7741dc07b41a5e1d09203b38cf974e41cbd46b529de4be87"
+    },
+    {
+      "path": "tests/finite-step66.test.js",
+      "sha256": "912c55a5c2c69e7a618ab74f6a861ec286455a7a32548fe65b9a278744335400"
+    },
+    {
+      "path": "tests/g2-browser.cjs",
+      "sha256": "e0c342f47ae108743b0ec2aa5c1d9dc041de66044734271e609c59d50f58aa43"
+    },
+    {
+      "path": "tests/grab-review.test.js",
+      "sha256": "f71ec59928e702eadc01ee248bc06c57293e0a0bf179e352f8a054de69d67643"
+    },
+    {
+      "path": "tests/grab.test.js",
+      "sha256": "647105bc24c82be35ff4a4259f2fd9ef7ea75e7bd0fbc7ce4943bac9d4900454"
+    },
+    {
+      "path": "tests/motor-model48-schema.test.js",
+      "sha256": "079b529990dc542b421a755cc12e3c459f325669f09c13742ec14cba060f6261"
+    },
+    {
+      "path": "tests/motor-model48.test.js",
+      "sha256": "c335118707a0019f1d2b52089b40a32904b2c18c3d534a4d1a8af0feee99b54f"
+    },
+    {
+      "path": "tests/motor-model50-reader.test.js",
+      "sha256": "1e5474f39a1f7ec8b187a32c80ae4a59c5907e9d7f811329519db2f89a500e9e"
+    },
+    {
+      "path": "tests/motor-rig-cause.test.js",
+      "sha256": "c730e45289bb0d90217fc1952e845b73a985b9f7d92a19e632e5355ddb795c17"
+    },
+    {
+      "path": "tests/motor-rig-oracle.test.js",
+      "sha256": "4e154a657885a60ae85a24311eef6ce0364409c56ad4372dec56d156991d90aa"
+    },
+    {
+      "path": "tests/motor-solver43.test.js",
+      "sha256": "51c1ab62ee368ad62349fe7a7ba87843773effa005c7143a20e21ccb465f528a"
+    },
+    {
+      "path": "tests/rig-debug.test.js",
+      "sha256": "51b1d33dc204dc7513c128739083e7f0aaf8b90b95683c205f8eec54794b95b5"
+    },
+    {
+      "path": "tests/rig.test.js",
+      "sha256": "a25d127c588d977418b91a68bf120e37ca619233f7e8f9d05bf941688733eb55"
+    },
+    {
+      "path": "tests/runtime.test.js",
+      "sha256": "e15fdf7953db5ce7f898cf64bdd27c2fab91e93ffb176042c4b4bd2f7e71b6f0"
+    },
+    {
+      "path": "tests/smalltilt79.test.js",
+      "sha256": "ec634c2aa607ae1a2eb5d823735e273cf6e4223bd7681b9a700489fbc18fd5dd"
+    },
+    {
+      "path": "tests/spherical-target52.test.js",
+      "sha256": "af3e40381514729663792c5c9b6048327649eae801eb933b063ea9645565a0e1"
+    },
+    {
+      "path": "tests/spherical-target54-oracle.test.js",
+      "sha256": "f93abe7a938354bf44ed44be9908418a709a5f2529ca8e0fd0d5d4dc8c2be619"
+    },
+    {
+      "path": "tests/spherical-target54-reader.test.js",
+      "sha256": "859b9793da0c5ae9bbbcbb5bffcab0141ee9a594dd59d6cdb0714af20dd56a44"
+    },
+    {
+      "path": "tests/standing-browser.cjs",
+      "sha256": "ac20155a97112e29c7c1d03e5a318ad180cb72ec6135041eb880e2427cad4af1"
+    },
+    {
+      "path": "tests/standing-measurement.test.js",
+      "sha256": "6b8c8551859865bc8be3ec694a746956565057b10bd2733e0ff5c5daec5a9af1"
+    },
+    {
+      "path": "tests/standing-motor-mode.test.js",
+      "sha256": "22253b5e828972ea63cf7060e088dd5c45508be9e7f94540711f18bbd1773785"
+    },
+    {
+      "path": "tests/standing-motor.test.js",
+      "sha256": "5a5b7e2bc79d739139c2110d8150e0eea1da0e43dcb40b96dc2a198d636ac39e"
+    },
+    {
+      "path": "tests/standing-repeatability.test.js",
+      "sha256": "c0f1bc4a196bd630705698bfa7c4d9c13627dc74e9214fb6321379cf8a1a5d94"
+    },
+    {
+      "path": "tests/standing-rig.test.js",
+      "sha256": "aa9485dfddfdd0cb07f87be7c4e44a12c7e69cff2bfa0c5e57c05aaf38abce07"
+    },
+    {
+      "path": "tests/torso-gate-b72.test.js",
+      "sha256": "f7929609f5609a10484d94ec8455f7061b4e10885d5142845dce589222adf42a"
+    },
+    {
+      "path": "tests/torso-torque60.test.js",
+      "sha256": "1970140eb1e79d666ef90dd5640147799a30a22be96b5de890fa3538f07128b3"
+    },
+    {
+      "path": "vite.config.js",
+      "sha256": "0d61c2fcf4b226ece570aca6aa7afb22b4b69ed7bbe652e924f1447af03bc2b7"
+    }
+  ]
+}
