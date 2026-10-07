@@ -1,0 +1,146 @@
+{
+  "date": "2026-10-07",
+  "original_targets": {
+    "PR65": "909d0ae9cf166bf3c0e5a2600831e748765e4362",
+    "PR67": "d591bfc3ff36fa55348d6c19ce7d89baf9626814",
+    "main": "af2c78adf33071b460e2f84361128e36298025a1"
+  },
+  "fresh_harnesses": {
+    "PR65": {
+      "git_commit": "e4d6d0a353e79c0e0f17fb4ff635406402479976",
+      "dirty": false,
+      "build_id": "e4d6d0a353e79c0e0f17fb4ff635406402479976:9dd49217d6c118df72d945fc6f5efe1d64f5d88046689e2cffdee0c81b5fa9b8",
+      "node": "v24.21.0",
+      "os": "win32 10.0.26300",
+      "arch": "x64",
+      "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+      "rapier": "0.21.0",
+      "upstream": "b716d375efc0201003f0cd9ef7168eee0b62c177",
+      "protocol_sha256": "de19cdac2f94dece08bdd6c0836b57545433a577bfdb51a8ad7523a1bdbe05df"
+    },
+    "PR67": {
+      "git_commit": "397003fdab1906f6d5664126ce1c04124f415c17",
+      "dirty": false,
+      "build_id": "397003fdab1906f6d5664126ce1c04124f415c17:3c80c8d958209494d45eded5a5efcee8654544ac1e52f176908b5ba6876baeb0",
+      "node": "v24.21.0",
+      "os": "win32 10.0.26300",
+      "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+      "rapier": "0.21.0",
+      "upstream": "b716d375efc0201003f0cd9ef7168eee0b62c177",
+      "protocol_sha256": "a8c230dc8e276b7dd1a627ca5682f9d40a8fc983597968b8e69d49668aee3e94",
+      "original_report_sha256": "3551dd63451a72078471ab3df8154f955ae93658f91b5b4ac687bc212193b48e",
+      "original_physical_sha256": "6bb70556277cf989186f2e0c75ba9b3694253ae909ae53f5bc0261d7ac5714eb"
+    }
+  },
+  "commands": {
+    "torso-torque60": 2,
+    "finite-step66-diagnosis": 0,
+    "baseline-regression": 0
+  },
+  "checks": {
+    "original_payload_exact": true,
+    "diagnosis_payload_exact": true,
+    "measurements": 425,
+    "independent_checks": 29,
+    "corruption_before": [
+      {
+        "name": "accumulator",
+        "accepted": true
+      },
+      {
+        "name": "anchor-metric",
+        "accepted": true
+      },
+      {
+        "name": "run-id",
+        "accepted": true
+      },
+      {
+        "name": "nonunit-post",
+        "accepted": true
+      }
+    ],
+    "corruption_after": [
+      {
+        "name": "accumulator",
+        "accepted": false,
+        "reason": "Redundant measurement disagreement"
+      },
+      {
+        "name": "anchor-metric",
+        "accepted": false,
+        "reason": "Redundant measurement disagreement"
+      },
+      {
+        "name": "run-id",
+        "accepted": false,
+        "reason": "The input did not match the regular expression /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/. Input:\n\n'wrong'\n"
+      },
+      {
+        "name": "nonunit-post",
+        "accepted": false,
+        "reason": "Invalid raw quaternion"
+      }
+    ],
+    "tests65": {
+      "count": 71,
+      "exit": 0
+    },
+    "tests67": {
+      "count": 75,
+      "exit": 0
+    },
+    "build65": 0,
+    "build67": 0,
+    "source_hashes": true,
+    "historical_manifests": true,
+    "browser": "N/A CLI-only; no native/GPU claim"
+  },
+  "refinement": [
+    {
+      "refinement": 1,
+      "angular": 0.00010560269743758851,
+      "linear": 0.000010557046741247316,
+      "physical_H": 0.0000012551022966893554,
+      "velocity_marker_passes": 2,
+      "H_marker_passes": 4
+    },
+    {
+      "refinement": 2,
+      "angular": 0.00006400792644248439,
+      "linear": 0.00000663859963227802,
+      "physical_H": 7.574776105501366e-7,
+      "velocity_marker_passes": 10,
+      "H_marker_passes": 6
+    },
+    {
+      "refinement": 4,
+      "angular": 0.00003769165984011537,
+      "linear": 0.0000036536286902541854,
+      "physical_H": 4.090664448638148e-7,
+      "velocity_marker_passes": 12,
+      "H_marker_passes": 10
+    },
+    {
+      "refinement": 8,
+      "angular": 0.000029251885448141025,
+      "linear": 0.0000020938896796613145,
+      "physical_H": 2.2314753228221044e-7,
+      "velocity_marker_passes": 12,
+      "H_marker_passes": 12
+    },
+    {
+      "refinement": 16,
+      "angular": 0.000046670109189171775,
+      "linear": 0.0000015309866510172924,
+      "physical_H": 1.422756964336696e-7,
+      "velocity_marker_passes": 10,
+      "H_marker_passes": 14
+    }
+  ],
+  "decisions": {
+    "restricted_research_merge": "suitable after fixes and final CI; recommendation only",
+    "physics_gate_B": "not released; #60 remains stopped",
+    "next_scope": "separate physically justified budget and preregistered Gate-B protocol; no residual-fitted threshold"
+  }
+}

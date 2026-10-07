@@ -1,0 +1,631 @@
+[
+  {
+    "case_index": 0,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.576077500093639,
+        "velocity_order": 0.6563384778474219,
+        "physical_H_ratio": 1.656712624048801,
+        "physical_H_order": 0.7283233721334094
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.6237797190288659,
+        "velocity_order": 0.6993559306635803,
+        "physical_H_ratio": 1.8080632011603208,
+        "physical_H_order": 0.8544451082879173
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 0.6632354254144562,
+        "velocity_order": -0.5924070272804561,
+        "physical_H_ratio": 1.9832206695296282,
+        "physical_H_order": 0.987845212677096
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.5591322219925264,
+        "velocity_order": -0.8387386070668086,
+        "physical_H_ratio": 0.9892815189263179,
+        "physical_H_order": -0.015546969084833669
+      }
+    ]
+  },
+  {
+    "case_index": 2,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.56911647033392,
+        "velocity_order": 0.6499524427692376,
+        "physical_H_ratio": 1.6043889473004,
+        "physical_H_order": 0.6820239325154794
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.3234810449516292,
+        "velocity_order": 0.4043375325362868,
+        "physical_H_ratio": 0.606979612221819,
+        "physical_H_order": -0.7202800361336735
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 0.9260543699957094,
+        "velocity_order": -0.11083119619613266,
+        "physical_H_ratio": 0.6168150558028047,
+        "physical_H_order": -0.697090114545329
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.3975154086757805,
+        "velocity_order": -1.330917310995314,
+        "physical_H_ratio": 0.3877193662319915,
+        "physical_H_order": -1.366915296684869
+      }
+    ]
+  },
+  {
+    "case_index": 3,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.547046289908385,
+        "velocity_order": 0.6295163649977754,
+        "physical_H_ratio": 1.6292967259431812,
+        "physical_H_order": 0.7042493700163753
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.5687022139570315,
+        "velocity_order": 0.6495715121392697,
+        "physical_H_ratio": 1.6947575663707715,
+        "physical_H_order": 0.7610789118219629
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 0.8125383673126986,
+        "velocity_order": -0.2994921575205708,
+        "physical_H_ratio": 1.4843630574860698,
+        "physical_H_order": 0.5698440011057301
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.5290250993069332,
+        "velocity_order": -0.9185919230459223,
+        "physical_H_ratio": 0.8726392458348387,
+        "physical_H_order": -0.19654273634819913
+      }
+    ]
+  },
+  {
+    "case_index": 5,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.680644953986112,
+        "velocity_order": 0.7490149790507192,
+        "physical_H_ratio": 1.415013603344794,
+        "physical_H_order": 0.500815922586301
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.789086159950116,
+        "velocity_order": 0.8392228672889757,
+        "physical_H_ratio": 0.8940862889978167,
+        "physical_H_order": -0.1615140210830347
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 0.9463147556906669,
+        "velocity_order": -0.07960797374693816,
+        "physical_H_ratio": 0.5619658546943027,
+        "physical_H_order": -0.8314456205972773
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.3153374146573522,
+        "velocity_order": -1.6650317395243404,
+        "physical_H_ratio": 0.4051666526240699,
+        "physical_H_order": -1.3034126573566165
+      }
+    ]
+  },
+  {
+    "case_index": 6,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.603658172115001,
+        "velocity_order": 0.6813666567866816,
+        "physical_H_ratio": 1.6525467676302124,
+        "physical_H_order": 0.7246911010663651
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.6735268565869013,
+        "velocity_order": 0.7428917034318768,
+        "physical_H_ratio": 1.8354605066461356,
+        "physical_H_order": 0.8761420724986178
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 0.806862316994793,
+        "velocity_order": -0.3096055818990135,
+        "physical_H_ratio": 1.5543389730343649,
+        "physical_H_order": 0.6363011635828251
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.586373030575018,
+        "velocity_order": -0.7701093446735479,
+        "physical_H_ratio": 0.6281101063234886,
+        "physical_H_order": -0.6709106123261303
+      }
+    ]
+  },
+  {
+    "case_index": 8,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.6489888360649285,
+        "velocity_order": 0.7215816315174752,
+        "physical_H_ratio": 1.6564944069577998,
+        "physical_H_order": 0.7281333322641627
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.6972250341379418,
+        "velocity_order": 0.7631778637084676,
+        "physical_H_ratio": 1.8575962944098907,
+        "physical_H_order": 0.8934369993866347
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 1.2885206974756116,
+        "velocity_order": 0.365715711357875,
+        "physical_H_ratio": 1.838000163972585,
+        "physical_H_order": 0.8781368953333808
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.6267798802349479,
+        "velocity_order": -0.6739692251456962,
+        "physical_H_ratio": 1.559344951477432,
+        "physical_H_order": 0.6409401100348749
+      }
+    ]
+  },
+  {
+    "case_index": 9,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.5825539607246744,
+        "velocity_order": 0.662254692413591,
+        "physical_H_ratio": 1.6280711843648417,
+        "physical_H_order": 0.7031637801231949
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.5342521889146215,
+        "velocity_order": 0.6175356417671076,
+        "physical_H_ratio": 1.7688717074666254,
+        "physical_H_order": 0.8228294161948466
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 0.9568731914920245,
+        "velocity_order": -0.06360034899258883,
+        "physical_H_ratio": 1.5334811816537501,
+        "physical_H_order": 0.6168104624631692
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.575182727739091,
+        "velocity_order": -0.7979077413968296,
+        "physical_H_ratio": 0.7151036603256449,
+        "physical_H_order": -0.48377570698523753
+      }
+    ]
+  },
+  {
+    "case_index": 11,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.6498378139538694,
+        "velocity_order": 0.7223242084074937,
+        "physical_H_ratio": 1.6589432233761503,
+        "physical_H_order": 0.7302645115165965
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.7720916970685079,
+        "velocity_order": 0.8254532582288444,
+        "physical_H_ratio": 1.8494974852575266,
+        "physical_H_order": 0.8871333388458162
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 1.3290098579870253,
+        "velocity_order": 0.4103518059054705,
+        "physical_H_ratio": 1.8331658911041697,
+        "physical_H_order": 0.8743373474948042
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.7065845723713149,
+        "velocity_order": -0.5010658452432571,
+        "physical_H_ratio": 1.5804975754557387,
+        "physical_H_order": 0.6603788220942525
+      }
+    ]
+  },
+  {
+    "case_index": 12,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.571295355926531,
+        "velocity_order": 0.6519543890854805,
+        "physical_H_ratio": 1.6145381407062827,
+        "physical_H_order": 0.6911215225609766
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.5738672572091048,
+        "velocity_order": 0.6543138664858384,
+        "physical_H_ratio": 1.681051556649717,
+        "physical_H_order": 0.7493639716783405
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 1.0206975224953252,
+        "velocity_order": 0.02955539564834645,
+        "physical_H_ratio": 1.7609780413499065,
+        "physical_H_order": 0.8163769194853567
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.518249820979934,
+        "velocity_order": -0.9482803819056025,
+        "physical_H_ratio": 0.3008928228279978,
+        "physical_H_order": -1.7326784002930364
+      }
+    ]
+  },
+  {
+    "case_index": 14,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.5871759595963548,
+        "velocity_order": 0.6664620790016244,
+        "physical_H_ratio": 1.5345814838270682,
+        "physical_H_order": 0.6178452526418968
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.6679889234921486,
+        "velocity_order": 0.7381097084012779,
+        "physical_H_ratio": 1.779807075609011,
+        "physical_H_order": 0.8317208669519981
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 1.4622604932508414,
+        "velocity_order": 0.5482003419639414,
+        "physical_H_ratio": 1.5101191310266335,
+        "physical_H_order": 0.5946623660814067
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.5465458664164722,
+        "velocity_order": -0.8715855221833261,
+        "physical_H_ratio": 0.7744381997306091,
+        "physical_H_order": -0.3687779785316907
+      }
+    ]
+  },
+  {
+    "case_index": 15,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.5876410992974848,
+        "velocity_order": 0.6668848150097116,
+        "physical_H_ratio": 1.5957759614057716,
+        "physical_H_order": 0.67425811894312
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.6933438919172765,
+        "velocity_order": 0.7598749920061291,
+        "physical_H_ratio": 1.7617150242413957,
+        "physical_H_order": 0.8169805721786153
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 1.2979734848592035,
+        "velocity_order": 0.3762609121098914,
+        "physical_H_ratio": 1.6342477931883108,
+        "physical_H_order": 0.7086267490284686
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.48734101308639827,
+        "velocity_order": -1.0369964545723314,
+        "physical_H_ratio": 0.6239624786790622,
+        "physical_H_order": -0.6804688181254667
+      }
+    ]
+  },
+  {
+    "case_index": 17,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.624824604365753,
+        "velocity_order": 0.7002839913294806,
+        "physical_H_ratio": 1.5377891331116855,
+        "physical_H_order": 0.6208576895996645
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.6861507252045562,
+        "velocity_order": 0.7537335047176571,
+        "physical_H_ratio": 1.7632608570929915,
+        "physical_H_order": 0.818245922982185
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 1.6420809752402572,
+        "velocity_order": 0.7155252718764337,
+        "physical_H_ratio": 1.1772105303945077,
+        "physical_H_order": 0.23537235265766845
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 1.1442593396640173,
+        "velocity_order": 0.19441406754003526,
+        "physical_H_ratio": 0.5117978442382025,
+        "physical_H_order": -0.966354024324002
+      }
+    ]
+  },
+  {
+    "case_index": 18,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.561655414723112,
+        "velocity_order": 0.643076152383169,
+        "physical_H_ratio": 1.6326920916544065,
+        "physical_H_order": 0.707252739627115
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.6236059954579607,
+        "velocity_order": 0.6992015725697133,
+        "physical_H_ratio": 1.8550391623537617,
+        "physical_H_order": 0.8914496443863315
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 1.0194752570862817,
+        "velocity_order": 0.027826761218073846,
+        "physical_H_ratio": 2.061927945463611,
+        "physical_H_order": 1.043993918283797
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.5621566998271029,
+        "velocity_order": -0.8309557606114484,
+        "physical_H_ratio": 2.36020710958786,
+        "physical_H_order": 1.2389134624960911
+      }
+    ]
+  },
+  {
+    "case_index": 20,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.5665467205840877,
+        "velocity_order": 0.6475877971905124,
+        "physical_H_ratio": 1.551134644048179,
+        "physical_H_order": 0.6333239229114235
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.8123211228312786,
+        "velocity_order": 0.8578386072989277,
+        "physical_H_ratio": 1.7898739866630942,
+        "physical_H_order": 0.8398580203299097
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 1.6251406881027382,
+        "velocity_order": 0.7005646173671485,
+        "physical_H_ratio": 1.9086682873197178,
+        "physical_H_order": 0.9325663946111118
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 1.0018764405133604,
+        "velocity_order": 0.00270459471044084,
+        "physical_H_ratio": 1.9246098557666191,
+        "physical_H_order": 0.944566021809396
+      }
+    ]
+  },
+  {
+    "case_index": 21,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.6010426837123382,
+        "velocity_order": 0.6790117705395262,
+        "physical_H_ratio": 1.627349862445396,
+        "physical_H_order": 0.7025244480318091
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.69988942251923,
+        "velocity_order": 0.7654409023796166,
+        "physical_H_ratio": 1.8156709300311928,
+        "physical_H_order": 0.8605027540435627
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 1.037590556854114,
+        "velocity_order": 0.05323725474683917,
+        "physical_H_ratio": 1.7349348380330576,
+        "physical_H_order": 0.794881478012777
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.5467861803552173,
+        "velocity_order": -0.8709513146078854,
+        "physical_H_ratio": 1.2661413052035793,
+        "physical_H_order": 0.3404384228865687
+      }
+    ]
+  },
+  {
+    "case_index": 23,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.560991643693821,
+        "velocity_order": 0.6424628142961212,
+        "physical_H_ratio": 1.5498335808242283,
+        "physical_H_order": 0.632113309041753
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 1.8008088778221587,
+        "velocity_order": 0.848645074276114,
+        "physical_H_ratio": 1.8011328694568827,
+        "physical_H_order": 0.8489046126910923
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 1.6991642398796505,
+        "velocity_order": 0.7648253090306163,
+        "physical_H_ratio": 1.9103347811814457,
+        "physical_H_order": 0.9338254889556125
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 1.0097850742871384,
+        "velocity_order": 0.014048258070017111,
+        "physical_H_ratio": 1.857662140998117,
+        "physical_H_order": 0.8934881379806008
+      }
+    ]
+  },
+  {
+    "case_index": 24,
+    "ratios_and_observed_orders": [
+      {
+        "from": 1,
+        "to": 2,
+        "velocity_ratio": 1.023131755562978,
+        "velocity_order": 0.03299194259805342,
+        "physical_H_ratio": 1.1653829813315295,
+        "physical_H_order": 0.22080414755702632
+      },
+      {
+        "from": 2,
+        "to": 4,
+        "velocity_ratio": 0.7323525566362903,
+        "velocity_order": -0.44938976159283894,
+        "physical_H_ratio": 0.7181896728286223,
+        "physical_H_order": -0.47756318689461
+      },
+      {
+        "from": 4,
+        "to": 8,
+        "velocity_ratio": 0.5922761610424644,
+        "velocity_order": -0.755658075676532,
+        "physical_H_ratio": 0.5809611099202429,
+        "physical_H_order": -0.7834865033798906
+      },
+      {
+        "from": 8,
+        "to": 16,
+        "velocity_ratio": 0.452209929827053,
+        "velocity_order": -1.1449354231098179,
+        "physical_H_ratio": 0.4812634658556576,
+        "physical_H_order": -1.0551011867090563
+      }
+    ]
+  }
+]

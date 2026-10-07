@@ -1,0 +1,220 @@
+{
+  "installed": "0.21.0",
+  "upstream": "b716d375efc0201003f0cd9ef7168eee0b62c177",
+  "sources": [
+    {
+      "path": "vendor/rapier/bindings/typescript/src/pipeline/physics_pipeline.rs",
+      "sha256": "474d977eed9f45c8f963d15b23a5fefebb2aaf6bef71af8ae2c5731fdd279564",
+      "excerpts": [
+        {
+          "start_line": 94,
+          "end_line": 122,
+          "source": "\r\n    pub fn timing_user_changes(&self) -> f64 {\r\n        self.0.counters.stages.user_changes.time_ms()\r\n    }\r\n\r\n    pub fn step(\r\n        &mut self,\r\n        gravity: &RawVector,\r\n        integrationParameters: &RawIntegrationParameters,\r\n        islands: &mut RawIslandManager,\r\n        broadPhase: &mut RawBroadPhase,\r\n        narrowPhase: &mut RawNarrowPhase,\r\n        bodies: &mut RawRigidBodySet,\r\n        colliders: &mut RawColliderSet,\r\n        softBodies: &mut RawSoftBodySet,\r\n        joints: &mut RawImpulseJointSet,\r\n        articulations: &mut RawMultibodyJointSet,\r\n        ccd_solver: &mut RawCCDSolver,\r\n    ) {\r\n        self.0.step(\r\n            gravity.0,\r\n            &integrationParameters.0,\r\n            &mut islands.0,\r\n            &mut broadPhase.0,\r\n            &mut narrowPhase.0,\r\n            &mut bodies.0,\r\n            &mut colliders.0,\r\n            &mut joints.0,\r\n            &mut articulations.0,\r"
+        },
+        {
+          "start_line": 108,
+          "end_line": 136,
+          "source": "        softBodies: &mut RawSoftBodySet,\r\n        joints: &mut RawImpulseJointSet,\r\n        articulations: &mut RawMultibodyJointSet,\r\n        ccd_solver: &mut RawCCDSolver,\r\n    ) {\r\n        self.0.step(\r\n            gravity.0,\r\n            &integrationParameters.0,\r\n            &mut islands.0,\r\n            &mut broadPhase.0,\r\n            &mut narrowPhase.0,\r\n            &mut bodies.0,\r\n            &mut colliders.0,\r\n            &mut joints.0,\r\n            &mut articulations.0,\r\n            &mut softBodies.0,\r\n            &mut ccd_solver.0,\r\n            &(),\r\n            &(),\r\n        );\r\n    }\r\n\r\n    pub fn stepWithEvents(\r\n        &mut self,\r\n        gravity: &RawVector,\r\n        integrationParameters: &RawIntegrationParameters,\r\n        islands: &mut RawIslandManager,\r\n        broadPhase: &mut RawBroadPhase,\r\n        narrowPhase: &mut RawNarrowPhase,\r"
+        },
+        {
+          "start_line": 125,
+          "end_line": 153,
+          "source": "            &(),\r\n            &(),\r\n        );\r\n    }\r\n\r\n    pub fn stepWithEvents(\r\n        &mut self,\r\n        gravity: &RawVector,\r\n        integrationParameters: &RawIntegrationParameters,\r\n        islands: &mut RawIslandManager,\r\n        broadPhase: &mut RawBroadPhase,\r\n        narrowPhase: &mut RawNarrowPhase,\r\n        bodies: &mut RawRigidBodySet,\r\n        colliders: &mut RawColliderSet,\r\n        softBodies: &mut RawSoftBodySet,\r\n        joints: &mut RawImpulseJointSet,\r\n        articulations: &mut RawMultibodyJointSet,\r\n        ccd_solver: &mut RawCCDSolver,\r\n        eventQueue: &mut RawEventQueue,\r\n        hookObject: js_sys::Object,\r\n        hookFilterContactPair: js_sys::Function,\r\n        hookFilterIntersectionPair: js_sys::Function,\r\n    ) {\r\n        if eventQueue.auto_drain {\r\n            eventQueue.clear();\r\n        }\r\n\r\n        let hooks = RawPhysicsHooks {\r\n            this: hookObject,\r"
+        },
+        {
+          "start_line": 153,
+          "end_line": 175,
+          "source": "            this: hookObject,\r\n            filter_contact_pair: hookFilterContactPair,\r\n            filter_intersection_pair: hookFilterIntersectionPair,\r\n        };\r\n\r\n        self.0.step(\r\n            gravity.0,\r\n            &integrationParameters.0,\r\n            &mut islands.0,\r\n            &mut broadPhase.0,\r\n            &mut narrowPhase.0,\r\n            &mut bodies.0,\r\n            &mut colliders.0,\r\n            &mut joints.0,\r\n            &mut articulations.0,\r\n            &mut softBodies.0,\r\n            &mut ccd_solver.0,\r\n            &hooks,\r\n            &eventQueue.collector,\r\n        );\r\n    }\r\n}\r\n"
+        }
+      ]
+    },
+    {
+      "path": "vendor/rapier/bindings/typescript/src/dynamics/integration_parameters.rs",
+      "sha256": "e8f166e785c9c8d60ddb25cb860361eff5e370f0565ee9d5b50a4500434f6ac7",
+      "excerpts": [
+        {
+          "start_line": 110,
+          "end_line": 180,
+          "source": "    #[wasm_bindgen(setter)]\r\n    pub fn set_softBodiesFemMaxLinearIterations(&mut self, value: usize) {\r\n        self.0.soft_bodies.fem.max_linear_iterations = value;\r\n    }\r\n\r\n    #[wasm_bindgen(getter)]\r\n    pub fn softBodiesFemMaxDenseDofs(&self) -> usize {\r\n        self.0.soft_bodies.fem.max_dense_dofs\r\n    }\r\n\r\n    #[wasm_bindgen(setter)]\r\n    pub fn set_softBodiesFemMaxDenseDofs(&mut self, value: usize) {\r\n        self.0.soft_bodies.fem.max_dense_dofs = value;\r\n    }\r\n\r\n    #[wasm_bindgen(setter)]\r\n    pub fn set_dt(&mut self, value: f32) {\r\n        self.0.dt = value;\r\n    }\r\n\r\n    #[wasm_bindgen(setter)]\r\n    pub fn set_contact_natural_frequency(&mut self, value: f32) {\r\n        self.0.contact_softness.natural_frequency = value\r\n    }\r\n\r\n    #[wasm_bindgen(setter)]\r\n    pub fn set_normalizedAllowedLinearError(&mut self, value: f32) {\r\n        self.0.normalized_allowed_linear_error = value\r\n    }\r\n\r\n    #[wasm_bindgen(setter)]\r\n    pub fn set_normalizedPredictionDistance(&mut self, value: f32) {\r\n        self.0.normalized_prediction_distance = value\r\n    }\r\n\r\n    #[wasm_bindgen(setter)]\r\n    pub fn set_numSolverIterations(&mut self, value: usize) {\r\n        self.0.num_solver_iterations = value;\r\n    }\r\n    #[wasm_bindgen(setter)]\r\n    pub fn set_numInternalPgsIterations(&mut self, value: usize) {\r\n        self.0.num_internal_pgs_iterations = value;\r\n    }\r\n\r\n    #[wasm_bindgen(setter)]\r\n    pub fn set_maxCcdSubsteps(&mut self, value: usize) {\r\n        self.0.max_ccd_substeps = value\r\n    }\r\n\r\n    #[wasm_bindgen(setter)]\r\n    pub fn set_lengthUnit(&mut self, value: f32) {\r\n        self.0.length_unit = value\r\n    }\r\n}\r\n"
+        }
+      ]
+    },
+    {
+      "path": "vendor/rapier/src/dynamics/solver/staged_island_solver/init.rs",
+      "sha256": "a44ac7ea7340c916c774e883b243859d96c46f33337b8e2f3fc8ae9a6fff6851",
+      "excerpts": [
+        {
+          "start_line": 77,
+          "end_line": 119,
+          "source": "                let num_substeps = base_params.num_solver_iterations + group.extra_iters as usize;\r\n                let num_pgs_iterations =\r\n                    base_params.num_internal_pgs_iterations + group.extra_pgs as usize;\r\n                self.groups.push(GroupLayout {\r\n                    bodies: group.body_range.clone(),\r\n                    soft_slots: 0..0,\r\n                    chunks: 0..0,\r\n                    colors: 0..0,\r\n                    overflow: 0..0,\r\n                    joint_colors: 0..0,\r\n                    joint_chunks: 0..0,\r\n                    joint_builders: 0..0,\r\n                    joint_overflow: 0..0,\r\n                    num_substeps,\r\n                    num_pgs_iterations,\r\n                    dt: base_params.dt / num_substeps as Real,\r\n                });\r\n            }\r\n        } else {\r\n            let num_substeps = base_params.num_solver_iterations + max_extra;\r\n            let num_pgs_iterations = base_params.num_internal_pgs_iterations + max_extra_pgs;\r\n            self.groups.push(GroupLayout {\r\n                bodies: 0..island_bodies.len(),\r\n                soft_slots: 0..0,\r\n                chunks: 0..0,\r\n                colors: 0..0,\r\n                overflow: 0..0,\r\n                joint_colors: 0..0,\r\n                joint_chunks: 0..0,\r\n                joint_builders: 0..0,\r\n                joint_overflow: 0..0,\r\n                num_substeps,\r\n                num_pgs_iterations,\r\n                dt: base_params.dt / num_substeps as Real,\r\n            });\r\n        }\r\n        let num_solver_iterations = base_params.num_solver_iterations + max_extra;\r\n\r\n        // `params` keeps the FIRST group's substep dt (multibody precompute uses it; multibody\r\n        // scenes are always single-group). The worker loop re-derives each group's dt from\r\n        // `GroupLayout`.\r\n        let mut params = *base_params;\r\n        params.dt /= num_solver_iterations as Real;\r"
+        }
+      ]
+    },
+    {
+      "path": "vendor/rapier/src/dynamics/solver/staged_island_solver/worker.rs",
+      "sha256": "1df37913eaad6d0b88da6653b7bd6fb69e89356802176c02e3ac2655c0eb82a9",
+      "excerpts": [
+        {
+          "start_line": 235,
+          "end_line": 312,
+          "source": "        stage = sync.sync(stage, stage_work);\r\n    }\r\n\r\n    for (group_index, group) in ctx.groups.iter().enumerate() {\r\n        // This group's substep parameters: identical to `base_params` except\r\n        // for the substep dt. Everything dt-derived downstream (soft erp/cfm,\r\n        // rhs, speculative terms, integration) recomputes from this copy.\r\n        let mut gparams = *ctx.base_params;\r\n        gparams.dt = group.dt;\r\n        let params = &gparams;\r\n        let num_substeps = group.num_substeps;\r\n        // This group's claim domains; single-group they span everything, except `group_bodies`\r\n        // (island slots only — the omitted padding tail slots hold zero velocities and\r\n        // increments, so skipping them is behavior-preserving).\r\n        let group_bodies = group.bodies.clone();\r\n        // The per-slot stages (velocity increments, integration) cover the group's rigid slots\r\n        // then its soft-body particle slots, through one virtual index range.\r\n        let group_soft_slots = group.soft_slots.clone();\r\n        let num_group_bodies = group_bodies.len() + group_soft_slots.len();\r\n        let group_slots = 0..num_group_bodies;\r\n        let slot_of = |i: usize| -> usize {\r\n            if i < group_bodies.len() {\r\n                group_bodies.start + i\r\n            } else {\r\n                group_soft_slots.start + (i - group_bodies.len())\r\n            }\r\n        };\r\n        let num_joint_chunks = group.joint_chunks.len();\r\n        let joint_builders = group.joint_builders.clone();\r\n        // Update-stage virtual claim domain: this group's contact chunks,\r\n        // then its SIMD joint chunks, then its scalar joint builders.\r\n        let group_chunks_len = group.chunks.len();\r\n        let all_updates = 0..group_chunks_len + num_joint_chunks + joint_builders.len();\r\n\r\n        for substep_id in 0..num_substeps {\r\n            let is_last_substep = substep_id == num_substeps - 1;\r\n            let solved_dt = substep_id as Real * params.dt;\r\n\r\n            /*\r\n             * Stage: apply velocity increments (parallel over claimed body slots).\r\n             * Worker 0 also applies the generic (multibody) increments.\r\n             */\r\n            {\r\n                // +1: worker 0's generic increments.\r\n                let stage_work = num_group_bodies + 1;\r\n                let mut done = 0;\r\n                while let Some(claimed) = sync.claim(stage, &group_slots, BODY_BATCH, worker_id) {\r\n                    let vs = unsafe { &mut *ctx.velocity_solver };\r\n                    let claimed_len = claimed.len();\r\n                    for i in claimed {\r\n                        let i = slot_of(i);\r\n                        let incr = vs.solver_vels_increment[i];\r\n                        {\r\n                            let vels = &mut vs.solver_bodies.vels[i];\r\n                            vels.linear += incr.linear;\r\n                            vels.angular += incr.angular;\r\n                        }\r\n\r\n                        // Per-substep gyroscopic correction (applied every substep\r\n                        // to keep long, skinny bodies stable), using the\r\n                        // orientation integrated by the previous substep.\r\n                        #[cfg(feature = \"dim3\")]\r\n                        if has_gyroscopic {\r\n                            let gyro = vs.solver_gyro[i];\r\n                            if gyro.enabled {\r\n                                // World-space principal axes = body rotation ∘ principal frame.\r\n                                let principal_axes =\r\n                                    vs.solver_bodies.poses[i].rotation * gyro.principal_frame;\r\n                                let angular = vs.solver_bodies.vels[i].angular;\r\n                                vs.solver_bodies.vels[i].angular = gyroscopic_corrected_angvel(\r\n                                    angular,\r\n                                    principal_axes,\r\n                                    gyro.principal_inertia,\r\n                                    gyro.inv_principal_inertia,\r\n                                    params.dt,\r\n                                );\r\n                            }\r\n                        }\r"
+        },
+        {
+          "start_line": 640,
+          "end_line": 704,
+          "source": "             * Stage: integrate positions (parallel over claimed body slots).\r\n             * Worker 0 also integrates the multibodies (sole accessor of `bodies` and\r\n             * `multibodies` during this stage).\r\n             */\r\n            {\r\n                // Per-substep speed cap. `max_ang` ties to the *full-step* inv_dt\r\n                // so per-step rotation stays under `MAX_ROTATION` regardless of substep count;\r\n                // clamped in place on the solver body so the cap persists into later substeps\r\n                // and the final velocity writeback.\r\n                let base_params = ctx.base_params;\r\n                let max_lin = base_params.max_linear_velocity();\r\n                let max_ang = MAX_ROTATION * base_params.inv_dt();\r\n\r\n                let mut done = 0;\r\n                while let Some(claimed) = sync.claim(stage, &group_slots, BODY_BATCH, worker_id) {\r\n                    let vs = unsafe { &mut *ctx.velocity_solver };\r\n                    let claimed_len = claimed.len();\r\n                    for i in claimed {\r\n                        let i = slot_of(i);\r\n                        {\r\n                            let vel = &mut vs.solver_bodies.vels[i];\r\n                            if max_lin != Real::MAX {\r\n                                let n = vel.linear.length();\r\n                                if n > max_lin {\r\n                                    vel.linear *= max_lin / n;\r\n                                }\r\n                            }\r\n                            if vs.solver_bodies.flags[i] & SOLVER_BODY_ALLOW_FAST_ROTATION == 0 {\r\n                                #[cfg(feature = \"dim2\")]\r\n                                if vel.angular.abs() > max_ang {\r\n                                    vel.angular = vel.angular.signum() * max_ang;\r\n                                }\r\n                                #[cfg(feature = \"dim3\")]\r\n                                {\r\n                                    let n = vel.angular.length();\r\n                                    if n > max_ang {\r\n                                        vel.angular *= max_ang / n;\r\n                                    }\r\n                                }\r\n                            }\r\n                        }\r\n\r\n                        let vels = vs.solver_bodies.vels[i];\r\n                        let pose = &mut vs.solver_bodies.poses[i];\r\n                        let new_vels = RigidBodyVelocity {\r\n                            linvel: vels.linear,\r\n                            angvel: vels.angular,\r\n                        };\r\n                        new_vels.integrate_linearized(\r\n                            params.dt,\r\n                            &mut pose.translation,\r\n                            &mut pose.rotation,\r\n                        );\r\n                    }\r\n                    done += claimed_len;\r\n                }\r\n                // One completion flush per worker per stage: per-batch RMWs on the\r\n                // shared counter measurably throttle scalar builds (4x the chunks).\r\n                sync.complete(stage, done, num_group_bodies + 1);\r\n\r\n                if worker_id == 0 {\r\n                    let vs = unsafe { &mut *ctx.velocity_solver };\r\n                    let bodies = unsafe { &mut *ctx.bodies };\r\n                    let multibodies = unsafe { &mut *ctx.multibodies };\r\n                    vs.integrate_multibody_positions(params, is_last_substep, bodies, multibodies);\r"
+        }
+      ]
+    },
+    {
+      "path": "vendor/rapier/src/pipeline/physics_pipeline/mod.rs",
+      "sha256": "fcde5f494efe63a03ff720e23252dc658c6520ff5347b0ee143eef3d27222b71",
+      "excerpts": [
+        {
+          "start_line": 69,
+          "end_line": 97,
+          "source": "    /// update_islands`'s whole-island sleep decision — which never re-touches the body arena.\r\n    sleep_observations: Vec<(u32, bool)>,\r\n    /// The single, unified solver: the awake island is solved by its colored,\r\n    /// staged workers. On a non-parallel (or wasm) build it runs with one worker\r\n    /// inline on the calling thread.\r\n    staged_solver: crate::dynamics::StagedIslandSolver,\r\n    /// Handle on the BVH optimization pass running concurrently with the narrow\r\n    /// phase and solver (the `Mutex` only exists to keep the pipeline `Sync`; it is\r\n    /// never contended).\r\n    #[cfg(feature = \"parallel\")]\r\n    deferred_bvh:\r\n        std::sync::Mutex<Option<std::sync::mpsc::Receiver<crate::geometry::DeferredBvhOptimize>>>,\r\n    /// Deferred BVH optimization that had no spare worker to run on (single-threaded\r\n    /// pool, or `parallel` off): run inline by `join_deferred_bvh_optimize`, i.e. at\r\n    /// the same point of the step where the concurrent one is joined.\r\n    deferred_bvh_inline: Option<crate::geometry::DeferredBvhOptimize>,\r\n    /// Pool running the parallel parts of the step (see [`Self::configure_thread_pool`]).\r\n    /// `None` uses whichever pool the calling thread is in.\r\n    #[cfg(all(feature = \"parallel\", not(feature = \"unsync-callbacks\")))]\r\n    thread_pool: Option<std::sync::Arc<rayon::ThreadPool>>,\r\n}\r\n\r\nimpl Default for PhysicsPipeline {\r\n    fn default() -> Self {\r\n        PhysicsPipeline::new()\r\n    }\r\n}\r\n\r\n#[allow(dead_code)]\r"
+        },
+        {
+          "start_line": 109,
+          "end_line": 137,
+          "source": "        PhysicsPipeline {\r\n            counters: Counters::new(true),\r\n            #[cfg(feature = \"parallel\")]\r\n            active_body_handles: vec![],\r\n            sleep_observations: Vec::new(),\r\n            staged_solver: crate::dynamics::StagedIslandSolver::new(),\r\n            #[cfg(feature = \"parallel\")]\r\n            deferred_bvh: std::sync::Mutex::new(None),\r\n            deferred_bvh_inline: None,\r\n            #[cfg(all(feature = \"parallel\", not(feature = \"unsync-callbacks\")))]\r\n            thread_pool: None,\r\n            joint_constraint_indices: vec![],\r\n            joint_selection_primed: false,\r\n            broad_phase_events: vec![],\r\n            end_step_collider_aabbs: vec![],\r\n            soft_synced_colliders: vec![],\r\n            quarantine: Quarantine::default(),\r\n        }\r\n    }\r\n\r\n    /// Completes the BVH optimization pass deferred by the last broad-phase update (if\r\n    /// any) and puts the optimized tree back into the broad-phase. Must be called before\r\n    /// anything uses the broad-phase tree again.\r\n    ///\r\n    /// Waits for the concurrent pass when one was spawned; otherwise runs it here. Both\r\n    /// paths leave the same tree behind, so the build and the pool size don't change what\r\n    /// the rest of the step sees.\r\n    fn join_deferred_bvh_optimize(&mut self, broad_phase: &mut BroadPhaseBvh) {\r\n        #[cfg(feature = \"parallel\")]\r"
+        },
+        {
+          "start_line": 202,
+          "end_line": 230,
+          "source": "    ///     &mut ccd_solver,\r\n    ///     &(),  // No custom hooks\r\n    ///     &(),  // No event handler\r\n    /// );\r\n    /// ```\r\n    pub fn step(\r\n        &mut self,\r\n        gravity: Vector,\r\n        integration_parameters: &IntegrationParameters,\r\n        islands: &mut IslandManager,\r\n        broad_phase: &mut BroadPhaseBvh,\r\n        narrow_phase: &mut NarrowPhase,\r\n        bodies: &mut RigidBodySet,\r\n        colliders: &mut ColliderSet,\r\n        impulse_joints: &mut ImpulseJointSet,\r\n        multibody_joints: &mut MultibodyJointSet,\r\n        soft_bodies: &mut SoftBodySet,\r\n        ccd_solver: &mut CCDSolver,\r\n        hooks: &dyn PhysicsHooks,\r\n        events: &dyn EventHandler,\r\n    ) {\r\n        // With a dedicated pool configured, run the whole step inside it.\r\n        #[cfg(all(feature = \"parallel\", not(feature = \"unsync-callbacks\")))]\r\n        if let Some(pool) = self.thread_pool.clone() {\r\n            return pool.install(|| {\r\n                self.step_inner(\r\n                    gravity,\r\n                    integration_parameters,\r\n                    islands,\r"
+        }
+      ]
+    },
+    {
+      "path": "vendor/rapier/src/dynamics/solver/staged_island_solver/solve.rs",
+      "sha256": "942dbf1a4323cccd064b4b602a9015acc576a114859eff0ced5ecb326ced97bc",
+      "excerpts": [
+        {
+          "start_line": 1,
+          "end_line": 95,
+          "source": "//! One solve pass of a substep: soft-body prepare, joint colors, worker-0 joint overflow,\r\n//! soft-body colors/shape constraints/serial constraints, contact colors, then the worker-0 contact\r\n//! overflow (all completion-gated stages).\r\n\r\nuse crate::dynamics::IntegrationParameters;\r\nuse crate::dynamics::solver::JointConstraintsSet;\r\nuse crate::math::Real;\r\n\r\nuse super::{SharedCtx, stage_batch};\r\n\r\n/// One solve pass: joints (colored, then overflow + generic on worker 0), soft-body rows, then\r\n/// contact colors (parallel); returns the updated stage ordinal. `soft_update` updates the soft\r\n/// constraints from the poses first; `soft_warmstart` is `Some(coefficient)` to warm-start them.\r\npub(super) unsafe fn solve_pass(\r\n    ctx: &SharedCtx,\r\n    group_index: usize,\r\n    worker_id: usize,\r\n    mut stage: usize,\r\n    wo_bias: bool,\r\n    warmstart_joints: bool,\r\n    soft_update: bool,\r\n    soft_warmstart: Option<Real>,\r\n    params: &IntegrationParameters,\r\n    solved_dt: Real,\r\n) -> usize {\r\n    let group = &ctx.groups[group_index];\r\n    let sync = ctx.sync;\r\n    // Soft-body work of this group: the set is shared and immutable in shape during the solve, so\r\n    // every worker takes the same branches. Soft constraints are springs solved once per substep,\r\n    // in the biased pass only; a relax-pass re-solve leaves both passes fighting over one impulse.\r\n    let soft_ref = unsafe { &*ctx.soft_constraints };\r\n    let has_soft = !soft_ref.is_empty() && !wo_bias;\r\n    // Particle attachments are joints: solved in both passes, right after the joints.\r\n    let has_attachments =\r\n        !soft_ref.is_empty() && !soft_ref.groups[group_index].attachments.is_empty();\r\n    /*\r\n     * Stage: warm start the intersection-volume constraints (worker 0, serial): warm impulses go\r\n     * before the elastic constraints, so a resting patch's springs see the contact force instead of\r\n     * pushing the patch through it first (see `SoftOverlapWarm`).\r\n     */\r\n    if has_soft\r\n        && soft_warmstart.is_some()\r\n        && !soft_ref.groups[group_index].overlap_constraints.is_empty()\r\n    {\r\n        if worker_id == 0 {\r\n            let soft = unsafe { &mut *ctx.soft_constraints };\r\n            let solver_bodies = unsafe { &mut (*ctx.velocity_solver).solver_bodies };\r\n            for oi in soft.groups[group_index].overlap_constraints.clone() {\r\n                soft.warmstart_overlap_constraint(oi, solver_bodies);\r\n            }\r\n            sync.complete(stage, 1, 1);\r\n        }\r\n        stage = sync.sync(stage, 1);\r\n    }\r\n\r\n    /*\r\n     * Stage: soft-body prepare (parallel over the group's awake soft bodies): shape-matching\r\n     * goals and global-volume gradients from the current poses.\r\n     */\r\n    if has_soft && soft_ref.group_needs_prepare(group_index, soft_update) {\r\n        let awake = soft_ref.groups[group_index].awake.clone();\r\n        let stage_work = awake.len();\r\n        let mut done = 0;\r\n        while let Some(claimed) = sync.claim(stage, &awake, 1, worker_id) {\r\n            // SAFETY: each awake body is claimed by exactly one worker per stage, and the\r\n            // prepare only writes that body's own records and its own particles' velocities\r\n            // (soft bodies share no particle).\r\n            let solver_bodies = unsafe { &mut (*ctx.velocity_solver).solver_bodies };\r\n            let soft = unsafe { &mut *ctx.soft_constraints };\r\n            let claimed_len = claimed.len();\r\n            for ai in claimed {\r\n                soft.prepare_awake_body(ai, solver_bodies, soft_update);\r\n            }\r\n            done += claimed_len;\r\n        }\r\n        sync.complete(stage, done, stage_work);\r\n        stage = sync.sync(stage, stage_work);\r\n    }\r\n\r\n    /*\r\n     * Stage: gather the active soft-body clusters (worker 0, serial): each cluster's proxy slot is\r\n     * updated from its particles' velocities (keeping unscattered impulses) so the joints below\r\n     * pull on the cluster's true rigid state. Runs in both passes, like the joints.\r\n     */\r\n    let has_clusters = !soft_ref.is_empty() && soft_ref.group_has_clusters(group_index);\r\n    if has_clusters {\r\n        if worker_id == 0 {\r\n            let soft = unsafe { &mut *ctx.soft_constraints };\r\n            let solver_bodies = unsafe { &mut (*ctx.velocity_solver).solver_bodies };\r\n            soft.gather_clusters(group_index, solver_bodies);\r\n            sync.complete(stage, 1, 1);\r\n        }\r\n        stage = sync.sync(stage, 1);\r\n    }\r\n\r"
+        }
+      ]
+    },
+    {
+      "path": "../../../gen3d/pipeline/world.ts",
+      "from": "installed 0.21.0 rapier.mjs.map sourcesContent",
+      "sha256": "6e917d3dd48d73e7ffa00007a632bfcb4eb587850e1c14e1b28a50f6a0fc3e18",
+      "excerpts": [
+        {
+          "start_line": 279,
+          "source": "     * All events generated by the physics engine are ignored.\n     *\n     * @param EventQueue - (optional) structure responsible for collecting\n     *   events generated by the physics engine.\n     */\n    public step(eventQueue?: EventQueue, hooks?: PhysicsHooks) {\n        this.physicsPipeline.step(\n            this.gravity,\n            this.integrationParameters,\n            this.islands,\n            this.broadPhase,\n            this.narrowPhase,\n            this.bodies,\n            this.colliders,\n            this.softBodies,\n            this.impulseJoints,\n            this.multibodyJoints,"
+        },
+        {
+          "start_line": 280,
+          "source": "     *\n     * @param EventQueue - (optional) structure responsible for collecting\n     *   events generated by the physics engine.\n     */\n    public step(eventQueue?: EventQueue, hooks?: PhysicsHooks) {\n        this.physicsPipeline.step(\n            this.gravity,\n            this.integrationParameters,\n            this.islands,\n            this.broadPhase,\n            this.narrowPhase,\n            this.bodies,\n            this.colliders,\n            this.softBodies,\n            this.impulseJoints,\n            this.multibodyJoints,\n            this.ccdSolver,"
+        },
+        {
+          "start_line": 341,
+          "source": "    // }\n\n    /**\n     * The current simulation timestep.\n     */\n    get timestep(): number {\n        return this.integrationParameters.dt;\n    }\n\n    /**\n     * Sets the new simulation timestep.\n     *\n     * The simulation timestep governs by how much the physics state of the world will\n     * be integrated. A simulation timestep should:\n     * - be as small as possible. Typical values evolve around 0.016 (assuming the chosen unit is milliseconds,\n     * corresponds to the time between two frames of a game running at 60FPS).\n     * - not vary too much during the course of the simulation. A timestep with large variations may"
+        },
+        {
+          "start_line": 357,
+          "source": "     * - not vary too much during the course of the simulation. A timestep with large variations may\n     * cause instabilities in the simulation.\n     *\n     * @param dt - The timestep length, in seconds.\n     */\n    set timestep(dt: number) {\n        this.integrationParameters.dt = dt;\n    }\n\n    /**\n     * The approximate size of most dynamic objects in the scene.\n     *\n     * See the documentation of the `World.lengthUnit` setter for further details.\n     */\n    get lengthUnit(): number {\n        return this.integrationParameters.lengthUnit;\n    }"
+        },
+        {
+          "start_line": 392,
+          "source": "    }\n\n    /**\n     * The number of solver iterations run by the constraints solver for calculating forces (default: `4`).\n     */\n    get numSolverIterations(): number {\n        return this.integrationParameters.numSolverIterations;\n    }\n\n    /**\n     * Sets the number of solver iterations run by the constraints solver for calculating forces (default: `4`).\n     *\n     * The greater this value is, the most rigid and realistic the physics simulation will be.\n     * However a greater number of iterations is more computationally intensive.\n     *\n     * @param niter - The new number of solver iterations.\n     */"
+        },
+        {
+          "start_line": 393,
+          "source": "\n    /**\n     * The number of solver iterations run by the constraints solver for calculating forces (default: `4`).\n     */\n    get numSolverIterations(): number {\n        return this.integrationParameters.numSolverIterations;\n    }\n\n    /**\n     * Sets the number of solver iterations run by the constraints solver for calculating forces (default: `4`).\n     *\n     * The greater this value is, the most rigid and realistic the physics simulation will be.\n     * However a greater number of iterations is more computationally intensive.\n     *\n     * @param niter - The new number of solver iterations.\n     */\n    set numSolverIterations(niter: number) {"
+        },
+        {
+          "start_line": 404,
+          "source": "     * The greater this value is, the most rigid and realistic the physics simulation will be.\n     * However a greater number of iterations is more computationally intensive.\n     *\n     * @param niter - The new number of solver iterations.\n     */\n    set numSolverIterations(niter: number) {\n        this.integrationParameters.numSolverIterations = niter;\n    }\n\n    /**\n     * Number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     */\n    get numInternalPgsIterations(): number {\n        return this.integrationParameters.numInternalPgsIterations;\n    }\n\n    /**"
+        },
+        {
+          "start_line": 405,
+          "source": "     * However a greater number of iterations is more computationally intensive.\n     *\n     * @param niter - The new number of solver iterations.\n     */\n    set numSolverIterations(niter: number) {\n        this.integrationParameters.numSolverIterations = niter;\n    }\n\n    /**\n     * Number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     */\n    get numInternalPgsIterations(): number {\n        return this.integrationParameters.numInternalPgsIterations;\n    }\n\n    /**\n     * Sets the Number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`)."
+        },
+        {
+          "start_line": 411,
+          "source": "    }\n\n    /**\n     * Number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     */\n    get numInternalPgsIterations(): number {\n        return this.integrationParameters.numInternalPgsIterations;\n    }\n\n    /**\n     * Sets the Number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     *\n     * Increasing this parameter will improve stability of the simulation. It will have a lesser effect than\n     * increasing `numSolverIterations` but is also less computationally expensive.\n     *\n     * @param niter - The new number of internal PGS iterations.\n     */"
+        },
+        {
+          "start_line": 412,
+          "source": "\n    /**\n     * Number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     */\n    get numInternalPgsIterations(): number {\n        return this.integrationParameters.numInternalPgsIterations;\n    }\n\n    /**\n     * Sets the Number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     *\n     * Increasing this parameter will improve stability of the simulation. It will have a lesser effect than\n     * increasing `numSolverIterations` but is also less computationally expensive.\n     *\n     * @param niter - The new number of internal PGS iterations.\n     */\n    set numInternalPgsIterations(niter: number) {"
+        },
+        {
+          "start_line": 419,
+          "source": "\n    /**\n     * Sets the Number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     *\n     * Increasing this parameter will improve stability of the simulation. It will have a lesser effect than\n     * increasing `numSolverIterations` but is also less computationally expensive.\n     *\n     * @param niter - The new number of internal PGS iterations.\n     */\n    set numInternalPgsIterations(niter: number) {\n        this.integrationParameters.numInternalPgsIterations = niter;\n    }\n\n    /**\n     * The number of substeps continuous collision-detection can run (default: `1`).\n     */\n    get maxCcdSubsteps(): number {"
+        },
+        {
+          "start_line": 423,
+          "source": "     * Increasing this parameter will improve stability of the simulation. It will have a lesser effect than\n     * increasing `numSolverIterations` but is also less computationally expensive.\n     *\n     * @param niter - The new number of internal PGS iterations.\n     */\n    set numInternalPgsIterations(niter: number) {\n        this.integrationParameters.numInternalPgsIterations = niter;\n    }\n\n    /**\n     * The number of substeps continuous collision-detection can run (default: `1`).\n     */\n    get maxCcdSubsteps(): number {\n        return this.integrationParameters.maxCcdSubsteps;\n    }\n\n    /**"
+        },
+        {
+          "start_line": 424,
+          "source": "     * increasing `numSolverIterations` but is also less computationally expensive.\n     *\n     * @param niter - The new number of internal PGS iterations.\n     */\n    set numInternalPgsIterations(niter: number) {\n        this.integrationParameters.numInternalPgsIterations = niter;\n    }\n\n    /**\n     * The number of substeps continuous collision-detection can run (default: `1`).\n     */\n    get maxCcdSubsteps(): number {\n        return this.integrationParameters.maxCcdSubsteps;\n    }\n\n    /**\n     * Sets the number of substeps continuous collision-detection can run (default: `1`)."
+        },
+        {
+          "start_line": 1361,
+          "source": "     * The time spent in milliseconds by the last step to run the entire simulation step.\n     *\n     * Only works if the internal profiler is enabled with `World.profilerEnabled = true`.\n     */\n    public timingStep(): number {\n        return this.physicsPipeline.raw.timing_step();\n    }\n\n    /**\n     * The time spent in milliseconds by the last step to run the collision-detection\n     * (broad-phase + narrow-phase).\n     *\n     * Only works if the internal profiler is enabled with `World.profilerEnabled = true`.\n     */\n    public timingCollisionDetection(): number {\n        return this.physicsPipeline.raw.timing_collision_detection();\n    }"
+        }
+      ]
+    },
+    {
+      "path": "../../../gen3d/pipeline/physics_pipeline.ts",
+      "from": "installed 0.21.0 rapier.mjs.map sourcesContent",
+      "sha256": "f74bfaaa6e09c2e33aaaac0ba3a127d5d308c313409fc45a7fae87df6d6806f6",
+      "excerpts": [
+        {
+          "start_line": 31,
+          "source": "\n    constructor(raw?: RawPhysicsPipeline) {\n        this.raw = raw || new RawPhysicsPipeline();\n    }\n\n    public step(\n        gravity: Vector,\n        integrationParameters: IntegrationParameters,\n        islands: IslandManager,\n        broadPhase: BroadPhase,\n        narrowPhase: NarrowPhase,\n        bodies: RigidBodySet,\n        colliders: ColliderSet,\n        softBodies: SoftBodySet,\n        impulseJoints: ImpulseJointSet,\n        multibodyJoints: MultibodyJointSet,\n        ccdSolver: CCDSolver,"
+        },
+        {
+          "start_line": 67,
+          "source": "                hooks,\n                !!hooks ? hooks.filterContactPair : null,\n                !!hooks ? hooks.filterIntersectionPair : null,\n            );\n        } else {\n            this.raw.step(\n                rawG,\n                integrationParameters.raw,\n                islands.raw,\n                broadPhase.raw,\n                narrowPhase.raw,\n                bodies.raw,\n                colliders.raw,\n                softBodies.raw,\n                impulseJoints.raw,\n                multibodyJoints.raw,\n                ccdSolver.raw,"
+        }
+      ]
+    },
+    {
+      "path": "../../../gen3d/dynamics/integration_parameters.ts",
+      "from": "installed 0.21.0 rapier.mjs.map sourcesContent",
+      "sha256": "73de347109691dd4b12bcaac2cc50d2c8c43d29ce35709f3ca9748ab26ac7503",
+      "excerpts": [
+        {
+          "start_line": 56,
+          "source": "    }\n\n    /**\n     * The number of solver iterations run by the constraints solver for calculating forces (default: `4`).\n     */\n    get numSolverIterations(): number {\n        return this.raw.numSolverIterations;\n    }\n\n    /**\n     * Number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     */\n    get numInternalPgsIterations(): number {\n        return this.raw.numInternalPgsIterations;\n    }\n\n    /**"
+        },
+        {
+          "start_line": 57,
+          "source": "\n    /**\n     * The number of solver iterations run by the constraints solver for calculating forces (default: `4`).\n     */\n    get numSolverIterations(): number {\n        return this.raw.numSolverIterations;\n    }\n\n    /**\n     * Number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     */\n    get numInternalPgsIterations(): number {\n        return this.raw.numInternalPgsIterations;\n    }\n\n    /**\n     * Maximum number of substeps performed by the  solver (default: `1`)."
+        },
+        {
+          "start_line": 63,
+          "source": "    }\n\n    /**\n     * Number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     */\n    get numInternalPgsIterations(): number {\n        return this.raw.numInternalPgsIterations;\n    }\n\n    /**\n     * Maximum number of substeps performed by the  solver (default: `1`).\n     */\n    get maxCcdSubsteps(): number {\n        return this.raw.maxCcdSubsteps;\n    }\n\n    /**"
+        },
+        {
+          "start_line": 64,
+          "source": "\n    /**\n     * Number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     */\n    get numInternalPgsIterations(): number {\n        return this.raw.numInternalPgsIterations;\n    }\n\n    /**\n     * Maximum number of substeps performed by the  solver (default: `1`).\n     */\n    get maxCcdSubsteps(): number {\n        return this.raw.maxCcdSubsteps;\n    }\n\n    /**\n     * Strain beyond which a soft-body constraint is re-solved after the contacts inside every"
+        },
+        {
+          "start_line": 184,
+          "source": "    }\n\n    /**\n     * Sets the number of solver iterations run by the constraints solver for calculating forces (default: `4`).\n     */\n    set numSolverIterations(value: number) {\n        this.raw.numSolverIterations = value;\n    }\n\n    /**\n     * Sets the number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     */\n    set numInternalPgsIterations(value: number) {\n        this.raw.numInternalPgsIterations = value;\n    }\n\n    set maxCcdSubsteps(value: number) {"
+        },
+        {
+          "start_line": 185,
+          "source": "\n    /**\n     * Sets the number of solver iterations run by the constraints solver for calculating forces (default: `4`).\n     */\n    set numSolverIterations(value: number) {\n        this.raw.numSolverIterations = value;\n    }\n\n    /**\n     * Sets the number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     */\n    set numInternalPgsIterations(value: number) {\n        this.raw.numInternalPgsIterations = value;\n    }\n\n    set maxCcdSubsteps(value: number) {\n        this.raw.maxCcdSubsteps = value;"
+        },
+        {
+          "start_line": 191,
+          "source": "    }\n\n    /**\n     * Sets the number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     */\n    set numInternalPgsIterations(value: number) {\n        this.raw.numInternalPgsIterations = value;\n    }\n\n    set maxCcdSubsteps(value: number) {\n        this.raw.maxCcdSubsteps = value;\n    }\n}\n"
+        },
+        {
+          "start_line": 192,
+          "source": "\n    /**\n     * Sets the number of internal Project Gauss Seidel (PGS) iterations run at each solver iteration (default: `1`).\n     */\n    set numInternalPgsIterations(value: number) {\n        this.raw.numInternalPgsIterations = value;\n    }\n\n    set maxCcdSubsteps(value: number) {\n        this.raw.maxCcdSubsteps = value;\n    }\n}\n"
+        }
+      ]
+    }
+  ],
+  "observed_upstream_head": "b716d375efc0201003f0cd9ef7168eee0b62c177"
+}
