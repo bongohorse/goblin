@@ -13,6 +13,7 @@ export function upright(q){
   return {up:u,theta,error:s<1e-12?vec():scale(c,theta/s)};
 }
 export function torque(q,omega,mode='on'){
+  if(!omega||Object.keys(omega).sort().join()!=='x,y,z'||!Object.values(omega).every(Number.isFinite))throw Error('invalid_angular_velocity');
   if(!['on','off','wrong-sign','missing-reaction'].includes(mode))throw Error('invalid_mode');
   const {up,theta,error}=upright(q),transverse=sub(omega,scale(up,dot(omega,up)));
   const raw=mode==='off'?vec():sub(scale(error,CONFIG.kp_Nm_rad*(mode==='wrong-sign'?-1:1)),scale(transverse,CONFIG.kd_Nm_s_rad));

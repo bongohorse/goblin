@@ -25,3 +25,13 @@ test('public mass initialization and rotated anisotropic impulse controls; prere
   const cases=verifyFirstSteps();validateFirstSteps(cases);assert.equal(cases.filter(c=>c.method==='impulse'&&c.pass).length,8);assert.equal(cases.filter(c=>!c.missing_reaction&&c.method==='torque'&&!c.pass).length,16);assert.equal(cases.at(-1).pass,true);
   for(const corrupt of [c=>c.pop(),c=>c[0].pre[0].mass=0,c=>c[0].pre[0].rotation.x=NaN,c=>c[0].post[0].inertia.x=Infinity,c=>c[0].pass=true,c=>c[0].direction.x=-1,c=>c[0].extra=0,c=>c[0].post[1].unknown=0,c=>c[0].discrete_momentum_residual=0]){const bad=structuredClone(cases);corrupt(bad);assert.throws(()=>validateFirstSteps(bad));}
 });
+
+import {validateGateB} from '../scripts/torso-torque60-reader.js';
+import {identity} from '../scripts/torso-torque60-contract.js';
+import {independentCounterreaction} from '../scripts/review-spherical-target54.js';
+test('blocker reader verifies IDs, complete fresh-run set, finite data and failure semantics',()=>{
+  const cases=verifyFirstSteps(),r={schema_version:1,report_kind:'internal-torso-torque60-gate-b-v1',run_id:'00000000-0000-0000-0000-000000000001',config:CONFIG,...identity(CONFIG),provenance:{git_commit:'a'.repeat(40),dirty:false,build_id:'a'.repeat(40)+':'+'b'.repeat(64),node:'v24.21.0',os:'synthetic reader test',arch:'x64',cpu:'test',rapier:'0.21.0',upstream:'b716d375efc0201003f0cd9ef7168eee0b62c177',protocol_sha256:'c'.repeat(64)},first_steps:cases,repetitions:Array.from({length:5},(_,i)=>({run_index:i+1,cases})),tracking:[],historical_native_probe:independentCounterreaction(),status:'blocked',blocker:'first_step_frame_cap_reaction_or_velocity'};
+  validateGateB(r);
+  for(const corrupt of [r=>r.config_id='wrong',r=>r.experiment_id='wrong',r=>r.status='pass',r=>r.tracking.push({pass:true}),r=>r.repetitions.pop(),r=>r.repetitions[1].run_index=1,r=>r.provenance.dirty=true,r=>r.first_steps[0].oracle.torso_angular.x+=.1,r=>r.first_steps[0].pre[0].world_com.x=NaN,r=>r.historical_native_probe.strict_1e_6_pass=true]){const bad=structuredClone(r);corrupt(bad);assert.throws(()=>validateGateB(bad));}
+  assert.throws(()=>torque({x:0,y:0,z:0,w:1},{x:NaN,y:0,z:0}));
+});

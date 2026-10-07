@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {CONFIG,identity} from './torso-torque60-contract.js';
 import {canonical} from '../src/labs/standing/config.js';
-import {V,momentum,rotationBound} from './torso-torque60-oracle.js';
+import {V,record,tensor,constrained,momentum,rotationBound} from './torso-torque60-oracle.js';
 const exact=(o,k)=>{assert.ok(o&&typeof o==='object'&&!Array.isArray(o));assert.equal(Object.keys(o).sort().join(),k.split(',').sort().join(),'Unknown/missing fields');};
 const finite=o=>{if(typeof o==='number')assert.ok(Number.isFinite(o),'Nonfinite value');else if(o&&typeof o==='object')Object.values(o).forEach(finite);};
 const vec=v=>{exact(v,'x,y,z');assert.ok(Object.values(v).every(Number.isFinite));};
@@ -16,6 +16,8 @@ export function validateFirstSteps(cases){
       exact(s,'id,mass,anchor,inertia,principal_frame,rotation,world_com,linear_velocity,angular_velocity');assert.equal(s.id,j?CONFIG.partner.id:CONFIG.torso.id);assert.ok(Math.abs(s.mass-(j?CONFIG.partner.mass:CONFIG.torso.mass))<1e-6);for(const key of ['anchor','inertia','world_com','linear_velocity','angular_velocity'])vec(s[key]);assert.ok(Object.values(s.inertia).every(x=>x>0));for(const key of ['principal_frame','rotation']){exact(s[key],'x,y,z,w');assert.ok(Math.abs(Math.hypot(...Object.values(s[key]))-1)<1e-6);}
     }}
     exact(c.oracle,'torso_angular,partner_angular,torso_linear,partner_linear,constraint_impulse_Ns');Object.values(c.oracle).forEach(vec);vec(c.requested_world_Nm);assert.equal(c.accumulators.length,2);c.accumulators.forEach(vec);
+    const tau=V(c.requested_world_Nm),expected=c.connected?constrained(c.pre[0],c.pre[1],c.requested_world_Nm,c.dt):{torso_angular:record(tau.clone().multiplyScalar(c.dt).applyMatrix3(tensor(c.pre[0].rotation,c.pre[0].principal_frame,c.pre[0].inertia).invert())),partner_angular:record(tau.clone().multiplyScalar(-c.dt).applyMatrix3(tensor(c.pre[1].rotation,c.pre[1].principal_frame,c.pre[1].inertia).invert())),torso_linear:{x:0,y:0,z:0},partner_linear:{x:0,y:0,z:0},constraint_impulse_Ns:{x:0,y:0,z:0}};
+    for(const k of Object.keys(expected))assert.ok(V(expected[k]).distanceTo(V(c.oracle[k]))<1e-12,'Corrupt analytic oracle');
     assert.equal(c.dt,Math.fround(CONFIG.dt_s));close(c.cap_norm_Nm,V(c.requested_world_Nm).length());assert.ok(c.cap_norm_Nm<=CONFIG.cap_Nm+CONFIG.tolerances.cap);
     close(c.discrete_momentum_residual,momentum(c.post,c.pre).sub(momentum(c.pre)).length());close(c.physical_momentum_residual,momentum(c.post).sub(momentum(c.pre)).length());close(c.physical_resolution_bound,rotationBound(c.pre,c.post)+CONFIG.tolerances.discrete_momentum);
     close(c.velocity_error,Math.max(V(c.post[0].angular_velocity).distanceTo(V(c.oracle.torso_angular)),V(c.post[1].angular_velocity).distanceTo(V(c.oracle.partner_angular)),V(c.post[0].linear_velocity).distanceTo(V(c.oracle.torso_linear)),V(c.post[1].linear_velocity).distanceTo(V(c.oracle.partner_linear))));
