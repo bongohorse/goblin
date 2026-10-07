@@ -565,3 +565,8 @@ Separately, local evidence justifies proposing the original small-tilt behavior
 study; outcome unknown, original thresholds retained, no precision envelope
 required for that narrow claim. Proposed protocol is unexecuted, #60 still needs
 a separate execution order; no controller/Standing approval.
+
+
+## Issue79: frozen local small-tilt result (2026-10-07)
+
+The Issue77 proposal was preregistered with clean harness7534e4e473b0371d4e54da553dd59b6ef4abbf6e and executed once:75 fresh worlds/18330 steps, no tuning or extra worlds. All50 core on/off repeats satisfy the original strict terminal criteria;15 motion controls and five wrong-sign/five missing-reaction negatives pass their scoped audits. Worst on final tilt0.0012776867401871105rad and transverse speed0.0010753405532686344rad/s; off drift<=1.0184203577678907e-8rad. This establishes local_smalltilt_supported for the unchanged two-body fixture only. Partner motion remains significant (endpoint speed up to0.8537436605789117rad/s); energy/H/partner behavior are descriptive, no new bounds or engine certification. Original16False/native54 remain. No general controller, Standing, COM/Hip/Yaw, FullRig, recovery or get-up release. Parent60 stays open; no automatic continuation. Full preregistration, raw lossless archive, strict reader and decision: [smalltilt79/decision.md](standing-lab/smalltilt79/decision.md), DraftPR80/Issue79.

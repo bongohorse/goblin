@@ -1,0 +1,27 @@
+{
+  "valid": true,
+  "rejected": [
+    "missing world",
+    "duplicate world",
+    "wrong order",
+    "missing step",
+    "phase duplicate",
+    "modified torque",
+    "dt multiplication",
+    "wrong PRE",
+    "wrong POST",
+    "false terminal",
+    "fake approval",
+    "fake decision",
+    "metadata hash",
+    "wrong harness",
+    "nonfinite",
+    "unknown state field",
+    "false H",
+    "false reference",
+    "unknown config getter"
+  ],
+  "new_worlds": 0,
+  "original_driver_noop_fixture_retained": true,
+  "corrected_driver": "scripts/smalltilt79-stored-regressions.mjs"
+}

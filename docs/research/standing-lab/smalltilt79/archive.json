@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "encoding": "gzip-split-v1",
+  "harness_head": "7534e4e473b0371d4e54da553dd59b6ef4abbf6e",
+  "uncompressed_bytes": 287397917,
+  "uncompressed_sha256": "25be46c8779a3b9c8c0f5b21f3682c4eaa9626d13b1cf6eec4afd72c7ceb69bb",
+  "gzip_bytes": 11926410,
+  "gzip_sha256": "5fd8848d3e3aa692da2a7791799be3e24b4906a75e7e1d527e68c3f7189d79a9",
+  "parts": [
+    {
+      "path": "raw.json.gz.part-000",
+      "bytes": 524288,
+      "sha256": "f376dede3cc24e8e45633cc5899cfc7ee827771eb4c677ef935a753a82349094"
+    },
+    {
+      "path": "raw.json.gz.part-001",
+      "bytes": 524288,
+      "sha256": "1ae5ac2044612853f5f9ebf222ff6caec9c6faa01603a31c327fbb3a0114e17b"
+    },
+    {
+      "path": "raw.json.gz.part-002",
+      "bytes": 524288,
+      "sha256": "8eeef54c963093b1a531a6bad5e0199fd065634e682cd74e9eaa218fe65e42a0"
+    },
+    {
+      "path": "raw.json.gz.part-003",
+      "bytes": 524288,
+      "sha256": "88fb843a910a9ae04abb24672747d5d42726d4e0b9cb7e5205b297f5b79b19b6"
+    },
+    {
+      "path": "raw.json.gz.part-004",
+      "bytes": 524288,
+      "sha256": "204cc7f43a4b2224d2248fc705c41dcb0e20a767ef15137c7bd3efeea93e592a"
+    },
+    {
+      "path": "raw.json.gz.part-005",
+      "bytes": 524288,
+      "sha256": "ce816557e7c71634ece1ce6d4773428ec993650b3122541620151f1ef1dcf0ae"
+    },
+    {
+      "path": "raw.json.gz.part-006",
+      "bytes": 524288,
+      "sha256": "ce0899740369d6438405abef40a06d4dea436e29bf4c9fab6ee9aa29bf3f02de"
+    },
+    {
+      "path": "raw.json.gz.part-007",
+      "bytes": 524288,
+      "sha256": "2c8ae2637c839e8de02383286a262cda920bff91ac8c26c6b55681bb04541a9f"
+    },
+    {
+      "path": "raw.json.gz.part-008",
+      "bytes": 524288,
+      "sha256": "95e699226ecc10b1a768ca23b4eed6a18ff55d34788ed6274477f966af962776"
+    },
+    {
+      "path": "raw.json.gz.part-009",
+      "bytes": 524288,
+      "sha256": "404b039bfb5bfd789b9e633fefe2ef6f9fc885525407eb62c16692b4c9aa596b"
+    },
+    {
+      "path": "raw.json.gz.part-010",
+      "bytes": 524288,
+      "sha256": "719049d252995af2787d5fe707a88714b72f3e47ed1941918d399483f92ccd40"
+    },
+    {
+      "path": "raw.json.gz.part-011",
+      "bytes": 524288,
+      "sha256": "e28d82c10589f41d7b0352ced9eac333cb4752b07e47bcdeb87bf5a7230c115c"
+    },
+    {
+      "path": "raw.json.gz.part-012",
+      "bytes": 524288,
+      "sha256": "36a6b993f9e71947ec780d80c4988860b2d4ed1c702f78e70b200b196dc25f74"
+    },
+    {
+      "path": "raw.json.gz.part-013",
+      "bytes": 524288,
+      "sha256": "07444b7e8230f6b59df16319e2aa157c96e1a7b7de62a092a101a444b8260187"
+    },
+    {
+      "path": "raw.json.gz.part-014",
+      "bytes": 524288,
+      "sha256": "eff743fb22b8feca5a8a280fe6fa4c85fb44027024da16421df9e0805af4c685"
+    },
+    {
+      "path": "raw.json.gz.part-015",
+      "bytes": 524288,
+      "sha256": "e5dfbc9af392b43e0bd9438253f4c410090377760610faf8d738beb7c9c32436"
+    },
+    {
+      "path": "raw.json.gz.part-016",
+      "bytes": 524288,
+      "sha256": "b0edaabb1e8e0e666ed6aac971118a218124611a39e61b29ea752b9013287cb0"
+    },
+    {
+      "path": "raw.json.gz.part-017",
+      "bytes": 524288,
+      "sha256": "f94c6ffe1cee56b1614ec5861b976c27ca169a848f325b68085d68e971a59390"
+    },
+    {
+      "path": "raw.json.gz.part-018",
+      "bytes": 524288,
+      "sha256": "e179e43727b4fddc9f7d0a7b49f5a168607b3eeb6e94dfb2ab5b2799faa30d45"
+    },
+    {
+      "path": "raw.json.gz.part-019",
+      "bytes": 524288,
+      "sha256": "e6bd9d052fddf94dc000396dd8aa7ab1ca789afa87219100d662962d3b7db8ed"
+    },
+    {
+      "path": "raw.json.gz.part-020",
+      "bytes": 524288,
+      "sha256": "93acd705fea783c5ff7c0811abed59df3cb029299ad117e3320f9bc3e0962137"
+    },
+    {
+      "path": "raw.json.gz.part-021",
+      "bytes": 524288,
+      "sha256": "279796343270604403d9d939565ef65c2c1283a376a33b8064d118c00c1053d4"
+    },
+    {
+      "path": "raw.json.gz.part-022",
+      "bytes": 392074,
+      "sha256": "5ae43405874ceb93615ef1a3dfbcd4186d3b5c1b443b7b234360d848546dcbb0"
+    }
+  ]
+}

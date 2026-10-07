@@ -1,0 +1,59 @@
+{
+  "valid": true,
+  "total": 100,
+  "manifests": [
+    {
+      "path": "docs/research/standing-lab/torso-torque60/sha256.json",
+      "entries": 5,
+      "uncovered_legacy": [
+        "README.md"
+      ]
+    },
+    {
+      "path": "docs/research/standing-lab/finite-step66/sha256.json",
+      "entries": 9,
+      "uncovered_legacy": []
+    },
+    {
+      "path": "docs/research/standing-lab/review68/sha256.json",
+      "entries": 14,
+      "uncovered_legacy": [
+        "README.md"
+      ]
+    },
+    {
+      "path": "docs/research/standing-lab/target-study52/sha256.json",
+      "entries": 22,
+      "uncovered_legacy": [
+        "README.md"
+      ]
+    },
+    {
+      "path": "docs/research/standing-lab/gate-b72/sha256.json",
+      "entries": 12,
+      "uncovered_legacy": []
+    },
+    {
+      "path": "docs/research/standing-lab/actuation74/sha256.json",
+      "entries": 10,
+      "uncovered_legacy": []
+    },
+    {
+      "path": "docs/research/standing-lab/actuation75/sha256.json",
+      "entries": 11,
+      "uncovered_legacy": []
+    },
+    {
+      "path": "docs/research/standing-lab/review77-manifest/sha256.json",
+      "entries": 4,
+      "uncovered_legacy": []
+    },
+    {
+      "path": "docs/research/standing-lab/review77/sha256.json",
+      "entries": 13,
+      "uncovered_legacy": []
+    }
+  ],
+  "baseline_runtime_source_unchanged": true,
+  "coverage": "same nine-directory 100-entry stack verified in Issue78; earlier native/model archives are historical and unchanged"
+}
