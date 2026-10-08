@@ -1,5 +1,7 @@
 # Issue84 — scoped FullRig execution
 
+**BLOCKED after the single registered attempt. Do not rerun.** [Decision](decision.json), [final review/finding](gate-c-review.md), [original execution hashes](execution/sha256.json):1 allocation/0 public steps; public matrix backing array16 vs6 serialization assumption. No physical result, no controller/Standing approval. Gate-A text below records the pre-execution state.
+
 2026-10-08. Accepted plan: PR85 head adb784c17b8bf03a027c2300f57ee6d17456500c, tree ff953adc8670bc4ba154c759db48bf5401c72bc7. Implementation is stacked on that exact unmerged head; base main/physical-source revision2abd3db7a339666a6ca0fc1d5618712cd4d6f09c. Updated Issue84 explicitly activates Gates A/B/C without further user Go. [Frozen protocol](../fullrig83/protocol.md) and [ordered90 IDs](../fullrig83/plan.json) remain byte-identical.
 
 ## Gate A — zero study allocations

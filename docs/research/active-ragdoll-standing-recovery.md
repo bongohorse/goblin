@@ -600,3 +600,10 @@ no execution: [separate handoff](standing-lab/fullrig83/execution-handoff.md) re
 explicit new order, reviewed implementation and clean preregistered source/config/
 protocol/IDs before allocation1. No tuning/Standing/FullRig/general controller
 release; #60/#30/#31 remain open.
+
+
+## Issue84: scoped FullRig execution blocked before step1 (2026-10-08)
+
+[Preregistered runner and first-blocker report](standing-lab/fullrig84/decision.json), [review](standing-lab/fullrig84/gate-c-review.md). Exact accepted PR85 plan, clean harness4036edc4922a0f3b81792ab922b5db95af31e974, one single execution:1 fresh-world allocation/0 public steps. First wrong-sign/free32/pitch case fails initial stored-state validation: public SdpMatrix3 backing buffer has16 slots whereas the harness serialized it as a six-element matrix. Pinned0.21 math.ts and installed runtime explain the getter layout; this is an implementation/extraction blocker, not a physical failure or certified engine error. Full original initial/partial states/exception and hashes retained.
+
+No command or POST occurred; all negative discrimination, free32 pairs, fb32 response/secondary/repeatability criteria remain unmeasured.89 IDs unattempted, no retry/tuning/fix-and-rerun. Decision no_tuning_handoff, no benefit/instability/Standing/general-controller claim. A new explicit order would need named public matrix extraction, a16-slot stored regression, reviewed clean refreeze and separate execution permission. No automatic continuation; #84 remains technically blocked, #60/#30/#31 open.

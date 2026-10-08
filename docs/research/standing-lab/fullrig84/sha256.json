@@ -1,11 +1,15 @@
 {
-  "README.md": "bc3a7f5ad728124b4db7cf536e0978eb35cfab96cb9600919efa8c891994425a",
+  "README.md": "7ff0d5cdf8df536853c28d44b6e5e8505211f23cd4e006fe3a4f87db62c6213a",
+  "blocker-source-pins.json": "8c1e7e1faa13de67627be7ae62e0a112aca96633ee251545df9ede30d3abf379",
   "build-inputs.json": "c528541f0441f1b61f4df73c8965ae635fc824cd42df8d8e26b4d1b28a2d1ae6",
   "checks.json": "ae05022859d034fe122cba8200d3f4f8a359ae6d46a2ce3d529b420b2da3aad8",
   "config.json": "5bd0bb497a2440fb7a96f0db032749574282f678e4921280958148c48b85c4d0",
   "config.schema.json": "59cd2e8a52aef88568051c3393848ebb177a27a572c68308a1a1f83f43f0d5e8",
+  "decision.json": "53437068be147dd97cbbc9cb05be6b70eaee25fdb0c85932d638ff2bbf2ca950",
+  "failure-reader.json": "d6eecdfed1d9bc1a617ba78845ca066c33a3997a63da9bb98f2eb178a65e14ad",
   "failure.schema.json": "ac5624f21a51cd07b40e0fe18c7dcf14be44f1acab7004cb8cafc3539e487583",
   "gate-a-review.md": "42f51ee6784383183d4c0e76913cfc1663f382cfe4db33910abad72a0687eec7",
+  "gate-c-review.md": "5296b0a55620db963a9abfd3a668baa300410a1260889c2537a0fb67f77bee3d",
   "preflight.json": "f7c4c42c54e9e2988b16e8e289e1e117759cf208c9fc7fd3532b806a9890881d",
   "result.schema.json": "3de70722bb301f570cbc5fb03b8f763b278cbef6f2bee1b0fbce89df8cff3538",
   "stored-checks.json": "13a4914031ec6acb3ed13f0b019e49c00a7e242c119501a5ea3e95e5e56ca826"
