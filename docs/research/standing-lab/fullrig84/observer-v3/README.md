@@ -2,7 +2,7 @@
 
 **Geprüfter Befund: completed_negative.** Genau eine neue 90-Fälle-Matrix, 90 Studienallokationen /2645 öffentliche Steps. Null, Yaw und Pitch fail; Roll inconclusive. Kein On-Fall erreicht den eingefrorenen 360-Schritte-Horizont. Alle motorisierten Welten stoppen lokal an der unveränderten COM-Driftgrenze 0.0325m, bevor ein Nicht-Fuß-Körper den Boden berührt. Das bewertet diese Konfiguration mit Cap 0.0016907462686567168Nm; es verbietet keinen allgemeinen Torso-Pelvis-Controller.
 
-Sauberer vorab veröffentlichter Harness: f459973c3a9e293fc82397190c9039adff3eca21; Tree9f2d16a17fafcd29e98cbacfe3299d5be1180ea9; [Präregistrierung](execution/preregistration.json) vor Allocation1 in #84 veröffentlicht (Datei-SHA256 d9f3fa7fbd610fb60dc2cde821eeb085c7737f17b426e04d63d2f9ffb21bc8e6). Node24.21.0, Windows PC, Rapier0.21.0, Upstream b716d375efc0201003f0cd9ef7168eee0b62c177. Der Stack auf PR85 bleibt unverändert. Kein Tuning, Matrix-Rerun, Merge oder Deployment.
+Sauberer vorab veröffentlichter Harness: f459973c3a9e293fc82397190c9039adff3eca21; Tree9f2d16a17fafcd29e98cbacfe3299d5be1180ea9; [Präregistrierung](execution/preregistration.json) vor Allocation1 in #84 veröffentlicht (externe veröffentlichte Pretty-JSON-Datei: SHA256 d9f3fa7fbd610fb60dc2cde821eeb085c7737f17b426e04d63d2f9ffb21bc8e6; das archivierte kompakte JSON ist semantisch identisch und hat SHA256 05a12bc037ef3365728e21270b1a17458f1d6b241eb9557a21ad01dff7273e85). Node24.21.0, Windows PC, Rapier0.21.0, Upstream b716d375efc0201003f0cd9ef7168eee0b62c177. Der Stack auf PR85 bleibt unverändert. Kein Tuning, Matrix-Rerun, Merge oder Deployment.
 
 ## Messung und Referenzen
 

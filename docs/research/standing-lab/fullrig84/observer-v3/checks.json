@@ -5,7 +5,9 @@
     "tree": "9f2d16a17fafcd29e98cbacfe3299d5be1180ea9",
     "clean": true,
     "preregistration_sha256": "05a12bc037ef3365728e21270b1a17458f1d6b241eb9557a21ad01dff7273e85",
-    "source_count": 153
+    "source_count": 153,
+    "external_published_preregistration_sha256": "d9f3fa7fbd610fb60dc2cde821eeb085c7737f17b426e04d63d2f9ffb21bc8e6",
+    "archived_preregistration_serialization": "compact JSON; semantic object identical to externally published Pretty JSON"
   },
   "postreview_source_hashes": {
     "scripts/fullrig84-reader.mjs": "9aff348c88d76b8cd4bee1ff83653abfeed181c849d45b77692c949267a78986",
