@@ -85,9 +85,11 @@ Standing time is measured from simulation start until the **first floor contact 
 
 - Foot-floor contacts are allowed and expected.
 - The first hand, knee, shin, pelvis, torso, head, arm or other non-foot floor contact ends the run.
-- Record the exact elapsed time for every run.
+- Record the elapsed simulation time and termination reason for every run.
 - **60.0 seconds or more passes the Standing *time criterion*, not necessarily full Standing acceptance.** Meaningful support, bounded drift/joints/effort, repeatability and acceptable cost remain mandatory under #30; see [Glossary](../GLOSSARY.md).
 - Shorter runs remain valid measurements for regression and A/B comparison; they are not separate pass gates.
+
+Report observed duration, termination reason and first non-foot contact separately. If a valid run stops without observing that contact (including timeout or a drift stop), its contact time is right-censored at the observed duration, not a measured fall time. A drift-limit violation remains an acceptance FAIL even if no contact occurs; whether observation stops or continues is determined only by the scoped protocol. Invalid measurements provide no valid contact-time bound. Contact times are resolved at the fixture's fixed-step/observer resolution, not an exact continuous collision instant. Preserve historical exports and measurement versions; this clarification does not change schemas, thresholds or stop rules.
 
 Expose at minimum:
 

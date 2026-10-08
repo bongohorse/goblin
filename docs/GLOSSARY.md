@@ -12,7 +12,11 @@ Domain language for the game and its physics experiments.
 
 **Standing Lab**: The Physics Lab dedicated to investigating reliable Goblin standing.
 
-**Standing time**: Simulation time until the first floor contact by a Goblin body part other than the feet.
+**Standing time**: Simulation time until the first floor contact by a Goblin body part other than the feet. A valid stopped observation without that contact gives a lower bound, not an observed contact time. Invalid measurements establish no valid bound.
+
+**Observed duration**: Simulation time actually observed before a run ends. It may end at contact, timeout, a protocol failure or a safety/technical stop.
+
+**Right-censored contact time**: In a valid observation, the first non-foot contact was not observed before the run stopped; its time is unknown beyond the observed duration. This does not turn a failed acceptance criterion into a pass.
 
 **Baseline**: A reproducible reference experiment used to detect regressions and compare changes. It need not meet Standing acceptance.
 

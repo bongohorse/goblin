@@ -17,6 +17,14 @@ Prefer the **least complicated reliable implementation** that yields good player
 
 **Label the mode and any gameplay assistance** in debugging, PR descriptions, measurements and reports. A gameplay pass must never be reported as a scientific Standing pass. Do not change archived run data, numerical research thresholds, issue budgets, experiment stops or research branch scope to accommodate a game prototype.
 
+## Current implementation versus permitted future solutions
+
+The options above are permission to evaluate a scoped future solution, not evidence that it already exists. The arena builds a procedural 15-body/14-joint dynamic rig in `src/goblin-rig.js` and `src/main.js`; no standing, locomotion or recovery controller is integrated. `src/runtime.js` manages timing, rounds and fall scoring, not movement states. The [rig/asset contract](goblin-rig-contract.md) reserves future bones/clips; an imported skeletal/clip pipeline, IK and animation/physics handoffs are not implemented.
+
+The Standing Lab builds a separate world from `docs/research/standing-lab/baseline-config.json` and may use `NativePoseHold`. Shared body IDs/counts do not prove transfer: arm bind poses/anchors differ from the arena, and motor experiments have their own solver/controller configuration. Any transfer requires explicit compatibility checks for the scoped solution.
+
+Current `ContactGrab.begin()` and collider picking in `src/grab.js` accept dynamic bodies only. A kinematic anchor drives a bounded spring connection to the selected dynamic body; this does not implement grabbing an animation-owned or kinematic character. Future handoffs must define how grab selection/connection, velocity, joints, collisions, interruption and reset remain consistent. Existing dynamic reset/cancel handling is not proof of hybrid transitions. No new prototype, research run or release is authorized by this policy; the governing issue/user scope still applies.
+
 ## Implementation boundaries
 
 - **One owner per transform per state.** Document who owns animation bones, root/body poses, rigid bodies, velocities, colliders and joint motors during idle/upright, grab/drag, impact, ragdoll fall, get-up and return to locomotion. Three.js must not silently overwrite a Rapier-owned dynamic body; use an explicit tested handoff for assisted/kinematic states.

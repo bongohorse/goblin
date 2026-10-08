@@ -43,9 +43,11 @@ The primary metric is **time until first non-foot ground contact**:
 - start timing when the standing simulation begins;
 - allow normal foot-floor contact;
 - stop at the first floor contact by any other Goblin body part;
-- record the exact elapsed time for every run;
+- record elapsed simulation time and termination reason for every run;
 - **60.0 seconds or more = passes the Standing time criterion**; full acceptance additionally requires the conditions below;
 - shorter times are useful comparison data, but are not passing gates.
+
+A stop before first non-foot contact gives a right-censored contact time, not a measured fall time. Record observed duration and the actual stop reason separately; drift FAIL and contact failure are different events. Timeout may establish the 60-second time criterion without full acceptance. Follow the scoped protocol for stopping or bounded continued observation; invalid measurements establish no valid contact-time bound. Times retain their fixed-step/observer resolution and historical measurement version. See [Standing Lab measurement semantics](../development/labs.md#primary-standing-metric).
 
 A standing solution is accepted only when it:
 
