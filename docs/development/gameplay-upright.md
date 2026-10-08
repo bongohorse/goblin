@@ -64,7 +64,7 @@ Der lesende Observer reicht native Setter unverändert weiter. Bei Griff/Stark: 
 Das belegt native Abschaltbefehle plus beobachtete freie Dynamik, **keine separat gemessenen solverinternen Motorimpulse**. `contactCollider` mit Abstand ≤5 mm ist geometrische Nähe, kein Fußlast-/Kontaktimpulsnachweis.
 
 Aufgezeichnete Buildrevision **e45ab3103b7aeb42353aaf4ad94cc8355c1ce780**, Controller SHA256 **4b3117d5584eab803ccb94ad611c5361ef5e80f1496982bfc59a2e90ddc5df71**.
-Nach den acht Sequenzen im Selbstreview ausschließlich UI-Texte präzisiert (vorgemerkt/ausgelöst, sichtbare Zeit, letzter Step vor Fensterpause) und Runner-Ledger/Fehlersicherung nachgebessert. **Keine zusätzliche Dynamikprüfung dieser UI-Fassung**; Assist- und Sessionphysik unverändert. Build/Unitchecks und pausierte Darstellung dienen der abschließenden Prüfung. Native Rohdaten/Clips bleiben an ihrer ursprünglichen Buildidentität.
+Nach den acht Sequenzen im Selbstreview ausschließlich UI-Texte präzisiert (vorgemerkt/ausgelöst, sichtbare Zeit, letzter Step vor Fensterpause) und Runner-Ledger/Fehlersicherung nachgebessert. **Keine zusätzliche Dynamikprüfung dieser UI-Fassung**; Assist- und Sessionphysik unverändert. Build/Unitchecks und pausierte Darstellung dienen der abschließenden Prüfung. Nach rein pausiertem Layoutcheck kurze Querformat-HUD-Darstellung kompakter gemacht; 744×360 ohne horizontales Overflow, Hauptaktionen sichtbar, kein zusätzlicher Physikstep. Native Rohdaten/Clips bleiben an ihrer ursprünglichen Buildidentität.
 
 [Unveränderte Browser-Rohdaten, gzip](gameplay-upright-browser-evidence.json.gz), entpackt SHA256 `af7bef5cc6aef32cea20ebdfc860eb59555d9c317cf73b70ca0be50f81654c99`.
 Entpacken ohne Versuch:
