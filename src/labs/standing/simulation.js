@@ -1,7 +1,7 @@
 import RAPIER from '@dimforge/rapier3d-compat';
 import {BASELINE,validateConfig,validateResult,configIdentity,canonical} from './config.js';
 import {vec,norm,sub,jointObservation,freeze} from './math.js';
-import {observe,termination,timingStats} from './measurement.js';
+import {observe,termination,timingStats,MEASUREMENT_VERSION} from './measurement.js';
 import {NativePoseHold} from './motors.js';
 import {validateMotorExperiment} from './motor-config.js';
 import {validateModelExperiment,validateModelActuation} from './model-config.js';
@@ -91,7 +91,7 @@ export class StandingSimulation {
   async result(){
     this.assertLive();
     // Capture synchronously before hash awaits: reset/export races cannot mix runs.
-    const result={schema_version:1,run_id:this.runId,run_index:this.metadata.run_index??1,rig_id:this.config.rig_id,controller_id:'none',config:structuredClone(this.config),git_commit:this.metadata.git_commit??'0000000000000000000000000000000000000000',dirty:this.metadata.dirty??true,build_id:this.metadata.build_id??'unspecified',rapier_js_version:RAPIER.version(),rapier_upstream_commit:'b716d375efc0201003f0cd9ef7168eee0b62c177',fixed_dt:this.config.fixed_dt,solver_config:structuredClone(this.config.solver_config),simulation_steps:this.steps,observed_time:this.time,...(this.terminal??{termination_reason:'incomplete',failure_reason:null,failure_bodies:[],failure_body:null,failure_step:null,standing_time:null,invalid_detail:null}),fall_cause:'unknown',telemetry:structuredClone(this.telemetry),physics_timing:timingStats(this.physicsTimes),observation_timing:timingStats(this.observationTimes),platform:structuredClone(this.metadata.platform??{os:'unspecified',runtime:'unspecified',host:'unspecified',user_agent:null}),checkpoints:structuredClone(this.checkpoints),unreached_checkpoints:[0,1,10,30,60].filter(n=>!this.checkpoints.some(c=>c.step===n))};
+    const result={schema_version:1,measurement_version:MEASUREMENT_VERSION,run_id:this.runId,run_index:this.metadata.run_index??1,rig_id:this.config.rig_id,controller_id:'none',config:structuredClone(this.config),git_commit:this.metadata.git_commit??'0000000000000000000000000000000000000000',dirty:this.metadata.dirty??true,build_id:this.metadata.build_id??'unspecified',rapier_js_version:RAPIER.version(),rapier_upstream_commit:'b716d375efc0201003f0cd9ef7168eee0b62c177',fixed_dt:this.config.fixed_dt,solver_config:structuredClone(this.config.solver_config),simulation_steps:this.steps,observed_time:this.time,...(this.terminal??{termination_reason:'incomplete',failure_reason:null,failure_bodies:[],failure_body:null,failure_step:null,standing_time:null,invalid_detail:null}),fall_cause:'unknown',telemetry:structuredClone(this.telemetry),physics_timing:timingStats(this.physicsTimes),observation_timing:timingStats(this.observationTimes),platform:structuredClone(this.metadata.platform??{os:'unspecified',runtime:'unspecified',host:'unspecified',user_agent:null}),checkpoints:structuredClone(this.checkpoints),unreached_checkpoints:[0,1,10,30,60].filter(n=>!this.checkpoints.some(c=>c.step===n))};
     if(this.experiment)Object.assign(result,{schema_version:this.experiment.schema_version,controller_id:this.experiment.controller_id,config:structuredClone(this.experiment),solver_config:structuredClone(this.experiment.solver_config),motor_commands_timing:timingStats(this.commandTimes)});
     // Motor tracking must have body evidence at the clicked step, including
     // incomplete exports between scheduled checkpoints. Do not mutate the run.

@@ -1,0 +1,14 @@
+{
+  "mode": "controls",
+  "allocations": 5,
+  "public_steps": 272,
+  "summaries": [
+    {
+      "id": "drop-rest-release",
+      "steps": 244,
+      "began": true,
+      "cachedWhileTouching": true,
+      "releasedWithCache": true
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "kind": "diagnostic_failure",
+  "error": "Geometric comparison assertion followed by ReferenceError last_sample is not defined in diagnostic catch; world freed by finally",
+  "allocation_ordinal": 3,
+  "world_steps": 8,
+  "partial_state": null,
+  "claim": "invalid diagnostic, retained; no controller evidence"
+}

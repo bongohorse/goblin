@@ -2,7 +2,7 @@
 import R from '@dimforge/rapier3d-compat';
 import {StandingSimulation,colliderDesc} from '../src/labs/standing/simulation.js';
 import {NativePoseHold,neutralMotorConfig} from '../src/labs/standing/motors.js';
-import {floorContacts} from '../src/labs/standing/measurement.js';
+import {floorObservation} from '../src/labs/standing/measurement.js';
 import {jointObservation} from '../src/labs/standing/math.js';
 import {RIG,PLAN,initialBody,law,v,obj} from './fullrig84-model.mjs';
 // Copy immediately: Rapier 0.21.0 aliases a shared 16-slot scratch buffer.
@@ -29,7 +29,8 @@ export class StudyWorld {
 
   const floor_manifolds=[];if(!initial)for(const {spec,collider} of this.bodies.values())this.world.contactPair(this.floor,collider,(m,flipped)=>{floor_manifolds.push({body_id:spec.id,flipped,normal:{...m.normal()},contacts:Array.from({length:m.numContacts()},(_,i)=>({distance:m.contactDist(i),local1:{...m.localContactPoint1(i)},local2:{...m.localContactPoint2(i)},impulse:m.contactImpulse(i)}))});});
 
-  return {step:this.steps,observed_time:this.steps*PLAN.nominal_dt,settings:this.settings(),bodies,joints,floor_contacts:floorContacts(this.world,this.floor,es,initial),self_contacts,floor_manifolds,motor_tracking:this.motor?this.motor.tracking():null,native_effort:null,native_effort_reason:'Supported API cannot separate native motor/contact/limit solver impulses',cpu_ms:null};
+  const floor_observation=floorObservation(this.world,this.floor,es,initial);
+  return {floor_observation,step:this.steps,observed_time:this.steps*PLAN.nominal_dt,settings:this.settings(),bodies,joints,floor_contacts:floor_observation.contacts,self_contacts,floor_manifolds,motor_tracking:this.motor?this.motor.tracking():null,native_effort:null,native_effort_reason:'Supported API cannot separate native motor/contact/limit solver impulses',cpu_ms:null};
  }
  clear(){for(const {body}of this.bodies.values())body.resetTorques(true);return this.readback();}
  readback(){return [...this.bodies.values()].map(({spec,body})=>({id:spec.id,torque:{...body.userTorque()},force:{...body.userForce()}}));}

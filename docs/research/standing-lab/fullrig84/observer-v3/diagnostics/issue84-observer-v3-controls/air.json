@@ -1,0 +1,106 @@
+{
+  "kind": "diagnostic_not_controller_selection",
+  "id": "air",
+  "rows": [
+    {
+      "step": 1,
+      "phase": "air",
+      "independent_gap": 0.050000011920928955,
+      "momentum_impulse": 0,
+      "observation": {
+        "measurement_version": "current-geometry-interval-support-v2",
+        "geometry_time": "current_pose",
+        "impulse_time": "last_completed_step",
+        "dt": 0.01666666753590107,
+        "bodies": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "current_geometry": null,
+            "current_touching": false,
+            "candidates": [],
+            "solver_contacts": [],
+            "interval_normal_impulse": 0,
+            "interval_vertical_mean_load": 0
+          }
+        ],
+        "contacts": []
+      }
+    },
+    {
+      "step": 2,
+      "phase": "air",
+      "independent_gap": 0.050000011920928955,
+      "momentum_impulse": 0,
+      "observation": {
+        "measurement_version": "current-geometry-interval-support-v2",
+        "geometry_time": "current_pose",
+        "impulse_time": "last_completed_step",
+        "dt": 0.01666666753590107,
+        "bodies": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "current_geometry": null,
+            "current_touching": false,
+            "candidates": [],
+            "solver_contacts": [],
+            "interval_normal_impulse": 0,
+            "interval_vertical_mean_load": 0
+          }
+        ],
+        "contacts": []
+      }
+    },
+    {
+      "step": 3,
+      "phase": "air",
+      "independent_gap": 0.050000011920928955,
+      "momentum_impulse": 0,
+      "observation": {
+        "measurement_version": "current-geometry-interval-support-v2",
+        "geometry_time": "current_pose",
+        "impulse_time": "last_completed_step",
+        "dt": 0.01666666753590107,
+        "bodies": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "current_geometry": null,
+            "current_touching": false,
+            "candidates": [],
+            "solver_contacts": [],
+            "interval_normal_impulse": 0,
+            "interval_vertical_mean_load": 0
+          }
+        ],
+        "contacts": []
+      }
+    },
+    {
+      "step": 4,
+      "phase": "air",
+      "independent_gap": 0.050000011920928955,
+      "momentum_impulse": 0,
+      "observation": {
+        "measurement_version": "current-geometry-interval-support-v2",
+        "geometry_time": "current_pose",
+        "impulse_time": "last_completed_step",
+        "dt": 0.01666666753590107,
+        "bodies": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "current_geometry": null,
+            "current_touching": false,
+            "candidates": [],
+            "solver_contacts": [],
+            "interval_normal_impulse": 0,
+            "interval_vertical_mean_load": 0
+          }
+        ],
+        "contacts": []
+      }
+    }
+  ]
+}
