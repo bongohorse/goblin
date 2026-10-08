@@ -1,0 +1,2820 @@
+{
+  "schema_version": 2,
+  "study_head": "72592c5008e1844acecead82bf71e137b9296a4c",
+  "decision": "technical_measurement_blocker_no_rerun",
+  "failure_check": {
+    "kind": "partial_failure_no_pass",
+    "attempts": 61,
+    "public_steps": 448,
+    "decision": {
+      "kind": "execution_blocker",
+      "reason": "command:The expression evaluated to a falsy value:\n\n  assert.ok(norm(v)<=cap&&exactWithinCap(v,cap))\n",
+      "ordinal": 61,
+      "id": "fullrig83/fb32/yaw/off/1"
+    },
+    "phase": "command",
+    "failed_world": "fullrig83/fb32/yaw/off/1",
+    "behavioral_claim": false,
+    "new_reader_worlds": 0,
+    "original_raw_preserved": true
+  },
+  "independent_prefix_audit": {
+    "decision": {
+      "kind": "pending",
+      "ordinal": 61,
+      "reason": null
+    },
+    "attempts": 61,
+    "steps": 448,
+    "new_reader_worlds": 0
+  },
+  "raw_records_verified": 2303,
+  "study_allocations": 61,
+  "study_steps": 448,
+  "diagnostic_allocations": 2,
+  "diagnostic_steps": 2,
+  "prior_failed_allocations": 1,
+  "package_allocations": 64,
+  "unattempted_ids": [
+    "fullrig83/fb32/yaw/on/1",
+    "fullrig83/fb32/yaw/off/2",
+    "fullrig83/fb32/yaw/on/2",
+    "fullrig83/fb32/yaw/off/3",
+    "fullrig83/fb32/yaw/on/3",
+    "fullrig83/fb32/yaw/off/4",
+    "fullrig83/fb32/yaw/on/4",
+    "fullrig83/fb32/yaw/off/5",
+    "fullrig83/fb32/yaw/on/5",
+    "fullrig83/fb32/pitch/off/1",
+    "fullrig83/fb32/pitch/on/1",
+    "fullrig83/fb32/pitch/off/2",
+    "fullrig83/fb32/pitch/on/2",
+    "fullrig83/fb32/pitch/off/3",
+    "fullrig83/fb32/pitch/on/3",
+    "fullrig83/fb32/pitch/off/4",
+    "fullrig83/fb32/pitch/on/4",
+    "fullrig83/fb32/pitch/off/5",
+    "fullrig83/fb32/pitch/on/5",
+    "fullrig83/fb32/roll/off/1",
+    "fullrig83/fb32/roll/on/1",
+    "fullrig83/fb32/roll/off/2",
+    "fullrig83/fb32/roll/on/2",
+    "fullrig83/fb32/roll/off/3",
+    "fullrig83/fb32/roll/on/3",
+    "fullrig83/fb32/roll/off/4",
+    "fullrig83/fb32/roll/on/4",
+    "fullrig83/fb32/roll/off/5",
+    "fullrig83/fb32/roll/on/5"
+  ],
+  "negative_controls": 10,
+  "motor_free_command_worlds": 40,
+  "completed_motor_worlds": 10,
+  "partial_motor_worlds": 1,
+  "worlds": [
+    {
+      "trial": {
+        "ordinal": 1,
+        "id": "fullrig83/free32/pitch/wrong-sign/1",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "wrong-sign",
+        "repeat": 1,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "expected_negative_detected",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.04000162100713775,
+      "torso_rms_rad": 0.04000162100713775,
+      "max_torso_rad": 0.04000162100713775,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.82160023721734e-9,
+      "max_foot_drift_m": {
+        "footL": 9.313225746154785e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.00030244487293899655,
+      "max_torso_rad_s": 0.00018506686333285546,
+      "max_segment_rad_s": 0.00030244487293899655,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 2,
+        "id": "fullrig83/free32/pitch/wrong-sign/2",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "wrong-sign",
+        "repeat": 2,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "expected_negative_detected",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.04000162100713775,
+      "torso_rms_rad": 0.04000162100713775,
+      "max_torso_rad": 0.04000162100713775,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.82160023721734e-9,
+      "max_foot_drift_m": {
+        "footL": 9.313225746154785e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.00030244487293899655,
+      "max_torso_rad_s": 0.00018506686333285546,
+      "max_segment_rad_s": 0.00030244487293899655,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 3,
+        "id": "fullrig83/free32/pitch/wrong-sign/3",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "wrong-sign",
+        "repeat": 3,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "expected_negative_detected",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.04000162100713775,
+      "torso_rms_rad": 0.04000162100713775,
+      "max_torso_rad": 0.04000162100713775,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.82160023721734e-9,
+      "max_foot_drift_m": {
+        "footL": 9.313225746154785e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.00030244487293899655,
+      "max_torso_rad_s": 0.00018506686333285546,
+      "max_segment_rad_s": 0.00030244487293899655,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 4,
+        "id": "fullrig83/free32/pitch/wrong-sign/4",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "wrong-sign",
+        "repeat": 4,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "expected_negative_detected",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.04000162100713775,
+      "torso_rms_rad": 0.04000162100713775,
+      "max_torso_rad": 0.04000162100713775,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.82160023721734e-9,
+      "max_foot_drift_m": {
+        "footL": 9.313225746154785e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.00030244487293899655,
+      "max_torso_rad_s": 0.00018506686333285546,
+      "max_segment_rad_s": 0.00030244487293899655,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 5,
+        "id": "fullrig83/free32/pitch/wrong-sign/5",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "wrong-sign",
+        "repeat": 5,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "expected_negative_detected",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.04000162100713775,
+      "torso_rms_rad": 0.04000162100713775,
+      "max_torso_rad": 0.04000162100713775,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.82160023721734e-9,
+      "max_foot_drift_m": {
+        "footL": 9.313225746154785e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.00030244487293899655,
+      "max_torso_rad_s": 0.00018506686333285546,
+      "max_segment_rad_s": 0.00030244487293899655,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 6,
+        "id": "fullrig83/free32/pitch/missing-reaction/1",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "missing-reaction",
+        "repeat": 1,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "expected_negative_detected",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999892978698214,
+      "torso_rms_rad": 0.03999892978698214,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.537849093600066e-9,
+      "max_foot_drift_m": {
+        "footL": 9.313225746154785e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00007660114539078153,
+      "max_torso_rad_s": 0.00012344330447660971,
+      "max_segment_rad_s": 0.0001695785289662655,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 7,
+        "id": "fullrig83/free32/pitch/missing-reaction/2",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "missing-reaction",
+        "repeat": 2,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "expected_negative_detected",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999892978698214,
+      "torso_rms_rad": 0.03999892978698214,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.537849093600066e-9,
+      "max_foot_drift_m": {
+        "footL": 9.313225746154785e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00007660114539078153,
+      "max_torso_rad_s": 0.00012344330447660971,
+      "max_segment_rad_s": 0.0001695785289662655,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 8,
+        "id": "fullrig83/free32/pitch/missing-reaction/3",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "missing-reaction",
+        "repeat": 3,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "expected_negative_detected",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999892978698214,
+      "torso_rms_rad": 0.03999892978698214,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.537849093600066e-9,
+      "max_foot_drift_m": {
+        "footL": 9.313225746154785e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00007660114539078153,
+      "max_torso_rad_s": 0.00012344330447660971,
+      "max_segment_rad_s": 0.0001695785289662655,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 9,
+        "id": "fullrig83/free32/pitch/missing-reaction/4",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "missing-reaction",
+        "repeat": 4,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "expected_negative_detected",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999892978698214,
+      "torso_rms_rad": 0.03999892978698214,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.537849093600066e-9,
+      "max_foot_drift_m": {
+        "footL": 9.313225746154785e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00007660114539078153,
+      "max_torso_rad_s": 0.00012344330447660971,
+      "max_segment_rad_s": 0.0001695785289662655,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 10,
+        "id": "fullrig83/free32/pitch/missing-reaction/5",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "missing-reaction",
+        "repeat": 5,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "expected_negative_detected",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999892978698214,
+      "torso_rms_rad": 0.03999892978698214,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.537849093600066e-9,
+      "max_foot_drift_m": {
+        "footL": 9.313225746154785e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00007660114539078153,
+      "max_torso_rad_s": 0.00012344330447660971,
+      "max_segment_rad_s": 0.0001695785289662655,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 11,
+        "id": "fullrig83/free32/null/off/1",
+        "condition": "free32",
+        "case": "null",
+        "variant": "off",
+        "repeat": 1,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 1.8316283966166448e-7,
+      "torso_rms_rad": 1.8316283966166448e-7,
+      "max_torso_rad": 1.8316283966166448e-7,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 3.9976947495192307e-10,
+      "max_foot_drift_m": {
+        "footL": 7.450580596923828e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.000046630577013362755,
+      "max_torso_rad_s": 0.00008734965669310482,
+      "max_segment_rad_s": 0.00009386692287643444,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 12,
+        "id": "fullrig83/free32/null/on/1",
+        "condition": "free32",
+        "case": "null",
+        "variant": "on",
+        "repeat": 1,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 1.8316283966166448e-7,
+      "torso_rms_rad": 1.8316283966166448e-7,
+      "max_torso_rad": 1.8316283966166448e-7,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 3.9976947495192307e-10,
+      "max_foot_drift_m": {
+        "footL": 7.450580596923828e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.000046630577013362755,
+      "max_torso_rad_s": 0.00008734965669310482,
+      "max_segment_rad_s": 0.00009386692287643444,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 13,
+        "id": "fullrig83/free32/null/off/2",
+        "condition": "free32",
+        "case": "null",
+        "variant": "off",
+        "repeat": 2,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 1.8316283966166448e-7,
+      "torso_rms_rad": 1.8316283966166448e-7,
+      "max_torso_rad": 1.8316283966166448e-7,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 3.9976947495192307e-10,
+      "max_foot_drift_m": {
+        "footL": 7.450580596923828e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.000046630577013362755,
+      "max_torso_rad_s": 0.00008734965669310482,
+      "max_segment_rad_s": 0.00009386692287643444,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 14,
+        "id": "fullrig83/free32/null/on/2",
+        "condition": "free32",
+        "case": "null",
+        "variant": "on",
+        "repeat": 2,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 1.8316283966166448e-7,
+      "torso_rms_rad": 1.8316283966166448e-7,
+      "max_torso_rad": 1.8316283966166448e-7,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 3.9976947495192307e-10,
+      "max_foot_drift_m": {
+        "footL": 7.450580596923828e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.000046630577013362755,
+      "max_torso_rad_s": 0.00008734965669310482,
+      "max_segment_rad_s": 0.00009386692287643444,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 15,
+        "id": "fullrig83/free32/null/off/3",
+        "condition": "free32",
+        "case": "null",
+        "variant": "off",
+        "repeat": 3,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 1.8316283966166448e-7,
+      "torso_rms_rad": 1.8316283966166448e-7,
+      "max_torso_rad": 1.8316283966166448e-7,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 3.9976947495192307e-10,
+      "max_foot_drift_m": {
+        "footL": 7.450580596923828e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.000046630577013362755,
+      "max_torso_rad_s": 0.00008734965669310482,
+      "max_segment_rad_s": 0.00009386692287643444,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 16,
+        "id": "fullrig83/free32/null/on/3",
+        "condition": "free32",
+        "case": "null",
+        "variant": "on",
+        "repeat": 3,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 1.8316283966166448e-7,
+      "torso_rms_rad": 1.8316283966166448e-7,
+      "max_torso_rad": 1.8316283966166448e-7,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 3.9976947495192307e-10,
+      "max_foot_drift_m": {
+        "footL": 7.450580596923828e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.000046630577013362755,
+      "max_torso_rad_s": 0.00008734965669310482,
+      "max_segment_rad_s": 0.00009386692287643444,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 17,
+        "id": "fullrig83/free32/null/off/4",
+        "condition": "free32",
+        "case": "null",
+        "variant": "off",
+        "repeat": 4,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 1.8316283966166448e-7,
+      "torso_rms_rad": 1.8316283966166448e-7,
+      "max_torso_rad": 1.8316283966166448e-7,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 3.9976947495192307e-10,
+      "max_foot_drift_m": {
+        "footL": 7.450580596923828e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.000046630577013362755,
+      "max_torso_rad_s": 0.00008734965669310482,
+      "max_segment_rad_s": 0.00009386692287643444,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 18,
+        "id": "fullrig83/free32/null/on/4",
+        "condition": "free32",
+        "case": "null",
+        "variant": "on",
+        "repeat": 4,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 1.8316283966166448e-7,
+      "torso_rms_rad": 1.8316283966166448e-7,
+      "max_torso_rad": 1.8316283966166448e-7,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 3.9976947495192307e-10,
+      "max_foot_drift_m": {
+        "footL": 7.450580596923828e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.000046630577013362755,
+      "max_torso_rad_s": 0.00008734965669310482,
+      "max_segment_rad_s": 0.00009386692287643444,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 19,
+        "id": "fullrig83/free32/null/off/5",
+        "condition": "free32",
+        "case": "null",
+        "variant": "off",
+        "repeat": 5,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 1.8316283966166448e-7,
+      "torso_rms_rad": 1.8316283966166448e-7,
+      "max_torso_rad": 1.8316283966166448e-7,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 3.9976947495192307e-10,
+      "max_foot_drift_m": {
+        "footL": 7.450580596923828e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.000046630577013362755,
+      "max_torso_rad_s": 0.00008734965669310482,
+      "max_segment_rad_s": 0.00009386692287643444,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 20,
+        "id": "fullrig83/free32/null/on/5",
+        "condition": "free32",
+        "case": "null",
+        "variant": "on",
+        "repeat": 5,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 1.8316283966166448e-7,
+      "torso_rms_rad": 1.8316283966166448e-7,
+      "max_torso_rad": 1.8316283966166448e-7,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 3.9976947495192307e-10,
+      "max_foot_drift_m": {
+        "footL": 7.450580596923828e-9,
+        "footR": 0
+      },
+      "max_pelvis_rad_s": 0.000046630577013362755,
+      "max_torso_rad_s": 0.00008734965669310482,
+      "max_segment_rad_s": 0.00009386692287643444,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 21,
+        "id": "fullrig83/free32/yaw/off/1",
+        "condition": "free32",
+        "case": "yaw",
+        "variant": "off",
+        "repeat": 1,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 9.95610973784246e-9,
+      "torso_rms_rad": 9.95610973784246e-9,
+      "max_torso_rad": 9.95610973784246e-9,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 2.616410049472541e-9,
+      "max_foot_drift_m": {
+        "footL": 3.725290298461914e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.000004639889320939842,
+      "max_torso_rad_s": 0.0000025680315350899472,
+      "max_segment_rad_s": 0.000032995433188413585,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 22,
+        "id": "fullrig83/free32/yaw/on/1",
+        "condition": "free32",
+        "case": "yaw",
+        "variant": "on",
+        "repeat": 1,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 9.95610973784246e-9,
+      "torso_rms_rad": 9.95610973784246e-9,
+      "max_torso_rad": 9.95610973784246e-9,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 2.616410049472541e-9,
+      "max_foot_drift_m": {
+        "footL": 3.725290298461914e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.000004639889320939842,
+      "max_torso_rad_s": 0.0000025680315350899472,
+      "max_segment_rad_s": 0.000032995433188413585,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 23,
+        "id": "fullrig83/free32/yaw/off/2",
+        "condition": "free32",
+        "case": "yaw",
+        "variant": "off",
+        "repeat": 2,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 9.95610973784246e-9,
+      "torso_rms_rad": 9.95610973784246e-9,
+      "max_torso_rad": 9.95610973784246e-9,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 2.616410049472541e-9,
+      "max_foot_drift_m": {
+        "footL": 3.725290298461914e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.000004639889320939842,
+      "max_torso_rad_s": 0.0000025680315350899472,
+      "max_segment_rad_s": 0.000032995433188413585,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 24,
+        "id": "fullrig83/free32/yaw/on/2",
+        "condition": "free32",
+        "case": "yaw",
+        "variant": "on",
+        "repeat": 2,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 9.95610973784246e-9,
+      "torso_rms_rad": 9.95610973784246e-9,
+      "max_torso_rad": 9.95610973784246e-9,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 2.616410049472541e-9,
+      "max_foot_drift_m": {
+        "footL": 3.725290298461914e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.000004639889320939842,
+      "max_torso_rad_s": 0.0000025680315350899472,
+      "max_segment_rad_s": 0.000032995433188413585,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 25,
+        "id": "fullrig83/free32/yaw/off/3",
+        "condition": "free32",
+        "case": "yaw",
+        "variant": "off",
+        "repeat": 3,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 9.95610973784246e-9,
+      "torso_rms_rad": 9.95610973784246e-9,
+      "max_torso_rad": 9.95610973784246e-9,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 2.616410049472541e-9,
+      "max_foot_drift_m": {
+        "footL": 3.725290298461914e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.000004639889320939842,
+      "max_torso_rad_s": 0.0000025680315350899472,
+      "max_segment_rad_s": 0.000032995433188413585,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 26,
+        "id": "fullrig83/free32/yaw/on/3",
+        "condition": "free32",
+        "case": "yaw",
+        "variant": "on",
+        "repeat": 3,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 9.95610973784246e-9,
+      "torso_rms_rad": 9.95610973784246e-9,
+      "max_torso_rad": 9.95610973784246e-9,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 2.616410049472541e-9,
+      "max_foot_drift_m": {
+        "footL": 3.725290298461914e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.000004639889320939842,
+      "max_torso_rad_s": 0.0000025680315350899472,
+      "max_segment_rad_s": 0.000032995433188413585,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 27,
+        "id": "fullrig83/free32/yaw/off/4",
+        "condition": "free32",
+        "case": "yaw",
+        "variant": "off",
+        "repeat": 4,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 9.95610973784246e-9,
+      "torso_rms_rad": 9.95610973784246e-9,
+      "max_torso_rad": 9.95610973784246e-9,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 2.616410049472541e-9,
+      "max_foot_drift_m": {
+        "footL": 3.725290298461914e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.000004639889320939842,
+      "max_torso_rad_s": 0.0000025680315350899472,
+      "max_segment_rad_s": 0.000032995433188413585,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 28,
+        "id": "fullrig83/free32/yaw/on/4",
+        "condition": "free32",
+        "case": "yaw",
+        "variant": "on",
+        "repeat": 4,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 9.95610973784246e-9,
+      "torso_rms_rad": 9.95610973784246e-9,
+      "max_torso_rad": 9.95610973784246e-9,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 2.616410049472541e-9,
+      "max_foot_drift_m": {
+        "footL": 3.725290298461914e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.000004639889320939842,
+      "max_torso_rad_s": 0.0000025680315350899472,
+      "max_segment_rad_s": 0.000032995433188413585,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 29,
+        "id": "fullrig83/free32/yaw/off/5",
+        "condition": "free32",
+        "case": "yaw",
+        "variant": "off",
+        "repeat": 5,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 9.95610973784246e-9,
+      "torso_rms_rad": 9.95610973784246e-9,
+      "max_torso_rad": 9.95610973784246e-9,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 2.616410049472541e-9,
+      "max_foot_drift_m": {
+        "footL": 3.725290298461914e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.000004639889320939842,
+      "max_torso_rad_s": 0.0000025680315350899472,
+      "max_segment_rad_s": 0.000032995433188413585,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 30,
+        "id": "fullrig83/free32/yaw/on/5",
+        "condition": "free32",
+        "case": "yaw",
+        "variant": "on",
+        "repeat": 5,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 9.95610973784246e-9,
+      "torso_rms_rad": 9.95610973784246e-9,
+      "max_torso_rad": 9.95610973784246e-9,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 2.616410049472541e-9,
+      "max_foot_drift_m": {
+        "footL": 3.725290298461914e-9,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.000004639889320939842,
+      "max_torso_rad_s": 0.0000025680315350899472,
+      "max_segment_rad_s": 0.000032995433188413585,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 31,
+        "id": "fullrig83/free32/pitch/off/1",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "off",
+        "repeat": 1,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.040000003269380774,
+      "torso_rms_rad": 0.040000003269380774,
+      "max_torso_rad": 0.040000003269380774,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 5.007709083320025e-9,
+      "max_foot_drift_m": {
+        "footL": 1.666000468656264e-8,
+        "footR": 3.725290298461914e-8
+      },
+      "max_pelvis_rad_s": 0.00008330186680783435,
+      "max_torso_rad_s": 0.000020287795483463495,
+      "max_segment_rad_s": 0.00022872856585595138,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 32,
+        "id": "fullrig83/free32/pitch/on/1",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "on",
+        "repeat": 1,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.039998367832438035,
+      "torso_rms_rad": 0.039998367832438035,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 8.54961178929055e-9,
+      "max_foot_drift_m": {
+        "footL": 1.6763806343078613e-8,
+        "footR": 7.450580596923828e-9
+      },
+      "max_pelvis_rad_s": 0.0003072716111027498,
+      "max_torso_rad_s": 0.00019259293317402005,
+      "max_segment_rad_s": 0.0003072716111027498,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 33,
+        "id": "fullrig83/free32/pitch/off/2",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "off",
+        "repeat": 2,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.040000003269380774,
+      "torso_rms_rad": 0.040000003269380774,
+      "max_torso_rad": 0.040000003269380774,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 5.007709083320025e-9,
+      "max_foot_drift_m": {
+        "footL": 1.666000468656264e-8,
+        "footR": 3.725290298461914e-8
+      },
+      "max_pelvis_rad_s": 0.00008330186680783435,
+      "max_torso_rad_s": 0.000020287795483463495,
+      "max_segment_rad_s": 0.00022872856585595138,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 34,
+        "id": "fullrig83/free32/pitch/on/2",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "on",
+        "repeat": 2,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.039998367832438035,
+      "torso_rms_rad": 0.039998367832438035,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 8.54961178929055e-9,
+      "max_foot_drift_m": {
+        "footL": 1.6763806343078613e-8,
+        "footR": 7.450580596923828e-9
+      },
+      "max_pelvis_rad_s": 0.0003072716111027498,
+      "max_torso_rad_s": 0.00019259293317402005,
+      "max_segment_rad_s": 0.0003072716111027498,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 35,
+        "id": "fullrig83/free32/pitch/off/3",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "off",
+        "repeat": 3,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.040000003269380774,
+      "torso_rms_rad": 0.040000003269380774,
+      "max_torso_rad": 0.040000003269380774,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 5.007709083320025e-9,
+      "max_foot_drift_m": {
+        "footL": 1.666000468656264e-8,
+        "footR": 3.725290298461914e-8
+      },
+      "max_pelvis_rad_s": 0.00008330186680783435,
+      "max_torso_rad_s": 0.000020287795483463495,
+      "max_segment_rad_s": 0.00022872856585595138,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 36,
+        "id": "fullrig83/free32/pitch/on/3",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "on",
+        "repeat": 3,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.039998367832438035,
+      "torso_rms_rad": 0.039998367832438035,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 8.54961178929055e-9,
+      "max_foot_drift_m": {
+        "footL": 1.6763806343078613e-8,
+        "footR": 7.450580596923828e-9
+      },
+      "max_pelvis_rad_s": 0.0003072716111027498,
+      "max_torso_rad_s": 0.00019259293317402005,
+      "max_segment_rad_s": 0.0003072716111027498,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 37,
+        "id": "fullrig83/free32/pitch/off/4",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "off",
+        "repeat": 4,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.040000003269380774,
+      "torso_rms_rad": 0.040000003269380774,
+      "max_torso_rad": 0.040000003269380774,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 5.007709083320025e-9,
+      "max_foot_drift_m": {
+        "footL": 1.666000468656264e-8,
+        "footR": 3.725290298461914e-8
+      },
+      "max_pelvis_rad_s": 0.00008330186680783435,
+      "max_torso_rad_s": 0.000020287795483463495,
+      "max_segment_rad_s": 0.00022872856585595138,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 38,
+        "id": "fullrig83/free32/pitch/on/4",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "on",
+        "repeat": 4,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.039998367832438035,
+      "torso_rms_rad": 0.039998367832438035,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 8.54961178929055e-9,
+      "max_foot_drift_m": {
+        "footL": 1.6763806343078613e-8,
+        "footR": 7.450580596923828e-9
+      },
+      "max_pelvis_rad_s": 0.0003072716111027498,
+      "max_torso_rad_s": 0.00019259293317402005,
+      "max_segment_rad_s": 0.0003072716111027498,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 39,
+        "id": "fullrig83/free32/pitch/off/5",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "off",
+        "repeat": 5,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.040000003269380774,
+      "torso_rms_rad": 0.040000003269380774,
+      "max_torso_rad": 0.040000003269380774,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 5.007709083320025e-9,
+      "max_foot_drift_m": {
+        "footL": 1.666000468656264e-8,
+        "footR": 3.725290298461914e-8
+      },
+      "max_pelvis_rad_s": 0.00008330186680783435,
+      "max_torso_rad_s": 0.000020287795483463495,
+      "max_segment_rad_s": 0.00022872856585595138,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 40,
+        "id": "fullrig83/free32/pitch/on/5",
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "on",
+        "repeat": 5,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.039998367832438035,
+      "torso_rms_rad": 0.039998367832438035,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 8.54961178929055e-9,
+      "max_foot_drift_m": {
+        "footL": 1.6763806343078613e-8,
+        "footR": 7.450580596923828e-9
+      },
+      "max_pelvis_rad_s": 0.0003072716111027498,
+      "max_torso_rad_s": 0.00019259293317402005,
+      "max_segment_rad_s": 0.0003072716111027498,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 41,
+        "id": "fullrig83/free32/roll/off/1",
+        "condition": "free32",
+        "case": "roll",
+        "variant": "off",
+        "repeat": 1,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999999546349829,
+      "torso_rms_rad": 0.03999999546349829,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.52091274490288e-9,
+      "max_foot_drift_m": {
+        "footL": 2.2351741790771484e-8,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00002310202270132663,
+      "max_torso_rad_s": 0.000027797597218200727,
+      "max_segment_rad_s": 0.00021624561402151327,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 42,
+        "id": "fullrig83/free32/roll/on/1",
+        "condition": "free32",
+        "case": "roll",
+        "variant": "on",
+        "repeat": 1,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999999546349829,
+      "torso_rms_rad": 0.03999999546349829,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.52091274490288e-9,
+      "max_foot_drift_m": {
+        "footL": 2.2351741790771484e-8,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00002310202478889192,
+      "max_torso_rad_s": 0.00002779759195234819,
+      "max_segment_rad_s": 0.0002162456150401423,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 43,
+        "id": "fullrig83/free32/roll/off/2",
+        "condition": "free32",
+        "case": "roll",
+        "variant": "off",
+        "repeat": 2,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999999546349829,
+      "torso_rms_rad": 0.03999999546349829,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.52091274490288e-9,
+      "max_foot_drift_m": {
+        "footL": 2.2351741790771484e-8,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00002310202270132663,
+      "max_torso_rad_s": 0.000027797597218200727,
+      "max_segment_rad_s": 0.00021624561402151327,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 44,
+        "id": "fullrig83/free32/roll/on/2",
+        "condition": "free32",
+        "case": "roll",
+        "variant": "on",
+        "repeat": 2,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999999546349829,
+      "torso_rms_rad": 0.03999999546349829,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.52091274490288e-9,
+      "max_foot_drift_m": {
+        "footL": 2.2351741790771484e-8,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00002310202478889192,
+      "max_torso_rad_s": 0.00002779759195234819,
+      "max_segment_rad_s": 0.0002162456150401423,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 45,
+        "id": "fullrig83/free32/roll/off/3",
+        "condition": "free32",
+        "case": "roll",
+        "variant": "off",
+        "repeat": 3,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999999546349829,
+      "torso_rms_rad": 0.03999999546349829,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.52091274490288e-9,
+      "max_foot_drift_m": {
+        "footL": 2.2351741790771484e-8,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00002310202270132663,
+      "max_torso_rad_s": 0.000027797597218200727,
+      "max_segment_rad_s": 0.00021624561402151327,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 46,
+        "id": "fullrig83/free32/roll/on/3",
+        "condition": "free32",
+        "case": "roll",
+        "variant": "on",
+        "repeat": 3,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999999546349829,
+      "torso_rms_rad": 0.03999999546349829,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.52091274490288e-9,
+      "max_foot_drift_m": {
+        "footL": 2.2351741790771484e-8,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00002310202478889192,
+      "max_torso_rad_s": 0.00002779759195234819,
+      "max_segment_rad_s": 0.0002162456150401423,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 47,
+        "id": "fullrig83/free32/roll/off/4",
+        "condition": "free32",
+        "case": "roll",
+        "variant": "off",
+        "repeat": 4,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999999546349829,
+      "torso_rms_rad": 0.03999999546349829,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.52091274490288e-9,
+      "max_foot_drift_m": {
+        "footL": 2.2351741790771484e-8,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00002310202270132663,
+      "max_torso_rad_s": 0.000027797597218200727,
+      "max_segment_rad_s": 0.00021624561402151327,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 48,
+        "id": "fullrig83/free32/roll/on/4",
+        "condition": "free32",
+        "case": "roll",
+        "variant": "on",
+        "repeat": 4,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999999546349829,
+      "torso_rms_rad": 0.03999999546349829,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.52091274490288e-9,
+      "max_foot_drift_m": {
+        "footL": 2.2351741790771484e-8,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00002310202478889192,
+      "max_torso_rad_s": 0.00002779759195234819,
+      "max_segment_rad_s": 0.0002162456150401423,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 49,
+        "id": "fullrig83/free32/roll/off/5",
+        "condition": "free32",
+        "case": "roll",
+        "variant": "off",
+        "repeat": 5,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999999546349829,
+      "torso_rms_rad": 0.03999999546349829,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.52091274490288e-9,
+      "max_foot_drift_m": {
+        "footL": 2.2351741790771484e-8,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00002310202270132663,
+      "max_torso_rad_s": 0.000027797597218200727,
+      "max_segment_rad_s": 0.00021624561402151327,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 50,
+        "id": "fullrig83/free32/roll/on/5",
+        "condition": "free32",
+        "case": "roll",
+        "variant": "on",
+        "repeat": 5,
+        "max_steps": 1
+      },
+      "recorded_decision": {
+        "kind": "horizon",
+        "reason": null,
+        "phase": "POST",
+        "step": 1
+      },
+      "steps": 1,
+      "observed_duration_s": 0.016666666666666666,
+      "physical_standing_time_s": null,
+      "physical_support_valid": null,
+      "contact_ids": [],
+      "torso_final_rad": 0.03999999546349829,
+      "torso_rms_rad": 0.03999999546349829,
+      "max_torso_rad": 0.03999999907847288,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        0,
+        0
+      ],
+      "max_com_drift_m": 7.52091274490288e-9,
+      "max_foot_drift_m": {
+        "footL": 2.2351741790771484e-8,
+        "footR": 1.4901161193847656e-8
+      },
+      "max_pelvis_rad_s": 0.00002310202478889192,
+      "max_torso_rad_s": 0.00002779759195234819,
+      "max_segment_rad_s": 0.0002162456150401423,
+      "status": "command_diagnostic_pass",
+      "reason": "one_step_command_only"
+    },
+    {
+      "trial": {
+        "ordinal": 51,
+        "id": "fullrig83/fb32/null/off/1",
+        "condition": "fb32",
+        "case": "null",
+        "variant": "off",
+        "repeat": 1,
+        "max_steps": 360
+      },
+      "recorded_decision": {
+        "kind": "behavior_blocker",
+        "reason": "foot_contact_loss",
+        "phase": "POST",
+        "step": 36
+      },
+      "steps": 36,
+      "observed_duration_s": 0.6,
+      "physical_standing_time_s": null,
+      "physical_support_valid": false,
+      "contact_ids": [],
+      "torso_final_rad": 0.008844759287001822,
+      "torso_rms_rad": 0.0033644411747795868,
+      "max_torso_rad": 0.008844759287001822,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        45.17837929540384,
+        43.687485115137726
+      ],
+      "max_com_drift_m": 0.010453986468811164,
+      "max_foot_drift_m": {
+        "footL": 0.0011347253566795631,
+        "footR": 0.0011217004157909167
+      },
+      "max_pelvis_rad_s": 0.07202029059840806,
+      "max_torso_rad_s": 0.04226799421535445,
+      "max_segment_rad_s": 0.23397821242231728,
+      "status": "inconclusive",
+      "reason": "common_contact_measurement_invalid"
+    },
+    {
+      "trial": {
+        "ordinal": 52,
+        "id": "fullrig83/fb32/null/on/1",
+        "condition": "fb32",
+        "case": "null",
+        "variant": "on",
+        "repeat": 1,
+        "max_steps": 360
+      },
+      "recorded_decision": {
+        "kind": "behavior_blocker",
+        "reason": "foot_contact_loss",
+        "phase": "POST",
+        "step": 36
+      },
+      "steps": 36,
+      "observed_duration_s": 0.6,
+      "physical_standing_time_s": null,
+      "physical_support_valid": false,
+      "contact_ids": [],
+      "torso_final_rad": 0.008833533425028739,
+      "torso_rms_rad": 0.0033597933080687648,
+      "max_torso_rad": 0.008833533425028739,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        45.18435123346404,
+        43.6919183593733
+      ],
+      "max_com_drift_m": 0.01045541886734856,
+      "max_foot_drift_m": {
+        "footL": 0.0011348478161767137,
+        "footR": 0.0011215978514547613
+      },
+      "max_pelvis_rad_s": 0.07202029846165448,
+      "max_torso_rad_s": 0.042236187064633876,
+      "max_segment_rad_s": 0.23397821675507594,
+      "status": "inconclusive",
+      "reason": "common_contact_measurement_invalid"
+    },
+    {
+      "trial": {
+        "ordinal": 53,
+        "id": "fullrig83/fb32/null/off/2",
+        "condition": "fb32",
+        "case": "null",
+        "variant": "off",
+        "repeat": 2,
+        "max_steps": 360
+      },
+      "recorded_decision": {
+        "kind": "behavior_blocker",
+        "reason": "foot_contact_loss",
+        "phase": "POST",
+        "step": 36
+      },
+      "steps": 36,
+      "observed_duration_s": 0.6,
+      "physical_standing_time_s": null,
+      "physical_support_valid": false,
+      "contact_ids": [],
+      "torso_final_rad": 0.008844759287001822,
+      "torso_rms_rad": 0.0033644411747795868,
+      "max_torso_rad": 0.008844759287001822,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        45.17837929540384,
+        43.687485115137726
+      ],
+      "max_com_drift_m": 0.010453986468811164,
+      "max_foot_drift_m": {
+        "footL": 0.0011347253566795631,
+        "footR": 0.0011217004157909167
+      },
+      "max_pelvis_rad_s": 0.07202029059840806,
+      "max_torso_rad_s": 0.04226799421535445,
+      "max_segment_rad_s": 0.23397821242231728,
+      "status": "inconclusive",
+      "reason": "common_contact_measurement_invalid"
+    },
+    {
+      "trial": {
+        "ordinal": 54,
+        "id": "fullrig83/fb32/null/on/2",
+        "condition": "fb32",
+        "case": "null",
+        "variant": "on",
+        "repeat": 2,
+        "max_steps": 360
+      },
+      "recorded_decision": {
+        "kind": "behavior_blocker",
+        "reason": "foot_contact_loss",
+        "phase": "POST",
+        "step": 36
+      },
+      "steps": 36,
+      "observed_duration_s": 0.6,
+      "physical_standing_time_s": null,
+      "physical_support_valid": false,
+      "contact_ids": [],
+      "torso_final_rad": 0.008833533425028739,
+      "torso_rms_rad": 0.0033597933080687648,
+      "max_torso_rad": 0.008833533425028739,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        45.18435123346404,
+        43.6919183593733
+      ],
+      "max_com_drift_m": 0.01045541886734856,
+      "max_foot_drift_m": {
+        "footL": 0.0011348478161767137,
+        "footR": 0.0011215978514547613
+      },
+      "max_pelvis_rad_s": 0.07202029846165448,
+      "max_torso_rad_s": 0.042236187064633876,
+      "max_segment_rad_s": 0.23397821675507594,
+      "status": "inconclusive",
+      "reason": "common_contact_measurement_invalid"
+    },
+    {
+      "trial": {
+        "ordinal": 55,
+        "id": "fullrig83/fb32/null/off/3",
+        "condition": "fb32",
+        "case": "null",
+        "variant": "off",
+        "repeat": 3,
+        "max_steps": 360
+      },
+      "recorded_decision": {
+        "kind": "behavior_blocker",
+        "reason": "foot_contact_loss",
+        "phase": "POST",
+        "step": 36
+      },
+      "steps": 36,
+      "observed_duration_s": 0.6,
+      "physical_standing_time_s": null,
+      "physical_support_valid": false,
+      "contact_ids": [],
+      "torso_final_rad": 0.008844759287001822,
+      "torso_rms_rad": 0.0033644411747795868,
+      "max_torso_rad": 0.008844759287001822,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        45.17837929540384,
+        43.687485115137726
+      ],
+      "max_com_drift_m": 0.010453986468811164,
+      "max_foot_drift_m": {
+        "footL": 0.0011347253566795631,
+        "footR": 0.0011217004157909167
+      },
+      "max_pelvis_rad_s": 0.07202029059840806,
+      "max_torso_rad_s": 0.04226799421535445,
+      "max_segment_rad_s": 0.23397821242231728,
+      "status": "inconclusive",
+      "reason": "common_contact_measurement_invalid"
+    },
+    {
+      "trial": {
+        "ordinal": 56,
+        "id": "fullrig83/fb32/null/on/3",
+        "condition": "fb32",
+        "case": "null",
+        "variant": "on",
+        "repeat": 3,
+        "max_steps": 360
+      },
+      "recorded_decision": {
+        "kind": "behavior_blocker",
+        "reason": "foot_contact_loss",
+        "phase": "POST",
+        "step": 36
+      },
+      "steps": 36,
+      "observed_duration_s": 0.6,
+      "physical_standing_time_s": null,
+      "physical_support_valid": false,
+      "contact_ids": [],
+      "torso_final_rad": 0.008833533425028739,
+      "torso_rms_rad": 0.0033597933080687648,
+      "max_torso_rad": 0.008833533425028739,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        45.18435123346404,
+        43.6919183593733
+      ],
+      "max_com_drift_m": 0.01045541886734856,
+      "max_foot_drift_m": {
+        "footL": 0.0011348478161767137,
+        "footR": 0.0011215978514547613
+      },
+      "max_pelvis_rad_s": 0.07202029846165448,
+      "max_torso_rad_s": 0.042236187064633876,
+      "max_segment_rad_s": 0.23397821675507594,
+      "status": "inconclusive",
+      "reason": "common_contact_measurement_invalid"
+    },
+    {
+      "trial": {
+        "ordinal": 57,
+        "id": "fullrig83/fb32/null/off/4",
+        "condition": "fb32",
+        "case": "null",
+        "variant": "off",
+        "repeat": 4,
+        "max_steps": 360
+      },
+      "recorded_decision": {
+        "kind": "behavior_blocker",
+        "reason": "foot_contact_loss",
+        "phase": "POST",
+        "step": 36
+      },
+      "steps": 36,
+      "observed_duration_s": 0.6,
+      "physical_standing_time_s": null,
+      "physical_support_valid": false,
+      "contact_ids": [],
+      "torso_final_rad": 0.008844759287001822,
+      "torso_rms_rad": 0.0033644411747795868,
+      "max_torso_rad": 0.008844759287001822,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        45.17837929540384,
+        43.687485115137726
+      ],
+      "max_com_drift_m": 0.010453986468811164,
+      "max_foot_drift_m": {
+        "footL": 0.0011347253566795631,
+        "footR": 0.0011217004157909167
+      },
+      "max_pelvis_rad_s": 0.07202029059840806,
+      "max_torso_rad_s": 0.04226799421535445,
+      "max_segment_rad_s": 0.23397821242231728,
+      "status": "inconclusive",
+      "reason": "common_contact_measurement_invalid"
+    },
+    {
+      "trial": {
+        "ordinal": 58,
+        "id": "fullrig83/fb32/null/on/4",
+        "condition": "fb32",
+        "case": "null",
+        "variant": "on",
+        "repeat": 4,
+        "max_steps": 360
+      },
+      "recorded_decision": {
+        "kind": "behavior_blocker",
+        "reason": "foot_contact_loss",
+        "phase": "POST",
+        "step": 36
+      },
+      "steps": 36,
+      "observed_duration_s": 0.6,
+      "physical_standing_time_s": null,
+      "physical_support_valid": false,
+      "contact_ids": [],
+      "torso_final_rad": 0.008833533425028739,
+      "torso_rms_rad": 0.0033597933080687648,
+      "max_torso_rad": 0.008833533425028739,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        45.18435123346404,
+        43.6919183593733
+      ],
+      "max_com_drift_m": 0.01045541886734856,
+      "max_foot_drift_m": {
+        "footL": 0.0011348478161767137,
+        "footR": 0.0011215978514547613
+      },
+      "max_pelvis_rad_s": 0.07202029846165448,
+      "max_torso_rad_s": 0.042236187064633876,
+      "max_segment_rad_s": 0.23397821675507594,
+      "status": "inconclusive",
+      "reason": "common_contact_measurement_invalid"
+    },
+    {
+      "trial": {
+        "ordinal": 59,
+        "id": "fullrig83/fb32/null/off/5",
+        "condition": "fb32",
+        "case": "null",
+        "variant": "off",
+        "repeat": 5,
+        "max_steps": 360
+      },
+      "recorded_decision": {
+        "kind": "behavior_blocker",
+        "reason": "foot_contact_loss",
+        "phase": "POST",
+        "step": 36
+      },
+      "steps": 36,
+      "observed_duration_s": 0.6,
+      "physical_standing_time_s": null,
+      "physical_support_valid": false,
+      "contact_ids": [],
+      "torso_final_rad": 0.008844759287001822,
+      "torso_rms_rad": 0.0033644411747795868,
+      "max_torso_rad": 0.008844759287001822,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        45.17837929540384,
+        43.687485115137726
+      ],
+      "max_com_drift_m": 0.010453986468811164,
+      "max_foot_drift_m": {
+        "footL": 0.0011347253566795631,
+        "footR": 0.0011217004157909167
+      },
+      "max_pelvis_rad_s": 0.07202029059840806,
+      "max_torso_rad_s": 0.04226799421535445,
+      "max_segment_rad_s": 0.23397821242231728,
+      "status": "inconclusive",
+      "reason": "common_contact_measurement_invalid"
+    },
+    {
+      "trial": {
+        "ordinal": 60,
+        "id": "fullrig83/fb32/null/on/5",
+        "condition": "fb32",
+        "case": "null",
+        "variant": "on",
+        "repeat": 5,
+        "max_steps": 360
+      },
+      "recorded_decision": {
+        "kind": "behavior_blocker",
+        "reason": "foot_contact_loss",
+        "phase": "POST",
+        "step": 36
+      },
+      "steps": 36,
+      "observed_duration_s": 0.6,
+      "physical_standing_time_s": null,
+      "physical_support_valid": false,
+      "contact_ids": [],
+      "torso_final_rad": 0.008833533425028739,
+      "torso_rms_rad": 0.0033597933080687648,
+      "max_torso_rad": 0.008833533425028739,
+      "selected_contact_duration_s": 0,
+      "selected_load_endpoint_N": {
+        "footL": 0,
+        "footR": 0
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        45.18435123346404,
+        43.6919183593733
+      ],
+      "max_com_drift_m": 0.01045541886734856,
+      "max_foot_drift_m": {
+        "footL": 0.0011348478161767137,
+        "footR": 0.0011215978514547613
+      },
+      "max_pelvis_rad_s": 0.07202029846165448,
+      "max_torso_rad_s": 0.042236187064633876,
+      "max_segment_rad_s": 0.23397821675507594,
+      "status": "inconclusive",
+      "reason": "common_contact_measurement_invalid"
+    },
+    {
+      "trial": {
+        "ordinal": 61,
+        "id": "fullrig83/fb32/yaw/off/1",
+        "condition": "fb32",
+        "case": "yaw",
+        "variant": "off",
+        "repeat": 1,
+        "max_steps": 360
+      },
+      "recorded_decision": {
+        "kind": "incomplete",
+        "reason": null,
+        "phase": "prefix",
+        "step": 38
+      },
+      "steps": 38,
+      "observed_duration_s": 0.6333333333333333,
+      "physical_standing_time_s": null,
+      "physical_support_valid": false,
+      "contact_ids": [],
+      "torso_final_rad": 0.009940916329868136,
+      "torso_rms_rad": 0.00387399224632257,
+      "max_torso_rad": 0.009940916329868136,
+      "selected_contact_duration_s": 0.5,
+      "selected_load_endpoint_N": {
+        "footL": 37.280815981583956,
+        "footR": 43.61204262611048
+      },
+      "raw_all_manifold_load_endpoint_N": [
+        45.257121348382164,
+        43.61204262611048
+      ],
+      "max_com_drift_m": 0.012345526638210428,
+      "max_foot_drift_m": {
+        "footL": 0.001782257060513173,
+        "footR": 0.002058493145400363
+      },
+      "max_pelvis_rad_s": 0.11920426879815862,
+      "max_torso_rad_s": 0.04591662130374427,
+      "max_segment_rad_s": 0.2207128634452906,
+      "status": "inconclusive",
+      "reason": "common_contact_measurement_invalid"
+    }
+  ],
+  "witnesses": [
+    {
+      "body": "footL",
+      "stored_contactDist_m": 0.019999995827674866,
+      "post_anchor_gap_m": -0.0007711187220169335,
+      "normal_impulse_Ns": 0.10976017266511917
+    },
+    {
+      "body": "footL",
+      "stored_contactDist_m": 0.019999995827674866,
+      "post_anchor_gap_m": -0.0007704914763353721,
+      "normal_impulse_Ns": 0.14388085901737213
+    },
+    {
+      "body": "footL",
+      "stored_contactDist_m": 0.019999995827674866,
+      "post_anchor_gap_m": -0.0019069213967490561,
+      "normal_impulse_Ns": 0.24129270017147064
+    },
+    {
+      "body": "footL",
+      "stored_contactDist_m": 0.019999995827674866,
+      "post_anchor_gap_m": -0.0019075486424306176,
+      "normal_impulse_Ns": 0.25803929567337036
+    },
+    {
+      "body": "footR",
+      "stored_contactDist_m": 0.019999995827674866,
+      "post_anchor_gap_m": -0.0007558661750307616,
+      "normal_impulse_Ns": 0.1071869507431984
+    },
+    {
+      "body": "footR",
+      "stored_contactDist_m": 0.019999995827674866,
+      "post_anchor_gap_m": -0.000753279378929439,
+      "normal_impulse_Ns": 0.14003881812095642
+    },
+    {
+      "body": "footR",
+      "stored_contactDist_m": 0.019999995827674866,
+      "post_anchor_gap_m": -0.0018448438382467625,
+      "normal_impulse_Ns": 0.23203526437282562
+    },
+    {
+      "body": "footR",
+      "stored_contactDist_m": 0.019999995827674866,
+      "post_anchor_gap_m": -0.001847430634348085,
+      "normal_impulse_Ns": 0.24886375665664673
+    }
+  ],
+  "limits": {
+    "standing_approval": false,
+    "behavioral_benefit": "inconclusive",
+    "native_effort": null,
+    "engine_precision": "indeterminate_not_certified",
+    "fall_cause": null,
+    "observed_global_stop": "world61 command encoding assertion; repaired stored-only after stop",
+    "common_blocker": "contactDist caches narrow-phase separation; current geometry/solver support not represented by frozen <=0 selection",
+    "historical_failure_command": "previous completed frame38 command; command39 not applied or written; future runner clears pending fields each iteration"
+  },
+  "next_lever": "Repair current-contact/support observability in Standing Lab before another controller comparison; no engine precision or gain campaign"
+}

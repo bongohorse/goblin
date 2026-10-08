@@ -1,0 +1,4505 @@
+{
+  "schema_version": 2,
+  "measurement_version": "current-geometry-interval-support-v2",
+  "run_id": "acdd52d4-92bf-44a2-b279-546e06eb43d7",
+  "run_index": 1,
+  "rig_id": "goblin-passive-v1",
+  "controller_id": "native-pose-hold-force-v1",
+  "config": {
+    "schema_version": 2,
+    "controller_id": "native-pose-hold-force-v1",
+    "rig": {
+      "schema_version": 1,
+      "rig_id": "goblin-passive-v1",
+      "controller_id": "none",
+      "fixed_dt": 0.016666666666666666,
+      "max_steps": 3600,
+      "gravity": {
+        "x": 0,
+        "y": -9.81,
+        "z": 0
+      },
+      "solver_config": {
+        "numSolverIterations": 8,
+        "numInternalPgsIterations": 1,
+        "maxCcdSubsteps": 1,
+        "lengthUnit": 1,
+        "normalizedAllowedLinearError": 0.005,
+        "normalizedPredictionDistance": 0.02,
+        "additionalSolverIterations": 0
+      },
+      "floor": {
+        "id": "floor",
+        "position": {
+          "x": 0,
+          "y": -0.2,
+          "z": 0
+        },
+        "half": {
+          "x": 6,
+          "y": 0.2,
+          "z": 6
+        },
+        "friction": 0.9,
+        "restitution": 0.03
+      },
+      "bodies": [
+        {
+          "id": "pelvis",
+          "position": {
+            "x": 0,
+            "y": 1.14,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "capsule",
+            "half": 0.09,
+            "radius": 0.2
+          },
+          "mass": 1.6,
+          "friction": 0.7,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "non_foot",
+          "collider_id": "collider:pelvis",
+          "restitution": 0.03
+        },
+        {
+          "id": "torso",
+          "position": {
+            "x": 0,
+            "y": 1.49,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "capsule",
+            "half": 0.15,
+            "radius": 0.24
+          },
+          "mass": 2,
+          "friction": 0.7,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "non_foot",
+          "collider_id": "collider:torso",
+          "restitution": 0.03
+        },
+        {
+          "id": "head",
+          "position": {
+            "x": 0,
+            "y": 2.3,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "ball",
+            "radius": 0.48
+          },
+          "mass": 1.4,
+          "friction": 0.7,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "non_foot",
+          "collider_id": "collider:head",
+          "restitution": 0.03
+        },
+        {
+          "id": "upperArmL",
+          "position": {
+            "x": 0.4,
+            "y": 1.46,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "capsule",
+            "half": 0.12,
+            "radius": 0.09
+          },
+          "mass": 0.35,
+          "friction": 0.7,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "non_foot",
+          "collider_id": "collider:upperArmL",
+          "restitution": 0.03
+        },
+        {
+          "id": "lowerArmL",
+          "position": {
+            "x": 0.4,
+            "y": 1.12,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "capsule",
+            "half": 0.1,
+            "radius": 0.085
+          },
+          "mass": 0.25,
+          "friction": 0.7,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "non_foot",
+          "collider_id": "collider:lowerArmL",
+          "restitution": 0.03
+        },
+        {
+          "id": "handL",
+          "position": {
+            "x": 0.4,
+            "y": 0.85,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "ball",
+            "radius": 0.115
+          },
+          "mass": 0.18,
+          "friction": 0.7,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "non_foot",
+          "collider_id": "collider:handL",
+          "restitution": 0.03
+        },
+        {
+          "id": "upperLegL",
+          "position": {
+            "x": 0.16,
+            "y": 0.84,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "capsule",
+            "half": 0.12,
+            "radius": 0.12
+          },
+          "mass": 0.55,
+          "friction": 0.7,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "non_foot",
+          "collider_id": "collider:upperLegL",
+          "restitution": 0.03
+        },
+        {
+          "id": "lowerLegL",
+          "position": {
+            "x": 0.16,
+            "y": 0.44,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "capsule",
+            "half": 0.12,
+            "radius": 0.105
+          },
+          "mass": 0.4,
+          "friction": 0.7,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "non_foot",
+          "collider_id": "collider:lowerLegL",
+          "restitution": 0.03
+        },
+        {
+          "id": "footL",
+          "position": {
+            "x": 0.16,
+            "y": 0.12,
+            "z": 0.08
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "cuboid",
+            "half": {
+              "x": 0.13,
+              "y": 0.1,
+              "z": 0.22
+            }
+          },
+          "mass": 0.3,
+          "friction": 1,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "foot",
+          "collider_id": "collider:footL",
+          "restitution": 0.03
+        },
+        {
+          "id": "upperArmR",
+          "position": {
+            "x": -0.4,
+            "y": 1.46,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "capsule",
+            "half": 0.12,
+            "radius": 0.09
+          },
+          "mass": 0.35,
+          "friction": 0.7,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "non_foot",
+          "collider_id": "collider:upperArmR",
+          "restitution": 0.03
+        },
+        {
+          "id": "lowerArmR",
+          "position": {
+            "x": -0.4,
+            "y": 1.12,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "capsule",
+            "half": 0.1,
+            "radius": 0.085
+          },
+          "mass": 0.25,
+          "friction": 0.7,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "non_foot",
+          "collider_id": "collider:lowerArmR",
+          "restitution": 0.03
+        },
+        {
+          "id": "handR",
+          "position": {
+            "x": -0.4,
+            "y": 0.85,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "ball",
+            "radius": 0.115
+          },
+          "mass": 0.18,
+          "friction": 0.7,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "non_foot",
+          "collider_id": "collider:handR",
+          "restitution": 0.03
+        },
+        {
+          "id": "upperLegR",
+          "position": {
+            "x": -0.16,
+            "y": 0.84,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "capsule",
+            "half": 0.12,
+            "radius": 0.12
+          },
+          "mass": 0.55,
+          "friction": 0.7,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "non_foot",
+          "collider_id": "collider:upperLegR",
+          "restitution": 0.03
+        },
+        {
+          "id": "lowerLegR",
+          "position": {
+            "x": -0.16,
+            "y": 0.44,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "capsule",
+            "half": 0.12,
+            "radius": 0.105
+          },
+          "mass": 0.4,
+          "friction": 0.7,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "non_foot",
+          "collider_id": "collider:lowerLegR",
+          "restitution": 0.03
+        },
+        {
+          "id": "footR",
+          "position": {
+            "x": -0.16,
+            "y": 0.12,
+            "z": 0.08
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "shape": {
+            "type": "cuboid",
+            "half": {
+              "x": 0.13,
+              "y": 0.1,
+              "z": 0.22
+            }
+          },
+          "mass": 0.3,
+          "friction": 1,
+          "linearDamping": 0.35,
+          "angularDamping": 1.3,
+          "body_class": "foot",
+          "collider_id": "collider:footR",
+          "restitution": 0.03
+        }
+      ],
+      "joints": [
+        {
+          "id": "spine",
+          "parent": "pelvis",
+          "child": "torso",
+          "position": {
+            "x": 0,
+            "y": 1.34,
+            "z": 0
+          },
+          "type": "revolute",
+          "anchorA": {
+            "x": 0,
+            "y": 0.20000000000000018,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": -0.1499999999999999,
+            "z": 0
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": [
+            -0.3,
+            0.3
+          ]
+        },
+        {
+          "id": "neck",
+          "parent": "torso",
+          "child": "head",
+          "position": {
+            "x": 0,
+            "y": 1.83,
+            "z": 0
+          },
+          "type": "revolute",
+          "anchorA": {
+            "x": 0,
+            "y": 0.3400000000000001,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": -0.46999999999999975,
+            "z": 0
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": [
+            -0.45,
+            0.45
+          ]
+        },
+        {
+          "id": "shoulderL",
+          "parent": "torso",
+          "child": "upperArmL",
+          "position": {
+            "x": 0.4,
+            "y": 1.64,
+            "z": 0
+          },
+          "type": "spherical",
+          "anchorA": {
+            "x": 0.4,
+            "y": 0.1499999999999999,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": 0.17999999999999994,
+            "z": 0
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": null
+        },
+        {
+          "id": "elbowL",
+          "parent": "upperArmL",
+          "child": "lowerArmL",
+          "position": {
+            "x": 0.4,
+            "y": 1.28,
+            "z": 0
+          },
+          "type": "revolute",
+          "anchorA": {
+            "x": 0,
+            "y": -0.17999999999999994,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": 0.15999999999999992,
+            "z": 0
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": [
+            -2.35,
+            0.05
+          ]
+        },
+        {
+          "id": "wristL",
+          "parent": "lowerArmL",
+          "child": "handL",
+          "position": {
+            "x": 0.4,
+            "y": 0.96,
+            "z": 0
+          },
+          "type": "revolute",
+          "anchorA": {
+            "x": 0,
+            "y": -0.16000000000000014,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": 0.10999999999999999,
+            "z": 0
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": [
+            -0.35,
+            0.35
+          ]
+        },
+        {
+          "id": "hipL",
+          "parent": "pelvis",
+          "child": "upperLegL",
+          "position": {
+            "x": 0.16,
+            "y": 1.04,
+            "z": 0
+          },
+          "type": "spherical",
+          "anchorA": {
+            "x": 0.16,
+            "y": -0.09999999999999987,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": 0.20000000000000007,
+            "z": 0
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": null
+        },
+        {
+          "id": "kneeL",
+          "parent": "upperLegL",
+          "child": "lowerLegL",
+          "position": {
+            "x": 0.16,
+            "y": 0.64,
+            "z": 0
+          },
+          "type": "revolute",
+          "anchorA": {
+            "x": 0,
+            "y": -0.19999999999999996,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": 0.2,
+            "z": 0
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": [
+            -0.05,
+            2.3
+          ]
+        },
+        {
+          "id": "ankleL",
+          "parent": "lowerLegL",
+          "child": "footL",
+          "position": {
+            "x": 0.16,
+            "y": 0.24,
+            "z": 0
+          },
+          "type": "revolute",
+          "anchorA": {
+            "x": 0,
+            "y": -0.2,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": 0.12,
+            "z": -0.08
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": [
+            -0.4,
+            0.4
+          ]
+        },
+        {
+          "id": "shoulderR",
+          "parent": "torso",
+          "child": "upperArmR",
+          "position": {
+            "x": -0.4,
+            "y": 1.64,
+            "z": 0
+          },
+          "type": "spherical",
+          "anchorA": {
+            "x": -0.4,
+            "y": 0.1499999999999999,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": 0.17999999999999994,
+            "z": 0
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": null
+        },
+        {
+          "id": "elbowR",
+          "parent": "upperArmR",
+          "child": "lowerArmR",
+          "position": {
+            "x": -0.4,
+            "y": 1.28,
+            "z": 0
+          },
+          "type": "revolute",
+          "anchorA": {
+            "x": 0,
+            "y": -0.17999999999999994,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": 0.15999999999999992,
+            "z": 0
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": [
+            -2.35,
+            0.05
+          ]
+        },
+        {
+          "id": "wristR",
+          "parent": "lowerArmR",
+          "child": "handR",
+          "position": {
+            "x": -0.4,
+            "y": 0.96,
+            "z": 0
+          },
+          "type": "revolute",
+          "anchorA": {
+            "x": 0,
+            "y": -0.16000000000000014,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": 0.10999999999999999,
+            "z": 0
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": [
+            -0.35,
+            0.35
+          ]
+        },
+        {
+          "id": "hipR",
+          "parent": "pelvis",
+          "child": "upperLegR",
+          "position": {
+            "x": -0.16,
+            "y": 1.04,
+            "z": 0
+          },
+          "type": "spherical",
+          "anchorA": {
+            "x": -0.16,
+            "y": -0.09999999999999987,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": 0.20000000000000007,
+            "z": 0
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": null
+        },
+        {
+          "id": "kneeR",
+          "parent": "upperLegR",
+          "child": "lowerLegR",
+          "position": {
+            "x": -0.16,
+            "y": 0.64,
+            "z": 0
+          },
+          "type": "revolute",
+          "anchorA": {
+            "x": 0,
+            "y": -0.19999999999999996,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": 0.2,
+            "z": 0
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": [
+            -0.05,
+            2.3
+          ]
+        },
+        {
+          "id": "ankleR",
+          "parent": "lowerLegR",
+          "child": "footR",
+          "position": {
+            "x": -0.16,
+            "y": 0.24,
+            "z": 0
+          },
+          "type": "revolute",
+          "anchorA": {
+            "x": 0,
+            "y": -0.2,
+            "z": 0
+          },
+          "anchorB": {
+            "x": 0,
+            "y": 0.12,
+            "z": -0.08
+          },
+          "axis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "limits": [
+            -0.4,
+            0.4
+          ]
+        }
+      ]
+    },
+    "solver_config": {
+      "numSolverIterations": 32,
+      "numInternalPgsIterations": 1,
+      "maxCcdSubsteps": 1,
+      "lengthUnit": 1,
+      "normalizedAllowedLinearError": 0.005,
+      "normalizedPredictionDistance": 0.02,
+      "additionalSolverIterations": 0
+    },
+    "actuation": {
+      "schema_version": 1,
+      "controller_id": "native-pose-hold-force-v1",
+      "model": "ForceBased",
+      "target_convention": "moving-frame-v1",
+      "stiffness": 100,
+      "damping": 12,
+      "max_torque_Nm": 1,
+      "targets": [
+        {
+          "id": "spine",
+          "target": 0
+        },
+        {
+          "id": "neck",
+          "target": 0
+        },
+        {
+          "id": "shoulderL",
+          "target": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          }
+        },
+        {
+          "id": "elbowL",
+          "target": 0
+        },
+        {
+          "id": "wristL",
+          "target": 0
+        },
+        {
+          "id": "hipL",
+          "target": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          }
+        },
+        {
+          "id": "kneeL",
+          "target": 0
+        },
+        {
+          "id": "ankleL",
+          "target": 0
+        },
+        {
+          "id": "shoulderR",
+          "target": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          }
+        },
+        {
+          "id": "elbowR",
+          "target": 0
+        },
+        {
+          "id": "wristR",
+          "target": 0
+        },
+        {
+          "id": "hipR",
+          "target": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          }
+        },
+        {
+          "id": "kneeR",
+          "target": 0
+        },
+        {
+          "id": "ankleR",
+          "target": 0
+        }
+      ]
+    }
+  },
+  "git_commit": "0000000000000000000000000000000000000000",
+  "dirty": true,
+  "build_id": "diagnostic observer-v2",
+  "rapier_js_version": "0.21.0",
+  "rapier_upstream_commit": "b716d375efc0201003f0cd9ef7168eee0b62c177",
+  "fixed_dt": 0.016666666666666666,
+  "solver_config": {
+    "numSolverIterations": 32,
+    "numInternalPgsIterations": 1,
+    "maxCcdSubsteps": 1,
+    "lengthUnit": 1,
+    "normalizedAllowedLinearError": 0.005,
+    "normalizedPredictionDistance": 0.02,
+    "additionalSolverIterations": 0
+  },
+  "simulation_steps": 186,
+  "observed_time": 3.1,
+  "termination_reason": "non_foot_contact",
+  "failure_reason": "non_foot_floor_contact",
+  "failure_bodies": [
+    "handL",
+    "handR"
+  ],
+  "failure_body": "handL",
+  "failure_step": 186,
+  "standing_time": 3.1,
+  "invalid_detail": null,
+  "fall_cause": "unknown",
+  "telemetry": {
+    "com": {
+      "x": -0.0015919745008015644,
+      "y": 0.6581756867242526,
+      "z": 0.8506497203991813
+    },
+    "com_velocity": {
+      "x": 0.0008997114641264446,
+      "y": -1.8093716784914833,
+      "z": 0.9452580401745253
+    },
+    "floor_observation": {
+      "measurement_version": "current-geometry-interval-support-v2",
+      "geometry_time": "current_pose",
+      "impulse_time": "last_completed_step",
+      "dt": 0.01666666753590107,
+      "bodies": [
+        {
+          "body_id": "pelvis",
+          "collider_id": "collider:pelvis",
+          "current_geometry": null,
+          "query_geometry": null,
+          "current_touching": false,
+          "candidates": [],
+          "solver_contacts": [],
+          "interval_normal_impulse": 0,
+          "interval_vertical_mean_load": 0
+        },
+        {
+          "body_id": "torso",
+          "collider_id": "collider:torso",
+          "current_geometry": null,
+          "query_geometry": null,
+          "current_touching": false,
+          "candidates": [],
+          "solver_contacts": [],
+          "interval_normal_impulse": 0,
+          "interval_vertical_mean_load": 0
+        },
+        {
+          "body_id": "head",
+          "collider_id": "collider:head",
+          "current_geometry": null,
+          "query_geometry": null,
+          "current_touching": false,
+          "candidates": [],
+          "solver_contacts": [],
+          "interval_normal_impulse": 0,
+          "interval_vertical_mean_load": 0
+        },
+        {
+          "body_id": "upperArmL",
+          "collider_id": "collider:upperArmL",
+          "current_geometry": null,
+          "query_geometry": null,
+          "current_touching": false,
+          "candidates": [],
+          "solver_contacts": [],
+          "interval_normal_impulse": 0,
+          "interval_vertical_mean_load": 0
+        },
+        {
+          "body_id": "lowerArmL",
+          "collider_id": "collider:lowerArmL",
+          "current_geometry": null,
+          "query_geometry": null,
+          "current_touching": false,
+          "candidates": [],
+          "solver_contacts": [],
+          "interval_normal_impulse": 0,
+          "interval_vertical_mean_load": 0
+        },
+        {
+          "body_id": "handL",
+          "collider_id": "collider:handL",
+          "current_geometry": {
+            "distance": -0.01934836059808731,
+            "body_point": {
+              "x": 0.3984202444553375,
+              "y": -0.01934836059808731,
+              "z": 0.6883183717727661
+            },
+            "floor_point": {
+              "x": 0.3984202444553375,
+              "y": 0,
+              "z": 0.6883183717727661
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            }
+          },
+          "query_geometry": {
+            "distance": -0.019348330795764923,
+            "body_point": {
+              "x": 0.3984202444553375,
+              "y": -0.0193483829498291,
+              "z": 0.6883183717727661
+            },
+            "floor_point": {
+              "x": 0.3984203636646271,
+              "y": 0,
+              "z": 0.6883185505867004
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            }
+          },
+          "current_touching": true,
+          "candidates": [],
+          "solver_contacts": [],
+          "interval_normal_impulse": 0,
+          "interval_vertical_mean_load": 0
+        },
+        {
+          "body_id": "upperLegL",
+          "collider_id": "collider:upperLegL",
+          "current_geometry": null,
+          "query_geometry": null,
+          "current_touching": false,
+          "candidates": [],
+          "solver_contacts": [],
+          "interval_normal_impulse": 0,
+          "interval_vertical_mean_load": 0
+        },
+        {
+          "body_id": "lowerLegL",
+          "collider_id": "collider:lowerLegL",
+          "current_geometry": null,
+          "query_geometry": null,
+          "current_touching": false,
+          "candidates": [],
+          "solver_contacts": [],
+          "interval_normal_impulse": 0,
+          "interval_vertical_mean_load": 0
+        },
+        {
+          "body_id": "footL",
+          "collider_id": "collider:footL",
+          "current_geometry": {
+            "distance": -0.001239226005848526,
+            "body_point": {
+              "x": 0.0287484180256512,
+              "y": -0.001239226005848526,
+              "z": 0.29714131281573486
+            },
+            "floor_point": {
+              "x": 0.0287484180256512,
+              "y": 0,
+              "z": 0.29714131281573486
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            }
+          },
+          "query_geometry": {
+            "distance": -0.0012333996128290892,
+            "body_point": {
+              "x": 0.15538179874420166,
+              "y": -0.0012334585189819336,
+              "z": 0.297135591506958
+            },
+            "floor_point": {
+              "x": 0.1553819477558136,
+              "y": 5.960464477539063e-8,
+              "z": 0.29713529348373413
+            },
+            "normal": {
+              "x": -9.886789484880865e-7,
+              "y": 1.000000238418579,
+              "z": 0
+            }
+          },
+          "current_touching": true,
+          "candidates": [
+            {
+              "cached_distance": -0.0012897849082946777,
+              "local_body": {
+                "x": 0.1300000101327896,
+                "y": -0.10000000149011612,
+                "z": 0.2200000286102295
+              },
+              "local_floor": {
+                "x": 0.28875231742858887,
+                "y": 0.20000000298023224,
+                "z": 0.29719993472099304
+              },
+              "current_body_point": {
+                "x": 0.28874842285585156,
+                "y": -0.00122734414590972,
+                "z": 0.29712956780668454
+              },
+              "current_floor_point": {
+                "x": 0.28875231742858887,
+                "y": 0,
+                "z": 0.29719993472099304
+              },
+              "current_anchor_gap": -0.00122734414590972,
+              "interval_normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "interval_normal_impulse": 0.18641284108161926
+            },
+            {
+              "cached_distance": -0.001308158040046692,
+              "local_body": {
+                "x": -0.1300000101327896,
+                "y": -0.10000000894069672,
+                "z": 0.22000005841255188
+              },
+              "local_floor": {
+                "x": 0.028752312064170837,
+                "y": 0.20000000298023224,
+                "z": 0.2972106635570526
+              },
+              "current_body_point": {
+                "x": 0.02874840313078869,
+                "y": -0.0012392591557229826,
+                "z": 0.29714136196051566
+              },
+              "current_floor_point": {
+                "x": 0.028752312064170837,
+                "y": 0,
+                "z": 0.2972106635570526
+              },
+              "current_anchor_gap": -0.0012392591557229826,
+              "interval_normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "interval_normal_impulse": 0.18497180938720703
+            },
+            {
+              "cached_distance": 0.10724364221096039,
+              "local_body": {
+                "x": -0.1300000101327896,
+                "y": -0.10000002384185791,
+                "z": -0.22000004351139069
+              },
+              "local_floor": {
+                "x": 0.02872706949710846,
+                "y": 0.20000000298023224,
+                "z": -0.12918886542320251
+              },
+              "current_body_point": {
+                "x": 0.02872377803070142,
+                "y": 0.11796080990115666,
+                "z": -0.1264048989971127
+              },
+              "current_floor_point": {
+                "x": 0.02872706949710846,
+                "y": 0,
+                "z": -0.12918886542320251
+              },
+              "current_anchor_gap": 0.11796080990115666,
+              "interval_normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "interval_normal_impulse": 0
+            },
+            {
+              "cached_distance": 0.10726200044155121,
+              "local_body": {
+                "x": 0.12999996542930603,
+                "y": -0.10000002384185791,
+                "z": -0.2200000286102295
+              },
+              "local_floor": {
+                "x": 0.2887270450592041,
+                "y": 0.20000000298023224,
+                "z": -0.1291995644569397
+              },
+              "current_body_point": {
+                "x": 0.28872375305501957,
+                "y": 0.1179727056263727,
+                "z": -0.12641665213555892
+              },
+              "current_floor_point": {
+                "x": 0.2887270450592041,
+                "y": 0,
+                "z": -0.1291995644569397
+              },
+              "current_anchor_gap": 0.1179727056263727,
+              "interval_normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "interval_normal_impulse": 0
+            }
+          ],
+          "solver_contacts": [
+            {
+              "cached_distance": -0.001308158040046692,
+              "current_midpoint": {
+                "x": 0.028750352561473846,
+                "y": -0.0006196573376655579,
+                "z": 0.2971760630607605
+              }
+            },
+            {
+              "cached_distance": -0.0012897849082946777,
+              "current_midpoint": {
+                "x": 0.28875038027763367,
+                "y": -0.0006136968731880188,
+                "z": 0.29716479778289795
+              }
+            }
+          ],
+          "interval_normal_impulse": 0.3713846504688263,
+          "interval_vertical_mean_load": 22.283077865976505
+        },
+        {
+          "body_id": "upperArmR",
+          "collider_id": "collider:upperArmR",
+          "current_geometry": null,
+          "query_geometry": null,
+          "current_touching": false,
+          "candidates": [],
+          "solver_contacts": [],
+          "interval_normal_impulse": 0,
+          "interval_vertical_mean_load": 0
+        },
+        {
+          "body_id": "lowerArmR",
+          "collider_id": "collider:lowerArmR",
+          "current_geometry": null,
+          "query_geometry": null,
+          "current_touching": false,
+          "candidates": [],
+          "solver_contacts": [],
+          "interval_normal_impulse": 0,
+          "interval_vertical_mean_load": 0
+        },
+        {
+          "body_id": "handR",
+          "collider_id": "collider:handR",
+          "current_geometry": {
+            "distance": -0.01885349303483963,
+            "body_point": {
+              "x": -0.4016664922237396,
+              "y": -0.01885349303483963,
+              "z": 0.6872583627700806
+            },
+            "floor_point": {
+              "x": -0.4016664922237396,
+              "y": 0,
+              "z": 0.6872583627700806
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            }
+          },
+          "query_geometry": {
+            "distance": -0.018853522837162018,
+            "body_point": {
+              "x": -0.4016664922237396,
+              "y": -0.018853500485420227,
+              "z": 0.6872583627700806
+            },
+            "floor_point": {
+              "x": -0.4016664922237396,
+              "y": 0,
+              "z": 0.6872583627700806
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            }
+          },
+          "current_touching": true,
+          "candidates": [],
+          "solver_contacts": [],
+          "interval_normal_impulse": 0,
+          "interval_vertical_mean_load": 0
+        },
+        {
+          "body_id": "upperLegR",
+          "collider_id": "collider:upperLegR",
+          "current_geometry": null,
+          "query_geometry": null,
+          "current_touching": false,
+          "candidates": [],
+          "solver_contacts": [],
+          "interval_normal_impulse": 0,
+          "interval_vertical_mean_load": 0
+        },
+        {
+          "body_id": "lowerLegR",
+          "collider_id": "collider:lowerLegR",
+          "current_geometry": null,
+          "query_geometry": null,
+          "current_touching": false,
+          "candidates": [],
+          "solver_contacts": [],
+          "interval_normal_impulse": 0,
+          "interval_vertical_mean_load": 0
+        },
+        {
+          "body_id": "footR",
+          "collider_id": "collider:footR",
+          "current_geometry": {
+            "distance": -0.001278569456652029,
+            "body_point": {
+              "x": -0.2911932543254738,
+              "y": -0.001278569456652029,
+              "z": 0.2972037713809924
+            },
+            "floor_point": {
+              "x": -0.2911932543254738,
+              "y": 0,
+              "z": 0.2972037713809924
+            },
+            "normal": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            }
+          },
+          "query_geometry": {
+            "distance": -0.0012784990249201655,
+            "body_point": {
+              "x": -0.29119324684143066,
+              "y": -0.0012785494327545166,
+              "z": 0.29720377922058105
+            },
+            "floor_point": {
+              "x": -0.29119351506233215,
+              "y": -7.450580596923828e-8,
+              "z": 0.29720354080200195
+            },
+            "normal": {
+              "x": -1.7935235518962145e-8,
+              "y": 1,
+              "z": 5.960464477539063e-8
+            }
+          },
+          "current_touching": true,
+          "candidates": [
+            {
+              "cached_distance": -0.0012916624546051025,
+              "local_body": {
+                "x": 0.1300000548362732,
+                "y": -0.1000000387430191,
+                "z": 0.2200000286102295
+              },
+              "local_floor": {
+                "x": -0.03119182586669922,
+                "y": 0.20000000298023224,
+                "z": 0.29727762937545776
+              },
+              "current_body_point": {
+                "x": -0.031193205816858194,
+                "y": -0.0012509335227360863,
+                "z": 0.2971969247674024
+              },
+              "current_floor_point": {
+                "x": -0.03119182586669922,
+                "y": 0,
+                "z": 0.29727762937545776
+              },
+              "current_anchor_gap": -0.0012509335227360863,
+              "interval_normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "interval_normal_impulse": 0.20002762973308563
+            },
+            {
+              "cached_distance": -0.0013245493173599243,
+              "local_body": {
+                "x": -0.1300000250339508,
+                "y": -0.10000001639127731,
+                "z": 0.22000005841255188
+              },
+              "local_floor": {
+                "x": -0.29119184613227844,
+                "y": 0.20000000298023224,
+                "z": 0.29728469252586365
+              },
+              "current_body_point": {
+                "x": -0.29119328412367007,
+                "y": -0.0012785985636722674,
+                "z": 0.29720382559624936
+              },
+              "current_floor_point": {
+                "x": -0.29119184613227844,
+                "y": 0,
+                "z": 0.29728469252586365
+              },
+              "current_anchor_gap": -0.0012785985636722674,
+              "interval_normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "interval_normal_impulse": 0.20064538717269897
+            },
+            {
+              "cached_distance": 0.10707138478755951,
+              "local_body": {
+                "x": -0.1300000101327896,
+                "y": -0.10000002384185791,
+                "z": -0.22000004351139069
+              },
+              "local_floor": {
+                "x": -0.2912171185016632,
+                "y": 0.20000000298023224,
+                "z": -0.12915447354316711
+              },
+              "current_body_point": {
+                "x": -0.2912171302093286,
+                "y": 0.11778449268112423,
+                "z": -0.1263809582109988
+              },
+              "current_floor_point": {
+                "x": -0.2912171185016632,
+                "y": 0,
+                "z": -0.12915447354316711
+              },
+              "current_anchor_gap": 0.11778449268112423,
+              "interval_normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "interval_normal_impulse": 0
+            },
+            {
+              "cached_distance": 0.10710428655147552,
+              "local_body": {
+                "x": 0.130000039935112,
+                "y": -0.10000002384185791,
+                "z": -0.22000007331371307
+              },
+              "local_floor": {
+                "x": -0.031217098236083984,
+                "y": 0.20000000298023224,
+                "z": -0.129161536693573
+              },
+              "current_body_point": {
+                "x": -0.03121708170696988,
+                "y": 0.11781217923674105,
+                "z": -0.12638785299072453
+              },
+              "current_floor_point": {
+                "x": -0.031217098236083984,
+                "y": 0,
+                "z": -0.129161536693573
+              },
+              "current_anchor_gap": 0.11781217923674105,
+              "interval_normal": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "interval_normal_impulse": 0
+            }
+          ],
+          "solver_contacts": [
+            {
+              "cached_distance": -0.0013245493173599243,
+              "current_midpoint": {
+                "x": -0.29119259119033813,
+                "y": -0.0006393194198608398,
+                "z": 0.2972443103790283
+              }
+            },
+            {
+              "cached_distance": -0.0012916624546051025,
+              "current_midpoint": {
+                "x": -0.031192488968372345,
+                "y": -0.0006254985928535461,
+                "z": 0.2972372770309448
+              }
+            }
+          ],
+          "interval_normal_impulse": 0.4006730169057846,
+          "interval_vertical_mean_load": 24.04037976054357
+        }
+      ],
+      "contacts": [
+        {
+          "body_id": "footL",
+          "collider_id": "collider:footL",
+          "point": {
+            "x": 0.0287484180256512,
+            "y": -0.001239226005848526,
+            "z": 0.29714131281573486
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.001239226005848526,
+          "normal_impulse": 0.3713846504688263,
+          "normal_load": 22.283077865976505
+        },
+        {
+          "body_id": "footR",
+          "collider_id": "collider:footR",
+          "point": {
+            "x": -0.2911932543254738,
+            "y": -0.001278569456652029,
+            "z": 0.2972037713809924
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.001278569456652029,
+          "normal_impulse": 0.4006730169057846,
+          "normal_load": 24.04037976054357
+        },
+        {
+          "body_id": "handL",
+          "collider_id": "collider:handL",
+          "point": {
+            "x": 0.3984202444553375,
+            "y": -0.01934836059808731,
+            "z": 0.6883183717727661
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.01934836059808731,
+          "normal_impulse": 0,
+          "normal_load": 0
+        },
+        {
+          "body_id": "handR",
+          "collider_id": "collider:handR",
+          "point": {
+            "x": -0.4016664922237396,
+            "y": -0.01885349303483963,
+            "z": 0.6872583627700806
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.01885349303483963,
+          "normal_impulse": 0,
+          "normal_load": 0
+        }
+      ]
+    },
+    "drift": 0.8453532061078431,
+    "pelvis_orientation": {
+      "x": 0.8437708616256714,
+      "y": -0.0003105119685642421,
+      "z": 0.0002724185469560325,
+      "w": 0.5367034673690796
+    },
+    "torso_orientation": {
+      "x": 0.7540885210037231,
+      "y": -0.0003478561411611736,
+      "z": 0.00022391843958757818,
+      "w": 0.6567725539207458
+    },
+    "contacts": [
+      {
+        "body_id": "footL",
+        "collider_id": "collider:footL",
+        "point": {
+          "x": 0.0287484180256512,
+          "y": -0.001239226005848526,
+          "z": 0.29714131281573486
+        },
+        "normal": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "distance": -0.001239226005848526,
+        "normal_impulse": 0.3713846504688263,
+        "normal_load": 22.283077865976505
+      },
+      {
+        "body_id": "footR",
+        "collider_id": "collider:footR",
+        "point": {
+          "x": -0.2911932543254738,
+          "y": -0.001278569456652029,
+          "z": 0.2972037713809924
+        },
+        "normal": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "distance": -0.001278569456652029,
+        "normal_impulse": 0.4006730169057846,
+        "normal_load": 24.04037976054357
+      },
+      {
+        "body_id": "handL",
+        "collider_id": "collider:handL",
+        "point": {
+          "x": 0.3984202444553375,
+          "y": -0.01934836059808731,
+          "z": 0.6883183717727661
+        },
+        "normal": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "distance": -0.01934836059808731,
+        "normal_impulse": 0,
+        "normal_load": 0
+      },
+      {
+        "body_id": "handR",
+        "collider_id": "collider:handR",
+        "point": {
+          "x": -0.4016664922237396,
+          "y": -0.01885349303483963,
+          "z": 0.6872583627700806
+        },
+        "normal": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "distance": -0.01885349303483963,
+        "normal_impulse": 0,
+        "normal_load": 0
+      }
+    ],
+    "foot_loads": {
+      "status": "measured",
+      "footL": 22.283077865976505,
+      "footR": 24.04037976054357
+    },
+    "joints": [
+      {
+        "id": "spine",
+        "anchor_error": 0.000004161042184027508,
+        "axis_error": 0.0000019410820549103587,
+        "angle": -0.30001116456100335,
+        "limit_violation": 0.000011164561003362827
+      },
+      {
+        "id": "neck",
+        "anchor_error": 0.0000016921976684590934,
+        "axis_error": 0.0000014965074372825227,
+        "angle": -0.43740857654363563,
+        "limit_violation": 0
+      },
+      {
+        "id": "shoulderL",
+        "anchor_error": 0.0000037402471611482317,
+        "axis_error": null,
+        "angle": null,
+        "limit_violation": null
+      },
+      {
+        "id": "elbowL",
+        "anchor_error": 0.000007133479090492257,
+        "axis_error": 0.0000020682447466812625,
+        "angle": -0.009370904131123611,
+        "limit_violation": 0
+      },
+      {
+        "id": "wristL",
+        "anchor_error": 4.8948141113595884e-8,
+        "axis_error": 1.3140976522328892e-11,
+        "angle": -0.0005292597084084459,
+        "limit_violation": 0
+      },
+      {
+        "id": "hipL",
+        "anchor_error": 0.000026603335345018633,
+        "axis_error": null,
+        "angle": null,
+        "limit_violation": null
+      },
+      {
+        "id": "kneeL",
+        "anchor_error": 2.2818702744279348e-7,
+        "axis_error": 2.1338504535976558e-12,
+        "angle": -0.050000045729884104,
+        "limit_violation": 4.572988410167511e-8
+      },
+      {
+        "id": "ankleL",
+        "anchor_error": 0.00004908267165417687,
+        "axis_error": 0.000013933740517075497,
+        "angle": -0.400284305032564,
+        "limit_violation": 0.00028430503256399176
+      },
+      {
+        "id": "shoulderR",
+        "anchor_error": 3.936827965644621e-7,
+        "axis_error": null,
+        "angle": null,
+        "limit_violation": null
+      },
+      {
+        "id": "elbowR",
+        "anchor_error": 0.000007427760937319625,
+        "axis_error": 0.000006401488377284449,
+        "angle": -0.009267322849653222,
+        "limit_violation": 0
+      },
+      {
+        "id": "wristR",
+        "anchor_error": 6.068438479659214e-8,
+        "axis_error": 2.9393284127011325e-11,
+        "angle": -0.0005455257143796942,
+        "limit_violation": 0
+      },
+      {
+        "id": "hipR",
+        "anchor_error": 0.000024798621812619012,
+        "axis_error": null,
+        "angle": null,
+        "limit_violation": null
+      },
+      {
+        "id": "kneeR",
+        "anchor_error": 1.2754042079556186e-7,
+        "axis_error": 3.0251792671744696e-11,
+        "angle": -0.050000067113622905,
+        "limit_violation": 6.711362290218181e-8
+      },
+      {
+        "id": "ankleR",
+        "anchor_error": 0.000048323001902479664,
+        "axis_error": 0.000006168749221902648,
+        "angle": -0.40025110747000786,
+        "limit_violation": 0.0002511074700078386
+      }
+    ],
+    "motor_tracking": [
+      {
+        "joint_id": "spine",
+        "kind": "revolute",
+        "target": 0,
+        "actual": -0.30001116456100335,
+        "error_rad": 0.30001116456100335,
+        "relative_angular_velocity_rad_s": {
+          "x": 0.0016645241339269452,
+          "y": -0.0009712537454092637,
+          "z": 0.0002947528000979661
+        },
+        "limits": [
+          -0.3,
+          0.3
+        ],
+        "configured_axis_cap_Nm": 1
+      },
+      {
+        "joint_id": "neck",
+        "kind": "revolute",
+        "target": 0,
+        "actual": -0.43740857654363563,
+        "error_rad": 0.43740857654363563,
+        "relative_angular_velocity_rad_s": {
+          "x": 0.3302521205903779,
+          "y": 0.0012924072139255962,
+          "z": -0.00024397862240876727
+        },
+        "limits": [
+          -0.45,
+          0.45
+        ],
+        "configured_axis_cap_Nm": 1
+      },
+      {
+        "joint_id": "shoulderL",
+        "kind": "spherical",
+        "target": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1
+        },
+        "actual": {
+          "x": -0.5124667818482324,
+          "y": -0.00004845593709581911,
+          "z": 0.000007369036792553721,
+          "w": 0.8587070799131766
+        },
+        "error_rad": 1.0761099849351918,
+        "relative_angular_velocity_rad_s": {
+          "x": -3.412457109295553,
+          "y": 0.003976669024572254,
+          "z": 0.0007288425267307037
+        },
+        "limits": null,
+        "configured_axis_cap_Nm": 1
+      },
+      {
+        "joint_id": "elbowL",
+        "kind": "revolute",
+        "target": 0,
+        "actual": -0.009370904131123611,
+        "error_rad": 0.009370904131123611,
+        "relative_angular_velocity_rad_s": {
+          "x": 0.017459358179488925,
+          "y": -0.0015638301555077221,
+          "z": 0.0007058535174960417
+        },
+        "limits": [
+          -2.35,
+          0.05
+        ],
+        "configured_axis_cap_Nm": 1
+      },
+      {
+        "joint_id": "wristL",
+        "kind": "revolute",
+        "target": 0,
+        "actual": -0.0005292597084084459,
+        "error_rad": 0.0005292597084084459,
+        "relative_angular_velocity_rad_s": {
+          "x": -0.009662244661602513,
+          "y": 6.8147834971956664e-9,
+          "z": 1.9138652642994124e-8
+        },
+        "limits": [
+          -0.35,
+          0.35
+        ],
+        "configured_axis_cap_Nm": 1
+      },
+      {
+        "joint_id": "hipL",
+        "kind": "spherical",
+        "target": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1
+        },
+        "actual": {
+          "x": -0.5987664404115001,
+          "y": 0.0002159935480659772,
+          "z": -0.00037726192851473303,
+          "w": 0.8009236329360088
+        },
+        "error_rad": 1.283920414156004,
+        "relative_angular_velocity_rad_s": {
+          "x": -2.1621086633077047,
+          "y": 0.000006642043606042668,
+          "z": -0.0029366297961820843
+        },
+        "limits": null,
+        "configured_axis_cap_Nm": 1
+      },
+      {
+        "joint_id": "kneeL",
+        "kind": "revolute",
+        "target": 0,
+        "actual": -0.050000045729884104,
+        "error_rad": 0.050000045729884104,
+        "relative_angular_velocity_rad_s": {
+          "x": 1.9173489705326725e-14,
+          "y": 3.6638904098889037e-9,
+          "z": 9.924707565457319e-11
+        },
+        "limits": [
+          -0.05,
+          2.3
+        ],
+        "configured_axis_cap_Nm": 1
+      },
+      {
+        "joint_id": "ankleL",
+        "kind": "revolute",
+        "target": 0,
+        "actual": -0.400284305032564,
+        "error_rad": 0.400284305032564,
+        "relative_angular_velocity_rad_s": {
+          "x": -0.0015694436555302317,
+          "y": -0.0010724105914188945,
+          "z": 0.0008699500084609325
+        },
+        "limits": [
+          -0.4,
+          0.4
+        ],
+        "configured_axis_cap_Nm": 1
+      },
+      {
+        "joint_id": "shoulderR",
+        "kind": "spherical",
+        "target": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1
+        },
+        "actual": {
+          "x": -0.5122052614444467,
+          "y": -0.0005892897960602748,
+          "z": 0.0002683567226733335,
+          "w": 0.8588627013647271
+        },
+        "error_rad": 1.0755020432733522,
+        "relative_angular_velocity_rad_s": {
+          "x": -3.410975570861038,
+          "y": 0.011088823978028309,
+          "z": -0.00607770299897928
+        },
+        "limits": null,
+        "configured_axis_cap_Nm": 1
+      },
+      {
+        "joint_id": "elbowR",
+        "kind": "revolute",
+        "target": 0,
+        "actual": -0.009267322849653222,
+        "error_rad": 0.009267322849653222,
+        "relative_angular_velocity_rad_s": {
+          "x": 0.014674804991752579,
+          "y": -0.011258502615467705,
+          "z": -0.0014991671253913423
+        },
+        "limits": [
+          -2.35,
+          0.05
+        ],
+        "configured_axis_cap_Nm": 1
+      },
+      {
+        "joint_id": "wristR",
+        "kind": "revolute",
+        "target": 0,
+        "actual": -0.0005455257143796942,
+        "error_rad": 0.0005455257143796942,
+        "relative_angular_velocity_rad_s": {
+          "x": -0.009210427305972296,
+          "y": 9.295174272627428e-9,
+          "z": 1.837110770563352e-8
+        },
+        "limits": [
+          -0.35,
+          0.35
+        ],
+        "configured_axis_cap_Nm": 1
+      },
+      {
+        "joint_id": "hipR",
+        "kind": "spherical",
+        "target": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1
+        },
+        "actual": {
+          "x": -0.5989091649801536,
+          "y": 0.00024591598179278485,
+          "z": -0.0003654792521756013,
+          "w": 0.8008168484725786
+        },
+        "error_rad": 1.2842769217577366,
+        "relative_angular_velocity_rad_s": {
+          "x": -2.1632514174997772,
+          "y": 0.00010020558570059471,
+          "z": 0.0006039146382821187
+        },
+        "limits": null,
+        "configured_axis_cap_Nm": 1
+      },
+      {
+        "joint_id": "kneeR",
+        "kind": "revolute",
+        "target": 0,
+        "actual": -0.050000067113622905,
+        "error_rad": 0.050000067113622905,
+        "relative_angular_velocity_rad_s": {
+          "x": -1.1920919815844832e-7,
+          "y": 1.2548463541727163e-9,
+          "z": -1.8109636003666834e-10
+        },
+        "limits": [
+          -0.05,
+          2.3
+        ],
+        "configured_axis_cap_Nm": 1
+      },
+      {
+        "joint_id": "ankleR",
+        "kind": "revolute",
+        "target": 0,
+        "actual": -0.40025110747000786,
+        "error_rad": 0.40025110747000786,
+        "relative_angular_velocity_rad_s": {
+          "x": -0.0045479904163865615,
+          "y": 0.0010324311196598696,
+          "z": -0.0001847909830235663
+        },
+        "limits": [
+          -0.4,
+          0.4
+        ],
+        "configured_axis_cap_Nm": 1
+      }
+    ],
+    "motor_saturation": null,
+    "motor_effort": null,
+    "motor_effort_reason": "Unavailable: supported getters cannot separate motor, contact and limit impulses"
+  },
+  "physics_timing": {
+    "count": 186,
+    "min": 0.3297000000002299,
+    "mean": 0.38624838709679155,
+    "p95": 0.5594999999998436,
+    "max": 0.6127000000001317
+  },
+  "observation_timing": {
+    "count": 186,
+    "min": 0.12749999999959982,
+    "mean": 0.1489827956989043,
+    "p95": 0.22939999999971405,
+    "max": 0.5326000000000022
+  },
+  "platform": {
+    "os": "unspecified",
+    "runtime": "unspecified",
+    "host": "unspecified",
+    "user_agent": null
+  },
+  "checkpoints": [
+    {
+      "step": 0,
+      "bodies": [
+        {
+          "id": "footL",
+          "position": {
+            "x": 0.1599999964237213,
+            "y": 0.11999999731779099,
+            "z": 0.07999999821186066
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "footR",
+          "position": {
+            "x": -0.1599999964237213,
+            "y": 0.11999999731779099,
+            "z": 0.07999999821186066
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "handL",
+          "position": {
+            "x": 0.4000000059604645,
+            "y": 0.8500000238418579,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "handR",
+          "position": {
+            "x": -0.4000000059604645,
+            "y": 0.8500000238418579,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "head",
+          "position": {
+            "x": 0,
+            "y": 2.299999952316284,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "lowerArmL",
+          "position": {
+            "x": 0.4000000059604645,
+            "y": 1.1200000047683716,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "lowerArmR",
+          "position": {
+            "x": -0.4000000059604645,
+            "y": 1.1200000047683716,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "lowerLegL",
+          "position": {
+            "x": 0.1599999964237213,
+            "y": 0.4399999976158142,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "lowerLegR",
+          "position": {
+            "x": -0.1599999964237213,
+            "y": 0.4399999976158142,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "pelvis",
+          "position": {
+            "x": 0,
+            "y": 1.1399999856948853,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "torso",
+          "position": {
+            "x": 0,
+            "y": 1.4900000095367432,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "upperArmL",
+          "position": {
+            "x": 0.4000000059604645,
+            "y": 1.4600000381469727,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "upperArmR",
+          "position": {
+            "x": -0.4000000059604645,
+            "y": 1.4600000381469727,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "upperLegL",
+          "position": {
+            "x": 0.1599999964237213,
+            "y": 0.8399999737739563,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "upperLegR",
+          "position": {
+            "x": -0.1599999964237213,
+            "y": 0.8399999737739563,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular_velocity": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ],
+      "contacts": []
+    },
+    {
+      "step": 1,
+      "bodies": [
+        {
+          "id": "footL",
+          "position": {
+            "x": 0.1599999964237213,
+            "y": 0.11859486997127533,
+            "z": 0.08000000566244125
+          },
+          "rotation": {
+            "x": -1.9200033563038232e-8,
+            "y": -1.229112722711534e-8,
+            "z": 3.601921960694199e-8,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.0000028834776912844973,
+            "y": -0.1625387966632843,
+            "z": -0.000002957644710477325
+          },
+          "angular_velocity": {
+            "x": 0.000013271052921481896,
+            "y": 0.00001973646430997178,
+            "z": -0.000047603476559743285
+          }
+        },
+        {
+          "id": "footR",
+          "position": {
+            "x": -0.1599999964237213,
+            "y": 0.1185949370265007,
+            "z": 0.07999999821186066
+          },
+          "rotation": {
+            "x": 2.164517809433164e-8,
+            "y": -1.568360374903932e-8,
+            "z": 1.7906298666048315e-8,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0.000006754681635356974,
+            "y": -0.1625613272190094,
+            "z": 0.000003497018951748032
+          },
+          "angular_velocity": {
+            "x": -0.00006427991320379078,
+            "y": -0.000005055585006630281,
+            "z": 0.000023591084755025804
+          }
+        },
+        {
+          "id": "handL",
+          "position": {
+            "x": 0.4000000059604645,
+            "y": 0.8485950231552124,
+            "z": -4.1912934234389354e-10
+          },
+          "rotation": {
+            "x": 1.4678164239612101e-9,
+            "y": -2.7979785155451964e-9,
+            "z": 2.783874908374173e-9,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0.0000034227459764224477,
+            "y": -0.1625525802373886,
+            "z": 2.4858666236582394e-8
+          },
+          "angular_velocity": {
+            "x": 8.109312688020509e-8,
+            "y": -2.3473843668853078e-7,
+            "z": 0.000020278779629734345
+          }
+        },
+        {
+          "id": "handR",
+          "position": {
+            "x": -0.4000000059604645,
+            "y": 0.8485949635505676,
+            "z": -6.429253657236345e-11
+          },
+          "rotation": {
+            "x": -2.269573862179186e-9,
+            "y": -2.755284667088631e-9,
+            "z": 1.0581899800854444e-9,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0.000009710137419460807,
+            "y": -0.1625574827194214,
+            "z": -7.414409708417224e-8
+          },
+          "angular_velocity": {
+            "x": -7.5222679640774e-8,
+            "y": -2.2550889866579382e-7,
+            "z": 0.00007173504127422348
+          }
+        },
+        {
+          "id": "head",
+          "position": {
+            "x": 3.683898697204313e-8,
+            "y": 2.2985949516296387,
+            "z": -1.982656747112621e-11
+          },
+          "rotation": {
+            "x": 5.103034661502193e-10,
+            "y": -2.7078341791053617e-9,
+            "z": -2.8180705768932057e-8,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0.000008530688319297042,
+            "y": -0.16252553462982178,
+            "z": -2.9770513165772172e-8
+          },
+          "angular_velocity": {
+            "x": 1.1347897554969677e-7,
+            "y": 2.5672363790363306e-7,
+            "z": -0.000026951061954605393
+          }
+        },
+        {
+          "id": "lowerArmL",
+          "position": {
+            "x": 0.4000000059604645,
+            "y": 1.118595004081726,
+            "z": 3.638982171150218e-10
+          },
+          "rotation": {
+            "x": 1.4378374046941644e-9,
+            "y": -2.7979785155451964e-9,
+            "z": 2.7838731320173338e-9,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.0000021387129436334362,
+            "y": -0.1625525802373886,
+            "z": 5.0831673092943674e-8
+          },
+          "angular_velocity": {
+            "x": 1.0406406403262736e-7,
+            "y": -2.347384651102402e-7,
+            "z": 0.000020278768715797924
+          }
+        },
+        {
+          "id": "lowerArmR",
+          "position": {
+            "x": -0.3999999761581421,
+            "y": 1.1185948848724365,
+            "z": -1.2622716205612505e-9
+          },
+          "rotation": {
+            "x": -2.183352831863772e-9,
+            "y": -2.755284667088631e-9,
+            "z": 1.058197085512802e-9,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.000009963224329112563,
+            "y": -0.1625574827194214,
+            "z": -9.980060156067339e-8
+          },
+          "angular_velocity": {
+            "x": -1.061526333501206e-7,
+            "y": -2.2550891287664854e-7,
+            "z": 0.00007173512130975723
+          }
+        },
+        {
+          "id": "lowerLegL",
+          "position": {
+            "x": 0.15999998152256012,
+            "y": 0.43859487771987915,
+            "z": 1.1627374618683461e-9
+          },
+          "rotation": {
+            "x": 1.9220929292629307e-9,
+            "y": -1.1694134549600221e-8,
+            "z": -7.715081906667365e-9,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0.000004680346137320157,
+            "y": -0.16256043314933777,
+            "z": 0.0000016442238575109513
+          },
+          "angular_velocity": {
+            "x": 8.416167247560224e-7,
+            "y": 0.000006075880264688749,
+            "z": -0.000006791600753786042
+          }
+        },
+        {
+          "id": "lowerLegR",
+          "position": {
+            "x": -0.1599999964237213,
+            "y": 0.43859490752220154,
+            "z": 4.561421462767612e-9
+          },
+          "rotation": {
+            "x": -1.7462558066227984e-9,
+            "y": -9.82690906425887e-9,
+            "z": 7.201034435411202e-9,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.0000018809955690812785,
+            "y": -0.16257034242153168,
+            "z": -0.000004276264462532708
+          },
+          "angular_velocity": {
+            "x": 0.000016575477275182493,
+            "y": -0.000005243466148385778,
+            "z": -0.000013069806300336495
+          }
+        },
+        {
+          "id": "pelvis",
+          "position": {
+            "x": -1.9125621975035756e-8,
+            "y": 1.1385949850082397,
+            "z": -7.632033199866939e-11
+          },
+          "rotation": {
+            "x": -1.674897553982646e-9,
+            "y": -1.890062995002495e-9,
+            "z": -3.509752133368238e-8,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0.000005750564469053643,
+            "y": -0.16258832812309265,
+            "z": 2.341419644835696e-7
+          },
+          "angular_velocity": {
+            "x": -0.0000011756791309380787,
+            "y": 6.213288656908844e-7,
+            "z": 0.00006915182893862948
+          }
+        },
+        {
+          "id": "torso",
+          "position": {
+            "x": -9.45434397436884e-9,
+            "y": 1.488594889640808,
+            "z": -7.196636064854545e-10
+          },
+          "rotation": {
+            "x": 3.274792104157598e-10,
+            "y": -2.736667115144087e-9,
+            "z": 2.9273785173700162e-8,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.000013411779946181923,
+            "y": -0.16252727806568146,
+            "z": -6.9266139490764544e-9
+          },
+          "angular_velocity": {
+            "x": -2.1932864058271662e-7,
+            "y": 3.928779435113938e-8,
+            "z": -0.00003176960672135465
+          }
+        },
+        {
+          "id": "upperArmL",
+          "position": {
+            "x": 0.4000000059604645,
+            "y": 1.4585949182510376,
+            "z": 1.2103490432124886e-9
+          },
+          "rotation": {
+            "x": 9.7087338168933e-10,
+            "y": -2.8678410757265738e-9,
+            "z": -3.757820721261851e-8,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.0000025441363504796755,
+            "y": -0.16254153847694397,
+            "z": 2.060154891125876e-8
+          },
+          "angular_velocity": {
+            "x": -6.074317298043752e-7,
+            "y": 1.8688781722175918e-7,
+            "z": 0.00002986748586408794
+          }
+        },
+        {
+          "id": "upperArmR",
+          "position": {
+            "x": -0.4000000059604645,
+            "y": 1.4585949182510376,
+            "z": -2.392898768022178e-9
+          },
+          "rotation": {
+            "x": -1.1607070860009117e-9,
+            "y": -2.822109435030029e-9,
+            "z": 1.1244637221352605e-8,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.000007025111244729487,
+            "y": -0.16251437366008759,
+            "z": -9.637272313511858e-8
+          },
+          "angular_velocity": {
+            "x": 3.937540498100134e-7,
+            "y": 9.633555464461097e-8,
+            "z": 0.00000845698650664417
+          }
+        },
+        {
+          "id": "upperLegL",
+          "position": {
+            "x": 0.15999998152256012,
+            "y": 0.8385948538780212,
+            "z": 1.0759247937031091e-9
+          },
+          "rotation": {
+            "x": -2.1391239890533598e-9,
+            "y": -1.1694133661421802e-8,
+            "z": -7.715081906667365e-9,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0.000007439755790983327,
+            "y": -0.16256043314933777,
+            "z": 0.0000013556897329181083
+          },
+          "angular_velocity": {
+            "x": -0.000002261925828861422,
+            "y": 0.0000060758775362046435,
+            "z": -0.000006791600753786042
+          }
+        },
+        {
+          "id": "upperLegR",
+          "position": {
+            "x": -0.1600000113248825,
+            "y": 0.838594913482666,
+            "z": 2.149003419660289e-9
+          },
+          "rotation": {
+            "x": -6.237910188389151e-9,
+            "y": -7.0286367837013586e-9,
+            "z": 1.0215499557375551e-8,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0.000006031805696693482,
+            "y": -0.162599578499794,
+            "z": -2.29244903948711e-7
+          },
+          "angular_velocity": {
+            "x": 0.000003365932570886798,
+            "y": -0.0000055126379265857395,
+            "z": -0.00003319149254821241
+          }
+        }
+      ],
+      "contacts": []
+    },
+    {
+      "step": 10,
+      "bodies": [
+        {
+          "id": "footL",
+          "position": {
+            "x": 0.15962818264961243,
+            "y": 0.0987534150481224,
+            "z": 0.07978331297636032
+          },
+          "rotation": {
+            "x": -0.0013753549428656697,
+            "y": 0.000020520976249827072,
+            "z": -0.00037017668364569545,
+            "w": 0.9999990463256836
+          },
+          "linear_velocity": {
+            "x": -0.0009182990761473775,
+            "y": -0.000901974446605891,
+            "z": -0.00008788958803052083
+          },
+          "angular_velocity": {
+            "x": -0.0007866140222176909,
+            "y": 9.999959615925036e-8,
+            "z": 0.008218798786401749
+          }
+        },
+        {
+          "id": "footR",
+          "position": {
+            "x": -0.16035214066505432,
+            "y": 0.09881781786680222,
+            "z": 0.07979237288236618
+          },
+          "rotation": {
+            "x": -0.0013126161647960544,
+            "y": 0.000024621565898996778,
+            "z": -0.0003595071320887655,
+            "w": 0.9999990463256836
+          },
+          "linear_velocity": {
+            "x": -0.0008001955575309694,
+            "y": -0.0007925093523226678,
+            "z": -0.00007417834422085434
+          },
+          "angular_velocity": {
+            "x": -0.0006638979539275169,
+            "y": 1.3469940540744574e-7,
+            "z": 0.007161769084632397
+          }
+        },
+        {
+          "id": "handL",
+          "position": {
+            "x": 0.40030407905578613,
+            "y": 0.8283994197845459,
+            "z": 0.0002883639244828373
+          },
+          "rotation": {
+            "x": 0.00008918105595512316,
+            "y": 0.000034214685001643375,
+            "z": -0.00009595786104910076,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.00023852732556406409,
+            "y": -0.002796742133796215,
+            "z": 0.011717347428202629
+          },
+          "angular_velocity": {
+            "x": -0.001624653465114534,
+            "y": 0.0002076506643788889,
+            "z": -0.0004513515450526029
+          }
+        },
+        {
+          "id": "handR",
+          "position": {
+            "x": -0.4001469910144806,
+            "y": 0.8286058902740479,
+            "z": 0.000338056095642969
+          },
+          "rotation": {
+            "x": 0.00009394538938067853,
+            "y": 0.000043664615077432245,
+            "z": -0.0003806203603744507,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.002259997883811593,
+            "y": -0.0008575640385970473,
+            "z": 0.012134241871535778
+          },
+          "angular_velocity": {
+            "x": -0.0020099978428333998,
+            "y": 0.00039226788794621825,
+            "z": -0.003001146949827671
+          }
+        },
+        {
+          "id": "head",
+          "position": {
+            "x": 0.0006228929851204157,
+            "y": 2.2785136699676514,
+            "z": 0.00008446574065601453
+          },
+          "rotation": {
+            "x": -0.00020409977878443897,
+            "y": 0.00003448436109465547,
+            "z": -0.00012746438733302057,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0.0017419431824237108,
+            "y": -0.001895767287351191,
+            "z": 0.0024729249998927116
+          },
+          "angular_velocity": {
+            "x": -0.011103999800980091,
+            "y": 0.0002283141075167805,
+            "z": -0.002394303446635604
+          }
+        },
+        {
+          "id": "lowerArmL",
+          "position": {
+            "x": 0.40035590529441833,
+            "y": 1.0983994007110596,
+            "z": 0.0003328365564811975
+          },
+          "rotation": {
+            "x": 0.00007767049100948498,
+            "y": 0.00003421579094720073,
+            "z": -0.00009595746087143198,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.00011474271741462871,
+            "y": -0.0027966725174337626,
+            "z": 0.011153489351272583
+          },
+          "angular_velocity": {
+            "x": -0.002352479612454772,
+            "y": 0.00020779010083060712,
+            "z": -0.00045130192302167416
+          }
+        },
+        {
+          "id": "lowerArmR",
+          "position": {
+            "x": -0.39994141459465027,
+            "y": 1.098605751991272,
+            "z": 0.0003851506335195154
+          },
+          "rotation": {
+            "x": 0.0000826110626803711,
+            "y": 0.00004366892608231865,
+            "z": -0.0003806198947131634,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.0014369238633662462,
+            "y": -0.0008580729481764138,
+            "z": 0.011467959731817245
+          },
+          "angular_velocity": {
+            "x": -0.0027173482812941074,
+            "y": 0.00039280534838326275,
+            "z": -0.003001085016876459
+          }
+        },
+        {
+          "id": "lowerLegL",
+          "position": {
+            "x": 0.1598605066537857,
+            "y": 0.41850581765174866,
+            "z": -0.00007254591037053615
+          },
+          "rotation": {
+            "x": 0.0011778745101764798,
+            "y": 0.000019725539459614083,
+            "z": -0.00037038835580460727,
+            "w": 0.9999992847442627
+          },
+          "linear_velocity": {
+            "x": -0.0010609141318127513,
+            "y": -0.001469218754209578,
+            "z": 0.003951253369450569
+          },
+          "angular_velocity": {
+            "x": 0.01979079283773899,
+            "y": 0.00012840917042922229,
+            "z": 0.0004231703351251781
+          }
+        },
+        {
+          "id": "lowerLegR",
+          "position": {
+            "x": -0.16012690961360931,
+            "y": 0.41858232021331787,
+            "z": -1.0566441233095247e-7
+          },
+          "rotation": {
+            "x": 0.0013001782353967428,
+            "y": 0.00002344813219679054,
+            "z": -0.0003580277261789888,
+            "w": 0.9999991655349731
+          },
+          "linear_velocity": {
+            "x": -0.0009871342917904258,
+            "y": -0.000619992264546454,
+            "z": 0.004588177427649498
+          },
+          "angular_velocity": {
+            "x": 0.017565419897437096,
+            "y": 0.000009676356967247557,
+            "z": 0.0005292285932227969
+          }
+        },
+        {
+          "id": "pelvis",
+          "position": {
+            "x": 0.0003270824090577662,
+            "y": 1.1185263395309448,
+            "z": 0.0005211689858697355
+          },
+          "rotation": {
+            "x": -0.00013443036004900932,
+            "y": 0.0000344656000379473,
+            "z": -0.00012702611275017262,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.0008094799122773111,
+            "y": -0.0015182368224486709,
+            "z": 0.011698642745614052
+          },
+          "angular_velocity": {
+            "x": -0.00036873514181934297,
+            "y": 0.00019759601855184883,
+            "z": 0.00006691610906273127
+          }
+        },
+        {
+          "id": "torso",
+          "position": {
+            "x": 0.000416453491197899,
+            "y": 1.4685115814208984,
+            "z": 0.0004086427215952426
+          },
+          "rotation": {
+            "x": -0.00019455101573839784,
+            "y": 0.00003449053838266991,
+            "z": -0.00012741165119223297,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.0002793476451188326,
+            "y": -0.0018907607300207019,
+            "z": 0.01040048897266388
+          },
+          "angular_velocity": {
+            "x": -0.0074922991916537285,
+            "y": 0.00021835174993611872,
+            "z": -0.0024948527570813894
+          }
+        },
+        {
+          "id": "upperArmL",
+          "position": {
+            "x": 0.40042123198509216,
+            "y": 1.4384071826934814,
+            "z": 0.00034029269590973854
+          },
+          "rotation": {
+            "x": -0.000049074384151026607,
+            "y": 0.00003421893052291125,
+            "z": -0.0000964392747846432,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": 0.000017388332707923837,
+            "y": -0.0028547304682433605,
+            "z": 0.010027993470430374
+          },
+          "angular_velocity": {
+            "x": -0.004884787369519472,
+            "y": 0.00023167426115833223,
+            "z": -0.0006468649371527135
+          }
+        },
+        {
+          "id": "upperArmR",
+          "position": {
+            "x": -0.3996827006340027,
+            "y": 1.4386135339736938,
+            "z": 0.0003948484663851559
+          },
+          "rotation": {
+            "x": -0.000047204826842062175,
+            "y": 0.000043777719838544726,
+            "z": -0.00038160907570272684,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.00009466716437600553,
+            "y": -0.0008772070286795497,
+            "z": 0.010251975618302822
+          },
+          "angular_velocity": {
+            "x": -0.0049502188339829445,
+            "y": 0.00015537439321633428,
+            "z": -0.0010703246807679534
+          }
+        },
+        {
+          "id": "upperLegL",
+          "position": {
+            "x": 0.16015681624412537,
+            "y": 0.8185051679611206,
+            "z": 0.00046883634058758616
+          },
+          "rotation": {
+            "x": 0.00017559669504407793,
+            "y": 0.000020096760636079125,
+            "z": -0.0003703684196807444,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.0012328833108767867,
+            "y": -0.0014789835549890995,
+            "z": 0.00931240152567625
+          },
+          "angular_velocity": {
+            "x": 0.006599784828722477,
+            "y": 0.0001381824113195762,
+            "z": 0.000423701130785048
+          }
+        },
+        {
+          "id": "upperLegR",
+          "position": {
+            "x": -0.15983988344669342,
+            "y": 0.8185670971870422,
+            "z": 0.0005401039961725473
+          },
+          "rotation": {
+            "x": 0.00004744710895465687,
+            "y": 0.000023535947548225522,
+            "z": -0.00035399215994402766,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.0020072085317224264,
+            "y": -0.0015280689112842083,
+            "z": 0.009856448508799076
+          },
+          "angular_velocity": {
+            "x": 0.009411224164068699,
+            "y": 0.000852602010127157,
+            "z": -0.005929236765950918
+          }
+        }
+      ],
+      "contacts": [
+        {
+          "body_id": "footL",
+          "collider_id": "collider:footL",
+          "point": {
+            "x": 0.28954485929579554,
+            "y": -0.001947586062895551,
+            "z": -0.13994598420127055
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.001947586062895551,
+          "normal_impulse": 0.7748997583985329,
+          "normal_load": 46.49398307906179
+        },
+        {
+          "body_id": "footR",
+          "collider_id": "collider:footR",
+          "point": {
+            "x": -0.030435115206898955,
+            "y": -0.001852840047061849,
+            "z": -0.13995062169316183
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.001852840047061849,
+          "normal_impulse": 0.7104497104883194,
+          "normal_load": 42.626980406128894
+        }
+      ]
+    },
+    {
+      "step": 30,
+      "bodies": [
+        {
+          "id": "footL",
+          "position": {
+            "x": 0.15940476953983307,
+            "y": 0.09866004437208176,
+            "z": 0.07935025542974472
+          },
+          "rotation": {
+            "x": -0.0013435970759019256,
+            "y": 0.000022120979338069446,
+            "z": 0.00004157252988079563,
+            "w": 0.9999991655349731
+          },
+          "linear_velocity": {
+            "x": -0.0006976346485316753,
+            "y": -0.000714450201485306,
+            "z": -0.000052532814152073115
+          },
+          "angular_velocity": {
+            "x": -0.0004701698780991137,
+            "y": 9.72006546362536e-8,
+            "z": 0.006243846379220486
+          }
+        },
+        {
+          "id": "footR",
+          "position": {
+            "x": -0.16058169305324554,
+            "y": 0.09869015216827393,
+            "z": 0.07935924828052521
+          },
+          "rotation": {
+            "x": -0.001304202014580369,
+            "y": 0.000026087345759151503,
+            "z": 0.000048465248255524784,
+            "w": 0.9999991655349731
+          },
+          "linear_velocity": {
+            "x": -0.0006806974997743964,
+            "y": -0.0007011676789261401,
+            "z": -0.00005143521775607951
+          },
+          "angular_velocity": {
+            "x": -0.000460346374893561,
+            "y": 5.2161382768645126e-8,
+            "z": 0.006092258729040623
+          }
+        },
+        {
+          "id": "handL",
+          "position": {
+            "x": 0.3992502987384796,
+            "y": 0.8283147215843201,
+            "z": 0.0060607860796153545
+          },
+          "rotation": {
+            "x": 0.0009681509109213948,
+            "y": 0.0000061766913859173656,
+            "z": -0.00008897411316866055,
+            "w": 0.9999995231628418
+          },
+          "linear_velocity": {
+            "x": -0.0006885425536893308,
+            "y": -0.00015449120837729424,
+            "z": 0.01022886298596859
+          },
+          "angular_velocity": {
+            "x": 0.025607530027627945,
+            "y": 0.000017289885363425128,
+            "z": -0.0003416403487790376
+          }
+        },
+        {
+          "id": "handR",
+          "position": {
+            "x": -0.4013785719871521,
+            "y": 0.828416109085083,
+            "z": 0.006067835260182619
+          },
+          "rotation": {
+            "x": 0.0009707854478619993,
+            "y": 0.00000785866996011464,
+            "z": -0.0004860563494730741,
+            "w": 0.9999994039535522
+          },
+          "linear_velocity": {
+            "x": -0.000730163068510592,
+            "y": -0.000010561643648543395,
+            "z": 0.010280871763825417
+          },
+          "angular_velocity": {
+            "x": 0.02554665505886078,
+            "y": -0.0000309571078105364,
+            "z": -0.00042606773786246777
+          }
+        },
+        {
+          "id": "head",
+          "position": {
+            "x": -0.0005291551351547241,
+            "y": 2.278374195098877,
+            "z": 0.00843062624335289
+          },
+          "rotation": {
+            "x": 0.0004306056071072817,
+            "y": 0.0000060950073930143844,
+            "z": -0.00006164026126498356,
+            "w": 1
+          },
+          "linear_velocity": {
+            "x": -0.00035857802140526474,
+            "y": -0.00016621335817035288,
+            "z": 0.04955649375915527
+          },
+          "angular_velocity": {
+            "x": 0.027689456939697266,
+            "y": 0.000015467174307559617,
+            "z": -0.00010853030835278332
+          }
+        },
+        {
+          "id": "lowerArmL",
+          "position": {
+            "x": 0.3992983400821686,
+            "y": 1.0983142852783203,
+            "z": 0.0065856678411364555
+          },
+          "rotation": {
+            "x": 0.0009746529976837337,
+            "y": 0.000006176112947287038,
+            "z": -0.00008897415682440624,
+            "w": 0.9999995231628418
+          },
+          "linear_velocity": {
+            "x": -0.0005948381731286645,
+            "y": -0.0001681185094639659,
+            "z": 0.01727999746799469
+          },
+          "angular_velocity": {
+            "x": 0.02578151971101761,
+            "y": 0.000017258944353670813,
+            "z": -0.0003416425606701523
+          }
+        },
+        {
+          "id": "lowerArmR",
+          "position": {
+            "x": -0.40111610293388367,
+            "y": 1.0984153747558594,
+            "z": 0.006594104692339897
+          },
+          "rotation": {
+            "x": 0.0009771848563104868,
+            "y": 0.000007855560397729278,
+            "z": -0.000486056407680735,
+            "w": 0.9999994039535522
+          },
+          "linear_velocity": {
+            "x": -0.000613330164924264,
+            "y": -0.000024290910005220212,
+            "z": 0.01731574907898903
+          },
+          "angular_velocity": {
+            "x": 0.025723325088620186,
+            "y": -0.00003112882041023113,
+            "z": -0.00042607064824551344
+          }
+        },
+        {
+          "id": "lowerLegL",
+          "position": {
+            "x": 0.15937352180480957,
+            "y": 0.41840818524360657,
+            "z": 0.0010083233937621117
+          },
+          "rotation": {
+            "x": 0.00495048938319087,
+            "y": 0.00002224680247309152,
+            "z": 0.000045493656216422096,
+            "w": 0.9999877214431763
+          },
+          "linear_velocity": {
+            "x": -0.0006641432410106063,
+            "y": 0.0009560380131006241,
+            "z": 0.0028615626506507397
+          },
+          "angular_velocity": {
+            "x": 0.010711127892136574,
+            "y": -0.00003581972487154417,
+            "z": -0.00024296925403177738
+          }
+        },
+        {
+          "id": "lowerLegR",
+          "position": {
+            "x": -0.16061778366565704,
+            "y": 0.41844451427459717,
+            "z": 0.0011055240174755454
+          },
+          "rotation": {
+            "x": 0.005148492753505707,
+            "y": 0.00002609103285067249,
+            "z": 0.00005465300637297332,
+            "w": 0.9999867677688599
+          },
+          "linear_velocity": {
+            "x": -0.0006235854234546423,
+            "y": 0.0008633332327008247,
+            "z": 0.0027109666261821985
+          },
+          "angular_velocity": {
+            "x": 0.006843183655291796,
+            "y": -0.00002491431951057166,
+            "z": -0.00021617765014525503
+          }
+        },
+        {
+          "id": "pelvis",
+          "position": {
+            "x": -0.0006723450496792793,
+            "y": 1.1183902025222778,
+            "z": 0.006081178784370422
+          },
+          "rotation": {
+            "x": 0.0023528847377747297,
+            "y": 0.000006059794486645842,
+            "z": -0.00006270476296776906,
+            "w": 0.9999972581863403
+          },
+          "linear_velocity": {
+            "x": -0.00014950387412682176,
+            "y": 0.0003188695991411805,
+            "z": 0.01756558194756508
+          },
+          "angular_velocity": {
+            "x": 0.025924453511834145,
+            "y": -0.0003097527951467782,
+            "z": 0.002949703484773636
+          }
+        },
+        {
+          "id": "torso",
+          "position": {
+            "x": -0.0006289936136454344,
+            "y": 1.4683730602264404,
+            "z": 0.007329330313950777
+          },
+          "rotation": {
+            "x": 0.0010242845164611936,
+            "y": 0.000006057835889805574,
+            "z": -0.00006154931907076389,
+            "w": 0.9999995231628418
+          },
+          "linear_velocity": {
+            "x": -0.0005088489851914346,
+            "y": -0.00014506188745144755,
+            "z": 0.026922153308987617
+          },
+          "angular_velocity": {
+            "x": 0.02722902223467827,
+            "y": 0.00001790906571841333,
+            "z": -0.00025480592739768326
+          }
+        },
+        {
+          "id": "upperArmL",
+          "position": {
+            "x": 0.3993588089942932,
+            "y": 1.4383213520050049,
+            "z": 0.007264616899192333
+          },
+          "rotation": {
+            "x": 0.001019739080220461,
+            "y": 0.000006172323537612101,
+            "z": -0.00008884668204700574,
+            "w": 0.9999995231628418
+          },
+          "linear_velocity": {
+            "x": -0.0004782234609592706,
+            "y": -0.00020638709247577935,
+            "z": 0.026254989206790924
+          },
+          "angular_velocity": {
+            "x": 0.026319138705730438,
+            "y": 0.000014767232642043382,
+            "z": -0.0002950985508505255
+          }
+        },
+        {
+          "id": "upperArmR",
+          "position": {
+            "x": -0.4007857143878937,
+            "y": 1.438422441482544,
+            "z": 0.007274134550243616
+          },
+          "rotation": {
+            "x": 0.001020497060380876,
+            "y": 0.00000782958886702545,
+            "z": -0.0004864160146098584,
+            "w": 0.9999994039535522
+          },
+          "linear_velocity": {
+            "x": -0.0001967704010894522,
+            "y": -0.00004064235326950438,
+            "z": 0.02627481520175934
+          },
+          "angular_velocity": {
+            "x": 0.026278695091605186,
+            "y": -0.000015183180039457511,
+            "z": 0.001494436408393085
+          }
+        },
+        {
+          "id": "upperLegL",
+          "position": {
+            "x": 0.15933717787265778,
+            "y": 0.8183940649032593,
+            "z": 0.00429926672950387
+          },
+          "rotation": {
+            "x": 0.003276944626122713,
+            "y": 0.00002217063411080744,
+            "z": 0.00004553082908387296,
+            "w": 0.9999946355819702
+          },
+          "linear_velocity": {
+            "x": -0.0005654480191878974,
+            "y": 0.0009054786642082036,
+            "z": 0.00947626493871212
+          },
+          "angular_velocity": {
+            "x": 0.02185082621872425,
+            "y": -0.00003480164014035836,
+            "z": -0.00024345888232346624
+          }
+        },
+        {
+          "id": "upperLegR",
+          "position": {
+            "x": -0.16066096723079681,
+            "y": 0.8184150457382202,
+            "z": 0.004389090929180384
+          },
+          "rotation": {
+            "x": 0.003058759029954672,
+            "y": 0.000025671051844256,
+            "z": 0.0000598746701143682,
+            "w": 0.9999953508377075
+          },
+          "linear_velocity": {
+            "x": -0.001400195760652423,
+            "y": -0.00011503248970257118,
+            "z": 0.009412592276930809
+          },
+          "angular_velocity": {
+            "x": 0.02692633680999279,
+            "y": 0.0003512023249641061,
+            "z": -0.007629802916198969
+          }
+        }
+      ],
+      "contacts": [
+        {
+          "body_id": "footL",
+          "collider_id": "collider:footL",
+          "point": {
+            "x": 0.02940338668270176,
+            "y": -0.0019415793806266818,
+            "z": -0.14037446390624128
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.001941579380626668,
+          "normal_impulse": 0.7489752843976021,
+          "normal_load": 44.938514720129945
+        },
+        {
+          "body_id": "footR",
+          "collider_id": "collider:footR",
+          "point": {
+            "x": -0.29058343826158484,
+            "y": -0.001895949711243114,
+            "z": -0.14037236274800935
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.0018959497112431278,
+          "normal_impulse": 0.7325109392404556,
+          "normal_load": 43.95065406222211
+        }
+      ]
+    },
+    {
+      "step": 60,
+      "bodies": [
+        {
+          "id": "footL",
+          "position": {
+            "x": 0.1590152531862259,
+            "y": 0.09866712242364883,
+            "z": 0.07859234511852264
+          },
+          "rotation": {
+            "x": -0.0011651780223473907,
+            "y": 0.00002026086804107763,
+            "z": -0.00006089098678785376,
+            "w": 0.9999994039535522
+          },
+          "linear_velocity": {
+            "x": -0.0008465889259241521,
+            "y": -0.0008681195322424173,
+            "z": -0.00006835516251157969
+          },
+          "angular_velocity": {
+            "x": -0.000611780327744782,
+            "y": 9.447091287029252e-8,
+            "z": 0.007576990872621536
+          }
+        },
+        {
+          "id": "footR",
+          "position": {
+            "x": -0.1609559953212738,
+            "y": 0.09871261566877365,
+            "z": 0.0786258801817894
+          },
+          "rotation": {
+            "x": -0.001109330914914608,
+            "y": 0.000024070879589999095,
+            "z": -0.000045607965148519725,
+            "w": 0.9999994039535522
+          },
+          "linear_velocity": {
+            "x": -0.000814875471405685,
+            "y": -0.0008362446096725762,
+            "z": -0.00007217988604679704
+          },
+          "angular_velocity": {
+            "x": -0.0006460115546360612,
+            "y": 7.088751630135448e-8,
+            "z": 0.007293154951184988
+          }
+        },
+        {
+          "id": "handL",
+          "position": {
+            "x": 0.3990878462791443,
+            "y": 0.8282394409179688,
+            "z": 0.010698122903704643
+          },
+          "rotation": {
+            "x": 0.01141243614256382,
+            "y": 0.000033229673135792837,
+            "z": -0.00008864365372573957,
+            "w": 0.9999349117279053
+          },
+          "linear_velocity": {
+            "x": -0.0009277458302676678,
+            "y": -0.00018671121506486088,
+            "z": 0.012335579842329025
+          },
+          "angular_velocity": {
+            "x": 0.049490347504615784,
+            "y": 0.00020905802375636995,
+            "z": 0.00002973601658595726
+          }
+        },
+        {
+          "id": "handR",
+          "position": {
+            "x": -0.401544988155365,
+            "y": 0.8283898234367371,
+            "z": 0.010756374336779118
+          },
+          "rotation": {
+            "x": 0.011409188620746136,
+            "y": 0.00001983921174542047,
+            "z": -0.0004884735099039972,
+            "w": 0.9999348521232605
+          },
+          "linear_velocity": {
+            "x": -0.0009363210992887616,
+            "y": -0.0002937281387858093,
+            "z": 0.012534494511783123
+          },
+          "angular_velocity": {
+            "x": 0.04944024235010147,
+            "y": 0.00009090545790968463,
+            "z": -0.00003297715011285618
+          }
+        },
+        {
+          "id": "head",
+          "position": {
+            "x": -0.0006500121089629829,
+            "y": 2.2779219150543213,
+            "z": 0.04493468627333641
+          },
+          "rotation": {
+            "x": 0.012159979902207851,
+            "y": 0.00003266552448621951,
+            "z": -0.00009265876724384725,
+            "w": 0.9999260902404785
+          },
+          "linear_velocity": {
+            "x": -0.0010085990652441978,
+            "y": -0.0019431496039032936,
+            "z": 0.0900176614522934
+          },
+          "angular_velocity": {
+            "x": 0.056665755808353424,
+            "y": 0.00020229989604558796,
+            "z": 0.00012719270307570696
+          }
+        },
+        {
+          "id": "lowerArmL",
+          "position": {
+            "x": 0.39913588762283325,
+            "y": 1.098168969154358,
+            "z": 0.016867371276021004
+          },
+          "rotation": {
+            "x": 0.011434119194746017,
+            "y": 0.00003322774500702508,
+            "z": -0.00008864436676958576,
+            "w": 0.9999346137046814
+          },
+          "linear_velocity": {
+            "x": -0.0009345835424028337,
+            "y": -0.0004988608416169882,
+            "z": 0.02600916661322117
+          },
+          "angular_velocity": {
+            "x": 0.0501328781247139,
+            "y": 0.00020894456247333437,
+            "z": 0.00002969208435388282
+          }
+        },
+        {
+          "id": "lowerArmR",
+          "position": {
+            "x": -0.40128111839294434,
+            "y": 1.0983192920684814,
+            "z": 0.01692363992333412
+          },
+          "rotation": {
+            "x": 0.011430163867771626,
+            "y": 0.0000198289671970997,
+            "z": -0.0004884739173576236,
+            "w": 0.9999346137046814
+          },
+          "linear_velocity": {
+            "x": -0.0009267076384276152,
+            "y": -0.0006055514677427709,
+            "z": 0.02619769424200058
+          },
+          "angular_velocity": {
+            "x": 0.05010349303483963,
+            "y": 0.00009025793406181037,
+            "z": -0.00003301077595097013
+          }
+        },
+        {
+          "id": "lowerLegL",
+          "position": {
+            "x": 0.15904974937438965,
+            "y": 0.41841256618499756,
+            "z": 0.0023513182532042265
+          },
+          "rotation": {
+            "x": 0.010111299343407154,
+            "y": 0.000019279566913610324,
+            "z": -0.000057526274758856744,
+            "w": 0.9999489784240723
+          },
+          "linear_velocity": {
+            "x": -0.0008693262352608144,
+            "y": 0.0011132905492559075,
+            "z": 0.003959874622523785
+          },
+          "angular_velocity": {
+            "x": 0.014843184500932693,
+            "y": 0.00037402790621854365,
+            "z": 0.0000737851660232991
+          }
+        },
+        {
+          "id": "lowerLegR",
+          "position": {
+            "x": -0.16093163192272186,
+            "y": 0.41846975684165955,
+            "z": 0.002312646247446537
+          },
+          "rotation": {
+            "x": 0.009896110743284225,
+            "y": 0.000023778389731887728,
+            "z": -0.00004005246591987088,
+            "w": 0.9999511241912842
+          },
+          "linear_velocity": {
+            "x": -0.0008383307722397149,
+            "y": 0.0010176358046010137,
+            "z": 0.003618883900344372
+          },
+          "angular_velocity": {
+            "x": 0.018020477145910263,
+            "y": -0.000013455255611916073,
+            "z": 0.00007627636659890413
+          }
+        },
+        {
+          "id": "pelvis",
+          "position": {
+            "x": -0.000866006943397224,
+            "y": 1.118266224861145,
+            "z": 0.01719491556286812
+          },
+          "rotation": {
+            "x": 0.01147272065281868,
+            "y": 0.00003320730320410803,
+            "z": -0.00009336970833828673,
+            "w": 0.999934196472168
+          },
+          "linear_velocity": {
+            "x": -0.0005829200381413102,
+            "y": -0.00015574815915897489,
+            "z": 0.027494503185153008
+          },
+          "angular_velocity": {
+            "x": 0.044355057179927826,
+            "y": -0.0016216012882068753,
+            "z": 0.0026254088152199984
+          }
+        },
+        {
+          "id": "torso",
+          "position": {
+            "x": -0.0008007132564671338,
+            "y": 1.4681559801101685,
+            "z": 0.025372030213475227
+          },
+          "rotation": {
+            "x": 0.011961229145526886,
+            "y": 0.000032681466109352186,
+            "z": -0.00009265528933610767,
+            "w": 0.9999284744262695
+          },
+          "linear_velocity": {
+            "x": -0.0009661652147769928,
+            "y": -0.0008742905338294804,
+            "z": 0.04475318267941475
+          },
+          "angular_velocity": {
+            "x": 0.05264577642083168,
+            "y": 0.00021980969177093357,
+            "z": -0.000013183597729948815
+          }
+        },
+        {
+          "id": "upperArmL",
+          "position": {
+            "x": 0.39919644594192505,
+            "y": 1.438085913658142,
+            "z": 0.0247295331209898
+          },
+          "rotation": {
+            "x": 0.011677530594170094,
+            "y": 0.00003320965333841741,
+            "z": -0.00008865017298376188,
+            "w": 0.999931812286377
+          },
+          "linear_velocity": {
+            "x": -0.0009220952051691711,
+            "y": -0.0008244486525654793,
+            "z": 0.043350547552108765
+          },
+          "angular_velocity": {
+            "x": 0.05130342021584511,
+            "y": 0.00019853348203469068,
+            "z": -0.00004685187741415575
+          }
+        },
+        {
+          "id": "upperArmR",
+          "position": {
+            "x": -0.40094897150993347,
+            "y": 1.4382359981536865,
+            "z": 0.024784035980701447
+          },
+          "rotation": {
+            "x": 0.011676179245114326,
+            "y": 0.000019639510355773382,
+            "z": -0.0004891220014542341,
+            "w": 0.999931812286377
+          },
+          "linear_velocity": {
+            "x": -0.0005940491100773215,
+            "y": -0.0008443347178399563,
+            "z": 0.04351889714598656
+          },
+          "angular_velocity": {
+            "x": 0.051134102046489716,
+            "y": 0.00033358216751366854,
+            "z": 0.002028209390118718
+          }
+        },
+        {
+          "id": "upperLegL",
+          "position": {
+            "x": 0.15909592807292938,
+            "y": 0.8183265328407288,
+            "z": 0.010641985572874546
+          },
+          "rotation": {
+            "x": 0.010616485029459,
+            "y": 0.00001925050310092047,
+            "z": -0.00005753600271418691,
+            "w": 0.9999436736106873
+          },
+          "linear_velocity": {
+            "x": -0.0008959884289652109,
+            "y": 0.0008956256788223982,
+            "z": 0.014361121691763401
+          },
+          "angular_velocity": {
+            "x": 0.036368388682603836,
+            "y": 0.0003715591155923903,
+            "z": 0.00007293090311577544
+          }
+        },
+        {
+          "id": "upperLegR",
+          "position": {
+            "x": -0.16089889407157898,
+            "y": 0.8183689713478088,
+            "z": 0.010590370744466782
+          },
+          "rotation": {
+            "x": 0.010803432203829288,
+            "y": 0.000023920618332340382,
+            "z": -0.00003504961568978615,
+            "w": 0.9999417066574097
+          },
+          "linear_velocity": {
+            "x": -0.0017325897933915257,
+            "y": -0.0003045657358597964,
+            "z": 0.014621094800531864
+          },
+          "angular_velocity": {
+            "x": 0.03991624340415001,
+            "y": -0.00021057334379293025,
+            "z": -0.0069958982057869434
+          }
+        }
+      ],
+      "contacts": [
+        {
+          "body_id": "footL",
+          "collider_id": "collider:footL",
+          "point": {
+            "x": 0.28899412788785994,
+            "y": -0.001861121970478552,
+            "z": -0.14117926984587006
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.001861121970478552,
+          "normal_impulse": 0.7532460168004036,
+          "normal_load": 45.19475865093387
+        },
+        {
+          "body_id": "footR",
+          "collider_id": "collider:footR",
+          "point": {
+            "x": -0.030975730469668228,
+            "y": -0.0017871090937714856,
+            "z": -0.14115795590604693
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.0017871090937714995,
+          "normal_impulse": 0.7277888357639313,
+          "normal_load": 43.667327868407256
+        }
+      ]
+    },
+    {
+      "step": 186,
+      "bodies": [
+        {
+          "id": "footL",
+          "position": {
+            "x": 0.15873292088508606,
+            "y": 0.1546272337436676,
+            "z": 0.11245326697826385
+          },
+          "rotation": {
+            "x": 0.13673897087574005,
+            "y": 0.00002554637103457935,
+            "z": 0.000019574838006519713,
+            "w": 0.9906072020530701
+          },
+          "linear_velocity": {
+            "x": 0.000045751592551823705,
+            "y": 0.2982056140899658,
+            "z": 0.23725083470344543
+          },
+          "angular_velocity": {
+            "x": 1.551621913909912,
+            "y": 0.00047396612353622913,
+            "z": -0.0008928059251047671
+          }
+        },
+        {
+          "id": "footR",
+          "position": {
+            "x": -0.16121472418308258,
+            "y": 0.15453605353832245,
+            "z": 0.11246778815984726
+          },
+          "rotation": {
+            "x": 0.13657879829406738,
+            "y": 0.000020350080376374535,
+            "z": 0.000050925682444358245,
+            "w": 0.9906291961669922
+          },
+          "linear_velocity": {
+            "x": 0.0003680045483633876,
+            "y": 0.29674196243286133,
+            "z": 0.2365051954984665
+          },
+          "angular_velocity": {
+            "x": 1.547500729560852,
+            "y": -0.0004698055563494563,
+            "z": -0.001819087890908122
+          }
+        },
+        {
+          "id": "handL",
+          "position": {
+            "x": 0.3984202444553375,
+            "y": 0.09565164148807526,
+            "z": 0.6883183717727661
+          },
+          "rotation": {
+            "x": 0.3062586188316345,
+            "y": -0.00045092732761986554,
+            "z": -0.000018898055714089423,
+            "w": 0.9519482851028442
+          },
+          "linear_velocity": {
+            "x": 0.0017365566454827785,
+            "y": -2.445051431655884,
+            "z": 0.5810886025428772
+          },
+          "angular_velocity": {
+            "x": 0.3123025596141815,
+            "y": -0.00332081806845963,
+            "z": -0.0006631047581322491
+          }
+        },
+        {
+          "id": "handR",
+          "position": {
+            "x": -0.4016664922237396,
+            "y": 0.09614650905132294,
+            "z": 0.6872583627700806
+          },
+          "rotation": {
+            "x": 0.306589812040329,
+            "y": -0.0009993897983804345,
+            "z": -0.0002565775066614151,
+            "w": 0.9518411755561829
+          },
+          "linear_velocity": {
+            "x": 0.002314860699698329,
+            "y": -2.442354917526245,
+            "z": 0.5815232396125793
+          },
+          "angular_velocity": {
+            "x": 0.311451256275177,
+            "y": -0.004070740658789873,
+            "z": -0.00019366672495380044
+          }
+        },
+        {
+          "id": "head",
+          "position": {
+            "x": -0.002251790603622794,
+            "y": 0.848029613494873,
+            "z": 1.7889117002487183
+          },
+          "rotation": {
+            "x": 0.5936290621757507,
+            "y": -0.00038840723573230207,
+            "z": 0.00014240843302104622,
+            "w": 0.8047386407852173
+          },
+          "linear_velocity": {
+            "x": -0.000024280201614601538,
+            "y": -5.148421764373779,
+            "z": 1.262523889541626
+          },
+          "angular_velocity": {
+            "x": 4.047215938568115,
+            "y": -0.0011702787596732378,
+            "z": 0.00013413667329587042
+          }
+        },
+        {
+          "id": "lowerArmL",
+          "position": {
+            "x": 0.3983553349971771,
+            "y": 0.3149532973766327,
+            "z": 0.8458200693130493
+          },
+          "rotation": {
+            "x": 0.3065105080604553,
+            "y": -0.0004509323334787041,
+            "z": -0.000018778733647195622,
+            "w": 0.9518671631813049
+          },
+          "linear_velocity": {
+            "x": 0.0013517752522602677,
+            "y": -2.4959185123443604,
+            "z": 0.6519387364387512
+          },
+          "angular_velocity": {
+            "x": 0.3219648003578186,
+            "y": -0.003323828801512718,
+            "z": -0.0006549409008584917
+          }
+        },
+        {
+          "id": "lowerArmR",
+          "position": {
+            "x": -0.4017002582550049,
+            "y": 0.31533700227737427,
+            "z": 0.8449147939682007
+          },
+          "rotation": {
+            "x": 0.3068494200706482,
+            "y": -0.0009994597639888525,
+            "z": -0.00025630492018535733,
+            "w": 0.9517574906349182
+          },
+          "linear_velocity": {
+            "x": 0.001703173154965043,
+            "y": -2.4930927753448486,
+            "z": 0.6520883440971375
+          },
+          "angular_velocity": {
+            "x": 0.32066166400909424,
+            "y": -0.004080880433320999,
+            "z": -0.00017761309572961181
+          }
+        },
+        {
+          "id": "lowerLegL",
+          "position": {
+            "x": 0.15872207283973694,
+            "y": 0.4480249285697937,
+            "z": 0.1928313970565796
+          },
+          "rotation": {
+            "x": 0.33095067739486694,
+            "y": 0.000022127831471152604,
+            "z": 0.000012590657206601463,
+            "w": 0.9436480402946472
+          },
+          "linear_velocity": {
+            "x": 0.000556555634830147,
+            "y": 0.1681564301252365,
+            "z": 0.7032686471939087
+          },
+          "angular_velocity": {
+            "x": 1.5531913042068481,
+            "y": 0.001854890724644065,
+            "z": -0.000902410305570811
+          }
+        },
+        {
+          "id": "lowerLegR",
+          "position": {
+            "x": -0.16124334931373596,
+            "y": 0.4479610025882721,
+            "z": 0.19274525344371796
+          },
+          "rotation": {
+            "x": 0.3307824730873108,
+            "y": 0.000027450427296571434,
+            "z": 0.000044231674110051244,
+            "w": 0.9437071084976196
+          },
+          "linear_velocity": {
+            "x": 0.0007277977420017123,
+            "y": 0.16985422372817993,
+            "z": 0.6994405388832092
+          },
+          "angular_velocity": {
+            "x": 1.5520488023757935,
+            "y": -0.0013912125723436475,
+            "z": -0.0023194090463221073
+          }
+        },
+        {
+          "id": "pelvis",
+          "position": {
+            "x": -0.001363088027574122,
+            "y": 0.8613395690917969,
+            "z": 0.6733525395393372
+          },
+          "rotation": {
+            "x": 0.8437708616256714,
+            "y": -0.0003105119685642421,
+            "z": 0.0002724185469560325,
+            "w": 0.5367034673690796
+          },
+          "linear_velocity": {
+            "x": 0.0013698168331757188,
+            "y": -0.7862683534622192,
+            "z": 1.2587015628814697
+          },
+          "angular_velocity": {
+            "x": 3.715299606323242,
+            "y": -0.0013027440290898085,
+            "z": -0.00043865948100574315
+          }
+        },
+        {
+          "id": "torso",
+          "position": {
+            "x": -0.0016489886911585927,
+            "y": 0.7559623718261719,
+            "z": 1.0030770301818848
+          },
+          "rotation": {
+            "x": 0.7540885210037231,
+            "y": -0.0003478561411611736,
+            "z": 0.00022391843958757818,
+            "w": 0.6567725539207458
+          },
+          "linear_velocity": {
+            "x": 0.00085687410319224,
+            "y": -2.0311954021453857,
+            "z": 0.8617294430732727
+          },
+          "angular_velocity": {
+            "x": 3.7169649600982666,
+            "y": -0.0011583768064156175,
+            "z": -0.001441958243958652
+          }
+        },
+        {
+          "id": "upperArmL",
+          "position": {
+            "x": 0.3982722759246826,
+            "y": 0.5900837779045105,
+            "z": 1.045576810836792
+          },
+          "rotation": {
+            "x": 0.3109670877456665,
+            "y": -0.00045083879376761615,
+            "z": -0.000017684655176708475,
+            "w": 0.9504206776618958
+          },
+          "linear_velocity": {
+            "x": 0.001019749790430069,
+            "y": -2.5601470470428467,
+            "z": 0.7400511503219604
+          },
+          "angular_velocity": {
+            "x": 0.30450567603111267,
+            "y": -0.0016397334402427077,
+            "z": -0.00031467288499698043
+          }
+        },
+        {
+          "id": "upperArmR",
+          "position": {
+            "x": -0.40174630284309387,
+            "y": 0.5903366208076477,
+            "z": 1.0448527336120605
+          },
+          "rotation": {
+            "x": 0.3112562298774719,
+            "y": -0.0010028471006080508,
+            "z": -0.0002539859269745648,
+            "w": 0.9503254294395447
+          },
+          "linear_velocity": {
+            "x": 0.0013367952778935432,
+            "y": -2.557431936264038,
+            "z": 0.7398478388786316
+          },
+          "angular_velocity": {
+            "x": 0.30598220229148865,
+            "y": 0.004125518258661032,
+            "z": 0.007665837183594704
+          }
+        },
+        {
+          "id": "upperLegL",
+          "position": {
+            "x": 0.15871892869472504,
+            "y": 0.753963828086853,
+            "z": 0.45032235980033875
+          },
+          "rotation": {
+            "x": 0.3544360399246216,
+            "y": 0.00002243564995296765,
+            "z": 0.000012033582606818527,
+            "w": 0.9350802898406982
+          },
+          "linear_velocity": {
+            "x": 0.0013218374224379659,
+            "y": -0.23767174780368805,
+            "z": 1.186266303062439
+          },
+          "angular_velocity": {
+            "x": 1.5531913042068481,
+            "y": 0.0018548880470916629,
+            "z": -0.0009024128085002303
+          }
+        },
+        {
+          "id": "upperLegR",
+          "position": {
+            "x": -0.16126865148544312,
+            "y": 0.7539916038513184,
+            "z": 0.4501270651817322
+          },
+          "rotation": {
+            "x": 0.3542693257331848,
+            "y": 0.00002854752165148966,
+            "z": 0.00004353165422799066,
+            "w": 0.9351434111595154
+          },
+          "linear_velocity": {
+            "x": 0.001085929456166923,
+            "y": -0.23550444841384888,
+            "z": 1.1822264194488525
+          },
+          "angular_velocity": {
+            "x": 1.552048921585083,
+            "y": -0.001391213620081544,
+            "z": -0.0023194097448140383
+          }
+        }
+      ],
+      "contacts": [
+        {
+          "body_id": "footL",
+          "collider_id": "collider:footL",
+          "point": {
+            "x": 0.0287484180256512,
+            "y": -0.001239226005848526,
+            "z": 0.29714131281573486
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.001239226005848526,
+          "normal_impulse": 0.3713846504688263,
+          "normal_load": 22.283077865976505
+        },
+        {
+          "body_id": "footR",
+          "collider_id": "collider:footR",
+          "point": {
+            "x": -0.2911932543254738,
+            "y": -0.001278569456652029,
+            "z": 0.2972037713809924
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.001278569456652029,
+          "normal_impulse": 0.4006730169057846,
+          "normal_load": 24.04037976054357
+        },
+        {
+          "body_id": "handL",
+          "collider_id": "collider:handL",
+          "point": {
+            "x": 0.3984202444553375,
+            "y": -0.01934836059808731,
+            "z": 0.6883183717727661
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.01934836059808731,
+          "normal_impulse": 0,
+          "normal_load": 0
+        },
+        {
+          "body_id": "handR",
+          "collider_id": "collider:handR",
+          "point": {
+            "x": -0.4016664922237396,
+            "y": -0.01885349303483963,
+            "z": 0.6872583627700806
+          },
+          "normal": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "distance": -0.01885349303483963,
+          "normal_impulse": 0,
+          "normal_load": 0
+        }
+      ]
+    }
+  ],
+  "unreached_checkpoints": [],
+  "motor_commands_timing": {
+    "count": 186,
+    "min": 0.008299999999962893,
+    "mean": 0.013653763440843444,
+    "p95": 0.015499999999974534,
+    "max": 0.04539999999997235
+  },
+  "config_id": "config:sha256:36bbd0efbdf51a2bf03d0fc40dc2a110b22950588c7380f4999309d307302d57",
+  "experiment_id": "native-force-solver32-v2:36bbd0efbdf51a2bf03d0fc40dc2a110b22950588c7380f4999309d307302d57"
+}

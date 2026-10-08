@@ -1,0 +1,83 @@
+{
+  "kind": "post_blocker_static_source_inspection_no_world",
+  "upstream_commit": "b716d375efc0201003f0cd9ef7168eee0b62c177",
+  "upstream_math_git_sha256": "cd289e84c31a3af20c72ca4a18917b9bcaaf8bc4ea33cfc3e37acb5b3984c1f8",
+  "installed_math_dts_sha256": "bdb9c07fca94b2c8a03b3a6a17f7e3e98622f6df0de15c8cfce9a508dd7182d4",
+  "installed_runtime_sha256": "02dc6a4e2fffc013bab08fbb44fa68f501d8303615e9afe4c7d89ad4eedda0d0",
+  "world_adapter_sha256": "f4718d8c67fb841133c6b6a2de4cc3aa153352753ef12c4b6a0c12e36e839f2d",
+  "reader_sha256": "bcf7954658a5a0cd2199f0956bd4ba8b5436f5120a87a302f4f9902f73961e89",
+  "observed_array_lengths": [
+    {
+      "id": "pelvis",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "torso",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "head",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "upperArmL",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "lowerArmL",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "handL",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "upperLegL",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "lowerLegL",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "footL",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "upperArmR",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "lowerArmR",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "handR",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "upperLegR",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "lowerLegR",
+      "public_backing_array_length": 16
+    },
+    {
+      "id": "footR",
+      "public_backing_array_length": 16
+    }
+  ],
+  "getter_indices": {
+    "m11": 0,
+    "m12": 1,
+    "m13": 2,
+    "m22": 3,
+    "m23": 4,
+    "m33": 5
+  },
+  "new_worlds": 0,
+  "new_public_steps": 0,
+  "fix_applied": false,
+  "rerun": false
+}

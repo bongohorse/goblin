@@ -58,10 +58,10 @@ test('fresh reset rebinds every motor handle; pending export stays on its clicke
     assert.equal(s.commandTimes.length,0);assert.equal(s.physicsTimes.length,0);assert.deepEqual(s.snapshot(),initial);assert.deepEqual(s.counts(),{bodies:15,colliders:16,joints:14});
   }}finally{s.dispose();s.dispose();}
   assert.equal(motor.entries.length,0);assert.equal(s.commandTimes.length,0);assert.throws(()=>s.step(),/Disposed/);
-  const passive=new StandingSimulation();try{assert.equal(passive.motor,null);assert.equal(passive.world.integrationParameters.numSolverIterations,8);while(!passive.terminal)passive.step();const r=await passive.result();const original=JSON.parse(fs.readFileSync('docs/research/standing-lab/review-39/baseline/run-1.json'));assert.equal(compareResults(original,r).pass,true);}finally{passive.dispose();}
+  const passive=new StandingSimulation();try{assert.equal(passive.motor,null);assert.equal(passive.world.integrationParameters.numSolverIterations,8);while(!passive.terminal)passive.step();const r=await passive.result();const original=JSON.parse(fs.readFileSync('docs/research/standing-lab/review-39/baseline/run-1.json'));assert.equal(compareResults(original,r).pass,false);assert.ok(compareResults(original,r).errors.includes('measurement_version'));assert.equal(r.simulation_steps,69);}finally{passive.dispose();}
 });
 test('integrated solver32 normal modes preserve candidate contact/timeout references and stop permanently',async()=>{
   for(const cap of [20,1]){
-    const s=new StandingSimulation(undefined,{},motorExperiment(cap));try{while(!s.terminal)s.step();const r=await s.result();await validateResultProvenance(r);assert.equal(s.steps,cap===20?3600:187);assert.equal(r.termination_reason,cap===20?'timeout':'non_foot_contact');assert.deepEqual(r.failure_bodies,cap===20?[]:['handL','handR']);assert.equal(s.step(),false);assert.equal(s.steps,r.simulation_steps);assert.equal(r.checkpoints.at(-1).step,s.steps);}finally{s.dispose();}
+    const s=new StandingSimulation(undefined,{},motorExperiment(cap));try{while(!s.terminal)s.step();const r=await s.result();await validateResultProvenance(r);assert.equal(s.steps,cap===20?3600:186);assert.equal(r.termination_reason,cap===20?'timeout':'non_foot_contact');assert.deepEqual(r.failure_bodies,cap===20?[]:['handL','handR']);assert.equal(s.step(),false);assert.equal(s.steps,r.simulation_steps);assert.equal(r.checkpoints.at(-1).step,s.steps);}finally{s.dispose();}
   }
 });

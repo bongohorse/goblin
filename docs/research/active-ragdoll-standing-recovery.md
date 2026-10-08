@@ -600,3 +600,24 @@ no execution: [separate handoff](standing-lab/fullrig83/execution-handoff.md) re
 explicit new order, reviewed implementation and clean preregistered source/config/
 protocol/IDs before allocation1. No tuning/Standing/FullRig/general controller
 release; #60/#30/#31 remain open.
+
+
+## Issue84: scoped FullRig execution blocked before step1 (2026-10-08)
+
+[Preregistered runner and first-blocker report](standing-lab/fullrig84/decision.json), [review](standing-lab/fullrig84/gate-c-review.md). Exact accepted PR85 plan, clean harness4036edc4922a0f3b81792ab922b5db95af31e974, one single execution:1 fresh-world allocation/0 public steps. First wrong-sign/free32/pitch case fails initial stored-state validation: public SdpMatrix3 backing buffer has16 slots whereas the harness serialized it as a six-element matrix. Pinned0.21 math.ts and installed runtime explain the getter layout; this is an implementation/extraction blocker, not a physical failure or certified engine error. Full original initial/partial states/exception and hashes retained.
+
+No command or POST occurred; all negative discrimination, free32 pairs, fb32 response/secondary/repeatability criteria remain unmeasured.89 IDs unattempted, no retry/tuning/fix-and-rerun. Decision no_tuning_handoff, no benefit/instability/Standing/general-controller claim. A new explicit order would need named public matrix extraction, a16-slot stored regression, reviewed clean refreeze and separate execution permission. No automatic continuation; #84 remains technically blocked, #60/#30/#31 open.
+
+
+### FullRig84 current-contact measurement blocker — 2026-10-08
+
+**PROJECT EVIDENCE + PRIMARY SOURCE, bounded prefix only.** [Continuation report](standing-lab/fullrig84/continuation/README.md): the once-started90-case matrix stopped at allocation61/448steps. Matrix serializer repaired; an additional pure encoding-roundoff defect was repaired after preserving its failed PRE, without replay. More fundamentally, the frozen contactDist<=0 support predicate excludes recycled manifold contacts whose stored distance remains+0.02m while current foot/floor anchors overlap by0.75–1.91mm and carry positive impulses. Pinned Rapier0.21.0 bindings read cached manifold distance; the solver reconstructs current separations from anchors. Therefore apparent foot_contact_loss at step36 is not evidence of actual unsupported flight, and the motorized controller benefit/Standing time remains inconclusive. All original data/manifests remain unchanged; no retroactive baseline pass/fail rewrite. Next functional prerequisite is current-contact/support observability in the Standing Lab, before another bounded controller comparison. No extra precision campaign, gain tuning or recovery/gameplay integration follows this result.
+
+
+### Issue84: repaired current/support observer and complete fresh matrix — 2026-10-08
+
+**PROJECT EVIDENCE, bounded configuration.** [New measurement-v2 result](standing-lab/fullrig84/observer-v3/README.md): real air/load/rest/cached-release controls and independent geometry/momentum checks validate current top-plane touching separately from cached manifold/solver candidates and last-active-step impulse/dt. The original contactDist support/flight interpretation is invalid/limited, with original bytes retained. New passive/ForceBased20/ForceBased1 references are69/3600/186 steps instead of historical70/3600/187; no physical config change. NativePoseHold queues wake-up through public joint setters and the FullRig adapter wakes all15 explicitly. No inactive Sleeping-cache/general arbitrary-floor claim.
+
+Clean harness f459973c3a9e293fc82397190c9039adff3eca21, one fresh90-case matrix/2645 steps, original gains/cap/rig/solver/starts/criteria. All motorized cases stop at COM drift0.0325m: null73/73, yaw73/72, pitch99/99, roll15/15 Off/On steps, each five identical repeats. Null/Yaw/Pitch fail; Roll inconclusive (14 valid common steps<30). Pitch RMS ratio0.999718 does not meet0.75; no On reaches360 steps. Motor-free40 one-step positives and10 command negatives pass their scoped checks, not Standing. All13315 stored raw phases audited; a final archive metadata-path error and missing detached-interval repeat-load check were fixed stored-only, without another simulation or changing raw/world records.
+
+Exactly one next functional lever: quantify effective torso/pelvis authority under coupled Standing-Lab load before deriving a physically justified torque budget for a separately ordered bounded test. The tested conservative1.691mNm cap gives no sufficient FullRig benefit; no general controller prohibition, engine certification, COM/ankle/hip/recovery/gameplay integration or Standing approval. #60/#30/#31 remain open; no merge/deployment.

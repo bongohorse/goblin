@@ -1,4 +1,5 @@
 import Ajv from 'ajv';
+import floorObservationSchema from '../../../docs/research/standing-lab/current-floor-observation.schema.json' with {type:'json'};
 import baseline from '../../../docs/research/standing-lab/baseline-config.json' with {type:'json'};
 import configSchema from '../../../docs/research/standing-lab/config.schema.json' with {type:'json'};
 import resultSchema from '../../../docs/research/standing-lab/result.schema.json' with {type:'json'};
@@ -11,6 +12,9 @@ const ajv=new Ajv({allErrors:true,strict:true});
 const configValidator=ajv.compile(configSchema),resultValidator=ajv.compile(resultSchema);
 const motorResultValidator=ajv.compile(motorResultSchema);
 const modelResultValidator=ajv.compile(modelResultSchema);
+// Historical validators stay exact; current measurement has a strict extension.
+function currentValidator(schema){const next=structuredClone(schema);delete next.$id;next.required.push('measurement_version');next.properties.measurement_version={const:'current-geometry-interval-support-v2'};const t=next.properties.telemetry.anyOf.find(x=>x.type==='object');t.required.push('floor_observation');t.properties.floor_observation=floorObservationSchema;return ajv.compile(next);}
+const currentValidators=[currentValidator(resultSchema),currentValidator(motorResultSchema),currentValidator(modelResultSchema)];
 export const BASELINE=freeze(baseline);
 export function validateConfig(input){
   if(!configValidator(input))throw Error('Invalid config: '+ajv.errorsText(configValidator.errors));
@@ -40,7 +44,7 @@ export function validateConfig(input){
   return freeze(config);
 }
 export function validateResult(result){
-  const study=result?.schema_version===3,motor=study||result?.schema_version===2,validator=study?modelResultValidator:motor?motorResultValidator:resultValidator;
+  const study=result?.schema_version===3,motor=study||result?.schema_version===2,validator=result?.measurement_version?currentValidators[study?2:motor?1:0]:study?modelResultValidator:motor?motorResultValidator:resultValidator;
   if(!validator(result))throw Error('Invalid result: '+ajv.errorsText(validator.errors));
   if(study)validateModelExperiment(result.config);else if(motor)validateMotorExperiment(result.config);else validateConfig(result.config);
   const rig=motor?result.config.rig:result.config;
@@ -68,6 +72,18 @@ export function validateResult(result){
     if(!result.telemetry||canonical(result.telemetry.joints.map(j=>j.id).sort())!==canonical(jointIds))throw Error('Missing telemetry');
     if(scheduled.filter(s=>s<=result.simulation_steps).some(s=>!steps.includes(s)))throw Error('Missing scheduled checkpoint');
     if(reason!=='incomplete'&&!steps.includes(result.simulation_steps))throw Error('Missing terminal checkpoint');
+  }
+  if(result.measurement_version&&result.telemetry){
+    const o=result.telemetry.floor_observation,initial=result.simulation_steps===0;
+    if(o.measurement_version!==result.measurement_version||o.geometry_time!=='current_pose'||o.impulse_time!==(initial?'unmeasured':'last_completed_step')||Math.abs(o.dt-Math.fround(result.fixed_dt))>1e-12||canonical(o.bodies.map(b=>b.body_id).sort())!==canonical(bodyIds)||canonical(o.contacts)!==canonical(result.telemetry.contacts))throw Error('Inconsistent floor observation');
+    for(const b of o.bodies){
+      if(b.current_touching!==(b.current_geometry!==null)||b.current_geometry&&b.current_geometry.distance>0)throw Error('Inconsistent current touching');
+      const impulse=b.candidates.reduce((s,c)=>s+c.interval_normal_impulse,0),load=b.candidates.reduce((s,c)=>s+c.interval_normal_impulse*c.interval_normal.y,0)/o.dt;
+      if(initial?(b.interval_normal_impulse!==null||b.interval_vertical_mean_load!==null||b.candidates.length>0):(Math.abs(b.interval_normal_impulse-impulse)>1e-12||Math.abs(b.interval_vertical_mean_load-load)>1e-10))throw Error('Inconsistent interval impulse/load');
+      if(['footL','footR'].includes(b.body_id)&&result.telemetry.foot_loads[b.body_id]!==b.interval_vertical_mean_load)throw Error('Inconsistent foot interval load');
+    }
+    const ids=o.bodies.filter(b=>b.current_touching&&rig.bodies.find(x=>x.id===b.body_id).body_class==='non_foot').map(b=>b.body_id).sort();
+    if(['non_foot_contact','invalid_start'].includes(reason)&&canonical(ids)!==canonical(result.failure_bodies))throw Error('Inconsistent current-contact termination');
   }
   if(motor&&result.telemetry){
     const tracking=result.telemetry.motor_tracking;

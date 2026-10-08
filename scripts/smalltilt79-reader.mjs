@@ -1,3 +1,4 @@
+import {historicalSource} from './smalltilt79-frozen-source.mjs';
 // Strict stored-data audit. Importing this reader creates no physics worlds.
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
@@ -15,7 +16,7 @@ export function validate(r,expectedHead){
  assert.match(expectedHead,/^[a-f0-9]{40}$/,'published harness head required');assert.equal(r.provenance.git_commit,expectedHead,'wrong harness head');
  const hash=b=>createHash('sha256').update(b).digest('hex');for(const [p,k]of [['config.json','config_sha256'],['protocol.md','protocol_sha256'],['source-pins.json','source_pins_sha256']])assert.equal(r.provenance[k],hash(fs.readFileSync(ROOT+p)));
  assert.deepEqual(JSON.parse(fs.readFileSync(ROOT+'config.json')),config);
- for(const [p,h]of Object.entries(JSON.parse(fs.readFileSync(ROOT+'source-pins.json'))))assert.equal(hash(fs.readFileSync(p)),h,p);
+ for(const [p,h]of Object.entries(JSON.parse(fs.readFileSync(ROOT+'source-pins.json'))))assert.equal(hash(historicalSource(p)),h,p);
  assert.ok(Number.isInteger(r.fresh_worlds)&&r.fresh_worlds>=1&&r.fresh_worlds<=75);assert.equal(r.fresh_worlds,r.runs.length+(r.failed_world?1:0));
  const cache=new Map();let firstFailure=-1;
  for(const [i,x]of r.runs.entries()){

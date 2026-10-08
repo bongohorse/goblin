@@ -1,0 +1,4600 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FullRig84 research result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "namespace",
+    "provenance",
+    "runs",
+    "allocation_attempts",
+    "public_steps",
+    "decision",
+    "standing_approval",
+    "engine_precision",
+    "config"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "namespace": {
+      "type": "string",
+      "pattern": "^fullrig-torso-pelvis-ab-v1:[0-9a-f]{64}$"
+    },
+    "provenance": {
+      "$ref": "#/definitions/provenance"
+    },
+    "runs": {
+      "type": "array",
+      "maxItems": 90,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "trial",
+          "uuid",
+          "initial",
+          "frames",
+          "decision"
+        ],
+        "properties": {
+          "trial": {
+            "$ref": "#/definitions/trial"
+          },
+          "uuid": {
+            "type": "string"
+          },
+          "initial": {
+            "$ref": "#/definitions/state"
+          },
+          "frames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/frame"
+            },
+            "maxItems": 360
+          },
+          "decision": {
+            "$ref": "#/definitions/decision"
+          }
+        }
+      }
+    },
+    "allocation_attempts": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 90
+    },
+    "public_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 14450
+    },
+    "decision": {
+      "$ref": "#/definitions/decision"
+    },
+    "standing_approval": {
+      "const": false
+    },
+    "engine_precision": {
+      "const": "indeterminate_not_certified"
+    },
+    "config": {
+      "const": {
+        "schema_version": 1,
+        "namespace": "fullrig-torso-pelvis-ab-v1",
+        "plan_head": "adb784c17b8bf03a027c2300f57ee6d17456500c",
+        "plan": {
+          "schema_version": 1,
+          "kind": "unexecuted_planning_contract",
+          "study": "fullrig-torso-pelvis-ab-v1",
+          "base_commit": "2abd3db7a339666a6ca0fc1d5618712cd4d6f09c",
+          "rapier_js": "0.21.0",
+          "upstream": "b716d375efc0201003f0cd9ef7168eee0b62c177",
+          "decision": "ready_for_scoped_execution",
+          "new_worlds": 0,
+          "nominal_dt": 0.016666666666666666,
+          "observed_dt": 0.01666666753590107,
+          "solver": {
+            "numSolverIterations": 32,
+            "numInternalPgsIterations": 1,
+            "maxCcdSubsteps": 1,
+            "lengthUnit": 1,
+            "normalizedAllowedLinearError": 0.005,
+            "normalizedPredictionDistance": 0.02,
+            "additionalSolverIterations": 0
+          },
+          "reaction": {
+            "torso": 1,
+            "pelvis": -1,
+            "other_bodies": 0
+          },
+          "controller": {
+            "up_local": [
+              0,
+              1,
+              0
+            ],
+            "kp_Nm_per_rad": 0.030228082785908345,
+            "kd_Nm_s_per_rad": 0.06045616557181669,
+            "cap_Nm": 0.0016907462686567168,
+            "domain_rad": 0.2,
+            "encoding": "bounded-toward-zero-f32-v1",
+            "yaw_target": null
+          },
+          "design": {
+            "characteristic_frequency_rad_s": 1,
+            "isolated_input_speed_increment_rad_s": 0.001,
+            "torso_principal_inertia": [
+              0.09607354838709675,
+              0.051654193548387094,
+              0.09607354838709675
+            ],
+            "pelvis_principal_inertia": [
+              0.044105074626865685,
+              0.028179104477611946,
+              0.044105074626865685
+            ],
+            "reduced_transverse_inertia": 0.030228082785908345,
+            "min_pair_principal_inertia": 0.028179104477611946,
+            "total_mass_kg": 9.06
+          },
+          "conditions": [
+            {
+              "id": "free32",
+              "pose_motors": "absent",
+              "steps": 1,
+              "question": "public direct actuation in gravity/contact full topology; no long-horizon behavioral claim"
+            },
+            {
+              "id": "fb32",
+              "pose_motors": "existing ForceBased100/12,20Nm per axis,neutral moving-frame all14 joints",
+              "steps": 360,
+              "question": "bounded additional feedback alongside unchanged reference pose motors"
+            }
+          ],
+          "initial_pivot_m": [
+            0,
+            0.12,
+            0.08
+          ],
+          "cases": [
+            {
+              "id": "null",
+              "yaw": 0,
+              "axis": null,
+              "tilt": 0
+            },
+            {
+              "id": "yaw",
+              "yaw": 0.7,
+              "axis": null,
+              "tilt": 0
+            },
+            {
+              "id": "pitch",
+              "yaw": 0.7,
+              "axis": "X",
+              "tilt": 0.04
+            },
+            {
+              "id": "roll",
+              "yaw": 0.7,
+              "axis": "Z",
+              "tilt": 0.04
+            }
+          ],
+          "negative_controls": [
+            "wrong-sign",
+            "missing-reaction"
+          ],
+          "repeat_count": 5,
+          "max_worlds": 90,
+          "max_public_steps": 14450,
+          "limits": {
+            "anchor_m": 0.005,
+            "hinge_limit_violation_rad": 0.05,
+            "torso_tilt_rad": 0.2,
+            "com_drift_m": 0.0325,
+            "foot_drift_m": 0.0325,
+            "final_torso_tilt_rad": 0.02,
+            "final_transverse_speed_rad_s": 0.04,
+            "tilt_pair_rms_ratio": 0.75,
+            "minimum_comparison_steps": 30,
+            "normal_load_window_steps": 60,
+            "load_settling_steps": 30,
+            "total_mean_load_N": [
+              44.4393,
+              177.7572
+            ],
+            "per_foot_mean_min_N": 8.887860000000002,
+            "max_no_foot_contact_steps": 6,
+            "yaw_drift_rad": 0.07175898373770548,
+            "segment_speed_rad_s": {
+              "pelvis": 10.344827046682122,
+              "torso": 9.230768749347124,
+              "head": 14.99999921768908,
+              "upperArmL": 6.428571093295319,
+              "lowerArmL": 6.891891532451739,
+              "handL": 14.999999217689078,
+              "upperLegL": 7.49999960884454,
+              "lowerLegL": 6.99999963492157,
+              "footL": 5.4663035930025785,
+              "upperArmR": 6.428571093295319,
+              "lowerArmR": 6.891891532451739,
+              "handR": 14.999999217689078,
+              "upperLegR": 7.49999960884454,
+              "lowerLegR": 6.99999963492157,
+              "footR": 5.4663035930025785
+            }
+          },
+          "engine_precision": "indeterminate_not_certified",
+          "standing_approval": false,
+          "execution_authorized_here": false,
+          "order": [
+            {
+              "ordinal": 1,
+              "id": "fullrig83/free32/pitch/wrong-sign/1",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "wrong-sign",
+              "repeat": 1,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 2,
+              "id": "fullrig83/free32/pitch/wrong-sign/2",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "wrong-sign",
+              "repeat": 2,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 3,
+              "id": "fullrig83/free32/pitch/wrong-sign/3",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "wrong-sign",
+              "repeat": 3,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 4,
+              "id": "fullrig83/free32/pitch/wrong-sign/4",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "wrong-sign",
+              "repeat": 4,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 5,
+              "id": "fullrig83/free32/pitch/wrong-sign/5",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "wrong-sign",
+              "repeat": 5,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 6,
+              "id": "fullrig83/free32/pitch/missing-reaction/1",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "missing-reaction",
+              "repeat": 1,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 7,
+              "id": "fullrig83/free32/pitch/missing-reaction/2",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "missing-reaction",
+              "repeat": 2,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 8,
+              "id": "fullrig83/free32/pitch/missing-reaction/3",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "missing-reaction",
+              "repeat": 3,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 9,
+              "id": "fullrig83/free32/pitch/missing-reaction/4",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "missing-reaction",
+              "repeat": 4,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 10,
+              "id": "fullrig83/free32/pitch/missing-reaction/5",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "missing-reaction",
+              "repeat": 5,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 11,
+              "id": "fullrig83/free32/null/off/1",
+              "condition": "free32",
+              "case": "null",
+              "variant": "off",
+              "repeat": 1,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 12,
+              "id": "fullrig83/free32/null/on/1",
+              "condition": "free32",
+              "case": "null",
+              "variant": "on",
+              "repeat": 1,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 13,
+              "id": "fullrig83/free32/null/off/2",
+              "condition": "free32",
+              "case": "null",
+              "variant": "off",
+              "repeat": 2,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 14,
+              "id": "fullrig83/free32/null/on/2",
+              "condition": "free32",
+              "case": "null",
+              "variant": "on",
+              "repeat": 2,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 15,
+              "id": "fullrig83/free32/null/off/3",
+              "condition": "free32",
+              "case": "null",
+              "variant": "off",
+              "repeat": 3,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 16,
+              "id": "fullrig83/free32/null/on/3",
+              "condition": "free32",
+              "case": "null",
+              "variant": "on",
+              "repeat": 3,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 17,
+              "id": "fullrig83/free32/null/off/4",
+              "condition": "free32",
+              "case": "null",
+              "variant": "off",
+              "repeat": 4,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 18,
+              "id": "fullrig83/free32/null/on/4",
+              "condition": "free32",
+              "case": "null",
+              "variant": "on",
+              "repeat": 4,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 19,
+              "id": "fullrig83/free32/null/off/5",
+              "condition": "free32",
+              "case": "null",
+              "variant": "off",
+              "repeat": 5,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 20,
+              "id": "fullrig83/free32/null/on/5",
+              "condition": "free32",
+              "case": "null",
+              "variant": "on",
+              "repeat": 5,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 21,
+              "id": "fullrig83/free32/yaw/off/1",
+              "condition": "free32",
+              "case": "yaw",
+              "variant": "off",
+              "repeat": 1,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 22,
+              "id": "fullrig83/free32/yaw/on/1",
+              "condition": "free32",
+              "case": "yaw",
+              "variant": "on",
+              "repeat": 1,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 23,
+              "id": "fullrig83/free32/yaw/off/2",
+              "condition": "free32",
+              "case": "yaw",
+              "variant": "off",
+              "repeat": 2,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 24,
+              "id": "fullrig83/free32/yaw/on/2",
+              "condition": "free32",
+              "case": "yaw",
+              "variant": "on",
+              "repeat": 2,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 25,
+              "id": "fullrig83/free32/yaw/off/3",
+              "condition": "free32",
+              "case": "yaw",
+              "variant": "off",
+              "repeat": 3,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 26,
+              "id": "fullrig83/free32/yaw/on/3",
+              "condition": "free32",
+              "case": "yaw",
+              "variant": "on",
+              "repeat": 3,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 27,
+              "id": "fullrig83/free32/yaw/off/4",
+              "condition": "free32",
+              "case": "yaw",
+              "variant": "off",
+              "repeat": 4,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 28,
+              "id": "fullrig83/free32/yaw/on/4",
+              "condition": "free32",
+              "case": "yaw",
+              "variant": "on",
+              "repeat": 4,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 29,
+              "id": "fullrig83/free32/yaw/off/5",
+              "condition": "free32",
+              "case": "yaw",
+              "variant": "off",
+              "repeat": 5,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 30,
+              "id": "fullrig83/free32/yaw/on/5",
+              "condition": "free32",
+              "case": "yaw",
+              "variant": "on",
+              "repeat": 5,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 31,
+              "id": "fullrig83/free32/pitch/off/1",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "off",
+              "repeat": 1,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 32,
+              "id": "fullrig83/free32/pitch/on/1",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "on",
+              "repeat": 1,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 33,
+              "id": "fullrig83/free32/pitch/off/2",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "off",
+              "repeat": 2,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 34,
+              "id": "fullrig83/free32/pitch/on/2",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "on",
+              "repeat": 2,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 35,
+              "id": "fullrig83/free32/pitch/off/3",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "off",
+              "repeat": 3,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 36,
+              "id": "fullrig83/free32/pitch/on/3",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "on",
+              "repeat": 3,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 37,
+              "id": "fullrig83/free32/pitch/off/4",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "off",
+              "repeat": 4,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 38,
+              "id": "fullrig83/free32/pitch/on/4",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "on",
+              "repeat": 4,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 39,
+              "id": "fullrig83/free32/pitch/off/5",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "off",
+              "repeat": 5,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 40,
+              "id": "fullrig83/free32/pitch/on/5",
+              "condition": "free32",
+              "case": "pitch",
+              "variant": "on",
+              "repeat": 5,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 41,
+              "id": "fullrig83/free32/roll/off/1",
+              "condition": "free32",
+              "case": "roll",
+              "variant": "off",
+              "repeat": 1,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 42,
+              "id": "fullrig83/free32/roll/on/1",
+              "condition": "free32",
+              "case": "roll",
+              "variant": "on",
+              "repeat": 1,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 43,
+              "id": "fullrig83/free32/roll/off/2",
+              "condition": "free32",
+              "case": "roll",
+              "variant": "off",
+              "repeat": 2,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 44,
+              "id": "fullrig83/free32/roll/on/2",
+              "condition": "free32",
+              "case": "roll",
+              "variant": "on",
+              "repeat": 2,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 45,
+              "id": "fullrig83/free32/roll/off/3",
+              "condition": "free32",
+              "case": "roll",
+              "variant": "off",
+              "repeat": 3,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 46,
+              "id": "fullrig83/free32/roll/on/3",
+              "condition": "free32",
+              "case": "roll",
+              "variant": "on",
+              "repeat": 3,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 47,
+              "id": "fullrig83/free32/roll/off/4",
+              "condition": "free32",
+              "case": "roll",
+              "variant": "off",
+              "repeat": 4,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 48,
+              "id": "fullrig83/free32/roll/on/4",
+              "condition": "free32",
+              "case": "roll",
+              "variant": "on",
+              "repeat": 4,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 49,
+              "id": "fullrig83/free32/roll/off/5",
+              "condition": "free32",
+              "case": "roll",
+              "variant": "off",
+              "repeat": 5,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 50,
+              "id": "fullrig83/free32/roll/on/5",
+              "condition": "free32",
+              "case": "roll",
+              "variant": "on",
+              "repeat": 5,
+              "max_steps": 1
+            },
+            {
+              "ordinal": 51,
+              "id": "fullrig83/fb32/null/off/1",
+              "condition": "fb32",
+              "case": "null",
+              "variant": "off",
+              "repeat": 1,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 52,
+              "id": "fullrig83/fb32/null/on/1",
+              "condition": "fb32",
+              "case": "null",
+              "variant": "on",
+              "repeat": 1,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 53,
+              "id": "fullrig83/fb32/null/off/2",
+              "condition": "fb32",
+              "case": "null",
+              "variant": "off",
+              "repeat": 2,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 54,
+              "id": "fullrig83/fb32/null/on/2",
+              "condition": "fb32",
+              "case": "null",
+              "variant": "on",
+              "repeat": 2,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 55,
+              "id": "fullrig83/fb32/null/off/3",
+              "condition": "fb32",
+              "case": "null",
+              "variant": "off",
+              "repeat": 3,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 56,
+              "id": "fullrig83/fb32/null/on/3",
+              "condition": "fb32",
+              "case": "null",
+              "variant": "on",
+              "repeat": 3,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 57,
+              "id": "fullrig83/fb32/null/off/4",
+              "condition": "fb32",
+              "case": "null",
+              "variant": "off",
+              "repeat": 4,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 58,
+              "id": "fullrig83/fb32/null/on/4",
+              "condition": "fb32",
+              "case": "null",
+              "variant": "on",
+              "repeat": 4,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 59,
+              "id": "fullrig83/fb32/null/off/5",
+              "condition": "fb32",
+              "case": "null",
+              "variant": "off",
+              "repeat": 5,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 60,
+              "id": "fullrig83/fb32/null/on/5",
+              "condition": "fb32",
+              "case": "null",
+              "variant": "on",
+              "repeat": 5,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 61,
+              "id": "fullrig83/fb32/yaw/off/1",
+              "condition": "fb32",
+              "case": "yaw",
+              "variant": "off",
+              "repeat": 1,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 62,
+              "id": "fullrig83/fb32/yaw/on/1",
+              "condition": "fb32",
+              "case": "yaw",
+              "variant": "on",
+              "repeat": 1,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 63,
+              "id": "fullrig83/fb32/yaw/off/2",
+              "condition": "fb32",
+              "case": "yaw",
+              "variant": "off",
+              "repeat": 2,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 64,
+              "id": "fullrig83/fb32/yaw/on/2",
+              "condition": "fb32",
+              "case": "yaw",
+              "variant": "on",
+              "repeat": 2,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 65,
+              "id": "fullrig83/fb32/yaw/off/3",
+              "condition": "fb32",
+              "case": "yaw",
+              "variant": "off",
+              "repeat": 3,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 66,
+              "id": "fullrig83/fb32/yaw/on/3",
+              "condition": "fb32",
+              "case": "yaw",
+              "variant": "on",
+              "repeat": 3,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 67,
+              "id": "fullrig83/fb32/yaw/off/4",
+              "condition": "fb32",
+              "case": "yaw",
+              "variant": "off",
+              "repeat": 4,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 68,
+              "id": "fullrig83/fb32/yaw/on/4",
+              "condition": "fb32",
+              "case": "yaw",
+              "variant": "on",
+              "repeat": 4,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 69,
+              "id": "fullrig83/fb32/yaw/off/5",
+              "condition": "fb32",
+              "case": "yaw",
+              "variant": "off",
+              "repeat": 5,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 70,
+              "id": "fullrig83/fb32/yaw/on/5",
+              "condition": "fb32",
+              "case": "yaw",
+              "variant": "on",
+              "repeat": 5,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 71,
+              "id": "fullrig83/fb32/pitch/off/1",
+              "condition": "fb32",
+              "case": "pitch",
+              "variant": "off",
+              "repeat": 1,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 72,
+              "id": "fullrig83/fb32/pitch/on/1",
+              "condition": "fb32",
+              "case": "pitch",
+              "variant": "on",
+              "repeat": 1,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 73,
+              "id": "fullrig83/fb32/pitch/off/2",
+              "condition": "fb32",
+              "case": "pitch",
+              "variant": "off",
+              "repeat": 2,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 74,
+              "id": "fullrig83/fb32/pitch/on/2",
+              "condition": "fb32",
+              "case": "pitch",
+              "variant": "on",
+              "repeat": 2,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 75,
+              "id": "fullrig83/fb32/pitch/off/3",
+              "condition": "fb32",
+              "case": "pitch",
+              "variant": "off",
+              "repeat": 3,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 76,
+              "id": "fullrig83/fb32/pitch/on/3",
+              "condition": "fb32",
+              "case": "pitch",
+              "variant": "on",
+              "repeat": 3,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 77,
+              "id": "fullrig83/fb32/pitch/off/4",
+              "condition": "fb32",
+              "case": "pitch",
+              "variant": "off",
+              "repeat": 4,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 78,
+              "id": "fullrig83/fb32/pitch/on/4",
+              "condition": "fb32",
+              "case": "pitch",
+              "variant": "on",
+              "repeat": 4,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 79,
+              "id": "fullrig83/fb32/pitch/off/5",
+              "condition": "fb32",
+              "case": "pitch",
+              "variant": "off",
+              "repeat": 5,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 80,
+              "id": "fullrig83/fb32/pitch/on/5",
+              "condition": "fb32",
+              "case": "pitch",
+              "variant": "on",
+              "repeat": 5,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 81,
+              "id": "fullrig83/fb32/roll/off/1",
+              "condition": "fb32",
+              "case": "roll",
+              "variant": "off",
+              "repeat": 1,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 82,
+              "id": "fullrig83/fb32/roll/on/1",
+              "condition": "fb32",
+              "case": "roll",
+              "variant": "on",
+              "repeat": 1,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 83,
+              "id": "fullrig83/fb32/roll/off/2",
+              "condition": "fb32",
+              "case": "roll",
+              "variant": "off",
+              "repeat": 2,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 84,
+              "id": "fullrig83/fb32/roll/on/2",
+              "condition": "fb32",
+              "case": "roll",
+              "variant": "on",
+              "repeat": 2,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 85,
+              "id": "fullrig83/fb32/roll/off/3",
+              "condition": "fb32",
+              "case": "roll",
+              "variant": "off",
+              "repeat": 3,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 86,
+              "id": "fullrig83/fb32/roll/on/3",
+              "condition": "fb32",
+              "case": "roll",
+              "variant": "on",
+              "repeat": 3,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 87,
+              "id": "fullrig83/fb32/roll/off/4",
+              "condition": "fb32",
+              "case": "roll",
+              "variant": "off",
+              "repeat": 4,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 88,
+              "id": "fullrig83/fb32/roll/on/4",
+              "condition": "fb32",
+              "case": "roll",
+              "variant": "on",
+              "repeat": 4,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 89,
+              "id": "fullrig83/fb32/roll/off/5",
+              "condition": "fb32",
+              "case": "roll",
+              "variant": "off",
+              "repeat": 5,
+              "max_steps": 360
+            },
+            {
+              "ordinal": 90,
+              "id": "fullrig83/fb32/roll/on/5",
+              "condition": "fb32",
+              "case": "roll",
+              "variant": "on",
+              "repeat": 5,
+              "max_steps": 360
+            }
+          ]
+        },
+        "rig": {
+          "schema_version": 1,
+          "rig_id": "goblin-passive-v1",
+          "controller_id": "none",
+          "fixed_dt": 0.016666666666666666,
+          "max_steps": 3600,
+          "gravity": {
+            "x": 0,
+            "y": -9.81,
+            "z": 0
+          },
+          "solver_config": {
+            "numSolverIterations": 8,
+            "numInternalPgsIterations": 1,
+            "maxCcdSubsteps": 1,
+            "lengthUnit": 1,
+            "normalizedAllowedLinearError": 0.005,
+            "normalizedPredictionDistance": 0.02,
+            "additionalSolverIterations": 0
+          },
+          "floor": {
+            "id": "floor",
+            "position": {
+              "x": 0,
+              "y": -0.2,
+              "z": 0
+            },
+            "half": {
+              "x": 6,
+              "y": 0.2,
+              "z": 6
+            },
+            "friction": 0.9,
+            "restitution": 0.03
+          },
+          "bodies": [
+            {
+              "id": "pelvis",
+              "position": {
+                "x": 0,
+                "y": 1.14,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.09,
+                "radius": 0.2
+              },
+              "mass": 1.6,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:pelvis",
+              "restitution": 0.03
+            },
+            {
+              "id": "torso",
+              "position": {
+                "x": 0,
+                "y": 1.49,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.15,
+                "radius": 0.24
+              },
+              "mass": 2,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:torso",
+              "restitution": 0.03
+            },
+            {
+              "id": "head",
+              "position": {
+                "x": 0,
+                "y": 2.3,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.48
+              },
+              "mass": 1.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:head",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.46,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.09
+              },
+              "mass": 0.35,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperArmL",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.12,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.1,
+                "radius": 0.085
+              },
+              "mass": 0.25,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerArmL",
+              "restitution": 0.03
+            },
+            {
+              "id": "handL",
+              "position": {
+                "x": 0.4,
+                "y": 0.85,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.115
+              },
+              "mass": 0.18,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:handL",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.84,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.12
+              },
+              "mass": 0.55,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperLegL",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.44,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.105
+              },
+              "mass": 0.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerLegL",
+              "restitution": 0.03
+            },
+            {
+              "id": "footL",
+              "position": {
+                "x": 0.16,
+                "y": 0.12,
+                "z": 0.08
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "cuboid",
+                "half": {
+                  "x": 0.13,
+                  "y": 0.1,
+                  "z": 0.22
+                }
+              },
+              "mass": 0.3,
+              "friction": 1,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "foot",
+              "collider_id": "collider:footL",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.46,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.09
+              },
+              "mass": 0.35,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperArmR",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.12,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.1,
+                "radius": 0.085
+              },
+              "mass": 0.25,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerArmR",
+              "restitution": 0.03
+            },
+            {
+              "id": "handR",
+              "position": {
+                "x": -0.4,
+                "y": 0.85,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "ball",
+                "radius": 0.115
+              },
+              "mass": 0.18,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:handR",
+              "restitution": 0.03
+            },
+            {
+              "id": "upperLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.84,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.12
+              },
+              "mass": 0.55,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:upperLegR",
+              "restitution": 0.03
+            },
+            {
+              "id": "lowerLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.44,
+                "z": 0
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "capsule",
+                "half": 0.12,
+                "radius": 0.105
+              },
+              "mass": 0.4,
+              "friction": 0.7,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "non_foot",
+              "collider_id": "collider:lowerLegR",
+              "restitution": 0.03
+            },
+            {
+              "id": "footR",
+              "position": {
+                "x": -0.16,
+                "y": 0.12,
+                "z": 0.08
+              },
+              "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "shape": {
+                "type": "cuboid",
+                "half": {
+                  "x": 0.13,
+                  "y": 0.1,
+                  "z": 0.22
+                }
+              },
+              "mass": 0.3,
+              "friction": 1,
+              "linearDamping": 0.35,
+              "angularDamping": 1.3,
+              "body_class": "foot",
+              "collider_id": "collider:footR",
+              "restitution": 0.03
+            }
+          ],
+          "joints": [
+            {
+              "id": "spine",
+              "parent": "pelvis",
+              "child": "torso",
+              "position": {
+                "x": 0,
+                "y": 1.34,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": 0.20000000000000018,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": -0.1499999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.3,
+                0.3
+              ]
+            },
+            {
+              "id": "neck",
+              "parent": "torso",
+              "child": "head",
+              "position": {
+                "x": 0,
+                "y": 1.83,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": 0.3400000000000001,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": -0.46999999999999975,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.45,
+                0.45
+              ]
+            },
+            {
+              "id": "shoulderL",
+              "parent": "torso",
+              "child": "upperArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.64,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": 0.4,
+                "y": 0.1499999999999999,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.17999999999999994,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "elbowL",
+              "parent": "upperArmL",
+              "child": "lowerArmL",
+              "position": {
+                "x": 0.4,
+                "y": 1.28,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.17999999999999994,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.15999999999999992,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -2.35,
+                0.05
+              ]
+            },
+            {
+              "id": "wristL",
+              "parent": "lowerArmL",
+              "child": "handL",
+              "position": {
+                "x": 0.4,
+                "y": 0.96,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.16000000000000014,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.10999999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.35,
+                0.35
+              ]
+            },
+            {
+              "id": "hipL",
+              "parent": "pelvis",
+              "child": "upperLegL",
+              "position": {
+                "x": 0.16,
+                "y": 1.04,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": 0.16,
+                "y": -0.09999999999999987,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.20000000000000007,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "kneeL",
+              "parent": "upperLegL",
+              "child": "lowerLegL",
+              "position": {
+                "x": 0.16,
+                "y": 0.64,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.19999999999999996,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.2,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.05,
+                2.3
+              ]
+            },
+            {
+              "id": "ankleL",
+              "parent": "lowerLegL",
+              "child": "footL",
+              "position": {
+                "x": 0.16,
+                "y": 0.24,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.2,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.12,
+                "z": -0.08
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.4,
+                0.4
+              ]
+            },
+            {
+              "id": "shoulderR",
+              "parent": "torso",
+              "child": "upperArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.64,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": -0.4,
+                "y": 0.1499999999999999,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.17999999999999994,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "elbowR",
+              "parent": "upperArmR",
+              "child": "lowerArmR",
+              "position": {
+                "x": -0.4,
+                "y": 1.28,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.17999999999999994,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.15999999999999992,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -2.35,
+                0.05
+              ]
+            },
+            {
+              "id": "wristR",
+              "parent": "lowerArmR",
+              "child": "handR",
+              "position": {
+                "x": -0.4,
+                "y": 0.96,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.16000000000000014,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.10999999999999999,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.35,
+                0.35
+              ]
+            },
+            {
+              "id": "hipR",
+              "parent": "pelvis",
+              "child": "upperLegR",
+              "position": {
+                "x": -0.16,
+                "y": 1.04,
+                "z": 0
+              },
+              "type": "spherical",
+              "anchorA": {
+                "x": -0.16,
+                "y": -0.09999999999999987,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.20000000000000007,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": null
+            },
+            {
+              "id": "kneeR",
+              "parent": "upperLegR",
+              "child": "lowerLegR",
+              "position": {
+                "x": -0.16,
+                "y": 0.64,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.19999999999999996,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.2,
+                "z": 0
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.05,
+                2.3
+              ]
+            },
+            {
+              "id": "ankleR",
+              "parent": "lowerLegR",
+              "child": "footR",
+              "position": {
+                "x": -0.16,
+                "y": 0.24,
+                "z": 0
+              },
+              "type": "revolute",
+              "anchorA": {
+                "x": 0,
+                "y": -0.2,
+                "z": 0
+              },
+              "anchorB": {
+                "x": 0,
+                "y": 0.12,
+                "z": -0.08
+              },
+              "axis": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "limits": [
+                -0.4,
+                0.4
+              ]
+            }
+          ]
+        },
+        "phase_version": "immutable-pre-wake-clear-native-add-readback-step-post-clear-v1",
+        "encoding_version": "bounded-toward-zero-f32-v1",
+        "native_effort": null,
+        "engine_precision": "indeterminate_not_certified",
+        "standing_approval": false
+      }
+    }
+  },
+  "definitions": {
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "step",
+        "observed_time",
+        "settings",
+        "bodies",
+        "joints",
+        "floor_contacts",
+        "self_contacts",
+        "motor_tracking",
+        "native_effort",
+        "native_effort_reason",
+        "cpu_ms",
+        "floor_manifolds"
+      ],
+      "properties": {
+        "step": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 360
+        },
+        "observed_time": {
+          "type": "number"
+        },
+        "settings": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "dt",
+            "gravity",
+            "solver",
+            "counts",
+            "motor_config",
+            "floor"
+          ],
+          "properties": {
+            "dt": {
+              "type": "number"
+            },
+            "gravity": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "x",
+                "y",
+                "z"
+              ],
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              }
+            },
+            "solver": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "numSolverIterations",
+                "numInternalPgsIterations",
+                "maxCcdSubsteps",
+                "lengthUnit",
+                "normalizedAllowedLinearError",
+                "normalizedPredictionDistance"
+              ],
+              "properties": {
+                "numSolverIterations": {
+                  "type": "number"
+                },
+                "numInternalPgsIterations": {
+                  "type": "number"
+                },
+                "maxCcdSubsteps": {
+                  "type": "number"
+                },
+                "lengthUnit": {
+                  "type": "number"
+                },
+                "normalizedAllowedLinearError": {
+                  "type": "number"
+                },
+                "normalizedPredictionDistance": {
+                  "type": "number"
+                }
+              }
+            },
+            "counts": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "bodies",
+                "colliders",
+                "joints"
+              ],
+              "properties": {
+                "bodies": {
+                  "const": 15
+                },
+                "colliders": {
+                  "const": 16
+                },
+                "joints": {
+                  "const": 14
+                }
+              }
+            },
+            "motor_config": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "schema_version",
+                    "controller_id",
+                    "model",
+                    "target_convention",
+                    "stiffness",
+                    "damping",
+                    "max_torque_Nm",
+                    "targets"
+                  ],
+                  "properties": {
+                    "schema_version": {
+                      "const": 1
+                    },
+                    "controller_id": {
+                      "const": "native-pose-hold-force-v1"
+                    },
+                    "model": {
+                      "const": "ForceBased"
+                    },
+                    "target_convention": {
+                      "const": "moving-frame-v1"
+                    },
+                    "stiffness": {
+                      "const": 100
+                    },
+                    "damping": {
+                      "const": 12
+                    },
+                    "max_torque_Nm": {
+                      "const": 20
+                    },
+                    "targets": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "id",
+                          "target"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "target": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "x",
+                                  "y",
+                                  "z",
+                                  "w"
+                                ],
+                                "properties": {
+                                  "x": {
+                                    "type": "number"
+                                  },
+                                  "y": {
+                                    "type": "number"
+                                  },
+                                  "z": {
+                                    "type": "number"
+                                  },
+                                  "w": {
+                                    "type": "number"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "minItems": 14,
+                      "maxItems": 14
+                    }
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "floor": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "position",
+                "rotation",
+                "half",
+                "friction",
+                "restitution",
+                "friction_combine",
+                "restitution_combine",
+                "contact_skin",
+                "sensor",
+                "collision_groups",
+                "parent",
+                "native_shape_type"
+              ],
+              "properties": {
+                "position": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "x",
+                    "y",
+                    "z"
+                  ],
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "z": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "rotation": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "x",
+                    "y",
+                    "z",
+                    "w"
+                  ],
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "z": {
+                      "type": "number"
+                    },
+                    "w": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "half": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "x",
+                    "y",
+                    "z"
+                  ],
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "z": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "friction": {
+                  "type": "number"
+                },
+                "restitution": {
+                  "type": "number"
+                },
+                "friction_combine": {
+                  "const": 0
+                },
+                "restitution_combine": {
+                  "const": 0
+                },
+                "contact_skin": {
+                  "const": 0
+                },
+                "sensor": {
+                  "const": false
+                },
+                "collision_groups": {
+                  "const": 4294967295
+                },
+                "parent": {
+                  "type": "null"
+                },
+                "native_shape_type": {
+                  "const": 1
+                }
+              }
+            }
+          }
+        },
+        "bodies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "body_handle",
+              "collider_handle",
+              "position",
+              "rotation",
+              "linear_velocity",
+              "angular_velocity",
+              "mass",
+              "world_com",
+              "inertia",
+              "principal_frame",
+              "world_inverse_inertia",
+              "sleeping",
+              "dynamic",
+              "ccd",
+              "additional_solver_iterations",
+              "linear_damping",
+              "angular_damping",
+              "user_torque",
+              "user_force",
+              "collider_position",
+              "collider_rotation",
+              "friction",
+              "restitution",
+              "sensor",
+              "shape",
+              "observed_shape",
+              "friction_combine",
+              "restitution_combine",
+              "contact_skin",
+              "collision_groups",
+              "native_shape_type"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "body_handle": {
+                "type": "number"
+              },
+              "collider_handle": {
+                "type": "number"
+              },
+              "position": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "rotation": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z",
+                  "w"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  },
+                  "w": {
+                    "type": "number"
+                  }
+                }
+              },
+              "linear_velocity": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "angular_velocity": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "mass": {
+                "type": "number"
+              },
+              "world_com": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "inertia": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "principal_frame": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z",
+                  "w"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  },
+                  "w": {
+                    "type": "number"
+                  }
+                }
+              },
+              "world_inverse_inertia": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 6,
+                "maxItems": 6
+              },
+              "sleeping": {
+                "type": "boolean"
+              },
+              "dynamic": {
+                "type": "boolean"
+              },
+              "ccd": {
+                "type": "boolean"
+              },
+              "additional_solver_iterations": {
+                "type": "number"
+              },
+              "linear_damping": {
+                "type": "number"
+              },
+              "angular_damping": {
+                "type": "number"
+              },
+              "user_torque": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "user_force": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "collider_position": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "collider_rotation": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z",
+                  "w"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  },
+                  "w": {
+                    "type": "number"
+                  }
+                }
+              },
+              "friction": {
+                "type": "number"
+              },
+              "restitution": {
+                "type": "number"
+              },
+              "sensor": {
+                "type": "boolean"
+              },
+              "shape": {
+                "enum": [
+                  {
+                    "type": "capsule",
+                    "half": 0.09,
+                    "radius": 0.2
+                  },
+                  {
+                    "type": "capsule",
+                    "half": 0.15,
+                    "radius": 0.24
+                  },
+                  {
+                    "type": "ball",
+                    "radius": 0.48
+                  },
+                  {
+                    "type": "capsule",
+                    "half": 0.12,
+                    "radius": 0.09
+                  },
+                  {
+                    "type": "capsule",
+                    "half": 0.1,
+                    "radius": 0.085
+                  },
+                  {
+                    "type": "ball",
+                    "radius": 0.115
+                  },
+                  {
+                    "type": "capsule",
+                    "half": 0.12,
+                    "radius": 0.12
+                  },
+                  {
+                    "type": "capsule",
+                    "half": 0.12,
+                    "radius": 0.105
+                  },
+                  {
+                    "type": "cuboid",
+                    "half": {
+                      "x": 0.13,
+                      "y": 0.1,
+                      "z": 0.22
+                    }
+                  }
+                ]
+              },
+              "observed_shape": {
+                "enum": [
+                  {
+                    "type": "capsule",
+                    "half": 0.09000000357627869,
+                    "radius": 0.20000000298023224
+                  },
+                  {
+                    "type": "capsule",
+                    "half": 0.15000000596046448,
+                    "radius": 0.23999999463558197
+                  },
+                  {
+                    "type": "ball",
+                    "radius": 0.47999998927116394
+                  },
+                  {
+                    "type": "capsule",
+                    "half": 0.11999999731779099,
+                    "radius": 0.09000000357627869
+                  },
+                  {
+                    "type": "capsule",
+                    "half": 0.10000000149011612,
+                    "radius": 0.08500000089406967
+                  },
+                  {
+                    "type": "ball",
+                    "radius": 0.11500000208616257
+                  },
+                  {
+                    "type": "capsule",
+                    "half": 0.11999999731779099,
+                    "radius": 0.11999999731779099
+                  },
+                  {
+                    "type": "capsule",
+                    "half": 0.11999999731779099,
+                    "radius": 0.10499999672174454
+                  },
+                  {
+                    "type": "cuboid",
+                    "half": {
+                      "x": 0.12999999523162842,
+                      "y": 0.10000000149011612,
+                      "z": 0.2199999988079071
+                    }
+                  }
+                ]
+              },
+              "friction_combine": {
+                "const": 0
+              },
+              "restitution_combine": {
+                "const": 0
+              },
+              "contact_skin": {
+                "const": 0
+              },
+              "collision_groups": {
+                "const": 4294967295
+              },
+              "native_shape_type": {
+                "enum": [
+                  0,
+                  1,
+                  2
+                ]
+              }
+            }
+          },
+          "minItems": 15,
+          "maxItems": 15
+        },
+        "joints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "parent",
+              "child",
+              "kind",
+              "handle",
+              "native_type",
+              "anchor1",
+              "anchor2",
+              "frame1",
+              "frame2",
+              "contacts_enabled",
+              "limits",
+              "observation"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "parent": {
+                "type": "string"
+              },
+              "child": {
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "revolute",
+                  "spherical"
+                ]
+              },
+              "handle": {
+                "type": "number"
+              },
+              "native_type": {
+                "type": "number"
+              },
+              "anchor1": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "anchor2": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "frame1": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z",
+                  "w"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  },
+                  "w": {
+                    "type": "number"
+                  }
+                }
+              },
+              "frame2": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z",
+                  "w"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  },
+                  "w": {
+                    "type": "number"
+                  }
+                }
+              },
+              "contacts_enabled": {
+                "type": "boolean"
+              },
+              "limits": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "observation": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "anchor_error",
+                  "axis_error",
+                  "angle",
+                  "limit_violation"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "anchor_error": {
+                    "type": "number"
+                  },
+                  "axis_error": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "angle": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "limit_violation": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "minItems": 14,
+          "maxItems": 14
+        },
+        "floor_contacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "body_id",
+              "collider_id",
+              "point",
+              "normal",
+              "distance",
+              "normal_impulse",
+              "normal_load"
+            ],
+            "properties": {
+              "body_id": {
+                "type": "string"
+              },
+              "collider_id": {
+                "type": "string"
+              },
+              "point": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "normal": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "distance": {
+                "type": "number"
+              },
+              "normal_impulse": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "normal_load": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "self_contacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "a",
+              "b",
+              "distance",
+              "point1",
+              "point2",
+              "normal",
+              "impulse"
+            ],
+            "properties": {
+              "a": {
+                "type": "string"
+              },
+              "b": {
+                "type": "string"
+              },
+              "distance": {
+                "type": "number"
+              },
+              "point1": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "point2": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "normal": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "impulse": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "flipped": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "motor_tracking": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "joint_id",
+                  "kind",
+                  "target",
+                  "actual",
+                  "error_rad",
+                  "relative_angular_velocity_rad_s",
+                  "limits",
+                  "configured_axis_cap_Nm"
+                ],
+                "properties": {
+                  "joint_id": {
+                    "type": "string"
+                  },
+                  "kind": {
+                    "enum": [
+                      "revolute",
+                      "spherical"
+                    ]
+                  },
+                  "target": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "x",
+                          "y",
+                          "z",
+                          "w"
+                        ],
+                        "properties": {
+                          "x": {
+                            "type": "number"
+                          },
+                          "y": {
+                            "type": "number"
+                          },
+                          "z": {
+                            "type": "number"
+                          },
+                          "w": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "actual": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "x",
+                          "y",
+                          "z",
+                          "w"
+                        ],
+                        "properties": {
+                          "x": {
+                            "type": "number"
+                          },
+                          "y": {
+                            "type": "number"
+                          },
+                          "z": {
+                            "type": "number"
+                          },
+                          "w": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "error_rad": {
+                    "type": "number"
+                  },
+                  "relative_angular_velocity_rad_s": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "x",
+                      "y",
+                      "z"
+                    ],
+                    "properties": {
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      },
+                      "z": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "limits": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "configured_axis_cap_Nm": {
+                    "const": 20
+                  }
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "native_effort": {
+          "type": "null"
+        },
+        "native_effort_reason": {
+          "type": "string"
+        },
+        "cpu_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "floor_manifolds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "body_id",
+              "flipped",
+              "normal",
+              "contacts"
+            ],
+            "properties": {
+              "body_id": {
+                "type": "string"
+              },
+              "flipped": {
+                "type": "boolean"
+              },
+              "normal": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "contacts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "distance",
+                    "local1",
+                    "local2",
+                    "impulse"
+                  ],
+                  "properties": {
+                    "distance": {
+                      "type": "number"
+                    },
+                    "local1": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "x",
+                        "y",
+                        "z"
+                      ],
+                      "properties": {
+                        "x": {
+                          "type": "number"
+                        },
+                        "y": {
+                          "type": "number"
+                        },
+                        "z": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "local2": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "x",
+                        "y",
+                        "z"
+                      ],
+                      "properties": {
+                        "x": {
+                          "type": "number"
+                        },
+                        "y": {
+                          "type": "number"
+                        },
+                        "z": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "impulse": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "cleared",
+        "law",
+        "applied_torso",
+        "applied_pelvis",
+        "readback"
+      ],
+      "properties": {
+        "phase": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cleared": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "torque",
+              "force"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "torque": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "force": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "law": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "up",
+            "theta",
+            "error",
+            "wperp",
+            "raw",
+            "bounded",
+            "encoded",
+            "pelvis",
+            "cap_ratio",
+            "encoding_delta",
+            "encoded_axial"
+          ],
+          "properties": {
+            "up": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "theta": {
+              "type": "number"
+            },
+            "error": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "wperp": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "raw": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "bounded": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "encoded": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "pelvis": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "cap_ratio": {
+              "type": "number"
+            },
+            "encoding_delta": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "encoded_axial": {
+              "type": "number"
+            }
+          }
+        },
+        "applied_torso": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "applied_pelvis": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "readback": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "torque",
+              "force"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "torque": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "force": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "z": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "trial": {
+      "enum": [
+        {
+          "ordinal": 1,
+          "id": "fullrig83/free32/pitch/wrong-sign/1",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "wrong-sign",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 2,
+          "id": "fullrig83/free32/pitch/wrong-sign/2",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "wrong-sign",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 3,
+          "id": "fullrig83/free32/pitch/wrong-sign/3",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "wrong-sign",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 4,
+          "id": "fullrig83/free32/pitch/wrong-sign/4",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "wrong-sign",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 5,
+          "id": "fullrig83/free32/pitch/wrong-sign/5",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "wrong-sign",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 6,
+          "id": "fullrig83/free32/pitch/missing-reaction/1",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "missing-reaction",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 7,
+          "id": "fullrig83/free32/pitch/missing-reaction/2",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "missing-reaction",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 8,
+          "id": "fullrig83/free32/pitch/missing-reaction/3",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "missing-reaction",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 9,
+          "id": "fullrig83/free32/pitch/missing-reaction/4",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "missing-reaction",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 10,
+          "id": "fullrig83/free32/pitch/missing-reaction/5",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "missing-reaction",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 11,
+          "id": "fullrig83/free32/null/off/1",
+          "condition": "free32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 12,
+          "id": "fullrig83/free32/null/on/1",
+          "condition": "free32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 13,
+          "id": "fullrig83/free32/null/off/2",
+          "condition": "free32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 14,
+          "id": "fullrig83/free32/null/on/2",
+          "condition": "free32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 15,
+          "id": "fullrig83/free32/null/off/3",
+          "condition": "free32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 16,
+          "id": "fullrig83/free32/null/on/3",
+          "condition": "free32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 17,
+          "id": "fullrig83/free32/null/off/4",
+          "condition": "free32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 18,
+          "id": "fullrig83/free32/null/on/4",
+          "condition": "free32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 19,
+          "id": "fullrig83/free32/null/off/5",
+          "condition": "free32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 20,
+          "id": "fullrig83/free32/null/on/5",
+          "condition": "free32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 21,
+          "id": "fullrig83/free32/yaw/off/1",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 22,
+          "id": "fullrig83/free32/yaw/on/1",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 23,
+          "id": "fullrig83/free32/yaw/off/2",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 24,
+          "id": "fullrig83/free32/yaw/on/2",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 25,
+          "id": "fullrig83/free32/yaw/off/3",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 26,
+          "id": "fullrig83/free32/yaw/on/3",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 27,
+          "id": "fullrig83/free32/yaw/off/4",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 28,
+          "id": "fullrig83/free32/yaw/on/4",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 29,
+          "id": "fullrig83/free32/yaw/off/5",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 30,
+          "id": "fullrig83/free32/yaw/on/5",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 31,
+          "id": "fullrig83/free32/pitch/off/1",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 32,
+          "id": "fullrig83/free32/pitch/on/1",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 33,
+          "id": "fullrig83/free32/pitch/off/2",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 34,
+          "id": "fullrig83/free32/pitch/on/2",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 35,
+          "id": "fullrig83/free32/pitch/off/3",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 36,
+          "id": "fullrig83/free32/pitch/on/3",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 37,
+          "id": "fullrig83/free32/pitch/off/4",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 38,
+          "id": "fullrig83/free32/pitch/on/4",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 39,
+          "id": "fullrig83/free32/pitch/off/5",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 40,
+          "id": "fullrig83/free32/pitch/on/5",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 41,
+          "id": "fullrig83/free32/roll/off/1",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 42,
+          "id": "fullrig83/free32/roll/on/1",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 43,
+          "id": "fullrig83/free32/roll/off/2",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 44,
+          "id": "fullrig83/free32/roll/on/2",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 45,
+          "id": "fullrig83/free32/roll/off/3",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 46,
+          "id": "fullrig83/free32/roll/on/3",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 47,
+          "id": "fullrig83/free32/roll/off/4",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 48,
+          "id": "fullrig83/free32/roll/on/4",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 49,
+          "id": "fullrig83/free32/roll/off/5",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 50,
+          "id": "fullrig83/free32/roll/on/5",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 51,
+          "id": "fullrig83/fb32/null/off/1",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 52,
+          "id": "fullrig83/fb32/null/on/1",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 53,
+          "id": "fullrig83/fb32/null/off/2",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 54,
+          "id": "fullrig83/fb32/null/on/2",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 55,
+          "id": "fullrig83/fb32/null/off/3",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 56,
+          "id": "fullrig83/fb32/null/on/3",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 57,
+          "id": "fullrig83/fb32/null/off/4",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 58,
+          "id": "fullrig83/fb32/null/on/4",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 59,
+          "id": "fullrig83/fb32/null/off/5",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 60,
+          "id": "fullrig83/fb32/null/on/5",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 61,
+          "id": "fullrig83/fb32/yaw/off/1",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 62,
+          "id": "fullrig83/fb32/yaw/on/1",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 63,
+          "id": "fullrig83/fb32/yaw/off/2",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 64,
+          "id": "fullrig83/fb32/yaw/on/2",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 65,
+          "id": "fullrig83/fb32/yaw/off/3",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 66,
+          "id": "fullrig83/fb32/yaw/on/3",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 67,
+          "id": "fullrig83/fb32/yaw/off/4",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 68,
+          "id": "fullrig83/fb32/yaw/on/4",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 69,
+          "id": "fullrig83/fb32/yaw/off/5",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 70,
+          "id": "fullrig83/fb32/yaw/on/5",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 71,
+          "id": "fullrig83/fb32/pitch/off/1",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 72,
+          "id": "fullrig83/fb32/pitch/on/1",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 73,
+          "id": "fullrig83/fb32/pitch/off/2",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 74,
+          "id": "fullrig83/fb32/pitch/on/2",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 75,
+          "id": "fullrig83/fb32/pitch/off/3",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 76,
+          "id": "fullrig83/fb32/pitch/on/3",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 77,
+          "id": "fullrig83/fb32/pitch/off/4",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 78,
+          "id": "fullrig83/fb32/pitch/on/4",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 79,
+          "id": "fullrig83/fb32/pitch/off/5",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 80,
+          "id": "fullrig83/fb32/pitch/on/5",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 81,
+          "id": "fullrig83/fb32/roll/off/1",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 82,
+          "id": "fullrig83/fb32/roll/on/1",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 83,
+          "id": "fullrig83/fb32/roll/off/2",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 84,
+          "id": "fullrig83/fb32/roll/on/2",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 85,
+          "id": "fullrig83/fb32/roll/off/3",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 86,
+          "id": "fullrig83/fb32/roll/on/3",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 87,
+          "id": "fullrig83/fb32/roll/off/4",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 88,
+          "id": "fullrig83/fb32/roll/on/4",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 89,
+          "id": "fullrig83/fb32/roll/off/5",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 90,
+          "id": "fullrig83/fb32/roll/on/5",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 360
+        }
+      ]
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "reason"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "pending",
+            "incomplete",
+            "execution_blocker",
+            "behavior_blocker",
+            "repeat_blocker",
+            "counterfactual_terminal",
+            "expected_negative_detected",
+            "horizon",
+            "bounded_fullrig_candidate_supported",
+            "state_terminal",
+            "completed_negative",
+            "completed_inconclusive"
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "phase": {
+          "type": "string"
+        },
+        "step": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 90
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "git_commit",
+        "tree",
+        "dirty",
+        "config_sha256",
+        "source_hashes",
+        "build_id",
+        "node",
+        "rapier",
+        "upstream",
+        "host"
+      ],
+      "properties": {
+        "git_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "tree": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "dirty": {
+          "const": false
+        },
+        "config_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_hashes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "build_id": {
+          "type": "string"
+        },
+        "node": {
+          "const": "v24.21.0"
+        },
+        "rapier": {
+          "const": "0.21.0"
+        },
+        "upstream": {
+          "const": "b716d375efc0201003f0cd9ef7168eee0b62c177"
+        },
+        "host": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "hostname",
+            "platform",
+            "release",
+            "arch"
+          ],
+          "properties": {
+            "hostname": {
+              "type": "string"
+            },
+            "platform": {
+              "type": "string"
+            },
+            "release": {
+              "type": "string"
+            },
+            "arch": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "readback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "torque",
+        "force"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "torque": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "x",
+            "y",
+            "z"
+          ],
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        },
+        "force": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "x",
+            "y",
+            "z"
+          ],
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pre",
+        "command",
+        "post",
+        "cleared",
+        "cpu",
+        "command_classification"
+      ],
+      "properties": {
+        "pre": {
+          "$ref": "#/definitions/state"
+        },
+        "command": {
+          "$ref": "#/definitions/command"
+        },
+        "post": {
+          "$ref": "#/definitions/state"
+        },
+        "cleared": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/readback"
+          }
+        },
+        "cpu": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "physics_ms",
+            "command_ms",
+            "observation_ms"
+          ],
+          "properties": {
+            "physics_ms": {
+              "type": "number"
+            },
+            "command_ms": {
+              "type": "number"
+            },
+            "observation_ms": {
+              "type": "number"
+            }
+          }
+        },
+        "command_classification": {
+          "enum": [
+            null,
+            "fail_command:wrong-sign",
+            "fail_command:missing-reaction"
+          ]
+        }
+      }
+    }
+  }
+}

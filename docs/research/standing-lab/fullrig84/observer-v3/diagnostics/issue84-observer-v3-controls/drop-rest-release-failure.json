@@ -1,0 +1,1434 @@
+{
+  "id": "drop-rest-release",
+  "message": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(Math.abs(r.current_geometry.distance-gap)<1e-6)\n\n    at advance (file:///C:/Users/Mega/goblin/.review-worktrees/issue84/scripts/fullrig84-observer-diagnostics.mjs:25:126)\n    at file:///C:/Users/Mega/goblin/.review-worktrees/issue84/scripts/fullrig84-observer-diagnostics.mjs:32:30",
+  "rows": [
+    {
+      "step": 1,
+      "phase": "begin_contact",
+      "independent_gap": 0.0082969069480896,
+      "momentum_impulse": -2.440065149933446e-9,
+      "observation": {
+        "measurement_version": "current-geometry-interval-support-v2",
+        "geometry_time": "current_pose",
+        "impulse_time": "last_completed_step",
+        "dt": 0.01666666753590107,
+        "bodies": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "current_geometry": null,
+            "current_touching": false,
+            "candidates": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": 0.5,
+                  "y": 0.0082969069480896,
+                  "z": 0.5
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": 0.0082969069480896,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": -0.5,
+                  "y": 0.0082969069480896,
+                  "z": 0.5
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": 0.0082969069480896,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": -0.5,
+                  "y": 0.0082969069480896,
+                  "z": -0.5
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": 0.0082969069480896,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": 0.5,
+                  "y": 0.0082969069480896,
+                  "z": -0.5
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": 0.0082969069480896,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0
+              }
+            ],
+            "solver_contacts": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5,
+                  "y": 0.004148460924625397,
+                  "z": 0.5
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5,
+                  "y": 0.004148460924625397,
+                  "z": -0.5
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.5,
+                  "y": 0.004148460924625397,
+                  "z": 0.5
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.5,
+                  "y": 0.004148460924625397,
+                  "z": -0.5
+                }
+              }
+            ],
+            "interval_normal_impulse": 0,
+            "interval_vertical_mean_load": 0
+          }
+        ],
+        "contacts": []
+      }
+    },
+    {
+      "step": 2,
+      "phase": "begin_contact",
+      "independent_gap": 0.0038687586784362793,
+      "momentum_impulse": -2.440065149933446e-9,
+      "observation": {
+        "measurement_version": "current-geometry-interval-support-v2",
+        "geometry_time": "current_pose",
+        "impulse_time": "last_completed_step",
+        "dt": 0.01666666753590107,
+        "bodies": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "current_geometry": null,
+            "current_touching": false,
+            "candidates": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": 0.5,
+                  "y": 0.0038687586784362793,
+                  "z": 0.5
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": 0.0038687586784362793,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": -0.5,
+                  "y": 0.0038687586784362793,
+                  "z": 0.5
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": 0.0038687586784362793,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": -0.5,
+                  "y": 0.0038687586784362793,
+                  "z": -0.5
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": 0.0038687586784362793,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": 0.5,
+                  "y": 0.0038687586784362793,
+                  "z": -0.5
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": 0.0038687586784362793,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0
+              }
+            ],
+            "solver_contacts": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5,
+                  "y": 0.0019343867897987366,
+                  "z": 0.5
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5,
+                  "y": 0.0019343867897987366,
+                  "z": -0.5
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.5,
+                  "y": 0.0019343867897987366,
+                  "z": 0.5
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.5,
+                  "y": 0.0019343867897987366,
+                  "z": -0.5
+                }
+              }
+            ],
+            "interval_normal_impulse": 0,
+            "interval_vertical_mean_load": 0
+          }
+        ],
+        "contacts": []
+      }
+    },
+    {
+      "step": 3,
+      "phase": "begin_contact",
+      "independent_gap": -0.0003154711735559035,
+      "momentum_impulse": 0.48130922148004174,
+      "observation": {
+        "measurement_version": "current-geometry-interval-support-v2",
+        "geometry_time": "current_pose",
+        "impulse_time": "last_completed_step",
+        "dt": 0.01666666753590107,
+        "bodies": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "current_geometry": {
+              "distance": -0.0003154574369546026,
+              "body_point": {
+                "x": 0.49944353103637695,
+                "y": -0.0003154575824737549,
+                "z": 0.4995821416378021
+              },
+              "floor_point": {
+                "x": 0.4994438588619232,
+                "y": 2.9802322387695312e-8,
+                "z": 0.4995824098587036
+              },
+              "normal": {
+                "x": -1.4260876923799515e-9,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "current_touching": true,
+            "candidates": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": 0.4994435236372295,
+                  "y": -0.0003154711871664606,
+                  "z": 0.4995821270064174
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": -0.0003154711871664606,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.12289392203092575
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": -0.5005564355537786,
+                  "y": -0.000029782576736026023,
+                  "z": 0.49958218884174377
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": -0.000029782576736026023,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.1368248015642166
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": -0.5005564072593733,
+                  "y": 0.0002856998337006367,
+                  "z": -0.5004177613936812
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": 0.0002856998337006367,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.06552383303642273
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": 0.4994435519316347,
+                  "y": 1.1223270257598728e-8,
+                  "z": -0.5004178232290076
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": 1.1223270257598728e-8,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.1560666710138321
+              }
+            ],
+            "solver_contacts": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5002782344818115,
+                  "y": -0.000014878809452056885,
+                  "z": 0.49979108572006226
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5002782344818115,
+                  "y": 0.00014284998178482056,
+                  "z": -0.500208854675293
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.4997217655181885,
+                  "y": -0.00015772134065628052,
+                  "z": 0.49979108572006226
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.4997217655181885,
+                  "y": 7.450580596923828e-9,
+                  "z": -0.5002089142799377
+                }
+              }
+            ],
+            "interval_normal_impulse": 0.4813092276453972,
+            "interval_vertical_mean_load": 28.878552152589968
+          }
+        ],
+        "contacts": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "point": {
+              "x": 0.49944353103637695,
+              "y": -0.0003154575824737549,
+              "z": 0.4995821416378021
+            },
+            "normal": {
+              "x": -1.4260876923799515e-9,
+              "y": 1,
+              "z": 0
+            },
+            "distance": -0.0003154574369546026,
+            "normal_impulse": 0.4813092276453972,
+            "normal_load": 28.878552152589968
+          }
+        ]
+      }
+    },
+    {
+      "step": 4,
+      "phase": "begin_contact",
+      "independent_gap": -0.000055412067777482754,
+      "momentum_impulse": 0.17246361903846263,
+      "observation": {
+        "measurement_version": "current-geometry-interval-support-v2",
+        "geometry_time": "current_pose",
+        "impulse_time": "last_completed_step",
+        "dt": 0.01666666753590107,
+        "bodies": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "current_geometry": {
+              "distance": -0.00005531312490347773,
+              "body_point": {
+                "x": -0.5006634593009949,
+                "y": -0.000055402517318725586,
+                "z": -0.5004022717475891
+              },
+              "floor_point": {
+                "x": -0.5006632208824158,
+                "y": -2.9802322387695312e-8,
+                "z": -0.50040203332901
+              },
+              "normal": {
+                "x": 2.6193447411060333e-9,
+                "y": 1,
+                "z": -2.7957867132499814e-9
+              }
+            },
+            "current_touching": true,
+            "candidates": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": 0.4993365031339728,
+                  "y": 0.0000032589461277932052,
+                  "z": 0.4995977155485636
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": 0.0000032589461277932052,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.010496743023395538
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": -0.500663496129218,
+                  "y": -0.00003512879158595883,
+                  "z": 0.4995977177021039
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": -0.00003512879158595883,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.05384555459022522
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": -0.5006634975041293,
+                  "y": -0.00005541206779136054,
+                  "z": -0.5004022820921905
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": -0.00005541206779136054,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.07639006525278091
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": 0.4993365017590615,
+                  "y": -0.000017024330077608507,
+                  "z": -0.5004022842457307
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": -0.000017024330077608507,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.0317312553524971
+              }
+            ],
+            "solver_contacts": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5003317594528198,
+                  "y": -0.000017561018466949463,
+                  "z": 0.49979883432388306
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5003317594528198,
+                  "y": -0.00002769380807876587,
+                  "z": -0.5002011060714722
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.4996682405471802,
+                  "y": 0.0000016316771507263184,
+                  "z": 0.49979883432388306
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.4996682405471802,
+                  "y": -0.000008501112461090088,
+                  "z": -0.5002011060714722
+                }
+              }
+            ],
+            "interval_normal_impulse": 0.17246361821889877,
+            "interval_vertical_mean_load": 10.347816553453237
+          }
+        ],
+        "contacts": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "point": {
+              "x": -0.5006634593009949,
+              "y": -0.000055402517318725586,
+              "z": -0.5004022717475891
+            },
+            "normal": {
+              "x": 2.6193447411060333e-9,
+              "y": 1,
+              "z": -2.7957867132499814e-9
+            },
+            "distance": -0.00005531312490347773,
+            "normal_impulse": 0.17246361821889877,
+            "normal_load": 10.347816553453237
+          }
+        ]
+      }
+    },
+    {
+      "step": 5,
+      "phase": "begin_contact",
+      "independent_gap": -0.00010717833112028341,
+      "momentum_impulse": 0.16365432308986783,
+      "observation": {
+        "measurement_version": "current-geometry-interval-support-v2",
+        "geometry_time": "current_pose",
+        "impulse_time": "last_completed_step",
+        "dt": 0.01666666753590107,
+        "bodies": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "current_geometry": {
+              "distance": -0.00010713934170780703,
+              "body_point": {
+                "x": -0.5004806518554688,
+                "y": -0.00010719895362854004,
+                "z": -0.5002952218055725
+              },
+              "floor_point": {
+                "x": -0.5004807710647583,
+                "y": -1.4901161193847656e-8,
+                "z": -0.5002953410148621
+              },
+              "normal": {
+                "x": 4.838511813431978e-9,
+                "y": 1,
+                "z": -6.7484506871551275e-9
+              }
+            },
+            "current_touching": true,
+            "candidates": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": 0.4995193532666863,
+                  "y": -0.000001000683705176808,
+                  "z": 0.4997047768922318
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": -0.000001000683705176808,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.0478694811463356
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": -0.5004806437285662,
+                  "y": -0.00007852161738319818,
+                  "z": 0.4997047795861803
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": -0.00007852161738319818,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.036572474986314774
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": -0.5004806442010195,
+                  "y": -0.00010717833121098863,
+                  "z": -0.500295220003216
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": -0.00010717833121098863,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.03939170017838478
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": 0.499519352794233,
+                  "y": -0.000029657397532911745,
+                  "z": -0.5002952226971646
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": -0.000029657397532911745,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.03982067108154297
+              }
+            ],
+            "solver_contacts": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5002403259277344,
+                  "y": -0.00003925710916519165,
+                  "z": 0.49985235929489136
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5002403259277344,
+                  "y": -0.000053592026233673096,
+                  "z": -0.5001475811004639
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.4997596740722656,
+                  "y": -4.991888999938965e-7,
+                  "z": 0.49985235929489136
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.4997596740722656,
+                  "y": -0.000014819204807281494,
+                  "z": -0.5001475811004639
+                }
+              }
+            ],
+            "interval_normal_impulse": 0.16365432739257812,
+            "interval_vertical_mean_load": 9.819259131440417
+          }
+        ],
+        "contacts": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "point": {
+              "x": -0.5004806518554688,
+              "y": -0.00010719895362854004,
+              "z": -0.5002952218055725
+            },
+            "normal": {
+              "x": 4.838511813431978e-9,
+              "y": 1,
+              "z": -6.7484506871551275e-9
+            },
+            "distance": -0.00010713934170780703,
+            "normal_impulse": 0.16365432739257812,
+            "normal_load": 9.819259131440417
+          }
+        ]
+      }
+    },
+    {
+      "step": 6,
+      "phase": "begin_contact",
+      "independent_gap": -0.0000714039190012894,
+      "momentum_impulse": 0.16348608758300542,
+      "observation": {
+        "measurement_version": "current-geometry-interval-support-v2",
+        "geometry_time": "current_pose",
+        "impulse_time": "last_completed_step",
+        "dt": 0.01666666753590107,
+        "bodies": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "current_geometry": {
+              "distance": -0.00007146597636165097,
+              "body_point": {
+                "x": -0.5005706548690796,
+                "y": -0.00007140636444091797,
+                "z": -0.5003417134284973
+              },
+              "floor_point": {
+                "x": -0.5005703568458557,
+                "y": 2.9802322387695312e-8,
+                "z": -0.500341534614563
+              },
+              "normal": {
+                "x": -8.614733815193176e-9,
+                "y": 1,
+                "z": 2.9440343496389687e-9
+              }
+            },
+            "current_touching": true,
+            "candidates": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": 0.4994293219975322,
+                  "y": -0.0000252741876475282,
+                  "z": 0.49965827496861814
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": -0.0000252741876475282,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.04430406540632248
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": -0.5005706774638597,
+                  "y": -0.00005809515931931575,
+                  "z": 0.4996582768254506
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": -0.00005809515931931575,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.0381728857755661
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": -0.5005706788838857,
+                  "y": -0.00007140391900850585,
+                  "z": -0.5003417230859878
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": -0.00007140391900850585,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.04288903996348381
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": 0.4994293205775061,
+                  "y": -0.00003858294733677381,
+                  "z": -0.5003417249428204
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": -0.00003858294733677381,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.03812010586261749
+              }
+            ],
+            "solver_contacts": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5002853274345398,
+                  "y": -0.000029049813747406006,
+                  "z": 0.49982914328575134
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5002853274345398,
+                  "y": -0.00003569573163986206,
+                  "z": -0.5001708269119263
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.4997146725654602,
+                  "y": -0.000012628734111785889,
+                  "z": 0.49982914328575134
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.4997146725654602,
+                  "y": -0.00001928955316543579,
+                  "z": -0.5001708269119263
+                }
+              }
+            ],
+            "interval_normal_impulse": 0.16348609700798988,
+            "interval_vertical_mean_load": 9.809165308891556
+          }
+        ],
+        "contacts": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "point": {
+              "x": -0.5005706548690796,
+              "y": -0.00007140636444091797,
+              "z": -0.5003417134284973
+            },
+            "normal": {
+              "x": -8.614733815193176e-9,
+              "y": 1,
+              "z": 2.9440343496389687e-9
+            },
+            "distance": -0.00007146597636165097,
+            "normal_impulse": 0.16348609700798988,
+            "normal_load": 9.809165308891556
+          }
+        ]
+      }
+    },
+    {
+      "step": 7,
+      "phase": "begin_contact",
+      "independent_gap": -0.00007452813390451674,
+      "momentum_impulse": 0.16354821378365159,
+      "observation": {
+        "measurement_version": "current-geometry-interval-support-v2",
+        "geometry_time": "current_pose",
+        "impulse_time": "last_completed_step",
+        "dt": 0.01666666753590107,
+        "bodies": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "current_geometry": {
+              "distance": -0.00007453561556758359,
+              "body_point": {
+                "x": -0.5005531311035156,
+                "y": -0.00007450580596923828,
+                "z": -0.5003333687782288
+              },
+              "floor_point": {
+                "x": -0.5005529522895813,
+                "y": -2.9802322387695312e-8,
+                "z": -0.5003331899642944
+              },
+              "normal": {
+                "x": -2.7539499569684267e-9,
+                "y": 1,
+                "z": 2.333763404749334e-9
+              }
+            },
+            "current_touching": true,
+            "candidates": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": 0.4994468547608951,
+                  "y": -0.000036455245946254156,
+                  "z": 0.4996666452055142
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": -0.000036455245946254156,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.042259007692337036
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": 0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": 0.5
+                },
+                "current_body_point": {
+                  "x": -0.5005531448084493,
+                  "y": -0.00006580335394001935,
+                  "z": 0.4996666469195026
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": 0.5
+                },
+                "current_anchor_gap": -0.00006580335394001935,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.03874588757753372
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": -0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": -0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": -0.5005531462663817,
+                  "y": -0.00007452813390895763,
+                  "z": -0.5003333530424365
+                },
+                "current_floor_point": {
+                  "x": -0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": -0.00007452813390895763,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.044299494475126266
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "local_body": {
+                  "x": 0.5,
+                  "y": -0.5,
+                  "z": -0.5
+                },
+                "local_floor": {
+                  "x": 0.5,
+                  "y": 0.20000000298023224,
+                  "z": -0.5
+                },
+                "current_body_point": {
+                  "x": 0.49944685330296257,
+                  "y": -0.00004518002591513692,
+                  "z": -0.5003333547564249
+                },
+                "current_floor_point": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": -0.5
+                },
+                "current_anchor_gap": -0.00004518002591513692,
+                "interval_normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "interval_normal_impulse": 0.03824382647871971
+              }
+            ],
+            "solver_contacts": [
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5002765655517578,
+                  "y": -0.0000328943133354187,
+                  "z": 0.4998333156108856
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": -0.5002765655517578,
+                  "y": -0.00003724545240402222,
+                  "z": -0.500166654586792
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.4997234344482422,
+                  "y": -0.00001821666955947876,
+                  "z": 0.4998333156108856
+                }
+              },
+              {
+                "cached_distance": 0.009999975562095642,
+                "current_midpoint": {
+                  "x": 0.4997234344482422,
+                  "y": -0.000022582709789276123,
+                  "z": -0.500166654586792
+                }
+              }
+            ],
+            "interval_normal_impulse": 0.16354821622371674,
+            "interval_vertical_mean_load": 9.81289246164078
+          }
+        ],
+        "contacts": [
+          {
+            "body_id": "footL",
+            "collider_id": "collider:footL",
+            "point": {
+              "x": -0.5005531311035156,
+              "y": -0.00007450580596923828,
+              "z": -0.5003333687782288
+            },
+            "normal": {
+              "x": -2.7539499569684267e-9,
+              "y": 1,
+              "z": 2.333763404749334e-9
+            },
+            "distance": -0.00007453561556758359,
+            "normal_impulse": 0.16354821622371674,
+            "normal_load": 9.81289246164078
+          }
+        ]
+      }
+    }
+  ]
+}

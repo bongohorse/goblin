@@ -18,7 +18,7 @@ test('actual passive checkpoints agree at 30/60/144 Hz and irregular render inte
 test('five fresh worlds reproduce all checkpoints; compare ignores identifiers/timing but catches corruption',async()=>{
   const results=[];for(let i=0;i<5;i++){const s=new StandingSimulation();try{while(!s.terminal)s.step();results.push(await s.result());}finally{s.dispose();}}
   assert.equal(new Set(results.map(r=>r.run_id)).size,5);
-  assert.deepEqual(results[0].checkpoints.map(c=>c.step),[0,1,10,30,60,70]);
+  assert.deepEqual(results[0].checkpoints.map(c=>c.step),[0,1,10,30,60,69]);
   for(const r of results.slice(1))assert.equal(compareResults(results[0],r).pass,true);
   const sign=structuredClone(results[1]);for(const c of sign.checkpoints)for(const b of c.bodies)for(const k of ['x','y','z','w'])b.rotation[k]*=-1;
   sign.physics_timing.mean=12345;sign.run_id='different';assert.equal(compareResults(results[0],sign).pass,true,'quaternion sign and CPU/UUID excluded');

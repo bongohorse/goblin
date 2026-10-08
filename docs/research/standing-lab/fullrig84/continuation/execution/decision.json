@@ -1,0 +1,1 @@
+{"kind":"execution_blocker","reason":"command:The expression evaluated to a falsy value:\n\n  assert.ok(norm(v)<=cap&&exactWithinCap(v,cap))\n","ordinal":61,"id":"fullrig83/fb32/yaw/off/1"}

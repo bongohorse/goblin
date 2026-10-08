@@ -1,0 +1,2 @@
+{"event":"allocation_attempt","ordinal":1,"id":"fullrig83/free32/pitch/wrong-sign/1","uuid":"4de94bd7-111c-4c0f-8344-8ba80679361d","public_steps_before":0}
+{"event":"failure","ordinal":1,"phase":"initial_validation","message":"Expected values to be strictly equal:\n\n16 !== 6\n","public_steps":0}

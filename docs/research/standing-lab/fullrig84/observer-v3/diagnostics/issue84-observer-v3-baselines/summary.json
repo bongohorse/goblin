@@ -1,0 +1,36 @@
+{
+  "mode": "baselines",
+  "allocations": 9,
+  "public_steps": 4371,
+  "summaries": [
+    {
+      "id": "passive",
+      "steps": 69,
+      "standing_time": 1.15,
+      "termination": "non_foot_contact",
+      "failures": [
+        "handL"
+      ],
+      "measurement_version": "current-geometry-interval-support-v2"
+    },
+    {
+      "id": "force20",
+      "steps": 3600,
+      "standing_time": 60,
+      "termination": "timeout",
+      "failures": [],
+      "measurement_version": "current-geometry-interval-support-v2"
+    },
+    {
+      "id": "force1",
+      "steps": 186,
+      "standing_time": 3.1,
+      "termination": "non_foot_contact",
+      "failures": [
+        "handL",
+        "handR"
+      ],
+      "measurement_version": "current-geometry-interval-support-v2"
+    }
+  ]
+}

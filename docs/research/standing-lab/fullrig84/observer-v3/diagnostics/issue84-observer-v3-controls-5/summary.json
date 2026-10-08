@@ -1,0 +1,14 @@
+{
+  "mode": "controls",
+  "allocations": 6,
+  "public_steps": 516,
+  "summaries": [
+    {
+      "id": "reverse-offset-drop-rest-release",
+      "steps": 244,
+      "began": true,
+      "cachedWhileTouching": true,
+      "releasedWithCache": true
+    }
+  ]
+}

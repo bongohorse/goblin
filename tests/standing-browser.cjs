@@ -65,10 +65,10 @@ async function main(){
     const rendered=[];
     for(const enabled of [true,false]){
       await page.locator('#reset').click();await page.locator('#render').setChecked(enabled);
-      await page.evaluate(async()=>{for(let i=0;i<70;i++){document.querySelector('#step').click();await new Promise(requestAnimationFrame);}});
+      await page.evaluate(async()=>{for(let i=0;i<69;i++){document.querySelector('#step').click();await new Promise(requestAnimationFrame);}});
       const r=await page.evaluate(()=>standingLab.result());await validateResultProvenance(r);rendered.push(r);
-      assert.equal(r.termination_reason,'non_foot_contact');assert.equal(r.simulation_steps,70);assert.deepEqual(r.failure_bodies,['handL']);
-      await page.locator('#step').click();assert.equal((await diag()).step,70);
+      assert.equal(r.termination_reason,'non_foot_contact');assert.equal(r.simulation_steps,69);assert.deepEqual(r.failure_bodies,['handL']);
+      await page.locator('#step').click();assert.equal((await diag()).step,69);
     }
     assert.equal(compareResults(rendered[0],rendered[1]).pass,true);
     const nodeBaseline=JSON.parse(fs.readFileSync('docs/research/standing-lab/review-39/baseline/run-1.json','utf8'));
@@ -107,11 +107,11 @@ async function main(){
     let promise=page.waitForEvent('download');await page.locator('#export').click();let file=await promise;const downloaded20=JSON.parse(fs.readFileSync(await file.path()));await validateResultProvenance(downloaded20);assert.deepEqual(downloaded20,m20);
 
     await page.locator('#mode').selectOption('motor1');await page.locator('#resume').click();await page.waitForFunction(()=>standingLab.diagnostics().termination!==null);
-    const m1=await page.evaluate(()=>standingLab.result());await validateResultProvenance(m1);assert.equal(m1.simulation_steps,187);assert.deepEqual(m1.failure_bodies,['handL','handR']);assert.equal(m1.standing_time,187/60);motorResults.push(m1);
-    await page.waitForTimeout(300);assert.equal((await diag()).step,187,'normal UI never continues after contact');
+    const m1=await page.evaluate(()=>standingLab.result());await validateResultProvenance(m1);assert.equal(m1.simulation_steps,186);assert.deepEqual(m1.failure_bodies,['handL','handR']);assert.equal(m1.standing_time,186/60);motorResults.push(m1);
+    await page.waitForTimeout(300);assert.equal((await diag()).step,186,'normal UI never continues after contact');
     motorCPU.push({cap:1,samples:await page.evaluate(()=>standingLab.timings())});await page.screenshot({path:directory+'/motor1-contact-end.png'});
     promise=page.waitForEvent('download');await page.locator('#export').click();file=await promise;await validateResultProvenance(JSON.parse(fs.readFileSync(await file.path())));
-    await page.locator('#mode').selectOption('passive');await page.evaluate(()=>{for(let i=0;i<70;i++)document.querySelector('#step').click();});const afterMotor=await page.evaluate(()=>standingLab.result());await validateResultProvenance(afterMotor);assert.equal(afterMotor.schema_version,1);assert.equal(afterMotor.controller_id,'none');assert.equal(compareResults(nodeBaseline,afterMotor).pass,true);
+    await page.locator('#mode').selectOption('passive');await page.evaluate(()=>{for(let i=0;i<69;i++)document.querySelector('#step').click();});const afterMotor=await page.evaluate(()=>standingLab.result());await validateResultProvenance(afterMotor);assert.equal(afterMotor.schema_version,1);assert.equal(afterMotor.controller_id,'none');assert.equal(compareResults(nodeBaseline,afterMotor).pass,true);
     await page.reload();await page.waitForFunction(()=>window.standingLab);assert.equal((await diag()).mode,'passive');assert.equal((await diag()).step,0);
     const quantiles=xs=>{const s=xs.slice().sort((a,b)=>a-b);return {count:s.length,median:s[Math.floor(s.length/2)],p95:s[Math.floor(s.length*.95)],max:s.at(-1)};};
     const motorCPUSummary=motorCPU.map(({cap,samples})=>({cap,warmup_discarded_steps:20,physics:quantiles(samples.physics.slice(20)),commands:quantiles(samples.commands.slice(20)),observation:quantiles(samples.observation.slice(20)),scope:'Browser wall time; world.step separate from commands/observation, rendering excluded; full trajectory, not Node43 matched60-step benchmark',samples}));

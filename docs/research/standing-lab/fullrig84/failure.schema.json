@@ -1,0 +1,931 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FullRig84 partial failure v1; never a behavioral pass",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "trial",
+    "uuid",
+    "phase",
+    "message",
+    "allocation_attempts",
+    "public_steps",
+    "world_public_steps",
+    "initial",
+    "pre",
+    "command",
+    "post",
+    "completed_frames",
+    "decision",
+    "claim",
+    "partial_setup"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "kind": {
+      "const": "fullrig84_partial_failure"
+    },
+    "trial": {
+      "enum": [
+        {
+          "ordinal": 1,
+          "id": "fullrig83/free32/pitch/wrong-sign/1",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "wrong-sign",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 2,
+          "id": "fullrig83/free32/pitch/wrong-sign/2",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "wrong-sign",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 3,
+          "id": "fullrig83/free32/pitch/wrong-sign/3",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "wrong-sign",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 4,
+          "id": "fullrig83/free32/pitch/wrong-sign/4",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "wrong-sign",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 5,
+          "id": "fullrig83/free32/pitch/wrong-sign/5",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "wrong-sign",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 6,
+          "id": "fullrig83/free32/pitch/missing-reaction/1",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "missing-reaction",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 7,
+          "id": "fullrig83/free32/pitch/missing-reaction/2",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "missing-reaction",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 8,
+          "id": "fullrig83/free32/pitch/missing-reaction/3",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "missing-reaction",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 9,
+          "id": "fullrig83/free32/pitch/missing-reaction/4",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "missing-reaction",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 10,
+          "id": "fullrig83/free32/pitch/missing-reaction/5",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "missing-reaction",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 11,
+          "id": "fullrig83/free32/null/off/1",
+          "condition": "free32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 12,
+          "id": "fullrig83/free32/null/on/1",
+          "condition": "free32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 13,
+          "id": "fullrig83/free32/null/off/2",
+          "condition": "free32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 14,
+          "id": "fullrig83/free32/null/on/2",
+          "condition": "free32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 15,
+          "id": "fullrig83/free32/null/off/3",
+          "condition": "free32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 16,
+          "id": "fullrig83/free32/null/on/3",
+          "condition": "free32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 17,
+          "id": "fullrig83/free32/null/off/4",
+          "condition": "free32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 18,
+          "id": "fullrig83/free32/null/on/4",
+          "condition": "free32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 19,
+          "id": "fullrig83/free32/null/off/5",
+          "condition": "free32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 20,
+          "id": "fullrig83/free32/null/on/5",
+          "condition": "free32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 21,
+          "id": "fullrig83/free32/yaw/off/1",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 22,
+          "id": "fullrig83/free32/yaw/on/1",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 23,
+          "id": "fullrig83/free32/yaw/off/2",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 24,
+          "id": "fullrig83/free32/yaw/on/2",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 25,
+          "id": "fullrig83/free32/yaw/off/3",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 26,
+          "id": "fullrig83/free32/yaw/on/3",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 27,
+          "id": "fullrig83/free32/yaw/off/4",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 28,
+          "id": "fullrig83/free32/yaw/on/4",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 29,
+          "id": "fullrig83/free32/yaw/off/5",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 30,
+          "id": "fullrig83/free32/yaw/on/5",
+          "condition": "free32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 31,
+          "id": "fullrig83/free32/pitch/off/1",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 32,
+          "id": "fullrig83/free32/pitch/on/1",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 33,
+          "id": "fullrig83/free32/pitch/off/2",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 34,
+          "id": "fullrig83/free32/pitch/on/2",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 35,
+          "id": "fullrig83/free32/pitch/off/3",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 36,
+          "id": "fullrig83/free32/pitch/on/3",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 37,
+          "id": "fullrig83/free32/pitch/off/4",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 38,
+          "id": "fullrig83/free32/pitch/on/4",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 39,
+          "id": "fullrig83/free32/pitch/off/5",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 40,
+          "id": "fullrig83/free32/pitch/on/5",
+          "condition": "free32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 41,
+          "id": "fullrig83/free32/roll/off/1",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 42,
+          "id": "fullrig83/free32/roll/on/1",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 43,
+          "id": "fullrig83/free32/roll/off/2",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 44,
+          "id": "fullrig83/free32/roll/on/2",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 45,
+          "id": "fullrig83/free32/roll/off/3",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 46,
+          "id": "fullrig83/free32/roll/on/3",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 47,
+          "id": "fullrig83/free32/roll/off/4",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 48,
+          "id": "fullrig83/free32/roll/on/4",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 49,
+          "id": "fullrig83/free32/roll/off/5",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 50,
+          "id": "fullrig83/free32/roll/on/5",
+          "condition": "free32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 1
+        },
+        {
+          "ordinal": 51,
+          "id": "fullrig83/fb32/null/off/1",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 52,
+          "id": "fullrig83/fb32/null/on/1",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 53,
+          "id": "fullrig83/fb32/null/off/2",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 54,
+          "id": "fullrig83/fb32/null/on/2",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 55,
+          "id": "fullrig83/fb32/null/off/3",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 56,
+          "id": "fullrig83/fb32/null/on/3",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 57,
+          "id": "fullrig83/fb32/null/off/4",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 58,
+          "id": "fullrig83/fb32/null/on/4",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 59,
+          "id": "fullrig83/fb32/null/off/5",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 60,
+          "id": "fullrig83/fb32/null/on/5",
+          "condition": "fb32",
+          "case": "null",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 61,
+          "id": "fullrig83/fb32/yaw/off/1",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 62,
+          "id": "fullrig83/fb32/yaw/on/1",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 63,
+          "id": "fullrig83/fb32/yaw/off/2",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 64,
+          "id": "fullrig83/fb32/yaw/on/2",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 65,
+          "id": "fullrig83/fb32/yaw/off/3",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 66,
+          "id": "fullrig83/fb32/yaw/on/3",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 67,
+          "id": "fullrig83/fb32/yaw/off/4",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 68,
+          "id": "fullrig83/fb32/yaw/on/4",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 69,
+          "id": "fullrig83/fb32/yaw/off/5",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 70,
+          "id": "fullrig83/fb32/yaw/on/5",
+          "condition": "fb32",
+          "case": "yaw",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 71,
+          "id": "fullrig83/fb32/pitch/off/1",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 72,
+          "id": "fullrig83/fb32/pitch/on/1",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 73,
+          "id": "fullrig83/fb32/pitch/off/2",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 74,
+          "id": "fullrig83/fb32/pitch/on/2",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 75,
+          "id": "fullrig83/fb32/pitch/off/3",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 76,
+          "id": "fullrig83/fb32/pitch/on/3",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 77,
+          "id": "fullrig83/fb32/pitch/off/4",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 78,
+          "id": "fullrig83/fb32/pitch/on/4",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 79,
+          "id": "fullrig83/fb32/pitch/off/5",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 80,
+          "id": "fullrig83/fb32/pitch/on/5",
+          "condition": "fb32",
+          "case": "pitch",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 81,
+          "id": "fullrig83/fb32/roll/off/1",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 82,
+          "id": "fullrig83/fb32/roll/on/1",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 1,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 83,
+          "id": "fullrig83/fb32/roll/off/2",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 84,
+          "id": "fullrig83/fb32/roll/on/2",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 2,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 85,
+          "id": "fullrig83/fb32/roll/off/3",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 86,
+          "id": "fullrig83/fb32/roll/on/3",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 3,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 87,
+          "id": "fullrig83/fb32/roll/off/4",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 88,
+          "id": "fullrig83/fb32/roll/on/4",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 4,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 89,
+          "id": "fullrig83/fb32/roll/off/5",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "off",
+          "repeat": 5,
+          "max_steps": 360
+        },
+        {
+          "ordinal": 90,
+          "id": "fullrig83/fb32/roll/on/5",
+          "condition": "fb32",
+          "case": "roll",
+          "variant": "on",
+          "repeat": 5,
+          "max_steps": 360
+        }
+      ]
+    },
+    "uuid": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "allocation_attempts": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 90
+    },
+    "public_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 14450
+    },
+    "world_public_steps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 360
+    },
+    "initial": {},
+    "pre": {},
+    "command": {},
+    "post": {},
+    "completed_frames": {
+      "type": "array",
+      "items": {}
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "reason"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "pending",
+            "incomplete",
+            "execution_blocker",
+            "behavior_blocker",
+            "repeat_blocker",
+            "counterfactual_terminal",
+            "expected_negative_detected",
+            "horizon",
+            "bounded_fullrig_candidate_supported"
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "phase": {
+          "type": "string"
+        },
+        "step": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 90
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "claim": {
+      "const": "no_tuning_handoff; no behavioral pass"
+    },
+    "partial_setup": {}
+  }
+}

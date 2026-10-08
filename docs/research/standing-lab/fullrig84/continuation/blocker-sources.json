@@ -1,0 +1,12 @@
+{
+  "upstream": "b716d375efc0201003f0cd9ef7168eee0b62c177",
+  "git_LF_sha256": {
+    "bindings/typescript/src.ts/math.ts": "cd289e84c31a3af20c72ca4a18917b9bcaaf8bc4ea33cfc3e37acb5b3984c1f8",
+    "bindings/typescript/src.ts/dynamics/rigid_body.ts": "3c4f88b1e462d08ac6a67525d9126d597d7301581c8d1297d58969ca01beb059",
+    "bindings/typescript/src.ts/geometry/narrow_phase.ts": "cdbbe25a7c4ab6e308c34f134d2197edb5432c5684ae0d6eb8e2e37dfda8f40f",
+    "bindings/typescript/src/geometry/narrow_phase.rs": "f117e02a00546e2a5f9ff95f6ac835886f0f35d4877eadac80f02654fdb357c7",
+    "src/dynamics/solver/contact_constraint/contact_with_coulomb_friction.rs": "f1d273d32942f6c71706119eeef839b3f3e06ad94eb05073dfca55338c976d01"
+  },
+  "narrow_phase_binding": "contact_dist reads points[i].dist; contact_impulse reads points[i].data.impulse",
+  "solver": "contact_with_coulomb_friction.rs lines196-201 reconstruct recycled separations from current body-local anchors/solver poses, rather than updating narrow-phase contacts every frame"
+}

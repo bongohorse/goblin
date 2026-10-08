@@ -5,6 +5,7 @@ export const TOLERANCES=freeze({step:0,time:1e-12,position:1e-6,rotation:1e-6,li
 export function compareResults(reference,candidate){
   const errors=[],max={position:0,rotation:0,linear_velocity:0,angular_velocity:0,contact_point:0,contact_load:0};
   try{validateResult(reference);validateResult(candidate);}catch(error){return {pass:false,errors:['invalid_result:'+error.message],max_deviation:max};}
+  if((reference.measurement_version??'cached-contact-v1')!==(candidate.measurement_version??'cached-contact-v1'))errors.push('measurement_version');
   if(canonical(reference.config)!==canonical(candidate.config))errors.push('config');
   for(const key of ['config_id','experiment_id','termination_reason','failure_reason','failure_body','failure_step','simulation_steps'])if(reference[key]!==candidate[key])errors.push(key);
   for(const key of ['failure_bodies','unreached_checkpoints'])if(JSON.stringify(reference[key])!==JSON.stringify(candidate[key]))errors.push(key);

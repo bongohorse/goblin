@@ -1,28 +1,56 @@
-import {vec,add,scale,point,jointObservation} from './math.js';
+import {vec,add,scale,point,jointObservation,rotate,conjugate} from './math.js';
 
-// floor is always requested first; flipped describes Rapier's internal manifold order.
-export function floorContacts(world,floor,entries,initial=false){
-  const contacts=[];
-  for(const {spec,collider} of entries){
-    if(initial){
-      const c=collider.contactCollider(floor,0);
-      if(c&&c.distance<=0)contacts.push({body_id:spec.id,collider_id:spec.collider_id,point:{...c.point1},normal:{...c.normal2},distance:c.distance,normal_impulse:null,normal_load:null});
-    }else world.contactPair(floor,collider,(m,flipped)=>{
-      const normal=scale(m.normal(),flipped?-1:1);
-      for(let i=0;i<m.numContacts();i++){
-        const distance=m.contactDist(i);if(distance>0)continue;
-        const local=flipped?m.localContactPoint1(i):m.localContactPoint2(i);
-        const impulse=m.contactImpulse(i);
-        if(!local||!Number.isFinite(distance)||!Number.isFinite(impulse)||impulse<0||!Object.values(normal).every(Number.isFinite))throw Error('Invalid contact measurement');
-        const q=collider.rotation(),p=collider.translation();
-        // Collider-local points, not body-local; body mass centre may be offset.
-        const worldPoint=point({rotation:()=>q,translation:()=>p},local);
-        contacts.push({body_id:spec.id,collider_id:spec.collider_id,point:worldPoint,normal,distance,normal_impulse:impulse,normal_load:impulse/world.timestep*normal.y});
-      }
-    });
-  }
-  return contacts.sort((a,b)=>a.body_id.localeCompare(b.body_id)||a.point.x-b.point.x||a.point.y-b.point.y||a.point.z-b.point.z);
+export const MEASUREMENT_VERSION='current-geometry-interval-support-v2';
+const sorted=contacts=>contacts.sort((a,b)=>a.body_id.localeCompare(b.body_id)||a.point.x-b.point.x||a.point.y-b.point.y||a.point.z-b.point.z);
+const dot=(a,b)=>a.x*b.x+a.y*b.y+a.z*b.z;
+const subtract=(a,b)=>({x:a.x-b.x,y:a.y-b.y,z:a.z-b.z});
+const posePoint=(collider,local)=>point({rotation:()=>collider.rotation(),translation:()=>collider.translation()},local);
+function finiteContact(value){if(typeof value==='number'&&!Number.isFinite(value))throw Error('Invalid contact measurement');if(value&&typeof value==='object')Object.values(value).forEach(finiteContact);}
+
+function topPlaneGeometry(floor,collider){
+  const unit=q=>{const n=Math.hypot(q.x,q.y,q.z,q.w);return {x:q.x/n,y:q.y/n,z:q.z/n,w:q.w/n};};
+  const fq=unit(floor.rotation()),q=unit(collider.rotation()),up=rotate({x:0,y:1,z:0},fq),n=rotate(up,conjugate(q)),shape=collider.shapeType();
+  let local;
+  if(shape===0)local=scale(n,-collider.radius());
+  else if(shape===2){local=scale(n,-collider.radius());local.y-=Math.sign(n.y)*collider.halfHeight();}
+  else if(shape===1){const h=collider.halfExtents();local={x:-Math.sign(n.x)*h.x,y:-Math.sign(n.y)*h.y,z:-Math.sign(n.z)*h.z};}
+  else throw Error('Unsupported observer shape');
+  const bodyPoint=add(collider.translation(),rotate(local,q)),floorCentre=floor.translation(),half=floor.halfExtents(),distance=dot(subtract(bodyPoint,floorCentre),up)-half.y,floorPoint=add(bodyPoint,scale(up,-distance));
+  // Authored large static floor; reject edge/below-floor ambiguity rather than invent contact.
+  const centreLocal=rotate(subtract(collider.translation(),floorCentre),conjugate(fq)),bound=shape===1?Math.hypot(...Object.values(collider.halfExtents())):shape===2?collider.halfHeight()+collider.radius():collider.radius();
+  if(Math.abs(centreLocal.x)+bound>=half.x||Math.abs(centreLocal.z)+bound>=half.z)throw Error('Observer floor-edge domain');
+  const centreHeight=dot(subtract(collider.translation(),floorCentre),up),extent=centreHeight-(distance+half.y);
+  if(centreHeight+extent < -half.y)return null;
+  return {distance,body_point:bodyPoint,floor_point:floorPoint,normal:up};
 }
+
+// Static flat floor only. Query uses CURRENT collider poses, never cached contactDist.
+// Impulses belong to the LAST COMPLETED step; do not filter them by POST touching.
+export function floorObservation(world,floor,entries,initial=false){
+  const bodies=[],contacts=[];
+  for(const {spec,collider} of entries){
+    const query=collider.contactCollider(floor,0);
+    const query_geometry=query?{distance:query.distance,body_point:{...query.point1},floor_point:{...query.point2},normal:{...query.normal2}}:null;
+    const plane=topPlaneGeometry(floor,collider),geometry=plane&&plane.distance<=0?plane:null;
+    const touching=geometry!==null&&geometry.distance<=0,candidates=[],solver_contacts=[];
+    let normalImpulse=0,verticalImpulse=0;
+    if(!initial)world.contactPair(floor,collider,(m,flipped)=>{
+      const normal=scale({...m.normal()},flipped?-1:1);
+      for(let i=0;i<m.numContacts();i++){
+        const localBody={...(flipped?m.localContactPoint1(i):m.localContactPoint2(i))},localFloor={...(flipped?m.localContactPoint2(i):m.localContactPoint1(i))},bodyPoint=posePoint(collider,localBody),floorPoint=posePoint(floor,localFloor),impulse=m.contactImpulse(i);
+        if(impulse<0)throw Error('Invalid contact impulse');
+        candidates.push({cached_distance:m.contactDist(i),local_body:localBody,local_floor:localFloor,current_body_point:bodyPoint,current_floor_point:floorPoint,current_anchor_gap:dot(subtract(bodyPoint,floorPoint),normal),interval_normal:normal,interval_normal_impulse:impulse});
+        normalImpulse+=impulse;verticalImpulse+=impulse*normal.y;
+      }
+      for(let i=0;i<m.numSolverContacts();i++)solver_contacts.push({cached_distance:m.solverContactDist(i),current_midpoint:{...m.solverContactPoint(i)}});
+    });
+    const row={body_id:spec.id,collider_id:spec.collider_id??'collider:'+spec.id,current_geometry:geometry,query_geometry,current_touching:touching,candidates,solver_contacts,interval_normal_impulse:initial?null:normalImpulse,interval_vertical_mean_load:initial?null:verticalImpulse/world.timestep};
+    finiteContact(row);bodies.push(row);
+    if(touching)contacts.push({body_id:row.body_id,collider_id:row.collider_id,point:geometry.body_point,normal:geometry.normal,distance:geometry.distance,normal_impulse:row.interval_normal_impulse,normal_load:row.interval_vertical_mean_load});
+  }
+  return {measurement_version:MEASUREMENT_VERSION,geometry_time:'current_pose',impulse_time:initial?'unmeasured':'last_completed_step',dt:world.timestep,bodies,contacts:sorted(contacts)};
+}
+export function floorContacts(world,floor,entries,initial=false){return floorObservation(world,floor,entries,initial).contacts;}
 
 export function centreOfMass(entries){
   let mass=0,com=vec(),velocity=vec();
@@ -33,11 +61,11 @@ export function centreOfMass(entries){
 }
 
 export function observe(sim,initial=false){
-  const entries=[...sim.bodies.values()],centre=centreOfMass(entries),contacts=floorContacts(sim.world,sim.floor,entries,initial);
+  const entries=[...sim.bodies.values()],centre=centreOfMass(entries),floor_observation=floorObservation(sim.world,sim.floor,entries,initial),contacts=floor_observation.contacts;
   const origin=sim.initialCom??centre.com;
   const loads={status:initial?'unmeasured':'measured',footL:initial?null:0,footR:initial?null:0};
-  if(!initial)for(const c of contacts)if(c.body_id==='footL'||c.body_id==='footR')loads[c.body_id]+=c.normal_load;
-  return {...centre,drift:Math.hypot(centre.com.x-origin.x,centre.com.z-origin.z),pelvis_orientation:{...sim.bodies.get('pelvis').body.rotation()},torso_orientation:{...sim.bodies.get('torso').body.rotation()},contacts,foot_loads:loads,joints:[...sim.joints.values()].map(jointObservation),motor_tracking:'not_applicable',motor_saturation:'not_applicable'};
+  if(!initial)for(const b of floor_observation.bodies)if(b.body_id==='footL'||b.body_id==='footR')loads[b.body_id]=b.interval_vertical_mean_load;
+  return {...centre,floor_observation,drift:Math.hypot(centre.com.x-origin.x,centre.com.z-origin.z),pelvis_orientation:{...sim.bodies.get('pelvis').body.rotation()},torso_orientation:{...sim.bodies.get('torso').body.rotation()},contacts,foot_loads:loads,joints:[...sim.joints.values()].map(jointObservation),motor_tracking:'not_applicable',motor_saturation:'not_applicable'};
 }
 
 export function termination(contacts,config,step,invalid=null){

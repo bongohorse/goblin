@@ -1,0 +1,96 @@
+{
+  "issue": 84,
+  "generation": {
+    "head": "f459973c3a9e293fc82397190c9039adff3eca21",
+    "tree": "9f2d16a17fafcd29e98cbacfe3299d5be1180ea9",
+    "clean": true,
+    "preregistration_sha256": "05a12bc037ef3365728e21270b1a17458f1d6b241eb9557a21ad01dff7273e85",
+    "source_count": 153,
+    "external_published_preregistration_sha256": "d9f3fa7fbd610fb60dc2cde821eeb085c7737f17b426e04d63d2f9ffb21bc8e6",
+    "archived_preregistration_serialization": "compact JSON; semantic object identical to externally published Pretty JSON"
+  },
+  "postreview_source_hashes": {
+    "scripts/fullrig84-reader.mjs": "9aff348c88d76b8cd4bee1ff83653abfeed181c849d45b77692c949267a78986",
+    "scripts/fullrig84-floor-reader.mjs": "d62cbd531d05c3c7a77dc7a369765939fadbcc6cddc1f4438764613a6986fb40",
+    "scripts/fullrig84-analysis.mjs": "9cae9af47c35dc78104bed4629a767c13cd7663004e0b654f37321fb74b891c7",
+    "scripts/fullrig84-runner.mjs": "3a8f6bb4b10f55a9af67f62f95f0345feb436d951350bae9f88a99b9816f5686",
+    "scripts/fullrig84-observer-tests.mjs": "4a3784ec57f8554374711dfe0652ebf1def8a14e6d8cdddbb16d35b59bebdbac"
+  },
+  "study": {
+    "worlds": 90,
+    "public_steps": 2645,
+    "raw_phases": 13315,
+    "result": "completed_negative",
+    "second_matrix": false
+  },
+  "new_diagnostics": {
+    "allocation_attempts": 12,
+    "public_step_attempts": 4445,
+    "budget_worlds": 12,
+    "budget_steps": 10000
+  },
+  "cumulative": {
+    "allocation_attempts": 166,
+    "public_step_attempts": 7540,
+    "regular_tests_ci_separate": true
+  },
+  "stored_audit": {
+    "pass": true,
+    "metadata_repair_two_fields_only": true,
+    "original_archive_retained": true,
+    "raw_and_world_parts_unchanged": true,
+    "all_repeat_interval_loads_checked": true,
+    "corruption_regressions_pass": true,
+    "execution_manifest_entries": 99
+  },
+  "historical_preservation": {
+    "evidence_entries": 149,
+    "plan_entries": 6,
+    "prior_continuation_entries": 88,
+    "all_pass": true
+  },
+  "tests": {
+    "command": "npm test",
+    "node": "v24.21.0",
+    "pass": 94,
+    "fail": 0,
+    "added_stored_test_new_worlds": 0
+  },
+  "build": {
+    "command": "npm run build",
+    "pass": true,
+    "existing_chunk_size_warning": true
+  },
+  "browser": {
+    "product": "Chrome Portable",
+    "version": "156.0.8078.4",
+    "tool": "chrome-devtools",
+    "profile": "isolated MCP profile, local path verified",
+    "viewport": [
+      1249,
+      1221
+    ],
+    "dpr": 1,
+    "backend": "ANGLE NVIDIA GeForce RTX3070Ti D3D11",
+    "lab_passive_steps": 69,
+    "ui_export_node_comparison": "pass; all recorded deviations 0",
+    "console_errors": 0,
+    "console_warnings": 0,
+    "absolute_executable_profile_paths": "local only",
+    "hidden_resume": "not performed; automation background-throttling exceptions",
+    "arena_performance": "not performed"
+  },
+  "ci": {
+    "generation_source_head": "f459973c3a9e293fc82397190c9039adff3eca21",
+    "generation_ci_run": 37759300100,
+    "generation_ci_conclusion": "success",
+    "final_actual_head_evidence": "After publishing this final diff, verify current PR86 head CI and record its immutable run URL/SHA in #84/#60/PR86; no self-referential evidence commit"
+  },
+  "scope": {
+    "same_assistant_self_review": true,
+    "physical_parameters_changed": false,
+    "standing_approval": false,
+    "merge": false,
+    "deployment": false
+  }
+}
