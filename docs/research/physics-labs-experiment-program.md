@@ -67,16 +67,19 @@ Rules:
 - timer starts when the simulation starts;
 - feet may contact the floor normally;
 - first non-foot ground contact ends the run;
-- exact elapsed time is recorded;
+- elapsed simulation time and termination reason are recorded;
 - every failed run remains useful data;
 - **60.0 seconds or more = Standing time criterion met; full research acceptance still needs the #30 support, drift, joint, force, repeatability and cost requirements.**
 
-Examples:
+A valid observation that stops without first non-foot contact is right-censored: report its observed duration and stop reason, not a fall time. Drift failure does not require contact and remains FAIL; a timeout can meet only the time criterion. Invalid measurements provide no valid contact-time bound. Use the [Standing Lab measurement semantics](../development/labs.md#primary-standing-metric) and each frozen protocol's stop rules; do not relabel historical data.
+
+Examples **when first non-foot contact is actually observed**:
 
 - 3.2 s = failed run, useful measurement;
 - 18.7 s = failed run, strong improvement over a 5 s baseline;
 - 59.9 s = failed acceptance gate but highly informative;
-- 60.0+ s = time criterion met; check all other research gates before claiming full Standing acceptance.
+
+A valid contact-free observation through 60.0 seconds meets the time criterion; check all other research gates before claiming full Standing acceptance.
 
 Secondary metrics must help explain *why* one run is better, but they should not replace the primary 60-second success definition unless we later deliberately revise the benchmark.
 
