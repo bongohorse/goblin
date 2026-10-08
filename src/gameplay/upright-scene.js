@@ -33,7 +33,7 @@ try{
       s.type==='ball'?new THREE.SphereGeometry(s.radius,16,12):new THREE.BoxGeometry(s.half.x*2,s.half.y*2,s.half.z*2);
     meshes.set(spec.id,mesh(g,spec.id.startsWith('foot')?feetMaterial:material));
   }
-  let pointerId=null,lastFrame=null,frameIntervals=[],stepCosts=[];
+  let pointerId=null,lastFrame=null,lastHitToken=null,frameIntervals=[],stepCosts=[];
   const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2(),dragPlane=new THREE.Plane(),dragPoint=new THREE.Vector3();
   function ray(ev){const r=canvas.getBoundingClientRect();pointer.set((ev.clientX-r.left)/r.width*2-1,-((ev.clientY-r.top)/r.height*2-1));raycaster.setFromCamera(pointer,camera);}
   function cancelPointer(reason){
@@ -43,7 +43,7 @@ try{
   function pause(reason){cancelPointer(reason);session.pause(reason);update();}
   function reset(){
     cancelPointer('reset');session.reset({assisted:$('assisted').checked,obstacle:$('obstacle').checked});
-    frameIntervals=[];stepCosts=[];lastFrame=null;$('input').textContent='Manueller Reset · Start erforderlich';sync();update();
+    frameIntervals=[];stepCosts=[];lastFrame=null;lastHitToken=null;$('input').textContent='Manueller Reset · Start erforderlich';sync();update();
   }
   function move(ev,final=false){ray(ev);if(sim.grab.active&&raycaster.ray.intersectPlane(dragPlane,dragPoint))sim.grab.move(dragPoint,ev.timeStamp/1000,final);}
   canvas.addEventListener('pointerdown',ev=>{
@@ -74,13 +74,15 @@ try{
     $('play').textContent=session.paused?(sim.steps>=600?'Fenster beendet':'Start / Fortsetzen'):'Pause';
     $('play').disabled=!!sim.invalid||sim.steps>=600||document.hidden;
     $('small').disabled=$('strong').disabled=session.paused||!!sim.invalid;
-    $('status').textContent=(session.paused?'PAUSE · ':'')+sim.state+'\nAssist '+(sim.enabled?'EIN':'AUS')+' · '+sim.reason;
+    $('status').textContent=(session.paused?'PAUSE · ':'')+sim.state+' · t='+(sim.steps/60).toFixed(2)+' s\nAssist '+(sim.enabled?'EIN':'AUS')+' · '+sim.reason+(session.lastRun?'\nLetzter Physikstep: '+session.lastRun.final.state:'');
+    const token=sim.lastHit?sim.lastHit.step+':'+sim.lastHit.strength:null;
+    if(token!==null&&token!==lastHitToken){lastHitToken=token;$('input').textContent=(sim.lastHit.strength===3.2?'Starker':'Kleiner')+' Schubser ausgelöst · t='+(sim.lastHit.step/60).toFixed(2)+' s';}
     $('metrics').textContent='t '+(sim.steps/60).toFixed(2)+' s · Torso '+(sim.metrics.torsoTilt*180/Math.PI).toFixed(3)+'° · Motor-Cap '+sim.commands.motorCap+' Nm · Stützkraft '+sim.commands.support.toFixed(2)+' N · Bodies/Joints '+sim.world.bodies.len()+'/'+sim.world.impulseJoints.len();
   }
   const gl=renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');
   const environment={userAgent:navigator.userAgent,platform:navigator.platform,dpr:devicePixelRatio,renderDpr:renderer.getPixelRatio(),
     backend:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),webgl:gl.getParameter(gl.VERSION)};
-  function report(){return {build,environment,viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},...session.report(),frameIntervals:frameIntervals.slice(),stepCosts:stepCosts.slice()};}
+  function report(){return {build,environment,viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},...session.report(),lastPhysicsState:session.trace.at(-1)?.state,frameIntervals:frameIntervals.slice(),stepCosts:stepCosts.slice()};}
   window.uprightDiagnostics=()=>({...report(),pointerId,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation())})),blockScreen:project({x:1.35,y:1,z:0})});
   window.uprightTrace=()=>({build,environment,...(session.lastRun||session.report())});
   $('export').onclick=()=>{const blob=new Blob([JSON.stringify(report(),null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='goblin-B-step-trace.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),0);};

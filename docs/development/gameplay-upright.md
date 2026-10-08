@@ -1,3 +1,116 @@
+# Gameplay B — lokaler Browser-Prototyp, weiterhin kein #94-Pass
+
+Freigegebener Beobachtungsschritt aus [#94](https://github.com/bongohorse/goblin/issues/94#issuecomment-6066134419), Draft [#95](https://github.com/bongohorse/goblin/pull/95).
+Vorher: isolierter Controller ohne spielbaren Einstieg. Jetzt: einfache feste Kamera/Segmentdarstellung, tatsächliches Körperteilgreifen, kleine/starke Originalschubser, Assist-Aus-Baseline, ein fester Block, Pause und **manueller Reset**.
+
+**Konfiguration B bleibt exakt gleich:** Joint K/D 40/2, Up K/D 60/2, supportFraction 0,45, Höhen-K/D 300/50, max_torque_Nm 20. Der Controller, Poseziele, Rig, Physiksolver, dt, Motorhelper und historischen Daten sind bytegleich zu 533928d. Rapier besitzt dynamische Posen und Geschwindigkeiten; die Szene synchronisiert nur Meshes. Kein neuer Controller, keine Parameterregler, Recovery, Produktionsintegration oder Veröffentlichung.
+
+## Eigener Spieltest
+
+Aus dem Repository-Root in den PR-Worktree wechseln:
+
+```powershell
+cd .review-worktrees/gameplay94
+# Bei fehlenden Abhängigkeiten: npm ci
+node node_modules/vite/bin/vite.js build --config vite.gameplay.config.js
+node scripts/gameplay-upright-preview.cjs
+```
+
+**Lokaler Produktionszugang:** http://127.0.0.1:4174/goblin/gameplay/upright/
+Port 4174 ist strikt. Einen vorhandenen fremden Server nicht beenden/übernehmen.
+Alternativ: `node node_modules/vite/bin/vite.js --config vite.gameplay.config.js`, strikt 5174, URL `http://127.0.0.1:5174/gameplay/upright/`.
+
+1. „Start / Fortsetzen“, dann direkt am Körperteil greifen und ziehen; Loslassen verwendet den vorhandenen Release-/Wurfvertrag.
+2. Klein/Stark wirken am unveränderten Torso-Punkt mit 0,4/3,2 Ns in +X. Optional vor 2 s „Schubser bei 2 s vormerken“ aktivieren und einen Schubser auswählen.
+3. „Pause“ oder **Escape** löst einen Griff und deaktiviert die Hilfen. Resume führt frei dynamisch fort; Assist kehrt ausschließlich per Reset zurück.
+4. Für Assist-Aus oder Block die Optionen unter „Beim nächsten manuellen Reset“ wählen und **Manueller Reset** drücken. Jede neue Szene/Reset startet pausiert.
+5. Nach 10 Simulationssekunden pausiert das Beobachtungsfenster automatisch und schaltet Hilfen aus. „Letzter Physikstep“ bezeichnet den Zustand vor dieser Sicherheits-Pause; live bleibt Assist AUS. Für einen neuen eigenen Versuch ausdrücklich resetten.
+6. Unter „Messung & Testzugang“ steht die Buildrevision; Step-Trace exportieren liefert lokale JSON-Daten. Das ist keine wissenschaftliche Standingmessung.
+
+Eigene Nutzer-Spieltests sind keine vom Agenten bereits durchgeführte Abnahme. **Das Agentenbudget ist beendet; nicht das Acht-Sequenzen-Skript erneut starten.**
+
+## Festgelegte Beobachtungen und Ergebnis
+
+Vor Beginn in [#94 protokolliert](https://github.com/bongohorse/goblin/issues/94#issuecomment-6066204591).
+**8/8 Sequenzen, eine unveränderte Assist-Konfiguration B, null Gainvarianten**; zusätzlich Assist AUS. Zwei Fehlstarts hatten keine geladene Szene und null Physikschritte.
+Tatsächliche Zeit unten einschließlich Schritte zwischen Diagnoseaufnahme und Pause; in Sequenz 8 beide Abschnitte vor/nach Reset addiert. Alte 3/3-Konfigurationen und 5/12-Diagnosen unverändert archiviert; deren Restbudget wurde nicht verwendet.
+
+| Nr. / Zweck | Simulationszeit | Mess-/Zustandsbefund |
+| --- | ---: | --- |
+| 1 Assist AUS, Idle | 10,000 s | DOWN; erste Nicht-Fuß-Bodennähe bei 1,083 s |
+| 2 B, Idle | 10,000 s | ASSISTED_READY, keine Nicht-Fuß-Bodenauflage |
+| 3 B, klein bei 2 s | 10,000 s | 0,06210° → 0,50453°: zusätzlich **0,44243°**, Ready |
+| 4 B, klein nach Reset | 10,000 s | gleiche 0,44243°, Ready |
+| 5 B, stark bei 2 s | 7,567 s | 22 Motorachsen vor Step 121 null; DOWN; Nicht-Fuß-Bodennähe bei 2,867 s |
+| 6 B, Handgriff/Release | 7,550 s | handL tatsächlich gepickt; 22 Achsen aus, Hand-/Körperbewegung, DOWN, Release ohne Wurf |
+| 7 B, Hand zum Block | 10,000 s | geometrischer Nicht-Fuß-Blockkontakt ab 2,250 s; DOWN |
+| 8 Griff → Pause/Reset/Resume | 5,500 s gesamt | Schritte/Posen in Pause eingefroren; Griff entfernt; Spawnpose und Nullgeschwindigkeiten nach Reset identisch, 15 Bodies/14 Rigjoints |
+
+### Browserbeobachtung, getrennt von Zahlen
+
+Native Clips und extrahierte Frames des festen Kamerablicks gesichtet, **keine Nutzerabnahme oder Spaßbewertung**:
+- Klein: nur schwaches kurzes Versetzen; kein belastbar deutliches Schwanken wie beim starken Fall. Der alte 2°-FAIL bleibt bestehen. Der passende B-Idle-Vergleich misst maximal **17,523 mm** zusätzlichen Torso-Positionsversatz in 2–4 s; Translation zeigt, warum der skalare Winkel allein nicht alle Bewegung beschreibt.
+- Stark: deutlich sichtbares Einknicken/Kippen und Fall; Status wechselt auf Assist AUS.
+- Handgriff: Hand folgt sichtbar dem Zug; Körper kippt mit. Release wurde mit `threw:false` beobachtet, **kein Wurfnachweis**.
+- Block: Hand/Arm treffen den sichtbaren Block, anschließend bleibt die Figur daneben/hinter ihm liegen. Trace bestätigt Nähe/Kontakt. Assist war bereits vom Griff deaktiviert; **kein unabhängiger Nachweis der Block-Abschaltung bei noch aktivem Assist**, keine vollständige Durchdringungs-/Hindernisabnahme.
+- Pause/Reset: Griffcleanup und eingefrorene Pose beobachtet, dann reproduzierbare Anfangspose. Native Tabwechsel lieferten **keine** gespeicherten visibilitychange-Ereignisse; Hidden/Resume bleibt offen. Der Reset löscht den Sessiontrace; Sequenz 8 enthält Vor-Reset-Griffsnapshot und Pauseflags, aber keinen vollständigen Vor-Reset-Zeitverlauf.
+
+[Clip klein](gameplay-upright-media/sequence-3.webm), [Clip stark](gameplay-upright-media/sequence-5.webm), [Clip Block](gameplay-upright-media/sequence-7.webm).
+![Nativer starker Fall vor dem Bodenkontakt](gameplay-upright-media/strong-fall.png)
+
+### Assist-Abschaltung und Messgrenzen
+
+Der lesende Observer reicht native Setter unverändert weiter. Bei Griff/Stark: **alle 22 Angularaxis-Caps, stiffness und damping null**, Posen/Geschwindigkeiten innerhalb interrupt unverändert. In den gespeicherten dynamischen Folgeschritten Worldkräfte/-torques und aktive Motorachsen null. Keine automatische Reaktivierung.
+Das belegt native Abschaltbefehle plus beobachtete freie Dynamik, **keine separat gemessenen solverinternen Motorimpulse**. `contactCollider` mit Abstand ≤5 mm ist geometrische Nähe, kein Fußlast-/Kontaktimpulsnachweis.
+
+Aufgezeichnete Buildrevision **e45ab3103b7aeb42353aaf4ad94cc8355c1ce780**, Controller SHA256 **4b3117d5584eab803ccb94ad611c5361ef5e80f1496982bfc59a2e90ddc5df71**.
+Nach den acht Sequenzen im Selbstreview ausschließlich UI-Texte präzisiert (vorgemerkt/ausgelöst, sichtbare Zeit, letzter Step vor Fensterpause) und Runner-Ledger/Fehlersicherung nachgebessert. **Keine zusätzliche Dynamikprüfung dieser UI-Fassung**; Assist- und Sessionphysik unverändert. Build/Unitchecks und pausierte Darstellung dienen der abschließenden Prüfung. Native Rohdaten/Clips bleiben an ihrer ursprünglichen Buildidentität.
+
+[Unveränderte Browser-Rohdaten, gzip](gameplay-upright-browser-evidence.json.gz), entpackt SHA256 `af7bef5cc6aef32cea20ebdfc860eb59555d9c317cf73b70ca0be50f81654c99`.
+Entpacken ohne Versuch:
+
+```powershell
+node -e "const f=require('fs'),z=require('zlib');f.writeFileSync('browser-evidence.json',z.gunzipSync(f.readFileSync('docs/development/gameplay-upright-browser-evidence.json.gz')))"
+```
+
+Alle acht Clips, Screenshots und das ursprüngliche JSON liegen zusätzlich im lokalen Worktree-Verzeichnis `browser-observation-B-final`; keine erneute Messung zum Lesen erforderlich.
+
+## Testbedingungen und Laufzeit
+
+Native **Windows 11 / win32 10.0.26300 x64**, Node **24.21.0**, Chrome Portable **156.0.8078.4**, headful Playwright mit eigener temporärer Profilidentität. CPU Ryzen 5 5600X; **ANGLE / NVIDIA RTX 3070 Ti / Direct3D11**, WebGL2. Viewport **1280×720**, DPR/Render-DPR **1**. Profilidentität, Executablehash und vollständige bereinigte Launchargumente im Rohbeleg; absolute lokale Pfade nicht eingecheckt. Die drei Flags zur Deaktivierung von Background-Timer-/Occlusion-/Renderer-Throttling wurden entfernt. Weitere Playwright-Automationsflags einschließlich no-sandbox und enable-unsafe-swiftshader sind dokumentiert; der tatsächliche Renderer war NVIDIA/D3D11, kein behaupteter Software-/Mobilnachweis.
+
+Deskriptive P95, jeweils derselbe 10-s-Vordergrundvergleich mit Videoaufnahme und Step-Observer:
+- Assist AUS: Frameintervall **18,1 ms**, `session.tick` inklusive Physik/Observer je Renderframe **1,1 ms**.
+- B Idle: Frameintervall **18,2 ms**, Physik/Observer **1,0 ms**.
+Keine dedizierte Controller-/Solver-Motorprofilierung; keine Messung ohne Video, vollständige #94-Performancefreigabe oder allgemeine Hardwarezusage. Maximal gespeicherte Ankerlücke über Sequenzen 1–7 **0,03901 m**; kein gespeicherter invalid-Endzustand. Vor-Reset-Verlauf von Sequenz 8 ist unvollständig (siehe oben).
+
+## Umgebungsfehler und begrenzte Reparaturen
+
+- Normales exec_command scheitert vor Prozessstart: helper_unknown_error / setup refresh. Vorhandener Node-Zugang funktioniert, gezielt freigegebene Shell-Aufrufe für Git/Browserchecks ebenfalls. Keine globale Konfiguration, fremden Prozesse oder Nutzerindex verändert.
+- Chrome DevTools diesmal verbunden. chrome://version-Endpunkt vom Tool abgelehnt, nicht umgangen. Unprivilegierte CIM-Abfrage verweigert; gezielt freigegebene read-only-Abfrage lieferte native Prozessidentität.
+- **Browserreparatur 1:** fehlender Playwright-Videoencoder. Nur FFmpeg1013 samt Winldd1007 über vorhandenes Playwright-CLI in repo-lokalen `.browser-tools`-Cache installiert, pro Prozess PLAYWRIGHT_BROWSERS_PATH gesetzt; keine globale Browserinstallation.
+- **Browserreparatur 2:** eigener Runner schloss den letzten persistenten Tab und konnte keinen neuen öffnen. Eigener Blank-Tab bleibt jetzt bestehen; keine fremden Tabs/Profile verändert. Erfolgreicher dritter Start, davor jeweils null Gameplayschritte. Reparaturbudget 2/2, unter 15 Minuten; keine weiteren Browserstartversuche.
+- Offline-Sichtung: minimale Playwright-FFmpeg-Build unterstützt fps/tile-Filter nicht. Ein erfolgloser Extraktionsaufruf; Filterinventar gelesen und stattdessen vorhandenen Frame-Decoder benutzt. Kein Paketwechsel, Browser- oder Simulationslauf.
+- Offen: Ursache der normalen Prozessanbindung, Hidden/Resume, Touch/echte Mobilhardware, Wurf, Kopf-/Fußgriff, isolierte Block-Abschaltung, solverinterne Motorimpulse, 15 s und vollständige #94-Abnahme. Keine Umdeutung der alten Kriterien.
+
+## Validierung, Selbstreview und Entscheidung
+
+Gezielte Tests prüfen B-Identität/Controllerhash, native Befehlsweitergabe und Pause/Reset **ohne world.step**; separater Vite-Buildcheck in npm test sichert die relative Gameplayroute in regulärer CI. Finale Test-/Build-/CI-Ergebnisse stehen im PR und Issue; kein erweitertes Browser- oder Forschungstestprogramm.
+
+**Spec:** Browserdiagnosepaket mit lokalem Zugang geliefert; schwache kleine Reaktion, Block-/Visibility-/Release-Grenzen bleiben offen. **Kein vollständiger Gameplay-Pass, #94 nicht schließen.**
+
+**Engineering:** Vollständiger Diff als Selbstreview, keine unabhängige Reviewbehauptung. Nur isolierte neue Scene/Session/Input/Observer-/Build-/Previewdateien, Tests und Ergebnisdokumentation; Produktionsarena, bestehende Vitekonfiguration, Labmotoren, Forschungspins/Lockdatei und ursprünglicher Assistcontroller unverändert. Recorder ist kein Transformschreiber; Physik läuft ausschließlich über den vorhandenen 1/60-s-Controller. Renderer/World/Grab werden beim Verlassen freigegeben.
+
+**Empfehlung: gezielt ändern, erst nach neuer Entscheidung.** Dynamisches Rig und bestehender Griff-/Fallpfad zeigen sichtbaren Nutzen. Der konkrete nächste Hebel wäre begrenztes zeitliches Nachgeben der globalen Up-Hilfe beim kleinen Schubser, um einen klareren Reaktionsmoment zu ermöglichen. Das bleibt eine ungeprüfte Hypothese, kein Erfolgsversprechen und wurde hier nicht implementiert. B als Produktlösung unverändert weiterzuführen ist nicht empfohlen; den ganzen dynamischen Ansatz zu verwerfen ist durch diese Daten ebenfalls nicht begründet.
+
+**Draft bleibt Draft. Kein Merge, Auto-Merge, Deployment oder Folgephase. STOPP.**
+
+---
+
+## Historischer gesicherter Teilstand 533928d (unverändert archiviert)
+
+Die folgenden Aussagen beschreiben ausschließlich den Stand **vor** der separat freigegebenen Browserphase; dessen NO-GO und Daten bleiben gültig.
+
 # Gameplay #94 — angehaltener, nicht mergefähiger Teilstand
 
 **NO-GO für diesen Kandidaten, 08.10.2026.** Die ausdrückliche Nutzerfreigabe

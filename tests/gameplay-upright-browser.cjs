@@ -13,7 +13,7 @@ async function main(){
   const profile=await fs.mkdtemp(path.join(os.tmpdir(),'goblin-B-native-'));
   const ignored=['--disable-background-timer-throttling','--disable-backgrounding-occluded-windows','--disable-renderer-backgrounding'];
   const context=await chromium.launchPersistentContext(profile,{executablePath:executable,headless:false,
-    viewport:{width:1280,height:720},deviceScaleFactor:1,ignoreDefaultArgs:ignored,
+    viewport:{width:1280,height:720},deviceScaleFactor:1,ignoreDefaultArgs:ignored,args:['--enable-automation'],
     recordVideo:{dir:out,size:{width:1280,height:720}}});
   const results=[],errors=[],warnings=[],badResponses=[];
   const browser=context.browser(),identity={version:browser.version(),executable:path.basename(executable),
@@ -22,7 +22,7 @@ async function main(){
     os:os.platform()+' '+os.release()+' '+os.arch(),cpu:os.cpus()[0].model,headless:false,viewport:{width:1280,height:720},dpr:1,
     ignoredDefaultArgs:ignored};
   try{
-    for(const page of context.pages())await page.close();
+    // Keep the initial blank tab alive: closing the last tab terminates a persistent Chrome window.
     for(let number=1;number<=8;number++){
       console.log('Starting fixed observation '+number+'/8');
       const page=await context.newPage(),video=page.video();
@@ -45,6 +45,7 @@ async function main(){
       const initial=await diagnostic();
       let inputSnapshot=null,resetSnapshot=null,pauseEvidence=null;
       if(number===3||number===4||number===5)await page.locator('#schedule').check();
+      await fs.writeFile(path.join(out,'budget.json'),JSON.stringify({started:number,completed:results.length,maxSequences:8}));
       await page.locator('#play').click();
       if(number===3||number===4||number===5)await page.locator(number===5?'#strong':'#small').click();
       if(number===6||number===7||number===8){
@@ -57,7 +58,7 @@ async function main(){
         if(number===8){
           await page.keyboard.press('Escape');const paused=await diagnostic();
           await page.waitForTimeout(350);const still=await diagnostic();
-          pauseEvidence={simulatedSeconds:paused.final.time,stepsFrozen:paused.final.steps===still.final.steps,posesFrozen:JSON.stringify(paused.final.parts)===JSON.stringify(still.final.parts),
+          pauseEvidence={preResetSnapshot:paused,simulatedSeconds:paused.final.time,stepsFrozen:paused.final.steps===still.final.steps,posesFrozen:JSON.stringify(paused.final.parts)===JSON.stringify(still.final.parts),
             counts:still.final.counts,grab:still.final.grab,paused:still.paused};
           await page.mouse.up();await page.locator('#reset').click();resetSnapshot=await diagnostic();
           // Native hidden/visible events, without synthetic dispatch or disabled throttling.
@@ -73,7 +74,7 @@ async function main(){
       if(!observed.paused)await page.locator('#play').click(); // Pause before another physics step, no continuation.
       const end=await diagnostic(),trace=await page.evaluate(()=>uprightTrace());
       await page.screenshot({path:path.join(out,'sequence-'+number+'.png')});
-      const summary={number,simulatedSeconds:observed.final.time+(number===8?(pauseEvidence?.simulatedSeconds||0):0),
+      const summary={number,simulatedSeconds:end.final.time+(number===8?(pauseEvidence?.simulatedSeconds||0):0),
         finalState:observed.trace.at(-1).state,finalReason:observed.trace.at(-1).reason,invalid:observed.final.invalid,
         frameIntervalP95Ms:p95(observed.frameIntervals),observerPhysicsPerFrameP95Ms:p95(observed.stepCosts.map(x=>x.ms)),
         maxAnchorError:Math.max(...observed.trace.map(x=>x.maxAnchorError)),inputSnapshot,resetSnapshot,pauseEvidence};
@@ -82,7 +83,7 @@ async function main(){
       await fs.writeFile(path.join(out,'results.json'),JSON.stringify({identity,url,results,errors,warnings,badResponses}));
       await page.close();await video.saveAs(path.join(out,'sequence-'+number+'.webm'));
       console.log(JSON.stringify({number,seconds:summary.simulatedSeconds,state:summary.finalState,reason:summary.finalReason,invalid:summary.invalid}));
-      if(summary.invalid||summary.maxAnchorError>.15||errors.length||badResponses.length){
+      if(summary.invalid||pauseEvidence?.preResetSnapshot?.final.invalid||summary.maxAnchorError>.15||end.final.time+(pauseEvidence?.simulatedSeconds||0)>10||errors.length||badResponses.length){
         console.log('Safety/technical stop: no remaining observation started.');break;
       }
     }
