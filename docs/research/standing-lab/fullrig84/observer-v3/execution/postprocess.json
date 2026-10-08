@@ -1,0 +1,16 @@
+{
+  "kind": "stored_only_metadata_repair",
+  "reason": "runner config read used original metadata path; all90 physical cases complete before whole-archive schema rejected missing measurement version",
+  "original_archive_sha256": "b7b697dd092f5babcebed79620fc44cf868b0aff4ef6486fe19393928ba09cee",
+  "corrected_archive_sha256": "5423eaf19794da2ad3bae88af31436d44e2b73903fe0bcbb67ce3d4afc3c0ce3",
+  "changed_fields": [
+    "config.namespace",
+    "config.measurement_version"
+  ],
+  "physical_config_unchanged": true,
+  "original_archive_preserved": "archive-emitted.json",
+  "raw_phases_and_world_parts_unchanged": true,
+  "new_worlds": 0,
+  "new_steps": 0,
+  "additional_reader_fix": "compare last-interval loads also when POST current geometry is separated, using unchanged repeat load tolerance 1e-5 N"
+}

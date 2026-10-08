@@ -1,3 +1,5 @@
+import {createArchive} from './fullrig84-runner.mjs';
+import {compareRepeat} from './fullrig84-reader.mjs';
 // Stored/pure regressions: zero new Rapier worlds/steps.
 import fs from 'node:fs';import assert from 'node:assert/strict';
 import {floorObservation} from '../src/labs/standing/measurement.js';
@@ -18,3 +20,11 @@ const dw={...world,contactPair:(_f,c,fn)=>{const index=de.findIndex(e=>e.collide
 detached.floor_observation=floorObservation(dw,floor,de);detached.floor_contacts=detached.floor_observation.contacts;checkFloorState(detached);assert.equal(detached.floor_contacts.length,0);assert.ok(detached.floor_observation.bodies.some(b=>b.interval_normal_impulse>0));
 for(const name of ['issue84-observer-v3-controls-4/drop-rest-release','issue84-observer-v3-controls-5/reverse-offset-drop-rest-release']){const r=JSON.parse(fs.readFileSync(root+'diagnostics/'+name+'.json'));assert.equal(r.rows.length,244);assert.ok(r.rows.some(x=>x.phase==='release'&&!x.observation.bodies[0].current_touching&&x.observation.bodies[0].candidates.length));assert.ok(Math.abs(r.rows.slice(180,240).reduce((s,x)=>s+x.observation.bodies[0].interval_vertical_mean_load,0)/60-9.81)<.02);}
 console.log(JSON.stringify({stored_cached_witness:36,positive_impulse_detached:true,real_cached_release_controls:2,corruptions_rejected:3,new_worlds:0,new_steps:0}));
+
+const initial=copy(detached);initial.step=0;initial.observed_time=0;initial.floor_manifolds=[];initial.floor_observation.impulse_time='unmeasured';for(const r of initial.floor_observation.bodies){r.candidates=[];r.solver_contacts=[];r.interval_normal_impulse=null;r.interval_vertical_mean_load=null;}checkFloorState(initial);
+const a={initial,frames:[{post:detached}],decision:{kind:'incomplete'}},b=copy(a);compareRepeat(a,b);
+const row=b.frames[0].post.floor_observation.bodies.find(r=>r.body_id==='footL'),man=b.frames[0].post.floor_manifolds.find(r=>r.body_id==='footL'),dt=b.frames[0].post.settings.dt;
+row.candidates[0].interval_normal_impulse+=dt;row.interval_normal_impulse+=dt;row.interval_vertical_mean_load+=row.candidates[0].interval_normal.y;man.contacts[0].impulse+=dt;
+checkFloorState(b.frames[0].post);assert.throws(()=>compareRepeat(a,b),'coherent separated-current-geometry interval load mismatch');
+const cfg=JSON.parse(fs.readFileSync(root+'config.json')),archive=createArchive({provenance:{config_sha256:'0'.repeat(64)}});assert.deepEqual(archive.config,cfg);assert.equal(archive.config.measurement_version,'current-geometry-interval-support-v2');assert.ok(archive.namespace.startsWith(cfg.namespace+':'));assert.equal(archive.runs.length,0);
+console.log(JSON.stringify({coherent_detached_load_repeat_corruption_rejected:true,current_archive_configuration:true,new_worlds:0,new_steps:0}));

@@ -1,4 +1,4 @@
-// Research-only adapter; no changes to historical StandingSimulation.
+// Research-only adapter; physical StandingSimulation rig unchanged.
 import R from '@dimforge/rapier3d-compat';
 import {StandingSimulation,colliderDesc} from '../src/labs/standing/simulation.js';
 import {NativePoseHold,neutralMotorConfig} from '../src/labs/standing/motors.js';

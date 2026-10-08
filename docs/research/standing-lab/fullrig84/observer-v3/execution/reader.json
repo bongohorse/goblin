@@ -1,0 +1,23 @@
+{
+  "kind": "stored_only_postreview_audit",
+  "decision": {
+    "kind": "completed_negative",
+    "ordinal": 90,
+    "reason": "valid_negative_outcomes"
+  },
+  "attempts": 90,
+  "steps": 2645,
+  "raw_phases": 13315,
+  "new_worlds": 0,
+  "new_steps": 0,
+  "original_generation_head": "f459973c3a9e293fc82397190c9039adff3eca21",
+  "postreview_source_hashes": {
+    "scripts/fullrig84-reader.mjs": "9aff348c88d76b8cd4bee1ff83653abfeed181c849d45b77692c949267a78986",
+    "scripts/fullrig84-floor-reader.mjs": "d62cbd531d05c3c7a77dc7a369765939fadbcc6cddc1f4438764613a6986fb40",
+    "scripts/fullrig84-analysis.mjs": "9cae9af47c35dc78104bed4629a767c13cd7663004e0b654f37321fb74b891c7",
+    "scripts/fullrig84-runner.mjs": "3a8f6bb4b10f55a9af67f62f95f0345feb436d951350bae9f88a99b9816f5686",
+    "scripts/fullrig84-observer-tests.mjs": "4a3784ec57f8554374711dfe0652ebf1def8a14e6d8cdddbb16d35b59bebdbac"
+  },
+  "metadata_repair": "postprocess.json",
+  "original_raw_sha256": "ace29f8da713c6445a35f1dab0f784dbec1f70779c68777735ddde6d949a4120"
+}
