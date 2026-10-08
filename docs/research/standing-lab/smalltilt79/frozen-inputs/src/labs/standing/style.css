@@ -2,6 +2,3 @@
 
 select{width:100%;min-height:44px;padding:8px;background:#2a414d;color:inherit;border:1px solid #66818e;border-radius:6px}button:focus-visible,select:focus-visible{outline:2px solid #deb46b;outline-offset:2px}
 @media(max-width:760px){aside h1{margin:8px 0}aside p{margin:8px 0}aside label{margin:8px 0}select{margin-bottom:8px}}
-
-/* Feedback stays in the existing scrollable sidebar, away from the physics view. */
-#identity{font-size:11px}summary{cursor:pointer;min-height:32px}fieldset{min-width:0;border:1px solid #66818e;border-radius:6px;padding:12px;margin:16px 0}legend{font-weight:600}textarea{width:100%;resize:vertical;min-height:72px;padding:8px;background:#2a414d;color:inherit;border:1px solid #66818e;border-radius:6px;font:inherit}textarea:focus-visible,summary:focus-visible{outline:2px solid #deb46b;outline-offset:2px}.notice{font-size:12px;border-left:3px solid #deb46b;padding-left:8px}#feedback-status{overflow-wrap:anywhere;font-size:13px}aside{padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right));padding-bottom:max(20px,env(safe-area-inset-bottom))}
