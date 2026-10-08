@@ -5,7 +5,7 @@ description: Build and tune Beat your Goblin gameplay systems: tools, pointer/to
 
 # Three.js Gameplay Systems - Goblin
 
-Build playable behaviour with clear ownership and deterministic update order.
+Build playable behaviour with clear ownership and deterministic update order. Follow `docs/development/gameplay-first.md`: prefer reliable, fun, performant outcomes, including labelled animation/IK/assists when appropriate; do not impose unassisted Standing research gates on a game prototype.
 
 ## Core loop contract
 
@@ -19,8 +19,9 @@ Every clause must exist in the actual game.
 
 - Input layer -> pointer/touch intents
 - Game state -> rounds, score, combo, objectives, unlock hooks
-- Rapier -> rigid bodies, joints, contacts, impulses, fixed physics step
-- Three.js -> visible representation
+- Rapier -> dynamic rigid bodies, joints, contacts, impulses, fixed physics step
+- Motion/state orchestrator (when scoped) -> exclusive ownership handoffs for assisted/animated/kinematic and ragdoll states
+- Three.js -> visible representation, animation/IK when they do not fight Rapier-owned dynamics
 - UI -> render state + emit intents
 - Audio/VFX -> react to gameplay events
 
@@ -33,7 +34,7 @@ For non-trivial physics work, invoke `rapier-skill-router` and the narrow Rapier
 - Keep a fixed timestep.
 - Clamp accumulated frame time after stalls.
 - Apply impulses/forces through Rapier, not visual meshes.
-- Render meshes from physics transforms.
+- Render **dynamically owned** meshes from Rapier transforms. In a supported game-motion state, an explicitly handed-off animation/kinematic controller may instead drive selected bodies; never concurrently write the same transforms from both systems.
 - Reset all rigid-body velocities and gameplay flags on restart.
 - Keep render geometry and collision geometry intentionally separate.
 - Bound dynamically spawned objects and remove/reuse stale ones.

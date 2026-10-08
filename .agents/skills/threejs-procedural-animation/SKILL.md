@@ -7,7 +7,7 @@ description: Build frame-rate-independent non-physics animation in Beat your Gob
 
 Animate semantic state, not arbitrary transform curves.
 
-Rapier owns physical Goblin/body motion. This skill is for authored visual motion layered around physics.
+Rapier owns *dynamic* Goblin/body motion. This skill normally covers authored visual motion layered around physics; labelled, explicitly handed-off assisted/kinematic gameplay states may also use procedural body motion under `docs/development/gameplay-first.md`. Such motion is not evidence of unassisted Standing.
 
 ## Good uses
 

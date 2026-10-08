@@ -1,5 +1,8 @@
 # Outcome-driven development
 
+## Product outcome versus research evidence
+Follow [gameplay-first policy](../development/gameplay-first.md). Game-product features may use labelled assists, animation and explicit physics ownership handoffs if they improve reliable play and measured performance. Fully dynamic Lab outcomes retain their own stricter physics rules; neither a gameplay prototype nor green CI constitutes an unassisted Standing pass. Report game feel/interruptibility and research telemetry under different acceptance criteria. Do not turn a failed research study into a production prohibition.
+
 ## One work package, one useful result
 Each issue states a functional outcome, current baseline, measurable improvement or decision, bounded scope and relevant checks. Implementation, ordinary repairs, targeted validation, internal review and draft PR belong to that same issue. Split only at independently useful results or real dependencies; do not create tickets for routine adapter fixes, each review finding or each internal gate.
 
@@ -20,7 +23,7 @@ A full independent experimental reproduction needs a stated reason: disputed res
 Browser QA covers changed UI/runtime behavior; CLI-only research can state browser N/A. Native visibility and hardware budgets remain separate claims.
 
 ## Progress and reporting
-Report baseline versus candidate using the relevant behavior metrics: standing/contact time, foot support, drift, torso error and segment reaction peaks. Tests green is verification, not functional improvement.
+Report baseline versus candidate using metrics appropriate to the lane. For Standing research: standing/contact time, foot support, drift, torso error and segment reaction peaks. For gameplay: complete interaction cycles, interruption/reset reliability, comprehensible reactions, qualitative player feedback and actual frame-time cost. Tests green is verification, not functional improvement.
 Use one concise issue summary, one result table and links to raw evidence. Reuse existing schemas/runners where sound; do not add manifests or duplicate reports without a concrete integrity need. Preserve existing historical evidence contracts.
 At completion state: what changed, what the experiment actually establishes, what remains uncertain and exactly one next development lever. Keep research to a specific missing fact with a bounded question. Prefer building the next usable Lab capability over broad research or general engine certification without a concrete blocker.
 

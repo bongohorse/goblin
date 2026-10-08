@@ -2,7 +2,7 @@
 
 **Status:** active research document  
 **Last updated:** 2026-10-07
-**Current scope:** stable physical standing only  
+**Current scope:** stable **unassisted fully dynamic** standing research only; not the mandatory implementation strategy for the game. See [gameplay-first policy](../development/gameplay-first.md).  
 **Related work:** Issue #15, Draft PR #29  
 **Engine baseline:** Three.js 0.186.1, `@dimforge/rapier3d-compat` 0.21.0
 
@@ -21,11 +21,11 @@ We are **not** currently solving:
 - grabbing or carrying objects;
 - hiding, fleeing or other AI behavior.
 
-Those features depend on a stable physical body and are deferred until standing works.
+Those features are deferred **inside this fully dynamic physics-research sequence**, not forbidden as separately scoped, clearly assisted gameplay prototypes. The product may use animation/IK/bounded helps without declaring this research gate passed.
 
 ## Goal
 
-The Goblin must remain a fully dynamic physical ragdoll and stand reliably for **60 seconds** without:
+For **this unassisted Standing experiment**, the Goblin must remain a fully dynamic physical ragdoll and stand reliably for **60 seconds** without:
 
 - teleporting bodies;
 - directly forcing transforms as a hidden correction;
@@ -44,7 +44,7 @@ The primary metric is **time until first non-foot ground contact**:
 - allow normal foot-floor contact;
 - stop at the first floor contact by any other Goblin body part;
 - record the exact elapsed time for every run;
-- **60.0 seconds or more = full standing success**;
+- **60.0 seconds or more = passes the Standing time criterion**; full acceptance additionally requires the conditions below;
 - shorter times are useful comparison data, but are not passing gates.
 
 A standing solution is accepted only when it:
@@ -74,7 +74,7 @@ Use these labels:
 
 Test one meaningful variable at a time where practical.
 
-Do not convert a hypothesis into production code before a bounded standing fixture proves it.
+Do not claim a **fully dynamic unassisted Standing solution** from an unverified hypothesis. Assisted gameplay motion follows its own [gameplay acceptance](../development/gameplay-first.md), rather than inheriting this research gate.
 
 Before implementation, verify APIs against the installed `@dimforge/rapier3d-compat` version. Current upstream Rapier docs can differ from 0.21.0.
 
@@ -84,7 +84,7 @@ Detailed literature/industry review:
 
 ### Modern control literature update — 2026-10-07
 
-**PRIMARY SOURCE + HYPOTHESIS + DEFERRED.** Newer work supports investigating contact-aware planning, learned joint control and reusable motion priors. PartwiseMPC, the 2022 get-up work, HumanUP, AdaptNet and the 2026 SMP/InstantMimic/LYRIC results are documented in the shortlist. None establishes standing on our Rapier rig or resolves the finite-step measurement blocker. Keep classical internal torso/COM feedback as the near-term hypothesis; a separately scoped MimicKit feasibility audit is a later option, not training authorization. Get-up and locomotion remain deferred, and existing gate stops/acceptance criteria remain unchanged.
+**PRIMARY SOURCE + HYPOTHESIS + DEFERRED.** Newer work supports investigating contact-aware planning, learned joint control and reusable motion priors. PartwiseMPC, the 2022 get-up work, HumanUP, AdaptNet and the 2026 SMP/InstantMimic/LYRIC results are documented in the shortlist. None establishes standing on our Rapier rig or resolves the finite-step measurement blocker. Keep classical internal torso/COM feedback as the near-term hypothesis; a separately scoped MimicKit feasibility audit is a later option, not training authorization. Fully dynamic research get-up and locomotion remain deferred under this scope, and existing research gate stops/acceptance criteria remain unchanged. An assisted gameplay slice is governed separately.
 
 Physics Lab workflow:
 - `docs/development/labs.md`
@@ -393,7 +393,7 @@ common-frame cap diagnostics pass without changing thresholds. Retain MovingFram
 and ForceBased as references; fixed-native remains a bounded research candidate.
 No balance feedback, production integration, full standing or recovery acceptance.
 
-**Do not continue physical get-up development yet.**
+**Do not continue fully dynamic, unassisted get-up research inside this Standing workstream yet.**
 
 Draft PR #29 demonstrated useful physics findings, but the Goblin still lacks a proven standing foundation.
 
@@ -401,7 +401,7 @@ The next work should answer:
 
 > What is the smallest Rapier-based controller and solver configuration that lets the existing fully dynamic Goblin stand reliably for 60 seconds?
 
-Until that question is answered, get-up work is deferred.
+Until that question is answered, **fully dynamic get-up research in this workstream** is deferred. Separate, labelled gameplay recovery prototypes can be scoped and evaluated without claiming this Standing result.
 
 ## Deferred work
 
@@ -506,7 +506,7 @@ When new standing research is performed:
 3. record the result, including negative results;
 4. state what it changes about the current standing hypothesis;
 5. update the comparison/decision;
-6. do not expand scope into get-up or locomotion until standing is accepted.
+6. do not expand **this fully dynamic Standing research scope** into get-up or locomotion until its acceptance and separate authorization; assisted gameplay prototypes follow their own scope.
 
 This file is the durable research memory for the current standing problem.
 

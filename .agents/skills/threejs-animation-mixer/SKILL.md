@@ -9,7 +9,7 @@ Use for glTF keyframe/skeletal/morph animations. Do not use this skill for Rapie
 
 ## Ownership
 
-Rapier remains authoritative for ragdoll transforms.
+Rapier remains authoritative for **dynamically simulated** ragdoll transforms. Explicitly handed-off animated/kinematic game states may have an animation owner; verify transitions and interruption, and do not treat them as fully dynamic Standing acceptance. See `docs/development/gameplay-first.md`.
 
 AnimationMixer may own:
 - non-physics character/cosmetic animation
