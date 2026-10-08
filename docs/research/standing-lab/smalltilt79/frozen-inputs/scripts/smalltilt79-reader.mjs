@@ -5,7 +5,6 @@ import {createHash} from 'node:crypto';
 import {pathToFileURL} from 'node:url';
 import {clean,ROOT,config,initial,stateMetrics,auditStep,checkSetup,terminal,reaction,oneStepReference} from './smalltilt79-model.mjs';
 import {oracleControls} from './actuation75-model.mjs';
-import {readHistoricalInput} from './smalltilt79-historical-inputs.mjs';
 const keys=(o,k)=>assert.deepEqual(Object.keys(o).sort(),k.split(',').sort(),'unexpected/missing schema fields');
 function finite(o){if(typeof o==='number')assert.ok(Number.isFinite(o));else if(o&&typeof o==='object')for(const[k,v]of Object.entries(o)){assert.ok(!/approved|physics_pass|pass_physics/.test(k),'unscoped approval');finite(v);}}
 function state(a){assert.equal(a.length,2);for(const b of a){keys(b,'id,mass,anchor,inertia,principal_frame,rotation,world_com,linear_velocity,angular_velocity');assert.equal(typeof b.id,'string');for(const k of ['anchor','inertia','world_com','linear_velocity','angular_velocity'])keys(b[k],'x,y,z');for(const k of ['rotation','principal_frame']){keys(b[k],'x,y,z,w');assert.ok(Math.hypot(...Object.values(b[k]))>0);}assert.equal(typeof b.mass,'number');for(const k of ['anchor','inertia','principal_frame','rotation','world_com','linear_velocity','angular_velocity'])for(const v of Object.values(b[k]))assert.equal(typeof v,'number');}stateMetrics(a);}
@@ -16,7 +15,7 @@ export function validate(r,expectedHead){
  assert.match(expectedHead,/^[a-f0-9]{40}$/,'published harness head required');assert.equal(r.provenance.git_commit,expectedHead,'wrong harness head');
  const hash=b=>createHash('sha256').update(b).digest('hex');for(const [p,k]of [['config.json','config_sha256'],['protocol.md','protocol_sha256'],['source-pins.json','source_pins_sha256']])assert.equal(r.provenance[k],hash(fs.readFileSync(ROOT+p)));
  assert.deepEqual(JSON.parse(fs.readFileSync(ROOT+'config.json')),config);
- for(const [p,h]of Object.entries(JSON.parse(fs.readFileSync(ROOT+'source-pins.json'))))assert.equal(hash(readHistoricalInput(p)),h,p);
+ for(const [p,h]of Object.entries(JSON.parse(fs.readFileSync(ROOT+'source-pins.json'))))assert.equal(hash(fs.readFileSync(p)),h,p);
  assert.ok(Number.isInteger(r.fresh_worlds)&&r.fresh_worlds>=1&&r.fresh_worlds<=75);assert.equal(r.fresh_worlds,r.runs.length+(r.failed_world?1:0));
  const cache=new Map();let firstFailure=-1;
  for(const [i,x]of r.runs.entries()){
