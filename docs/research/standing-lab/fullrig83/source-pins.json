@@ -1,0 +1,50 @@
+{
+  "base_commit": "2abd3db7a339666a6ca0fc1d5618712cd4d6f09c",
+  "kind": "inspected_base_sources_not_measurement_provenance",
+  "project": {
+    "AGENTS.md": "e50295c63e7818f686eeb464feb273321b3efb364e7b9ce6263fb29d4b3ebab2",
+    "package.json": "afd1eb9400dbf38c546a4afccb9c9c214ff39b61f34ccf51bb1c233eb92cc4da",
+    "package-lock.json": "ef94d22892912e94382c09af19eaf7d222caa07fff9876eadcd0434b8efe2ad3",
+    "docs/rapier/README.md": "a0603c0ad43d02c7d2717984ec76711f977cc856882031018019664131f61bc0",
+    "docs/development/labs.md": "2292e6a5406f7a4660b12ca79ba494cdd5def00d9bf2866d3ba3f8f13e25e702",
+    "docs/research/physics-labs-experiment-program.md": "ec7be84e3d700849e0153e7b0fb26a834a5f566a30dd2841450988bb7bc16ba7",
+    "docs/research/active-ragdoll-standing-recovery.md": "054c51937dafb840d6b8978b54d61fb392e8e3314103597c27f30628b6e28462",
+    "docs/research/standing-lab/baseline-config.json": "828081f1428c3dc47439937602f31063c8e179826e7858cdd5a6567282b3bce3",
+    "docs/research/standing-lab/contracts.md": "189be110fa76979c133a353a1b21647b75080bdec44fd04ae106d14d9d30de67",
+    "docs/research/standing-lab/motor-config.json": "f00345964e584f9cde2c352745caade5dc85d3aba86a96ec99285735dd6a6246",
+    "docs/research/standing-lab/motor-contract.md": "78b02155ebc7ce26d28a424108abf017a66f32d0fbabfbfc554521ea59db3f85",
+    "docs/research/standing-lab/target-study52-protocol.md": "c1786a6d42c725e0acb930337f4208769c5a5c5c651121ac6edd3e3471d500a8",
+    "docs/research/standing-lab/review77/upright-proposal.md": "25640b9394f3d619fc6452a8754351dcb9f74adf0de5f8354726e97d1c3199b0",
+    "docs/research/standing-lab/smalltilt79/protocol.md": "938274db30281bd350789ae168a6a5dbf9bdf68043aa5723c3438b60909be9ea",
+    "docs/research/standing-lab/review81/README.md": "7abee3381d961972384be66a3305e20515408e0e2788f9753562e0c6c399778a",
+    "src/labs/standing/simulation.js": "a092eba803a04f0eff8a5be46a67387b64f592b3ca625d41d2309b76b7a757b5",
+    "src/labs/standing/motors.js": "70deb98ee8aa8384cd84e99b8222cb02edbd5d2f8b56dcb016c8c25a5a8eedf6",
+    "src/labs/standing/config.js": "3f46489effb5eb4ff2df8e2af639f4279e2bd60e0f50f1315c474c0b42623161",
+    "src/labs/standing/motor-config.js": "92f1a36e53aa0c0af2a33848630466343cad64d6a814097505e74dc1c1c6506d",
+    "src/labs/standing/model-config.js": "4839c076dd28da4ef314f6caed39c27310836d88116dbd7570dfc5adf006e6a4",
+    "src/labs/standing/measurement.js": "44138b1ea619846c5cd99ff705a03c663999ada56beb517d9541f244b1592c07",
+    "src/labs/standing/math.js": "b62cd8594983793c99636e16b7bf04bd888f4ba6c9ba6d723abfb39af082b7ce",
+    "scripts/torso-torque60-oracle.js": "1b2e0688cd1efcda1b906325e4dfd7988bc4b908da504d66db3d5b7229b2fd27",
+    "scripts/finite-step66-reference.js": "e757ff1fa2bef089e7e46a8c96d202fe1ffab929e7949683a1084f04be4a1908",
+    "scripts/review-actuation74.mjs": "e7bd4a90413864e00fdb8a4b34402818cc700ac33c63de04ebb0e92b6a08d1a6"
+  },
+  "upstream_commit": "b716d375efc0201003f0cd9ef7168eee0b62c177",
+  "upstream": {
+    "bindings/typescript/CHANGELOG.md": "ade9c370008680918ff6c4babf98d7d39029091e4d0f515a4fe5f4a5617b922f",
+    "bindings/typescript/src.ts/dynamics/rigid_body.ts": "3c4f88b1e462d08ac6a67525d9126d597d7301581c8d1297d58969ca01beb059",
+    "bindings/typescript/src.ts/dynamics/impulse_joint.ts": "651119cc744bd3e5b93e59b445a1bdbce6d92f22490020a6fdf21d17ccee9ec7",
+    "bindings/typescript/src.ts/geometry/narrow_phase.ts": "cdbbe25a7c4ab6e308c34f134d2197edb5432c5684ae0d6eb8e2e37dfda8f40f",
+    "website/docs/user_guides/templates/rigid_body_forces_and_impulses.mdx": "cb1fceb23c682217bbefb02a40d54991806b646786b564f2e908472fde6fb465",
+    "website/docs/user_guides/templates/rigid_body_mass_properties.mdx": "b083c191303c8483eebe5f7794602045010f4460a3b2862174b3825b318321df",
+    "website/docs/user_guides/templates/rigid_body_damping.mdx": "ed8058a73eb613a44a47eb629e1077f1b10c2a662fe4eac6fbf25a47b22c6951",
+    "src/dynamics/joint/motor_model.rs": "474478e4cdf7b91d78037ae404bdb973e225f324d512d635fed01a03e23f8648"
+  },
+  "installed": {
+    "version": "0.21.0",
+    "files": {
+      "dist/dynamics/rigid_body.d.ts": "fba7353bae14afb9d22a355660ff346cab33627626d84c3d520cf3267e1e1695",
+      "dist/dynamics/impulse_joint.d.ts": "a1aff477394dbc65568d0870ab89ffbdfb33f2ba7244f3c818ff0886f820c385",
+      "dist/geometry/narrow_phase.d.ts": "4789e2241ff3e1f113f4a30e480f394ba66e71f2cb3c64a494bad9ad9e212d64"
+    }
+  }
+}
