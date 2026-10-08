@@ -1,0 +1,67 @@
+{
+  "kind": "gate_a_checks_no_study_worlds",
+  "study_allocations": 0,
+  "study_public_steps": 0,
+  "base_main": "2abd3db7a339666a6ca0fc1d5618712cd4d6f09c",
+  "plan_head": "adb784c17b8bf03a027c2300f57ee6d17456500c",
+  "preflight": {
+    "kind": "pure_preflight",
+    "checks": [
+      "90 unique fixed IDs and 14450 steps",
+      "all starts preserve authored anchors and relative neutral frames",
+      "shape inertia and fixed gains",
+      "pitch/roll/negative-axis and q sign/yaw covariance",
+      "null/yaw and transverse damping",
+      "exact encoded cap/negative zeros and actual fault classification",
+      "foot corner clearance of all starts",
+      "historical149 strict manifest entries and unchanged six plan entries",
+      "25 frozen project Git sourcepins and eight upstream LF Git sourcepins",
+      "separate schemas compile; historical exact validators unchanged"
+    ],
+    "new_worlds": 0,
+    "new_public_steps": 0
+  },
+  "stored": {
+    "kind": "synthetic_stored_regressions_not_measurements",
+    "rejected": [
+      "unknown flags",
+      "standing approval",
+      "duplicate step",
+      "wrong readback",
+      "missing pelvis reaction",
+      "swapped trial",
+      "wrong world order",
+      "coherently hidden angular peak",
+      "mass tampering",
+      "missing world",
+      "missing step",
+      "wrong units/coherent cap/readbacks",
+      "wrong hinge frame",
+      "fake clean build",
+      "infinite sample",
+      "omitted contact with coherent clean terminal but preserved raw manifold",
+      "continued after first contact blocker",
+      "repeat difference detected at first available sampled prefix"
+    ],
+    "new_worlds": 0,
+    "new_public_steps": 0
+  },
+  "regressions": {
+    "authorized_by": "Issue84 updated order",
+    "unchanged_tests": 93,
+    "pass": 93,
+    "fail": 0,
+    "final_used_test_worlds": 506,
+    "partial_timeout_attempt_confirmed_worlds": 506,
+    "preloader_failures_worlds": 0,
+    "final_exit": {
+      "code": 0,
+      "signal": null
+    },
+    "log_sha256": "be88bad3e6443ecbd896255bd48e6652e5b9cc1eac747337592d48bb7d3d37b9",
+    "world_ledger_sha256": "f75e11d5498d15fc7f20d5ff244c73219b8a0388efbbc05d3773c2c63dd3d597",
+    "method": "delegating first-use hooks in external preload only; no study hooks; timeout attempt no pass verdict"
+  },
+  "build": "pass, vite8.3.2; usual large-chunk advisory",
+  "browser": "N/A CLI-only, production sources untouched"
+}
