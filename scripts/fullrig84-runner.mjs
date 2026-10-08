@@ -22,13 +22,13 @@ export async function execute(output,preregPath){
  fs.mkdirSync(output,{recursive:false});save(path.join(output,'preregistration.json'),pin);save(path.join(output,'run-start.json'),{time:new Date().toISOString(),attempts:0,steps:0});
  const archive={schema_version:1,config:JSON.parse(fs.readFileSync('docs/research/standing-lab/fullrig84/config.json')),namespace:'fullrig-torso-pelvis-ab-v1:'+pin.provenance.config_sha256,provenance:pin.provenance,runs:[],allocation_attempts:0,public_steps:0,decision:{kind:'pending',ordinal:0,reason:null},standing_approval:false,engine_precision:'indeterminate_not_certified'};
  await init();assert.equal(version(),'0.21.0');assert.equal(execFileSync('git',['-C','vendor/rapier','rev-parse','HEAD'],{encoding:'utf8'}).trim(),pin.provenance.upstream);
- let failure=null;
+ let failure=null;const completedCache=new Map();
  for(const trial of PLAN.order){
   assert.ok(archive.allocation_attempts<90);const sim=new StudyWorld(trial),run={trial,uuid:randomUUID(),initial:null,frames:[],decision:null};archive.allocation_attempts++;append(path.join(output,'allocation-ledger.ndjson'),{event:'allocation_attempt',ordinal:trial.ordinal,id:trial.id,uuid:run.uuid,public_steps_before:archive.public_steps});
   let phase='allocate',pre=null,command=null,post=null;
   try{
    sim.allocate();phase='initial_snapshot';run.initial=sim.snapshot(true);append(path.join(output,'raw.ndjson'),{ordinal:trial.ordinal,phase:'initial',data:run.initial});phase='initial_validation';run.decision=worldDecision(run);archive.runs.push(run);
-   if(run.decision.kind==='execution_blocker'){archive.decision=prefixDecision(archive.runs);break;}
+   if(run.decision.kind==='execution_blocker'){archive.decision=prefixDecision(archive.runs,completedCache);break;}
    for(let step=0;step<trial.max_steps;step++){
     phase='PRE_snapshot';const ot=performance.now();pre=sim.snapshot(step===0);const pre_ms=performance.now()-ot;append(path.join(output,'raw.ndjson'),{ordinal:trial.ordinal,phase:'PRE',data:pre});
     phase='command';const ct=performance.now();command=sim.prepare(pre);const command_ms=performance.now()-ct;append(path.join(output,'raw.ndjson'),{ordinal:trial.ordinal,phase:'command_readback',data:command});
@@ -39,10 +39,10 @@ export async function execute(output,preregPath){
     phase='POST_clear';const cleared=sim.clear();append(path.join(output,'raw.ndjson'),{ordinal:trial.ordinal,phase:'cleared_after_POST',data:cleared});
     run.frames.push({pre,command,command_classification,post,cleared,cpu:{physics_ms,command_ms,observation_ms:pre_ms+post_ms}});
     phase='prefix_validation';run.decision=worldDecision(run);archive.decision=prefixDecision(archive.runs);
-    if(!['pending','bounded_fullrig_candidate_supported'].includes(archive.decision.kind)||run.decision.kind!=='incomplete')break;
+    if(!['pending','bounded_fullrig_candidate_supported','completed_negative','completed_inconclusive'].includes(archive.decision.kind)||run.decision.kind!=='incomplete')break;
    }
    archive.decision=prefixDecision(archive.runs);persistArchive(output,archive);append(path.join(output,'allocation-ledger.ndjson'),{event:'world_terminal',ordinal:trial.ordinal,decision:run.decision,prefix:archive.decision});
-   if(!['pending','bounded_fullrig_candidate_supported'].includes(archive.decision.kind))break;
+   if(!['pending','bounded_fullrig_candidate_supported','completed_negative','completed_inconclusive'].includes(archive.decision.kind))break;
    assert.notEqual(run.decision.kind,'incomplete');
   }catch(error){
    let partial_setup=null;try{if(sim.world)partial_setup=sim.snapshot(sim.steps===0);}catch(snapshotError){partial_setup={snapshot_error:String(snapshotError.message),bodies:[...sim.bodies.values()].map(({spec,body})=>{const out={id:spec.id};for(const k of ['translation','rotation','linvel','angvel','mass','principalInertia'])try{out[k]=body[k]();}catch(e){out[k]={getter_error:String(e.message)};}return out;})};}append(path.join(output,'raw.ndjson'),{ordinal:trial.ordinal,phase:'failure_partial_state',data:partial_setup});

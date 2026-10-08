@@ -24,6 +24,8 @@ Work in small, verifiable gates:
 5. fix findings
 6. only then move on
 
+Each order owns one complete behavioral goal. Repair ordinary implementation errors autonomously within the authorized scope, without separate routine-fix tickets. Evaluate valid negative results as results. Choose checks by change risk, perform review internally, and stop repeated check chains once the result is verified. Explicit experiment budgets, gate stops, and merge/deployment boundaries remain binding.
+
 Do not mix unrelated cleanup with gameplay work.
 
 ## Agent skills

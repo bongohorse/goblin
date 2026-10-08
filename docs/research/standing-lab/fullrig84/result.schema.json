@@ -4377,7 +4377,10 @@
             "counterfactual_terminal",
             "expected_negative_detected",
             "horizon",
-            "bounded_fullrig_candidate_supported"
+            "bounded_fullrig_candidate_supported",
+            "state_terminal",
+            "completed_negative",
+            "completed_inconclusive"
           ]
         },
         "reason": {
