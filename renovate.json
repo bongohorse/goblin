@@ -4,6 +4,17 @@
     "config:recommended",
     ":disableRateLimiting"
   ],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/examples/**",
+    "**/__tests__/**",
+    "**/test/**",
+    "**/tests/**",
+    "**/__fixtures__/**",
+    "docs/research/standing-lab/smalltilt79/frozen-inputs/**"
+  ],
   "dependencyDashboard": true,
   "rangeStrategy": "bump",
   "ignoreUnstable": true,
