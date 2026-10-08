@@ -23,6 +23,8 @@ Read [Gameplay-first policy](docs/development/gameplay-first.md) for all new gam
 Follow [Outcome-driven development](docs/agents/development-workflow.md).
 Deliver one useful functional outcome per issue: implementation, ordinary in-scope repairs, targeted validation, internal review and draft PR are one work package. Gates are internal checkpoints, not automatic new tickets or user handoffs.
 
+Bei Umgebungs- oder Toolfehlern (z. B. Netzwerk, Browser, Prozesse) eigenständig sichere, begrenzte Diagnose- und Reparaturversuche durchführen; Fehler, Versuche, Ergebnis und verbleibende Prüfblockaden nachvollziehbar im zugehörigen Issue/PR und Abschlussbericht dokumentieren, ohne Berechtigungsgrenzen oder Stopregeln zu umgehen.
+
 Before a frozen research run, use small real API/observer smoke checks within the issue's diagnostic budget. Validate measurement semantics and timing, not only synthetic data layouts. Distinguish technical invalidity from a valid negative behavioral result; neither justifies hidden tuning.
 
 Run focused checks while developing and required tests/build at the final head. Repeat full checks or historical experiment reproductions only for a concrete changed risk, failure or disputed claim. Documentation-only work needs consistency/link review, not new physics or browser runs.
