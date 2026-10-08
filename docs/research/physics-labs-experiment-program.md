@@ -3,7 +3,7 @@
 **Status:** design/research backlog for review before implementation  
 **Last updated:** 2026-10-04  
 **Current execution priority:** Standing Lab / Issue #30  
-**Purpose:** create a controlled environment for developing, measuring and comparing physical Goblin behavior before integrating it into the normal game.
+**Purpose:** create a controlled environment for developing, measuring and comparing **unassisted physical** Goblin behavior before accepting it as proven physics. Gameplay hybrid solutions follow [gameplay-first policy](../development/gameplay-first.md).
 
 ## Core idea
 
@@ -44,7 +44,7 @@ The normal game arena contains many variables that are irrelevant to low-level p
 
 Those variables make it harder to identify the actual cause of a failure.
 
-The Lab approach isolates the physical primitive first. Only a proven primitive is later integrated into gameplay.
+The Lab approach isolates a physical primitive before claiming it has been proven by research. Assisted/animated gameplay prototypes may independently demonstrate game value without being counted as unassisted physical evidence.
 
 Canonical Lab rules:
 - `docs/development/labs.md`
@@ -69,14 +69,14 @@ Rules:
 - first non-foot ground contact ends the run;
 - exact elapsed time is recorded;
 - every failed run remains useful data;
-- **60.0 seconds or more = total Standing success.**
+- **60.0 seconds or more = Standing time criterion met; full research acceptance still needs the #30 support, drift, joint, force, repeatability and cost requirements.**
 
 Examples:
 
 - 3.2 s = failed run, useful measurement;
 - 18.7 s = failed run, strong improvement over a 5 s baseline;
 - 59.9 s = failed acceptance gate but highly informative;
-- 60.0+ s = full Standing success.
+- 60.0+ s = time criterion met; check all other research gates before claiming full Standing acceptance.
 
 Secondary metrics must help explain *why* one run is better, but they should not replace the primary 60-second success definition unless we later deliberately revise the benchmark.
 
@@ -715,7 +715,7 @@ Possible metrics:
 - non-foot contact;
 - number of corrective steps.
 
-This is explicitly **after** the current Standing gate.
+This **fully dynamic research** extension is explicitly after the current Standing gate. Separate gameplay push reactions can be prototyped earlier with labelled assists and their own acceptance.
 
 ## Future Lab families
 
@@ -782,7 +782,7 @@ But assisted pelvis/foot world springs are diagnostic references, not acceptable
 
 An optimizer will exploit whatever the score allows.
 
-Therefore a 60-second result is invalid if achieved by:
+Therefore a 60-second result is **invalid as unassisted Standing research acceptance** if achieved by:
 
 - teleporting bodies;
 - writing transforms as hidden correction;

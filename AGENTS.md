@@ -15,6 +15,10 @@ Browser game built with Three.js, Rapier 3D and Vite.
 - Build: `npm run build`
 - CI and GitHub Pages must stay green.
 
+## Product direction: gameplay first
+
+Read [Gameplay-first policy](docs/development/gameplay-first.md) for all new game and motion work. The goal is a responsive, locally real-time playable Goblin, not unassisted physics or machine learning at any cost. Clearly labelled animation, IK, balance assistance and hybrid motion are legitimate **gameplay** solutions. Their success must never be reported as full-dynamic Standing research evidence. Preserve experimental contracts and stop rules.
+
 ## Working style
 Follow [Outcome-driven development](docs/agents/development-workflow.md).
 Deliver one useful functional outcome per issue: implementation, ordinary in-scope repairs, targeted validation, internal review and draft PR are one work package. Gates are internal checkpoints, not automatic new tickets or user handoffs.
@@ -83,9 +87,9 @@ Project dependency: `three ^0.186.1`. The official `mrdoob/three.js` `dev` branc
 
 Project dependency: `@dimforge/rapier3d-compat ^0.21.0`; `package-lock.json` currently resolves **0.21.0**. A matching upstream Rapier snapshot is pinned locally as the `vendor/rapier` submodule at tag `js-v0.21.0`, commit `b716d375efc0201003f0cd9ef7168eee0b62c177`. Read `docs/rapier/README.md` before external Rapier research. Prefer the installed package first, then the pinned local TypeScript bindings/user guide/source. If `vendor/rapier` is not initialized in the working tree, run `git submodule update --init --recursive` before Rapier research. Use current online docs/master only when the local reference is insufficient. Treat `vendor/rapier` as read-only and do not advance it independently of a scoped Rapier dependency upgrade.
 
-Canonical standing/recovery research: `docs/research/active-ragdoll-standing-recovery.md`. Read it before G3 standing, balance, push-recovery or get-up work; update it when new research changes evidence, tradeoffs or the recommended experiment order.
+Canonical fully dynamic standing/recovery research: `docs/research/active-ragdoll-standing-recovery.md`. Read it for physical Standing/Recovery research; it does not ban separately scoped assisted gameplay movement. Use `docs/development/gameplay-first.md` when deciding the product implementation.
 
-Physics Lab workflow: `docs/development/labs.md`. Develop unresolved low-level physics behaviors in a minimal isolated Lab before integrating them into the normal arena. For current G3 work, the Standing Lab is the required first environment for all new standing experiments.
+Physics Lab workflow: `docs/development/labs.md`. Develop unresolved low-level physics behaviors in an isolated Lab before integrating them into the normal arena. The Standing Lab is mandatory for **fully dynamic standing research**, not a global blocker to a separate, clearly identified hybrid gameplay proof-of-fun.
 Broader Physics Labs research/backlog: `docs/research/physics-labs-experiment-program.md` (Issue #31). Treat optimization, evolution and learned-control ideas there as deferred research unless a scoped issue explicitly activates them.
 
 ### Three.js WebGPU / TSL

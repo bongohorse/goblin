@@ -2,6 +2,8 @@
 
 Three.js + Rapier browser physics prototype. Masterplan: [#11](https://github.com/bongohorse/goblin/issues/11).
 
+**Product direction:** [Gameplay first](docs/development/gameplay-first.md) — reliable, fun local real-time behavior may use labelled animation, IK and physics assistance. [Scientific Standing Labs](docs/development/labs.md) retain strict unassisted evidence rules and separate acceptance.
+
 Use Node 24.21.0 or a compatible later Node 24 release:
 
 ```sh

@@ -1,7 +1,7 @@
 # Modern physics-based character control: Goblin research shortlist
 
 **Reviewed:** 2026-10-07. **Scope:** literature and tooling evaluation only.
-**Evidence:** PRIMARY SOURCE for reported external results; HYPOTHESIS for Goblin applicability; DEFERRED for learned control, get-up, locomotion and object interaction.
+**Evidence:** PRIMARY SOURCE for reported external results; HYPOTHESIS for Goblin applicability; DEFERRED **in this fully dynamic research sequence** for learned control, get-up, locomotion and object interaction. [Gameplay-first product rules](../development/gameplay-first.md) are separate.
 
 ## Decision
 
@@ -68,7 +68,7 @@ This is a proposal for future issue scoping, not authorization to execute it.
 3. Establish repeatable 60-second quiet stance with support, drift, constraint and CPU criteria. Preserve first non-foot contact as the Standing Time definition.
 4. If learned control is justified, audit MimicKit versus a small same-engine policy environment. Start with one standing task and fixed rig, not a general language-controlled character.
 5. Compare learned and classical candidates on identical held-out Lab cases. Disturbance acceptance is a separately scoped follow-up to quiet stance.
-6. Only after standing acceptance, scope a Get-up Lab using the 2022 contact/style and HumanUP curriculum references; then scope walking and skill transitions.
+6. Only after fully dynamic Standing research acceptance and a separate authorization, scope a **fully dynamic research Get-up Lab** using the 2022 contact/style and HumanUP curriculum references; then scope physical research walking and skill transitions. This does **not** block an independent, clearly assisted gameplay recovery/walking prototype.
 
 For recovery, first non-foot contact cannot be its success metric because hands/knees may legitimately support get-up. Define later success as entering the already accepted standing state for a predeclared duration, with bounded effort and contact validity. Do not change the current Standing benchmark to accommodate recovery.
 

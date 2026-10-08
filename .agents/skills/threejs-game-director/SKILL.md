@@ -22,8 +22,8 @@ Own the complete requested outcome, not just one subsystem.
 
 1. Read the GitHub issue and current code before planning implementation.
 2. Keep work in small vertical gates.
-3. Establish a playable behaviour before polish.
-4. Rapier owns physical gameplay state; Three.js owns presentation.
+3. Establish a playable behaviour before polish; compare simple animated/assisted/hybrid solutions against fully dynamic approaches when they produce the same gameplay outcome.
+4. Rapier owns dynamic physical gameplay state; explicitly controlled animation/kinematic game states need a versioned, tested ownership handoff rather than competing transform writes. Follow `docs/development/gameplay-first.md`.
 5. UI reads game state and emits intents; it does not duplicate gameplay rules.
 6. Graphics work must respect mobile performance and the existing art direction.
 7. CI and GitHub Pages must stay deployable throughout.

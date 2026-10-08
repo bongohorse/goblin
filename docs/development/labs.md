@@ -1,7 +1,7 @@
 # Physics Labs
 
 **Status:** project development rule  
-**Purpose:** isolate and validate complex physical behavior before game integration.
+**Purpose:** isolate and validate complex physical behavior before game integration. Separate scientific Standing acceptance from assisted gameplay development; see [Gameplay-first policy](gameplay-first.md).
 
 ## Principle
 
@@ -15,7 +15,9 @@ Labs deliberately remove that noise.
 
 ## Rule
 
-> **Build and validate the physical primitive in a Lab first. Integrate it into gameplay only after the Lab acceptance criteria pass repeatedly.**
+> **Validate an unresolved low-level physical primitive in a Lab before claiming that primitive is proven or integrating it as proven physics.** A separately scoped, explicitly assisted or animated gameplay prototype may be tested without passing the full-dynamic Standing research gate.
+
+An exploratory game-motion slice belongs in a small controlled gameplay scene, **not** in a frozen scientific fixture and not as an untested full-arena integration. Specify permitted assistance, animation/physics handoffs, obstruction/interruption cases and game QA. This does not change the scientific rig, thresholds or existing experiment stops.
 
 Do not use the main arena as the primary development environment for unresolved low-level physics behavior.
 
@@ -34,7 +36,7 @@ A Lab should be:
 
 A Lab may use special diagnostics and controls that never ship in the game.
 
-It must not silently use helpers that invalidate the physical question being tested. Diagnostic cheats are allowed only when explicitly labelled as such and must not count as acceptance evidence.
+A research Lab must not silently use helpers that invalidate the physical question being tested. Diagnostic supports are permitted only as explicitly labelled non-acceptance controls. Gameplay assistance is permitted in a separate labelled prototype and cannot be counted as unassisted research acceptance.
 
 ## Suggested layout
 
@@ -53,7 +55,7 @@ These names describe future possibilities, not current implementation priorities
 
 ## Current first Lab: Standing
 
-The first and only current Lab priority is **Standing**.
+The first and only currently active **fully dynamic physical-research Lab** priority is **Standing**. This does not prevent separately approved small gameplay/hybrid prototypes.
 
 Question:
 
@@ -84,7 +86,7 @@ Standing time is measured from simulation start until the **first floor contact 
 - Foot-floor contacts are allowed and expected.
 - The first hand, knee, shin, pelvis, torso, head, arm or other non-foot floor contact ends the run.
 - Record the exact elapsed time for every run.
-- **60.0 seconds or more is the full Standing Lab success condition.**
+- **60.0 seconds or more passes the Standing *time criterion*, not necessarily full Standing acceptance.** Meaningful support, bounded drift/joints/effort, repeatability and acceptable cost remain mandatory under #30; see [Glossary](../GLOSSARY.md).
 - Shorter runs remain valid measurements for regression and A/B comparison; they are not separate pass gates.
 
 Expose at minimum:
@@ -122,7 +124,7 @@ Examples for the Standing Lab:
 
 ## Integration gate
 
-Passing a Lab does not automatically mean the feature is finished.
+Passing a scientific Lab does not automatically mean the feature is game-ready. Conversely, a separately tested assisted gameplay feature need not pass the unassisted Standing research gate; its own collision, interaction and performance checks still apply.
 
 After Lab acceptance:
 
@@ -134,12 +136,14 @@ If integration fails, return to the Lab only when the failure is inside the phys
 
 ## Current scope decision
 
-For the present G3 work:
+For the currently scoped **fully dynamic G3 research**:
 
-- build the Standing Lab first;
-- stop further get-up work;
-- use the Lab for all standing-controller research;
-- do not resume broader physical abilities until stable standing is proven.
+- keep the Standing Lab as the first fully physical research environment;
+- defer fully dynamic get-up research until a separate authorization/acceptance path exists;
+- use the Standing Lab for unassisted standing-controller experiments;
+- keep existing Standing/Recovery research gates, budgets and stops unchanged.
+
+**This restriction does not prohibit** a separate, explicitly assisted gameplay proof-of-fun for getting up, walking or other behaviors. Such a prototype uses its own small test scene and game QA, declares aids/ownership, and does not claim successful unassisted Standing. Coordinate any masterplan/gate amendments explicitly instead of reinterpreting archived measurements.
 
 Canonical standing research:
 - `docs/research/active-ragdoll-standing-recovery.md`
