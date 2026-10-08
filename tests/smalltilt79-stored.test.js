@@ -6,3 +6,13 @@ test('79 archive rejects missing/reordered parts and byte/hash corruption withou
  const m=JSON.parse(fs.readFileSync(ROOT+'archive.json'));
  for(const f of [r=>r.parts.pop(),r=>r.parts.reverse(),r=>r.parts[0].bytes++,r=>r.parts[0].sha256='0'.repeat(64),r=>r.gzip_sha256='0'.repeat(64),r=>r.uncompressed_sha256='0'.repeat(64)]){const bad=structuredClone(m);f(bad);assert.throws(()=>readArchive(bad));}
 });
+
+test('79 historical dependency and reader sources retain their original pinned bytes', async()=>{
+ const {readHistoricalInput}=await import('../scripts/smalltilt79-historical-inputs.mjs');
+ const {createHash}=await import('node:crypto');
+ const pins=JSON.parse(fs.readFileSync(ROOT+'source-pins.json'));
+ for(const path of ['package.json','package-lock.json','scripts/smalltilt79-reader.mjs']){
+  const digest=createHash('sha256').update(readHistoricalInput(path)).digest('hex');
+  assert.equal(digest,pins[path],path+' historical input modified');
+ }
+});
