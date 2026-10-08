@@ -30,7 +30,7 @@ export async function execute(output,preregPath){
    sim.allocate();phase='initial_snapshot';run.initial=sim.snapshot(true);append(path.join(output,'raw.ndjson'),{ordinal:trial.ordinal,phase:'initial',data:run.initial});phase='initial_validation';run.decision=worldDecision(run);archive.runs.push(run);
    if(run.decision.kind==='execution_blocker'){archive.decision=prefixDecision(archive.runs,completedCache);break;}
    for(let step=0;step<trial.max_steps;step++){
-    phase='PRE_snapshot';const ot=performance.now();pre=sim.snapshot(step===0);const pre_ms=performance.now()-ot;append(path.join(output,'raw.ndjson'),{ordinal:trial.ordinal,phase:'PRE',data:pre});
+    pre=null;command=null;post=null;phase='PRE_snapshot';const ot=performance.now();pre=sim.snapshot(step===0);const pre_ms=performance.now()-ot;append(path.join(output,'raw.ndjson'),{ordinal:trial.ordinal,phase:'PRE',data:pre});
     phase='command';const ct=performance.now();command=sim.prepare(pre);const command_ms=performance.now()-ct;append(path.join(output,'raw.ndjson'),{ordinal:trial.ordinal,phase:'command_readback',data:command});
     // Validate actual command before any public step, including declared negatives.
     const {commandCheck,stateStop}=await import('./fullrig84-reader.mjs');assert.equal(stateStop(pre,run.initial),null);const command_classification=commandCheck(pre,command,trial.variant);append(path.join(output,'raw.ndjson'),{ordinal:trial.ordinal,phase:'PRE_positive_validator',classification:command_classification});
