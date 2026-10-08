@@ -16,15 +16,16 @@ Browser game built with Three.js, Rapier 3D and Vite.
 - CI and GitHub Pages must stay green.
 
 ## Working style
-Work in small, verifiable gates:
-1. understand the issue and current code
-2. implement the smallest complete change
-3. run relevant checks
-4. review against the issue
-5. fix findings
-6. only then move on
+Follow [Outcome-driven development](docs/agents/development-workflow.md).
+Deliver one useful functional outcome per issue: implementation, ordinary in-scope repairs, targeted validation, internal review and draft PR are one work package. Gates are internal checkpoints, not automatic new tickets or user handoffs.
 
-Do not mix unrelated cleanup with gameplay work.
+Before a frozen research run, use small real API/observer smoke checks within the issue's diagnostic budget. Validate measurement semantics and timing, not only synthetic data layouts. Distinguish technical invalidity from a valid negative behavioral result; neither justifies hidden tuning.
+
+Run focused checks while developing and required tests/build at the final head. Repeat full checks or historical experiment reproductions only for a concrete changed risk, failure or disputed claim. Documentation-only work needs consistency/link review, not new physics or browser runs.
+
+Report baseline versus candidate behavior and one next development lever. Tests green alone is not functional progress. Reuse existing evidence infrastructure and avoid duplicate reports or new manifests without a specific need.
+
+Explicit issue budgets, frozen protocols, scope and release authorization remain binding. This workflow activates no stopped experiment. Do not mix unrelated cleanup with gameplay work.
 
 ## Agent skills
 Repo-local skills live in `.agents/skills/`.
