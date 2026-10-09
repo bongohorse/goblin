@@ -23,6 +23,8 @@ Read [Gameplay-first policy](docs/development/gameplay-first.md) for all new gam
 Follow [Outcome-driven development](docs/agents/development-workflow.md).
 Deliver one useful functional outcome per issue: implementation, ordinary in-scope repairs, targeted validation, internal review and draft PR are one work package. Gates are internal checkpoints, not automatic new tickets or user handoffs.
 
+Bei Umgebungs- oder Toolfehlern (z. B. Netzwerk, Browser, Prozesse) eigenständig sichere, begrenzte Diagnose- und Reparaturversuche durchführen; Fehler, Versuche, Ergebnis und verbleibende Prüfblockaden nachvollziehbar im zugehörigen Issue/PR und Abschlussbericht dokumentieren, ohne Berechtigungsgrenzen oder Stopregeln zu umgehen.
+
 Before a frozen research run, use small real API/observer smoke checks within the issue's diagnostic budget. Validate measurement semantics and timing, not only synthetic data layouts. Distinguish technical invalidity from a valid negative behavioral result; neither justifies hidden tuning.
 
 Run focused checks while developing and required tests/build at the final head. Repeat full checks or historical experiment reproductions only for a concrete changed risk, failure or disputed claim. Documentation-only work needs consistency/link review, not new physics or browser runs.
@@ -102,6 +104,8 @@ WebGPU is optional. Do not replace the stable `WebGLRenderer` path unless a scop
 GitHub Issues are the source of truth. See `docs/agents/issue-tracker.md`.
 
 ## Browser tools
+Before budgeted runs, follow [Execution preflight and tested fallbacks](docs/development/execution-preflight.md). Capability checks do not authorize a stopped experiment or replace event preconditions.
+
 - On native Windows, prefer the configured `chrome-devtools` MCP for console/network diagnosis, screenshots and performance traces. Use the existing project Playwright MCP or browser scripts for repeatable input/reset/pause checks. Confirm tool availability and the actual browser before acting; report failures instead of silently switching browsers.
 - Read `docs/development/vscode.md` for setup. Keep absolute executable/profile paths local; do not change global configuration or the user's running devserver without task authorization.
 - Record browser version, executable/profile identity, launch arguments, URL, viewport/DPR and rendering backend when relevant to acceptance. A connection smoke test does not establish gameplay, GPU performance or Hidden/Resume acceptance.
