@@ -26,7 +26,9 @@ async function main(){
   const base=`http://127.0.0.1:${server.address().port}/goblin/`;
   let browser;
   try{
-    const options=require('../scripts/chrome-portable.cjs').portableChrome();
+    const options={headless:process.env.GOBLIN_HEADED_BROWSER!=='1'};
+    if(process.env.GOBLIN_CHROMIUM_EXECUTABLE)options.executablePath=process.env.GOBLIN_CHROMIUM_EXECUTABLE;
+    else if(os.platform()==='win32')options.executablePath='C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
     browser=await chromium.launch(options);
     const context=await browser.newContext({viewport:{width:1280,height:800}});
     const page=await context.newPage(),errors=[],warnings=[],failedResponses=[];
