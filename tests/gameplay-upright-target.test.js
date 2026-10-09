@@ -76,6 +76,7 @@ import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
 import {comparePair} from '../src/gameplay/upright-comparison.js';
+import {validateGameplayHistoricalLock} from '../scripts/gameplay-upright-lock-compat.mjs';
 test('stored five-run finish keeps frozen sources, complete pairs and historical error in total budget',()=>{
   const data=JSON.parse(gunzipSync(fs.readFileSync(new URL('../docs/development/gameplay-upright-target-finish-evidence.json.gz',import.meta.url))));
   const error=JSON.parse(fs.readFileSync(new URL('../docs/development/gameplay-upright-target-evidence.json',import.meta.url)));
@@ -83,7 +84,18 @@ test('stored five-run finish keeps frozen sources, complete pairs and historical
   assert.equal(data.records.length,5);assert.equal(data.budget.started,6);assert.equal(data.budget.newStarted,5);assert.equal(data.budget.priorStarted,1);
   assert.equal(data.records[4].role,'safety');assert.equal(data.records[4].trace.length,361);
   for(let i=0;i<4;i+=2){const p=comparePair(data.records[i],data.records[i+1]);assert.equal(p.Q.valid,true);assert.equal(p.S.inputSafe,true);assert.equal(p.S.returnEnvelopeAtTwoSeconds,true);}
-  for(const [file,hash] of Object.entries(data.records[0].identity.sources))assert.equal(createHash('sha256').update(fs.readFileSync(new URL('../'+file,import.meta.url))).digest('hex'),hash,'frozen observed physics source');
+  let observedLock=false;
+  for(const [file,hash] of Object.entries(data.records[0].identity.sources)){
+    const bytes=fs.readFileSync(new URL('../'+file,import.meta.url));
+    if(file==='package-lock.json'){
+      const frozen=fs.readFileSync(new URL('../docs/development/gameplay-upright-frozen-package-lock.json',import.meta.url));
+      validateGameplayHistoricalLock(frozen,bytes,hash);
+      observedLock=true;
+    }else{
+      assert.equal(createHash('sha256').update(bytes).digest('hex'),hash,'frozen observed physics source: '+file);
+    }
+  }
+  assert.equal(observedLock,true,'historical evidence must include its exact lock identity');
   const b=data.records[1],target=data.records[3];assert.equal(comparePair(data.records[0],b).Q.legacyV1.pass,false);
   assert.ok(data.records[0].trace.every((r,i)=>JSON.stringify(r.observation.bodies)===JSON.stringify(data.records[2].trace[i].observation.bodies)));
   assert.equal(target.trace[180].targetAssist.phase,'NEUTRAL');assert.ok(target.trace.slice(180).every(r=>r.targetAssist.angle===0));
