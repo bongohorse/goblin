@@ -104,6 +104,8 @@ WebGPU is optional. Do not replace the stable `WebGLRenderer` path unless a scop
 GitHub Issues are the source of truth. See `docs/agents/issue-tracker.md`.
 
 ## Browser tools
+Before budgeted runs, follow [Execution preflight and tested fallbacks](docs/development/execution-preflight.md). Capability checks do not authorize a stopped experiment or replace event preconditions.
+
 - On native Windows, prefer the configured `chrome-devtools` MCP for console/network diagnosis, screenshots and performance traces. Use the existing project Playwright MCP or browser scripts for repeatable input/reset/pause checks. Confirm tool availability and the actual browser before acting; report failures instead of silently switching browsers.
 - Read `docs/development/vscode.md` for setup. Keep absolute executable/profile paths local; do not change global configuration or the user's running devserver without task authorization.
 - Record browser version, executable/profile identity, launch arguments, URL, viewport/DPR and rendering backend when relevant to acceptance. A connection smoke test does not establish gameplay, GPU performance or Hidden/Resume acceptance.
