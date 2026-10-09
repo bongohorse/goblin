@@ -76,7 +76,7 @@ test('active-grab marker captures before an explicit safety stop; pending and gr
     assert.ok([...s.audit.ledger.values()].every(c=>c.cap===0));
     s.reset({assisted:true,obstacle:false});f.clear();assert.equal(s.sim.steps,0);assert.equal(s.sim.enabled,true);
     assert.equal(s.pauseContext.kind,'initial');assert.equal(s.pending,null);assert.equal(s.trial,null);
-    assert.throws(()=>f.report({run_id:'new'},{},[]),/zuerst/);
+    assert.throws(()=>f.report({run_id:'new'},{},[]),/first/);
   }finally{s.dispose();}
 });
 

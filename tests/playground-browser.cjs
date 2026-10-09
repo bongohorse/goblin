@@ -78,6 +78,7 @@ async function main(){
       // Stress view: actual strong-push fall, non-contact/safety/command fields remain separate.
       await page.locator('#reset').click();await page.locator('#inspectBody').selectOption('pelvis');await page.locator('#play').click();await page.locator('#strong').click();await page.waitForTimeout(1600);await page.locator('#play').click();
       const fallen=await read();assert.equal(fallen.inspection.readout.run.assist_enabled,false);assert.equal(fallen.inspection.readout.assist.support.value,0);
+      await page.getByText('Camera',{exact:true}).evaluate(e=>{e.parentElement.open=true;});
       for(const mode of ['perspective','front','side','top']){await page.locator('#'+({perspective:'cameraPerspective',front:'cameraFront',side:'side',top:'cameraTop'}[mode])).click();await page.locator('#cameraFrame').click();}
       await page.screenshot({path:path.join(out,'inspection-fallen.png')});await page.locator('#reset').click();
       // Small single-view touch inspection works while paused, then grab still works when inspect is disabled.
