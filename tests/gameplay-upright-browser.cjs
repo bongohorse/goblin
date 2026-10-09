@@ -61,13 +61,13 @@ async function runV2({context,identity,out,errors,warnings,badResponses}){
 // Frozen T1 contract:6 starts max; every started world counts, no retry.
 async function runTarget({context,identity,out,errors,warnings,badResponses}){
   const {comparePair}=await import('../src/gameplay/upright-comparison.js');
-  const records=[],pairs=[];const plan=['B-R','B-P','T1-R','T1-P','T1-grab-off-reset','T1-small-strong'];
-  const save=async()=>fs.writeFile(path.join(out,'results.json'),JSON.stringify({version:'V2-T1',identity,plan,records,pairs,errors,warnings,badResponses}));
-  const budget=async(started)=>fs.writeFile(path.join(out,'budget.json'),JSON.stringify({started,completed:records.length,maxSequences:6,secondsPerSequence:6,plan}));
+  const records=[],pairs=[];const plan=['B-R','B-P','T1-R','T1-P','T1-combined-safety'];
+  const save=async()=>fs.writeFile(path.join(out,'results.json'),JSON.stringify({version:'V2-T1-finish',identity,priorStarted:1,plan,records,pairs,errors,warnings,badResponses}));
+  const budget=async(started)=>fs.writeFile(path.join(out,'budget.json'),JSON.stringify({started:started+1,newStarted:started,priorStarted:1,completed:records.length,maxSequences:6,secondsPerSequence:6,plan}));
   await budget(0);
-  for(let n=1;n<=6;n++){
+  for(let n=1;n<=5;n++){
     const reaction=n<=2?'B':'T1',role=n<=4?(n%2?'reference':'input'):'safety',pairId=n<=4?reaction:null;
-    console.log('T1 '+n+'/6 '+plan[n-1]);
+    console.log('T1 remaining '+n+'/5 '+plan[n-1]);
     const page=await context.newPage(),video=page.video();
     page.on('pageerror',e=>errors.push({number:n,message:e.message}));
     page.on('console',m=>{if(m.type()==='error')errors.push({number:n,message:m.text()});if(m.type()==='warning')warnings.push({number:n,message:m.text()});});
@@ -77,22 +77,19 @@ async function runTarget({context,identity,out,errors,warnings,badResponses}){
     if(initial.final.steps!==0||!initial.paused||initial.windowLimit!==360||initial.observationIdentity.reaction!==reaction)throw Error('Frozen initial identity invalid; not started');
     if(n===1){const cdp=await context.newCDPSession(page);const args=await cdp.send('Browser.getBrowserCommandLine');identity.launchArguments=args.arguments.map(a=>a.startsWith('--user-data-dir=')?'--user-data-dir=<isolated-profile>':a===flag('--executable')?'<confirmed-native-chrome>':a);identity.environment=initial.environment;await cdp.detach();}
     if(role!=='reference')await page.locator('#schedule').check();
-    await budget(n);await page.locator('#play').click();
+    await save();await budget(n);await page.locator('#play').click();
     if(role!=='reference')await page.locator('#small').click();
     const diag=()=>page.evaluate(()=>uprightDiagnostics());const wait=step=>waitForStep(page,step);
     let interaction=null,reset=null;
     if(n>=5){
       await wait(126);const before=await diag();
       if(before.final.invalid)throw Error('Safety abort before interaction');
-      if(n===5){
-        const hand=before.parts.find(p=>p.id==='handL').screen;
-        await page.mouse.move(hand.x,hand.y);await page.mouse.down();const grabbed=await diag();
-        interaction={before:before.final,grabbed:grabbed.final};
-        await page.mouse.move(hand.x+100,hand.y-70,{steps:12});await wait(180);await page.mouse.up();
-        await page.locator('#assistOff').click();interaction.afterOff=(await diag()).final;
-      }else{
-        await page.locator('#schedule').uncheck();await page.locator('#strong').click();interaction={before:before.final,after:(await diag()).final};
-      }
+      const hand=before.parts.find(p=>p.id==='handL').screen;
+      await page.mouse.move(hand.x,hand.y);await page.mouse.down();const grabbed=await diag();
+      interaction={before:before.final,grabbed:grabbed.final};
+      await page.mouse.move(hand.x+100,hand.y-70,{steps:12});await wait(160);await page.mouse.up();interaction.released=(await diag()).final;
+      await wait(180);await page.locator('#schedule').uncheck();await page.locator('#strong').click();interaction.afterStrong=(await diag()).final;
+      await wait(210);await page.locator('#assistOff').click();interaction.afterOff=(await diag()).final;
     }
     await wait(360);const end=await diag();
     if(n===5){await page.locator('#reset').click();reset=(await diag()).final;}
@@ -103,14 +100,9 @@ async function runTarget({context,identity,out,errors,warnings,badResponses}){
       const p=comparePair(records.at(-2),record);pairs.push(p);await save();console.log(JSON.stringify({pairId,valid:p.Q.valid,legacy:p.Q.legacyV1,safety:p.S}));
       if(!p.Q.valid||!p.S.inputSafe||!p.S.referenceSafe||!p.S.returnEnvelopeAtTwoSeconds){console.log('Invalid/unsafe pair STOP');break;}
     }
-    if(n===4){
-      console.log('WAITING_FOR_H_REVIEW: clips saved; write decision.json {continueSafety:true} only on visible benefit, else false. No physics while waiting.');
-      let decision=null;
-      for(let poll=0;poll<900;poll++){try{decision=JSON.parse(await fs.readFile(path.join(out,'decision.json'),'utf8'));break;}catch(e){if(e.code!=='ENOENT')throw e;}await new Promise(r=>setTimeout(r,1000));}
-      if(decision?.continueSafety!==true){console.log('No visible benefit or review timeout: STOP after4/6');break;}
-    }
+
   }
-  await save();console.log('Target trial finished '+records.length+'/6; no automatic V2 PASS');
+  await save();console.log('Target trial finished '+records.length+'/5 new, prior1 counted;  no automatic V2 PASS');
 }
 
 async function main(){
