@@ -19,12 +19,20 @@ local JSON path if the MCP working directory is uncertain. Restart the Codex
 session/MCP after changing its launch configuration; an already running Edge
 session does not become Chrome. Confirm browser identity before navigating.
 
-The production test:browser and lab:browser harnesses read the same JSON, or
-GOBLIN_BROWSER_CONFIG for an isolated worktree. Missing config, mismatching legacy
-executable override, or missing sibling launcher fails instead of falling back.
-Visible mode is the default; GOBLIN_HEADED_BROWSER=0 explicitly requests headless
-for checks where native visibility is not required. Historical evidence files
-keep their original browser labels and are not retroactively Chrome evidence.
+The supported commands `npm run test:browser` and `npm run lab:browser` invoke
+`scripts/chrome-browser-qa.cjs` first. This fail-closed launcher reads the same
+ignored JSON (or `GOBLIN_BROWSER_CONFIG` for an isolated worktree), rejects a
+missing or conflicting executable, and supplies only the verified Chrome Portable
+path to the archived browser fixtures. It clears legacy software-rendering flags.
+The original `tests/browser-smoke.cjs` and `tests/standing-browser.cjs` stay
+**byte-identical to their historically pinned SmallTilt79 sources**; do not run
+them directly for current Chrome QA and do not update frozen source hashes. The
+game browser smoke uses the archived headless Playwright launch with the explicitly
+selected portable binary; the Standing browser script is started visibly through
+this launcher. Native visibility acceptance always uses the separate headed
+observer/manual check. No browser substitution on missing configuration. Historical
+evidence files keep their original browser labels and are not retroactively
+Chrome evidence.
 
 For each acceptance, record actual executable/process, file version/hash, CDP
 Browser.getVersion, isolated profile and control method, plus deployed build SHA.
