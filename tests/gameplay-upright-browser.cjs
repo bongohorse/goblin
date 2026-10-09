@@ -6,6 +6,7 @@ const flag=name=>{const i=process.argv.indexOf(name);return i<0?null:process.arg
 const url='http://127.0.0.1:4174/goblin/gameplay/upright/';
 const yielding=process.argv.includes('--run-approved-yield');
 const targetTrial=process.argv.includes('--run-approved-target');
+const returnTrial=process.argv.includes('--run-approved-return');
 const v2=process.argv.includes('--run-approved-v2');
 const waitForStep=(page,step)=>page.waitForFunction(s=>uprightDiagnostics().final.steps>=s||uprightDiagnostics().final.invalid,step,{timeout:30000});
 const p95=a=>a.length?a.slice().sort((a,b)=>a-b)[Math.ceil(a.length*.95)-1]:null;
@@ -105,11 +106,83 @@ async function runTarget({context,identity,out,errors,warnings,badResponses}){
   await save();console.log('Target trial finished '+records.length+'/5 new, prior1 counted;  no automatic V2 PASS');
 }
 
+async function returnPreflight(){
+  const {execFileSync}=require('node:child_process');
+  const revision=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  if(flag('--revision')!==revision)throw Error('Explicit source-head mismatch; no run');
+  execFileSync('git',['diff','--exit-code','HEAD','--','src','scripts','tests','vite.gameplay.config.js','package-lock.json']);
+  const {main:capability}=await import('../scripts/execution-preflight.mjs');
+  await capability(['--url',url,'--dist','dist-gameplay','--entry','gameplay/upright/index.html','--executable',flag('--executable'),'--video']);
+  const walk=async dir=>{const entries=await fs.readdir(dir,{withFileTypes:true});return (await Promise.all(entries.map(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]))).flat();};
+  const files=await walk('dist-gameplay');
+  for(const file of files){
+    const relative=path.relative('dist-gameplay',file).split(path.sep).join('/');
+    if(relative.endsWith('.map'))continue;
+    const response=await fetch('http://127.0.0.1:4174/goblin/'+relative,{signal:AbortSignal.timeout(5000),redirect:'error'});
+    if(!response.ok||!Buffer.from(await response.arrayBuffer()).equals(await fs.readFile(file)))throw Error('Required lazy/build asset missing or differs: '+relative);
+  }
+  console.log('Return preflight: source clean, direct/lazy build assets and native recording capability confirmed; zero steps.');
+}
+
+async function runReturn({context,identity,out,errors,warnings,badResponses}){
+  const {RETURN_TRIALS}=await import('../src/gameplay/upright-return-protocol.js');
+  const {analyzeReturn}=await import('../scripts/gameplay-upright-return-analysis.mjs');
+  const {waitForStep:checkedWait}=await import('../scripts/execution-checks.mjs');
+  const records=[],checks=[];let started=0,completed=0;
+  const saveBudget=()=>fs.writeFile(path.join(out,'budget.json'),JSON.stringify({started,completed,maxStarts:6,maxSeconds:12,plan:RETURN_TRIALS}));
+  const save=()=>fs.writeFile(path.join(out,'results.json'),JSON.stringify({version:'T1-return-R1',identity,records,checks,errors,warnings,badResponses,analysis:analyzeReturn(records),budget:{started,completed,maxStarts:6,maxSeconds:12}}));
+  await saveBudget();await save();
+  for(const [index,plan] of RETURN_TRIALS.entries()){
+    const n=index+1,page=await context.newPage(),video=page.video();let end=null;
+    page.on('pageerror',e=>errors.push({number:n,message:e.message}));
+    page.on('console',m=>{if(m.type()==='error')errors.push({number:n,message:m.text()});if(m.type()==='warning')warnings.push({number:n,message:m.text()});});
+    page.on('response',r=>{if(r.status()>=400)badResponses.push({number:n,url:r.url(),status:r.status()});});
+    try{
+      await page.goto(url+'?reaction=T1&yield=B&return='+plan.returnProfile+'&observe=return');
+      await page.waitForFunction(()=>window.uprightDiagnostics&&window.uprightArmTrial);await page.bringToFront();
+      await page.locator('#reset').click();
+      const initial=await page.evaluate(()=>uprightDiagnostics());
+      const hash=async file=>crypto.createHash('sha256').update(await fs.readFile(file)).digest('hex');
+      if(initial.build.revision!==flag('--revision'))throw Error('Built source-head differs; no start');
+      for(const [key,file] of Object.entries({scene_sha256:'src/gameplay/upright-scene.js',session_sha256:'src/gameplay/upright-session.js',controller_sha256:'src/gameplay/upright-assist.js',comparison_sha256:'src/gameplay/upright-comparison.js',return_sha256:'src/gameplay/upright-return.js'}))if(initial.build[key]!==await hash(file))throw Error('Built source hash differs: '+key);
+      for(const [file,value] of Object.entries(initial.build.physics_sha256))if(value!==await hash(file))throw Error('Built physics source differs: '+file);
+      if(initial.final.steps!==0||!initial.paused||initial.pending!==null||initial.trial!==null||initial.final.grab.active||initial.pointerId!==null||initial.final.invalid||initial.observationIdentity.returnProfile!==plan.returnProfile||initial.trace[0].observation.controller.targetStart!==null)throw Error('Paused Step0/input/pending/config invalid; no start');
+      await checkedWait(page,0,()=>uprightDiagnostics().final.steps,1000);
+      const input=await page.evaluate(()=>{
+        const handlers=['play','small','strong','assistOff','reset'].every(id=>typeof document.getElementById(id)?.onclick==='function');
+        document.querySelector('canvas').dispatchEvent(new PointerEvent('pointerdown',{isPrimary:true,button:0,pointerId:1,bubbles:true}));
+        return {handlers,pausedButtons:document.getElementById('small').disabled&&document.getElementById('strong').disabled,after:uprightDiagnostics()};
+      });
+      if(!input.handlers||!input.pausedButtons||input.after.final.steps!==0||JSON.stringify(input.after.final)!==JSON.stringify(initial.final)||input.after.pending!==null||input.after.pointerId!==null)throw Error('Stepfree input/observer smoke altered initial state');
+      checks.push({number:n,build:initial.build,stepfree:true,stepsBefore:0,stepsAfter:0,paused:true,pending:null,handlers:true,pausedInputGuard:true});
+      if(n===1){const cdp=await context.newCDPSession(page);const args=await cdp.send('Browser.getBrowserCommandLine');identity.launchArguments=args.arguments.map(a=>a.startsWith('--user-data-dir=')?'--user-data-dir=<isolated-profile>':a===flag('--executable')?'<confirmed-native-chrome>':a);identity.environment=initial.environment;await cdp.detach();}
+      await page.evaluate(p=>uprightArmTrial(p),plan);
+      const armed=await page.evaluate(()=>uprightDiagnostics());
+      if(armed.final.steps!==0||!armed.paused||armed.pending!==null||JSON.stringify(armed.final)!==JSON.stringify(initial.final)||armed.trial.id!==plan.id)throw Error('Stepfree arming altered state');
+      await save();started++;await saveBudget();
+      console.log('Return start '+n+'/6 '+plan.id+' limit='+plan.durationSteps);
+      await page.locator('#play').click();
+      await page.waitForFunction(()=>{const s=uprightStepState();return s.paused&&s.steps>0;},null,{timeout:45000});
+      end=await page.evaluate(()=>uprightDiagnostics());
+      const record={id:plan.id,number:n,role:n===1?'reference':n<=3?'input':'safety',identity:{...end.observationIdentity,build:end.build,environment:end.environment,viewport:end.viewport},camera:end.observationCamera,initial:initial.final,final:end.final,trace:end.trace,events:end.events,trial:end.trial};
+      if(n===5){await page.locator('#reset').click();record.reset=await page.evaluate(()=>uprightDiagnostics());}
+      records.push(record);if(end.final.steps===plan.durationSteps&&!end.final.invalid)completed++;
+      await page.screenshot({path:path.join(out,'sequence-'+n+'.png')});await saveBudget();await save();
+      console.log(JSON.stringify({number:n,steps:end.final.steps,events:end.trial.outcomes.map(e=>({kind:e.kind,step:e.actualStep,applied:e.applied,error:e.error})),invalid:end.final.invalid}));
+      if(end.final.invalid||record.trace.some(t=>t.maxAnchorError>.15)||errors.length||badResponses.length){console.log('Common technical/safety STOP, no replacement');break;}
+      if(n===3&&!analyzeReturn(records).valid){console.log('Invalid common reference pairing STOP, no replacement');break;}
+    }catch(error){errors.push({number:n,message:error.message,started:started>=n});await save();await saveBudget();throw error;}
+    finally{await page.close();if(video)await video.saveAs(path.join(out,'sequence-'+n+'.webm'));}
+  }
+  await save();await saveBudget();console.log('Return protocol complete, '+started+'/6 starts; no automatic gameplay PASS.');
+}
+
 async function main(){
-  if(!process.argv.includes('--run-approved-eight')&&!yielding&&!v2&&!targetTrial)throw Error('Explicit eight-sequence flag required. Never run through npm test.');
+  if(!process.argv.includes('--run-approved-eight')&&!yielding&&!v2&&!targetTrial&&!returnTrial)throw Error('Explicit approved-sequence flag required. Never run through npm test.');
   const executable=flag('--executable');if(!executable)throw Error('Confirmed native Chrome executable required.');
   const out=path.resolve(flag('--out')||'');if(!flag('--out'))throw Error('Fresh output directory required.');
   await fs.mkdir(out); // No overwrite/retry after budget expenditure.
+  if(returnTrial)await returnPreflight();
   const profile=await fs.mkdtemp(path.join(os.tmpdir(),'goblin-B-native-'));
   const ignored=['--disable-background-timer-throttling','--disable-backgrounding-occluded-windows','--disable-renderer-backgrounding'];
   const context=await chromium.launchPersistentContext(profile,{executablePath:executable,headless:false,
@@ -122,6 +195,7 @@ async function main(){
     os:os.platform()+' '+os.release()+' '+os.arch(),cpu:os.cpus()[0].model,headless:false,viewport:{width:1280,height:720},dpr:1,
     ignoredDefaultArgs:ignored};
   try{
+    if(returnTrial){await runReturn({context,identity,out,errors,warnings,badResponses});return;}
     if(targetTrial){await runTarget({context,identity,out,errors,warnings,badResponses});return;}
     if(v2){await runV2({context,identity,out,errors,warnings,badResponses});return;}
     // Keep the initial blank tab alive: closing the last tab terminates a persistent Chrome window.

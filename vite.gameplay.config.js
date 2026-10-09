@@ -11,6 +11,7 @@ export default defineConfig({
     session_sha256:hash('src/gameplay/upright-session.js'),
     controller_sha256:hash('src/gameplay/upright-assist.js'),
     comparison_sha256:hash('src/gameplay/upright-comparison.js'),
+    return_sha256:hash('src/gameplay/upright-return.js'),
     physics_sha256:Object.fromEntries(['src/gameplay/upright-assist.js','src/goblin-rig.js','src/grab.js','src/runtime.js','src/labs/standing/motors.js','src/labs/standing/math.js','package-lock.json'].map(path=>[path,hash(path)]))
   })},
   plugins:[{name:'v2-read-only-evidence',generateBundle(){

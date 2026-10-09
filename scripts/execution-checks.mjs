@@ -18,14 +18,7 @@ export async function waitForStep(page, step, readSteps, timeout = 30000) {
 }
 
 // Policy is supplied by the frozen protocol, never derived from a desired result.
-export function requireEventPreconditions(event, observed, policy) {
-  integer(policy.step, 'planned step');
-  integer(observed.step, 'observed step');
-  if (observed.step !== policy.step) throw Error(`${event}: missed planned step; do not apply late or retry`);
-  if (observed.invalid !== false) throw Error(`${event}: safety state not confirmed valid`);
-  if (policy.upright && observed.upright !== true) throw Error(`${event}: upright figure required`);
-  if (policy.activeTarget && observed.activeTarget !== true) throw Error(`${event}: active target required`);
-}
+export {requireEventPreconditions} from './execution-event-checks.mjs';
 
 // Compare served HTML AND its referenced assets to the explicitly selected local build.
 // This works on main and PR builds without changing historical provenance or Vite inputs.

@@ -1,6 +1,7 @@
 import {FixedClock} from '../runtime.js';
 import {rotate, jointObservation} from '../labs/standing/math.js';
 import {POINT_IDS} from './upright-comparison.js';
+import {requireEventPreconditions} from '../../scripts/execution-event-checks.mjs';
 
 // Exact archived B, not another assist candidate. No sliders or tuning.
 export const CONFIG_B=Object.freeze({id:'B',stiffness:40,damping:2,max_torque_Nm:20,
@@ -47,7 +48,7 @@ export class UprightSession {
   event(kind,detail={}){this.events.push({kind,step:this.sim.steps,time:this.sim.steps/60,...detail});}
   reset(options){
     this.sim.reset(options);this.clock.reset();this.paused=true;this.pending=null;
-    this.trace=[];this.events=[];this.lastRun=null;this.event('manual-reset',{options});this.capture();
+    this.trace=[];this.events=[];this.lastRun=null;this.trial=null;this.event('manual-reset',{options});this.capture();
   }
   pause(reason='pause'){
     this.sim.grab.cancel(reason);this.sim.interrupt(reason);this.paused=true;this.clock.reset();this.pending=null;
@@ -70,6 +71,50 @@ export class UprightSession {
       deltaVelocity:delta(body.linvel(),before.velocity),deltaAngularVelocity:delta(body.angvel(),before.angularVelocity)});
     return true;
   }
+  armTrial({id,durationSteps,actions}){
+    if(!this.paused||this.sim.steps!==0||this.pending!==null||this.trial||this.sim.grab.active)throw Error('Trial requires fresh paused Step0 without pending input/grab');
+    if(typeof id!=='string'||!Number.isInteger(durationSteps)||durationSteps<1||durationSteps>720||!Array.isArray(actions))throw Error('Invalid trial window');
+    let previous=-1;
+    for(const action of actions){
+      if(!['small','strong','grab','move','release','off'].includes(action.kind)||!Number.isInteger(action.step)||action.step<=previous||action.step>=durationSteps||action.step<0)throw Error('Invalid trial input/step');
+      if(action.kind==='move'&&(!action.offset||!['x','y','z'].every(k=>Number.isFinite(action.offset[k]))||length(action.offset)>.25))throw Error('Invalid trial drag');
+      if(action.kind==='grab'&&action.body!=='handL')throw Error('Invalid trial body');
+      if(!action.policy||action.policy.step!==action.step)throw Error('Invalid trial policy');
+      previous=action.step;
+    }
+    this.windowLimit=durationSteps;this.trial={id,actions:structuredClone(actions),outcomes:[],next:0};
+  }
+  applyTrialEvents(){
+    const plan=this.trial,sim=this.sim;if(!plan)return;
+    while(plan.next<plan.actions.length&&plan.actions[plan.next].step<=sim.steps){
+      const action=plan.actions[plan.next++],before=sim.snapshot(),m=before.metrics;
+      const observed={step:sim.steps,invalid:before.invalid!==null,
+        upright:before.assisted&&before.state==='ASSISTED_READY'&&!before.grab.active&&m.pelvisHeight>=.95&&m.pelvisHeight<=1.25&&m.pelvisTilt<=Math.PI/12&&m.torsoTilt<=Math.PI/12&&
+          m.feet.every(f=>f.distance!==null&&f.distance<=.03)&&m.feet.some(f=>f.distance!==null&&f.distance<=.005)&&!m.nonFootFloor.length,
+        activeTarget:sim.targetStart!==null&&['RISE','HOLD','RETURN'].includes(before.targetAssist.phase)};
+      const outcome={kind:action.kind,plannedStep:action.step,actualStep:sim.steps,observed,before,applied:false};
+      try{
+        requireEventPreconditions(action.kind,observed,action.policy);
+        if(action.kind==='small'||action.kind==='strong')this.push(action.kind==='strong');
+        else if(action.kind==='off'){sim.interrupt('manual-assist-off');this.event('assist-off');}
+        else if(action.kind==='grab'){
+          const body=sim.rig.byId.get(action.body).body,point={...body.translation()};
+          if(!sim.beginGrab(body,point,sim.steps/60))throw Error('API grip refused');
+          this.event('grab-begin',{body:action.body,point,input:'step-scheduled ContactGrab API'});
+          plan.gripPoint=point;
+        }else if(action.kind==='move'){
+          if(!sim.grab.active||!plan.gripPoint)throw Error('No active grip for move');
+          sim.grab.move(Object.fromEntries(['x','y','z'].map(k=>[k,plan.gripPoint[k]+action.offset[k]])),sim.steps/60);
+          this.event('grab-move',{offset:action.offset,input:'step-scheduled ContactGrab API'});
+        }else if(action.kind==='release'){
+          if(!sim.grab.active)throw Error('No active grip for release');
+          sim.grab.release(sim.steps/60);this.event('grab-release',{release:sim.grab.diagnostics.lastRelease});
+        }
+        outcome.applied=true;
+      }catch(error){outcome.error=error.message;this.event('trial-event-rejected',{action:action.kind,plannedStep:action.step,error:error.message});}
+      outcome.after=sim.snapshot();plan.outcomes.push(outcome);
+    }
+  }
   capture(){
     const s=this.sim.snapshot(),torso=s.parts.find(p=>p.id==='torso'),pelvis=s.parts.find(p=>p.id==='pelvis');
     const commands=this.audit?[...this.audit.ledger.values()]:[];
@@ -89,6 +134,7 @@ export class UprightSession {
   tick(now){
     this.clock.advance(now,this.paused,()=>{
       if(this.paused)return;
+      this.applyTrialEvents();
       if(this.pending!==null&&this.sim.steps===120){const strong=this.pending;this.pending=null;this.push(strong);}
       this.sim.step();this.capture();
       if(this.sim.invalid){this.finish('safety');return;}
@@ -98,7 +144,7 @@ export class UprightSession {
   finish(reason='observation-end'){
     this.lastRun=this.report();this.pause(reason);
   }
-  report(){return {config:CONFIG_B,windowLimit:this.windowLimit,paused:this.paused,
+  report(){return {config:CONFIG_B,windowLimit:this.windowLimit,paused:this.paused,pending:this.pending,trial:structuredClone(this.trial),
     final:this.sim.snapshot(),trace:structuredClone(this.trace),events:structuredClone(this.events)};}
   dispose(){this.pause('destroy');this.audit?.dispose();this.sim.dispose();}
 }

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import R from '@dimforge/rapier3d-compat';
-import {UprightSlice} from './upright-assist.js';
+import {UprightReturnSlice} from './upright-return.js';
 import {CONFIG_B,UprightSession} from './upright-session.js';
 import {pickBody} from '../grab.js';
 import './upright.css';
@@ -11,9 +11,15 @@ try{
   await R.init();
   const yieldProfile=new URLSearchParams(location.search).get('yield')||'B';
   const reaction=new URLSearchParams(location.search).get('reaction')||'B';
-  const sim=new UprightSlice({config:CONFIG_B,yieldProfile,reaction}),session=new UprightSession(sim);
+  const returnProfile=new URLSearchParams(location.search).get('return')||'legacy';
+  const sim=new UprightReturnSlice({config:CONFIG_B,yieldProfile,reaction,returnProfile}),session=new UprightSession(sim);
   // V2 changes only the observation duration; same B/controller/step path.
   if(new URLSearchParams(location.search).get('observe')==='v2'){session.windowLimit=360;document.querySelector('details p:last-child').textContent='V2: maximal 6 s, dann Pause; keine Gameplay-Abnahme.';}
+  if(new URLSearchParams(location.search).get('observe')==='return'){
+    session.windowLimit=720;
+    document.querySelector('details p:last-child').textContent='Rückkehrdiagnose: maximal 12 s; nur vorab armierte Schritte, keine vollständige Gameplay-Abnahme.';
+    window.uprightArmTrial=plan=>session.armTrial(plan);
+  }
   const canvas=document.querySelector('canvas'),view=$('view');
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
   renderer.setClearColor(0x152832);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
@@ -86,12 +92,13 @@ try{
   const gl=renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');
   const environment={userAgent:navigator.userAgent,platform:navigator.platform,dpr:devicePixelRatio,renderDpr:renderer.getPixelRatio(),
     backend:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),webgl:gl.getParameter(gl.VERSION)};
-  function report(){return {build,environment,observationIdentity:{mass:sim.mass,dt:1/60,nativeTimestep:sim.world.timestep,config:sim.config,yieldProfile:sim.yieldProfile,reaction:sim.reaction,gravity:{...sim.world.gravity},sources:build.physics_sha256},
+  function report(){return {build,environment,observationIdentity:{mass:sim.mass,dt:1/60,nativeTimestep:sim.world.timestep,config:sim.config,yieldProfile:sim.yieldProfile,reaction:sim.reaction,returnProfile:sim.returnProfile,returnSource:build.return_sha256,gravity:{...sim.world.gravity},sources:build.physics_sha256},
     observationCamera:{position:camera.position.toArray(),quaternion:camera.quaternion.toArray(),fov:camera.fov,projection:camera.projectionMatrix.toArray(),view:camera.matrixWorldInverse.toArray(),canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},...session.report(),lastPhysicsState:session.trace.at(-1)?.state,frameIntervals:frameIntervals.slice(),stepCosts:stepCosts.slice()};}
   window.uprightDiagnostics=()=>({...report(),pointerId,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation())})),blockScreen:project({x:1.35,y:1,z:0})});
   window.uprightTrace=()=>({build,environment,...(session.lastRun||session.report())});
+  window.uprightStepState=()=>({steps:sim.steps,paused:session.paused,invalid:sim.invalid});
   $('export').onclick=()=>{const blob=new Blob([JSON.stringify(report(),null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='goblin-B-step-trace.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),0);};
-  $('identity').textContent='Build '+build.revision.slice(0,12)+' · Controller '+build.controller_sha256.slice(0,12);
+  $('identity').textContent='Build '+build.revision.slice(0,12)+' · Controller '+build.controller_sha256.slice(0,12)+' · Return '+returnProfile;
   for(const id of ['play','reset','assistOff','export'])$(id).disabled=false;
   function suspend(){if(!session.paused)pause(document.hidden?'hidden':'blur');else cancelPointer('suspend');lastFrame=null;}
   addEventListener('blur',suspend);
