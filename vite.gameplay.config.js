@@ -17,6 +17,9 @@ export default defineConfig({
     const evidence='docs/development/gameplay-upright-v2-evidence.json.gz';
     if(existsSync(evidence))this.emitFile({type:'asset',fileName:'v2-evidence.json.gz',source:readFileSync(evidence)});
     for(let n=1;n<=4;n++){const file='docs/development/gameplay-upright-media/v2-'+n+'.webm';if(existsSync(file))this.emitFile({type:'asset',fileName:'gameplay/upright/v2-media/sequence-'+n+'.webm',source:readFileSync(file)});}
+    const targetEvidence='docs/development/gameplay-upright-target-finish-evidence.json.gz';
+    if(existsSync(targetEvidence))this.emitFile({type:'asset',fileName:'target-finish-evidence.json.gz',source:readFileSync(targetEvidence)});
+    for(let n=1;n<=5;n++){const file='docs/development/gameplay-upright-media/target-'+n+'.webm';if(existsSync(file))this.emitFile({type:'asset',fileName:'gameplay/upright/t1-media/sequence-'+n+'.webm',source:readFileSync(file)});}
   }}],
   server:{host:'127.0.0.1',port:5174,strictPort:true},
   preview:{host:'127.0.0.1',port:4174,strictPort:true},

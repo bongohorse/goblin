@@ -1,5 +1,7 @@
 import {comparePair,POINT_IDS} from './upright-comparison.js';
 const $=id=>document.getElementById(id);
+const dataset=new URLSearchParams(location.search).get('evidence')==='t1'?'t1':'v2';
+if(dataset==='t1')document.querySelector('h1+p').textContent='Gespeicherter B/T1-Vergleich · unveränderter Kandidat · keine laufende Physik · keine vollständige Gameplay-Abnahme.';
 let data,result,videoGeneration=0;
 const clipUrls=new Map();
 addEventListener('pagehide',()=>{for(const url of clipUrls.values())URL.revokeObjectURL(url);});
@@ -33,7 +35,7 @@ function showPair(){
     video.removeAttribute('src');
     if(record&&Number.isInteger(record.number)&&record.number>=1&&record.number<=4){
       // The local preview has no byte-range endpoint. Blob playback supports seeking without changing the server.
-      fetch('./v2-media/sequence-'+record.number+'.webm').then(async response=>{
+      fetch('./'+dataset+'-media/sequence-'+record.number+'.webm').then(async response=>{
         if(!response.ok)throw Error('Clip '+response.status);const blob=await response.blob();
         if(generation!==videoGeneration)return;const url=URL.createObjectURL(blob);clipUrls.set(role,url);video.src=url;
       }).catch(error=>{if(generation===videoGeneration)$('status').textContent='Clipdaten: '+error.message;});
@@ -43,7 +45,7 @@ function showPair(){
 }
 function load(value){
   if(!Array.isArray(value.records))throw Error('V2 records fehlen');
-  data=value;const ids=[...new Set(data.records.map(r=>r.pairId))];$('pair').replaceChildren();
+  data=value;const ids=[...new Set(data.records.filter(r=>r.pairId).map(r=>r.pairId))];$('pair').replaceChildren();
   for(const id of ids){const option=document.createElement('option');option.value=id;option.textContent=id;$('pair').append(option);}
   showPair();window.uprightComparison=()=>({version:'V2',pairId:result.pairId,valid:result.Q.valid,legacy:result.Q.legacyV1,safety:result.S,simulation:false});
 }
@@ -51,5 +53,5 @@ $('pair').onchange=showPair;$('step').oninput=showRow;
 $('play').onclick=async()=>{try{await Promise.all(['reference','input'].map(id=>{$(id).playbackRate=1;return $(id).play();}));}catch(error){$('status').textContent='Clip-Wiedergabe: '+error.message;}};
 $('pause').onclick=()=>['reference','input'].forEach(id=>$(id).pause());
 $('file').onchange=async()=>{try{const file=$('file').files[0];if(file)load(await decode(await file.arrayBuffer(),file.name.endsWith('.gz')));}catch(error){$('status').textContent=error.message;}};
-try{const response=await fetch('../../v2-evidence.json.gz');if(!response.ok)throw Error('Noch kein V2-Rohbeleg im Build. Ergebnisdatei auswählen.');load(await decode(await response.arrayBuffer(),true));}
+try{const response=await fetch('../../'+(dataset==='t1'?'target-finish-evidence.json.gz':'v2-evidence.json.gz'));if(!response.ok)throw Error('Noch kein V2-Rohbeleg im Build. Ergebnisdatei auswählen.');load(await decode(await response.arrayBuffer(),true));}
 catch(error){$('status').textContent=error.message;}

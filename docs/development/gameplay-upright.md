@@ -1,3 +1,80 @@
+# T1-Restversuch abgeschlossen — sichtbarer Nutzen, Abklingen/Sicherheitsumfang offen (09.10.2026)
+
+[Vorabplanung des Restbudgets](https://github.com/bongohorse/goblin/issues/94#issuecomment-6073366540), [ursprünglicher T1-Vertrag](https://github.com/bongohorse/goblin/issues/94#issuecomment-6073175691), [V2](https://github.com/bongohorse/goblin/issues/94#issuecomment-6072689640). **Empfehlung: nachbessern; kein vollständiger Gameplay-Pass.** Genau derselbe T1-Kandidat, keine Parameteränderung.
+
+## Budget / Quellen / technische Fehler
+
+**Kumulativ6/6 gestartet:1 historischer technischer Abbruch +5/5 erfolgreiche Restläufe à6s.** B-R/B-P, T1-R/T1-P und kombinierte Sicherheit. Keine Wiederholung oder zusätzlicher Lauf,30s neue Simulationszeit. Der ursprüngliche Fehler zählt weiter; sein Protokoll/Clips und alle historischen FAILs bleiben erhalten. Kein weiterer Tool-/Runnerfehler im Restversuch.
+
+Aufnahmehead **d07acb8d15ef9ce086ff13a76b804a30d8d248f2**, PR-Branch isoliert. Controller/Session/Scene/V2-Math sowie Rig/Grab/FixedClock/Lock bytegleich zu eca7221; nur Runner an die ausdrücklich freigegebenen fünf Starts angepasst. Danach nur gespeicherte Belege, Viewer-Zugang, Tests und Bericht. B-Gains/Caps, T1-Zielkurve6°/6+12+42Steps und Originalimpulse unverändert. Beide Paare vollständige Steps0–360; Vorlauf0–120 identisch, beide Idlewelten auch körperlich identisch. Q stepgleich, kein Baselineshifting.
+
+[Rohdaten mit getrenntem Q/H/S und Budget](gameplay-upright-target-finish-evidence.json.gz), [historischer technischer Fehler unverändert](gameplay-upright-target-evidence.json). Fünf native Clips unter gameplay-upright-media/target-1.webm bis target-5.webm. Unannotierte lokale Originaldaten bleiben unter browser-observation-target-finish-20261009/results.json, deren SHA256 im Beleg. Annotation verändert keine native Messzahl.
+
+## Q — gerichtete Bewegung und Rückkehr
+
+| Größe, P−R | B | T1 |
+|---|---:|---:|
+| Kopf +X-Maximum2–4s |+8,711mm|+75,863mm beiStep152/t2,533s|
+| Torso +X-Maximum |+5,448mm|+41,660mm bei156/t2,600s|
+| Becken +X-Maximum |+4,131mm|+29,351mm bei160/t2,667s|
+| FußL +X-Maximum |+0,270mm|+0,242mm|
+| FußR +X-Maximum |+3,514mm|+8,534mm|
+| Gerichtete Torso-Neigung Δβ max |+0,24011°|+2,54458° bei149/t2,483s|
+| Legacy-V1 Peak-minus-Vorwert |0,44243° **FAIL**|2,52300° **PASS nur dieser neue T1-Lauf**|
+| Torso-Δv-RMS Antwort/letzte0,5s/Nachfenster |0,02932/0,00824/0,00547m/s|0,10799/0,09411/0,04040m/s|
+
+T1-Rückschwingen Kopf−38,215mm, Torso−34,122mm. Ziel abStep180/t3s exakt neutral. Bei t4s innerhalb bisherigem aufrechten Bereich: Becken1,11825m, Torso0,10722°, Becken0,25269°, beide Füße geometrisch Bodenberührung, keine Nicht-Fuß-Stütze. Trotzdem Torso-Geschwindigkeitsdifferenz dort≈0,09712m/s; keine Behauptung vollständigen Stillstands/Abklingens aus dem Haltungsbereich.
+
+Nachfenster: sinkende RMS, aber Restbewegung/Fußgleiten; bei t6s Torso−7,315mm, Kopf−6,215mm, FußL−30,453mm, FußR+18,886mm in+X gegenüber R. Gesamter V2-Verlauf samt Quer-/Höhenkomponenten, relativen Bezugspunkten und Projektionen im Rohbeleg. Kein neuer mm-/Geschwindigkeitsgrenzwert oder Gameplay-Score. Alter B-Verlauf exakt reproduziert; alte A/B/C/Y1/Y2-FAILs nicht umgewertet.
+
+## H — Agenten-Sichtprüfung, keine Nutzerabnahme
+
+Native ChromePortable156.0.8078.4,1280×720/DPR1; bestehendes Canvas940×720, Kamera(3,8;2,7;6),FOV36°. T1-Eingabeclip zuerst allein in Originalgröße1× ohne Zoom/Marker; anschließend Referenz in demselben Bildmaßstab um HUD2,55/2,57s.25fps-Clip ist kein Bild jedes60Hz-Steps; exakte Paarzeit gilt für Q, H nutzt nächstliegende native Bilder und normale Wiedergabe. Keine Timeline-Grafik oder Hittext als Sichtbarkeitserfolg.
+
+1. **Ja:** zwischen HUD2,0–2,6s eigene kurze Kopf-/Oberkörperneigung und Versatz sichtbar; deutlich gegenüber zuvor schwachem B.
+2. **Ja:** Ausschlag mit+X und ruhiger Idle-Referenz vereinbar; Zahlen unterstützen Richtung, keine Kameraverstärkung.
+3. **Unklar:** Oberkörper sichtbar zurück aufrecht, aber fortgesetzte Bewegung/gleitende Füße im Nachfenster; kein überzeugend abgesicherter vollständig kontrollierter Abschluss binnen2s.
+
+B bleibt historisch nein/unklar/unklar; quantitativ gleiche native Trajektorie, kein nachträglicher Pass. T1 somit **kein vollständiger V2-Pass**, weil H3 offen. Menschlicher Nutzer-Spieltest fehlt ausdrücklich.
+
+## S — kleine Paare und kombinierter Sicherheitslauf
+
+Alle vier kleinen R/P-Läufe: unterstützt aufrecht, keine Nonfinite-/Fall-/Nicht-Fuß-Bodenverletzung, maxAnker5,300mm. Original0,4Ns angewendet, gleiche native ΔvX≈0,200000008m/s. Commandcaps eingehalten, maximale beobachtete Up-Torque5,501Nm bei unverändertem20Nm-Cap. Kontaktbeobachtung ist keine Fußlast-/Standingmessung.
+
+| Kombinierte Eingabe | Geplant abStep | Tatsächlich | Befund |
+|---|---:|---:|---|
+| HandL-Griff |126|153/t2,55s|T1 noch RETURN,4,25073° Ziel; sofort OFF, Kräfte/Torques/Motoren0, motionUnchanged |
+| Release |160|193/t3,217s|Keine Altreaktivierung; vorhandener Wurf8,729m/s |
+| Stark3,2Ns |180|237/t3,95s|Originalimpuls angewendet, native ΔvX1,600000083m/s; Figur schon im Fall |
+| Assist AUS |210|284/t4,733s|Bleibt OFF, keine alten Kräfte/Motorziele |
+| Reset |nach360|pausiertStep0|Pose/Velocity exakt wie Anfang, TargetNEUTRAL,15Bodies/14Joints, kein aktiver Griff |
+
+**Timinggrenze:** native Bedien-/Diagnoseoperationen trafen27–74Steps später ein, nicht nur wenige Steps. Keine nachträgliche Kurven-/Zeitkorrektur oder Wiederholung. Griff ist trotzdem im aktiven Zielverlauf belegt; weiterführende Fristfragen offen. Nicht-Fuß-Bodenkontakt zuerstStep219/t3,65s bereits **vor** Stark. Deshalb kein kausaler Nachweis „starker Schubser verursacht Fall“; nach Stark nur2,05s restliches Fenster. MaxAnker18,917mm, kein invalid. Nach Griff durchgehend0Native-Worldkräfte/torques und0aktive Motorachsen bis360, alle Interruptaudits22Motorbefehle0/motionUnchanged.
+
+Reset übernimmt weiterhin das alte ContactGrab.lastRelease-Diagnosefeld. Es ist historischer Releasebericht, kein aktiver Griff/Timer; nicht als vollständig gelöschte Diagnose behaupten. Physikzustand reproduziert, Zielstart gelöscht durch unveränderten Reset, stepfreie Tests bestätigen dies.
+
+**Offen:** eigenständiger Stark-Fall und Stark-Unterbrechung aktiven T1-Ziels; Assist AUS während aktivem Ziel; Balance-lost/Blockkontakt während T1; Kopf/Fußgriff, Hindernis, Hidden/Touch/15s/Performance/solverinterne Kräfte. Kombinierter Lauf ersetzt keine ganze #94-Matrix.
+
+## Prüfung / Umwelt / lokaler Zugang
+
+Gezielte neue Stored-/Buildprüfung: kumulative6Starts einschließlich Fehler, zwei gültige vollständige Paare, eingefrorene Quellhashes, neutraler Zielabschluss, vollständige Off-Befehle und Resetgleichheit; keine world.step-Neuserie. Belege/5Clips werden nur im isolierten Gameplaybuild ausgegeben. Historischer Viewerdefault bleibt alte B-Daten; T1 per festem Datensatzlink. Normale Arena/Forschung unverändert. Finaler Test-/Build-/Head-CI-Nachweis steht im Issue-Ergebnis und PR; Selbstreview des vollständigen Diffs.
+
+Vorhandener Prozesszugang und Repository-FFmpeg-Cache funktionieren,0neue technische Abbrüche. Frühere Helper-/FFmpeg-/Runnerfehler bleiben dokumentiert, keine globale Reparatur/Fremdprozess. UI-Latenz im kombinierten Lauf oben als Messgrenze, nachBudget kein weiterer Reparaturversuch mit Simulation. Keine allgemeine Performance-/Hardware-/Standingfreigabe. Nutzeränderungen/Index erhalten.
+
+**Gespeicherte B/T1-Paare (keine Physik):** http://127.0.0.1:4174/goblin/gameplay/upright/comparison.html?evidence=t1
+
+Paar B/T1 wählen → Q/Legacy/S und getrennte H-Antworten → Messstep → Clips nach HUD ausrichten,1× ansehen. Für Sichtbarkeit Eingabeclip in Originalgröße, verkleinerte Kacheln kein Ersatz. Sicherheitsclip: http://127.0.0.1:4174/goblin/gameplay/upright/t1-media/sequence-5.webm
+
+**Eigener pausierter Spieltest:** http://127.0.0.1:4174/goblin/gameplay/upright/?reaction=T1&yield=B&observe=v2 ; Referenz reaction=B. Start → Klein bei2s → Zielphase → Hand/Stark/Assist AUS → manueller Reset. Agent startet keine weitere Simulation.
+
+## Klare Empfehlung und STOPP
+
+**Nachbessern:** T1 liefert sichtbar mehr gerichtete Reaktion, aber kontrolliertes Abklingen ist nicht ausreichend belegt. Der einzelne nächste fachliche Hebel wäre die Rückkehr-/Abklingphase, bevor Integration oder weitere Features diskutiert werden. Hier keine Änderung, zweite Variante, Parametersuche oder automatische Vertragsrevision. Offene Sicherheitsbefunde nicht als Pass ausgeben. Kein vollständiger Gameplay-/Standing-/Performanceerfolg oder bestätigte Nutzer-Spielgefühlabnahme.
+
+**PR bleibt Draft, kein Merge/Deployment/Aufstehen/Folgepaket.6/6 Starts verbraucht; vollständig STOPP.**
+
+---
+
 # T1 — begrenzter Aufrichtzielversuch: technischer STOP (09.10.2026)
 
 [Vorabvertrag](https://github.com/bongohorse/goblin/issues/94#issuecomment-6073175691). Freigegeben war genau T1, kein Sweep. **Nicht spielerisch abgenommen; keine gültigen V2-Paare.** B bleibt Default, alle historischen FAILs unverändert. PR95 bleibt Draft.
