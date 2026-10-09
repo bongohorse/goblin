@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import R from '@dimforge/rapier3d-compat';
 import {createUprightRun} from './upright-run.js';
 import {pickBody} from '../grab.js';
-import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {PlaygroundCameras,CAMERA_VIEWS} from './playground-cameras.js';
 import {optionsFromSearch,variantOptions,variantId} from './upright-variants.js';
 import {PlaygroundFeedback} from './playground-feedback.js';
 import './upright.css';
@@ -32,25 +32,8 @@ try{
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
   renderer.setClearColor(0x152832);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
   const scene=new THREE.Scene();
-  const camera=new THREE.PerspectiveCamera(36,1,.1,40);
+  let camera=new THREE.PerspectiveCamera(36,1,.1,40),controls=null,cameraViews=null;
   camera.position.set(3.8,2.7,6);camera.lookAt(.35,1.05,0);
-  const controls=playground?new OrbitControls(camera,canvas):null;
-  if(controls){
-    controls.target.set(.35,1.05,0);controls.enablePan=false;controls.minDistance=3;controls.maxDistance=14;
-    controls.maxPolarAngle=Math.PI/2-.03;
-    controls.mouseButtons.LEFT=null;controls.mouseButtons.RIGHT=THREE.MOUSE.ROTATE;
-    controls.touches.ONE=null;controls.touches.TWO=THREE.TOUCH.DOLLY_ROTATE;controls.update();
-    controls.saveState();
-    $('cameraReset').onclick=()=>controls.reset();
-    $('side').onclick=()=>{camera.position.set(0,1.6,7);controls.target.set(0,1,0);controls.update();};
-    $('cameraMode').onchange=()=>{
-      const rotate=$('cameraMode').checked;
-      if(sim.grab.active){$('cameraMode').checked=false;return;}
-      controls.mouseButtons.LEFT=rotate?THREE.MOUSE.ROTATE:null;
-      controls.touches.ONE=rotate?THREE.TOUCH.ROTATE:null;
-    };
-    canvas.addEventListener('contextmenu',ev=>ev.preventDefault());
-  }
   scene.add(new THREE.HemisphereLight(0xe6ffef,0x31444c,2.2));
   const light=new THREE.DirectionalLight(0xffffff,2.4);light.position.set(-3,6,4);scene.add(light);
   const resources=[],meshes=new Map();
@@ -68,9 +51,23 @@ try{
       s.type==='ball'?new THREE.SphereGeometry(s.radius,16,12):new THREE.BoxGeometry(s.half.x*2,s.half.y*2,s.half.z*2);
     meshes.set(spec.id,mesh(g,spec.id.startsWith('foot')?feetMaterial:material));
   }
+  function figureBounds(){sync();const bounds=new THREE.Box3();for(const m of meshes.values())bounds.expandByObject(m);return bounds;}
+  if(playground){
+    cameraViews=new PlaygroundCameras(canvas,figureBounds());camera=cameraViews.camera;controls=cameraViews.controls;
+    const selectCamera=mode=>{
+      if(sim.grab.active){$('cameraViewStatus').textContent='Ansicht gesperrt: zuerst den Körpergriff loslassen.';return;}
+      cameraViews.select(mode);camera=cameraViews.camera;controls=cameraViews.controls;update();
+    };
+    for(const [id,mode] of Object.entries({cameraPerspective:'perspective',cameraFront:'front',side:'side',cameraTop:'top'}))$(id).onclick=()=>selectCamera(mode);
+    $('cameraReset').onclick=()=>{if(!sim.grab.active)cameraViews.reset();};
+    $('cameraFrame').onclick=()=>{if(!sim.grab.active)cameraViews.frame(figureBounds());};
+    $('cameraMode').onchange=()=>{if(sim.grab.active){$('cameraMode').checked=cameraViews.navigation;return;}cameraViews.setNavigation($('cameraMode').checked);};
+    canvas.addEventListener('contextmenu',ev=>ev.preventDefault());
+    const axes=new THREE.AxesHelper(1.15);axes.setColors(0xff5148,0x58df70,0x4b9eff);axes.position.y=.025;scene.add(axes);resources.push(axes.geometry,axes.material);
+  }
   let pointerId=null,lastFrame=null,lastHitToken=null,frameIntervals=[],stepCosts=[];
   const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2(),dragPlane=new THREE.Plane(),dragPoint=new THREE.Vector3();
-  function ray(ev){const r=canvas.getBoundingClientRect();pointer.set((ev.clientX-r.left)/r.width*2-1,-((ev.clientY-r.top)/r.height*2-1));raycaster.setFromCamera(pointer,camera);}
+  function ray(ev){const r=canvas.getBoundingClientRect();pointer.set((ev.clientX-r.left)/r.width*2-1,-((ev.clientY-r.top)/r.height*2-1));camera.updateMatrixWorld(true);raycaster.setFromCamera(pointer,camera);}
   function cancelPointer(reason){
     const id=pointerId;pointerId=null;sim.grab.cancel(reason);
     if(controls)controls.enabled=true;
@@ -157,7 +154,10 @@ try{
       session.pauseContext.kind==='observation'?(session.pauseContext.reason==='timer-end'?'Timer erreicht · Zustand erhalten · Fortsetzen möglich':'Beobachtung pausiert · Zustand erhalten'):'Frischer Run · Start erforderlich'):
       'Simulation läuft · Pause erhält den Zustand';
     if(playground){
-      for(const id of ['cameraMode','cameraReset','side'])$(id).disabled=sim.grab.active;
+      for(const id of ['cameraMode','cameraReset','cameraFrame','cameraPerspective','cameraFront','side','cameraTop'])$(id).disabled=sim.grab.active;
+      $('cameraViewStatus').textContent=sim.grab.active?'Ansicht gesperrt: zuerst den Körpergriff loslassen.':CAMERA_VIEWS[cameraViews.mode].label+' · '+(camera.isOrthographicCamera?'orthografisch':'perspektivisch');
+      $('hint').textContent=cameraViews.navigation?(camera.isOrthographicCamera?'Kamera verschieben · zwei Finger zum Verschieben und Zoomen':'Kamera drehen · zwei Finger zum Verschieben und Zoomen'):'Körperteil anfassen und ziehen · Loslassen zum Werfen';
+      for(const [id,mode] of Object.entries({cameraPerspective:'perspective',cameraFront:'front',side:'side',cameraTop:'top'}))$(id).setAttribute('aria-pressed',String(cameraViews.mode===mode));
       $('feedbackExport').disabled=!feedback.marker;
       const state={SETTLING:'Einpendeln',ASSISTED_READY:'Aufrecht mit Hilfe',DYNAMIC:'Freie Dynamik',DOWN:'Am Boden',STOPPED:'Sicherheitsstopp'};
       $('status').textContent=(session.paused?'Pausiert':'Läuft')+' · '+(state[sim.state]||sim.state)+' · Schritt '+sim.steps+' · '+(sim.steps/60).toFixed(2)+' s Simulationszeit · '+String(session.speed).replace('.',',')+'×';
@@ -177,9 +177,10 @@ try{
   const gl=renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');
   const environment={userAgent:navigator.userAgent,platform:navigator.platform,dpr:devicePixelRatio,renderDpr:renderer.getPixelRatio(),
     backend:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),webgl:gl.getParameter(gl.VERSION)};
-  function browserContext(){return {environment,run_controls:{speed:session.speed,timerReached:session.timerReached},camera:{position:camera.position.toArray(),quaternion:camera.quaternion.toArray(),fov:camera.fov},viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}}};}
+  function cameraSnapshot(){return cameraViews?cameraViews.snapshot():{position:camera.position.toArray(),quaternion:camera.quaternion.toArray(),fov:camera.fov,projection:camera.projectionMatrix.toArray(),view:camera.matrixWorldInverse.toArray()};}
+  function browserContext(){return {environment,run_controls:{speed:session.speed,timerReached:session.timerReached},camera:cameraSnapshot(),viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}}};}
   function report(){camera.updateMatrixWorld(true);return {build,environment,observationIdentity:{mass:sim.mass,dt:1/60,nativeTimestep:sim.world.timestep,config:sim.config,yieldProfile:sim.yieldProfile,reaction:sim.reaction,returnProfile:sim.returnProfile,returnSource:build.return_sha256,gravity:{...sim.world.gravity},sources:build.physics_sha256},
-    observationCamera:{position:camera.position.toArray(),quaternion:camera.quaternion.toArray(),fov:camera.fov,projection:camera.projectionMatrix.toArray(),view:camera.matrixWorldInverse.toArray(),canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},...session.report(),lastPhysicsState:session.trace.at(-1)?.state,frameIntervals:frameIntervals.slice(),stepCosts:stepCosts.slice()};}
+    observationCamera:{...cameraSnapshot(),canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},...session.report(),lastPhysicsState:session.trace.at(-1)?.state,frameIntervals:frameIntervals.slice(),stepCosts:stepCosts.slice()};}
   window.uprightDiagnostics=()=>({...report(),runIdentity:identity(),rendererMemory:{...renderer.info.memory},pointerId,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation())})),blockScreen:project({x:1.35,y:1,z:0})});
   window.uprightTrace=()=>({build,environment,...(session.lastRun||session.report())});
   window.uprightStepState=()=>({steps:sim.steps,paused:session.paused,invalid:sim.invalid});
@@ -193,7 +194,7 @@ try{
   let width=0,height=0;
   function render(ms){
     const w=view.clientWidth,h=view.clientHeight;
-    if(w!==width||h!==height){width=w;height=h;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+    if(w!==width||h!==height){width=w;height=h;renderer.setSize(w,h,false);if(cameraViews)cameraViews.resize(w,h);else{camera.aspect=w/h;camera.updateProjectionMatrix();}}
     if(!playground&&!session.paused&&lastFrame!==null)frameIntervals.push(ms-lastFrame);
     lastFrame=ms;
     const before=sim.steps,start=performance.now();session.tick(ms/1000);
@@ -203,6 +204,6 @@ try{
   }
   sync();update();renderer.setAnimationLoop(render);
   let disposed=false;
-  function dispose(){if(disposed)return;disposed=true;renderer.setAnimationLoop(null);cancelPointer('destroy');controls?.dispose();session.dispose();for(const r of resources)r.dispose();renderer.dispose();}
+  function dispose(){if(disposed)return;disposed=true;renderer.setAnimationLoop(null);cancelPointer('destroy');cameraViews?.dispose();session.dispose();for(const r of resources)r.dispose();renderer.dispose();}
   addEventListener('pagehide',dispose,{once:true});
 }catch(error){console.error(error);$('status').textContent='Initialisierung fehlgeschlagen: '+error.message;}
