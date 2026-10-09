@@ -579,3 +579,26 @@ The Issue77 proposal was preregistered with clean harness7534e4e473b0371d4e54da5
 Own75 fresh worlds/18330 steps from clean PR80 head5aa32acc5d4b71d4f5abc6b2d3bceee88da28669 exactly reproduce every original run object, without tuning/pilot or extra study worlds. Independent matrix/atan2/PD/encoding/spin+orbitalH/terminal/matched-reaction calculations support only the prescribed two-body local_smalltilt_supported decision. Additional evidence: On transient partner speed peaks at34.242619879418996rad/s although final maximum is0.8537436605789117rad/s;2870/9000 On PRE pair powers are positive,2915 On energy increments positive. Encoded axial component is tiny but nonzero. These are descriptive limitations, not new pass bounds or precision certification.
 
 The stored-data review found and fixed a missing per-prefix matched-negative stop check (P2), and strengthened historical source-build identity checking in the current review/archive entry (P3); original frozen runner/reader/model/protocol and all100+40 manifest entries retained. No physics/messcode change or further measurement. Research-only merge recommendation depends on final actual-head CI, with93 local tests/build green; full report and lossless reproduction in [review81/README.md](standing-lab/review81/README.md), Issue81/PR80. Same assistant self-review explicitly disclosed. No Standing/get-up/FullRig/general controller release; #60 remains open. A next bounded FullRig-torso comparison is only a handoff: preregister secondary criteria, pose-motor condition and physical torque distribution before any next execution.
+
+
+## Issue83: bounded FullRig comparison plan (2026-10-08)
+
+**HYPOTHESIS / UNEXECUTED PLAN.** PR80 integrated and live accepted under
+2abd3db7a339666a6ca0fc1d5618712cd4d6f09c, but SmallTilt success remains local.
+[Versioned plan](standing-lab/fullrig83/protocol.md) selects exactly torso/pelvis
+equal-and-opposite direct moments through the existing spine; relative roll/yaw
+are constrained, not newly actuated DOFs. New conservative inertia/input-derived
+PD/cap values do not transfer1.34/.15 automatically. Existing ForceBased100/12/20Nm
+neutral targets retain sole pose ownership; separate motor-free one-step controls
+and paired360-step motorized behavior,90 planned worlds/14450 steps, five fresh
+repeats, real command faults and explicit first-blocker chronology. No worlds or
+controller were implemented/run here.
+
+Secondary segment peaks, anchors/limits, foot support/loads, yaw/COM/foot drift
+and paired torso response are frozen before measurement. Partnerpeak34.2426rad/s
+versus finalmax.853744rad/s remains a warning; unknown native effort and external
+contact/gravity/damping mean energy/H are descriptive. Plan readiness authorizes
+no execution: [separate handoff](standing-lab/fullrig83/execution-handoff.md) requires
+explicit new order, reviewed implementation and clean preregistered source/config/
+protocol/IDs before allocation1. No tuning/Standing/FullRig/general controller
+release; #60/#30/#31 remain open.

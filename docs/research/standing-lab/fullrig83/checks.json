@@ -1,0 +1,231 @@
+{
+  "schema_version": 1,
+  "kind": "documentation_and_pure_planning_checks_no_world",
+  "base_commit": "2abd3db7a339666a6ca0fc1d5618712cd4d6f09c",
+  "new_worlds": 0,
+  "new_physics_steps": 0,
+  "planned_worlds": 90,
+  "planned_step_max": 14450,
+  "checks": {
+    "unique_ids": true,
+    "ordinals": true,
+    "repeats_each_case": [
+      {
+        "condition": "free32",
+        "case": "null",
+        "variant": "off",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "free32",
+        "case": "null",
+        "variant": "on",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "free32",
+        "case": "yaw",
+        "variant": "off",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "free32",
+        "case": "yaw",
+        "variant": "on",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "off",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "free32",
+        "case": "pitch",
+        "variant": "on",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "free32",
+        "case": "roll",
+        "variant": "off",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "free32",
+        "case": "roll",
+        "variant": "on",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "fb32",
+        "case": "null",
+        "variant": "off",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "fb32",
+        "case": "null",
+        "variant": "on",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "fb32",
+        "case": "yaw",
+        "variant": "off",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "fb32",
+        "case": "yaw",
+        "variant": "on",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "fb32",
+        "case": "pitch",
+        "variant": "off",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "fb32",
+        "case": "pitch",
+        "variant": "on",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "fb32",
+        "case": "roll",
+        "variant": "off",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "condition": "fb32",
+        "case": "roll",
+        "variant": "on",
+        "repeats": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    ],
+    "budget": true,
+    "relative_links": true,
+    "source_pins": true,
+    "canonical_note_append_only": true,
+    "historical_manifest_entries": 149,
+    "smalltilt_source_pins": 91,
+    "docs_only": true,
+    "diff_check": true
+  },
+  "build": "N/A documentation/static plan only; no build-relevant change",
+  "browser": "N/A unexecuted planning",
+  "tests": "no new tests for prose; no local physics/regression worlds",
+  "manifest_counts": {
+    "torso-torque60": 5,
+    "finite-step66": 9,
+    "review68": 14,
+    "target-study52": 22,
+    "gate-b72": 12,
+    "actuation74": 10,
+    "actuation75": 11,
+    "review77-manifest": 4,
+    "review77": 13,
+    "smalltilt79": 40,
+    "review81": 9
+  }
+}
