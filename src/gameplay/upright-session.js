@@ -39,13 +39,14 @@ export function auditCommands(sim,onInterrupt){
 }
 
 export class UprightSession {
-  constructor(sim,{audit=true}={}){
+  constructor(sim,{audit=true,record=true}={}){
+    this.record=record;
     this.sim=sim;this.clock=new FixedClock();this.paused=true;this.windowLimit=600;
     this.trace=[];this.events=[];this.pending=null;this.lastRun=null;
     this.audit=audit?auditCommands(sim,event=>this.events.push(event)):null;
     this.reset({assisted:true,obstacle:false});
   }
-  event(kind,detail={}){this.events.push({kind,step:this.sim.steps,time:this.sim.steps/60,...detail});}
+  event(kind,detail={}){if(this.record)this.events.push({kind,step:this.sim.steps,time:this.sim.steps/60,...detail});}
   reset(options){
     this.sim.reset(options);this.clock.reset();this.paused=true;this.pending=null;
     this.trace=[];this.events=[];this.lastRun=null;this.trial=null;this.event('manual-reset',{options});this.capture();
@@ -116,6 +117,7 @@ export class UprightSession {
     }
   }
   capture(){
+    if(!this.record)return;
     const s=this.sim.snapshot(),torso=s.parts.find(p=>p.id==='torso'),pelvis=s.parts.find(p=>p.id==='pelvis');
     const commands=this.audit?[...this.audit.ledger.values()]:[];
     this.trace.push({step:s.steps,time:s.time,state:s.state,reason:s.reason,assisted:s.assisted,upAssist:s.upAssist,targetAssist:s.targetAssist,
@@ -134,12 +136,22 @@ export class UprightSession {
   tick(now){
     this.clock.advance(now,this.paused,()=>{
       if(this.paused)return;
-      this.applyTrialEvents();
-      if(this.pending!==null&&this.sim.steps===120){const strong=this.pending;this.pending=null;this.push(strong);}
-      this.sim.step();this.capture();
-      if(this.sim.invalid){this.finish('safety');return;}
-      if(this.sim.steps>=this.windowLimit)this.finish('window-limit');
+      this.advanceStep();
     });
+  }
+  advanceStep(){
+    if(this.sim.invalid||this.sim.steps>=this.windowLimit)return false;
+    this.applyTrialEvents();
+    if(this.pending!==null&&this.sim.steps===120){const strong=this.pending;this.pending=null;this.push(strong);}
+    this.sim.step();this.capture();
+    if(this.sim.invalid)this.finish('safety');
+    else if(this.sim.steps>=this.windowLimit)this.finish('window-limit');
+    return true;
+  }
+  singleStep(){
+    if(!this.paused)return false;
+    this.clock.reset();this.paused=false;
+    try{return this.advanceStep();}finally{this.paused=true;}
   }
   finish(reason='observation-end'){
     this.lastRun=this.report();this.pause(reason);

@@ -1,3 +1,11 @@
+# Goblin Playground — persönlicher Testzugang (09.10.2026)
+
+Der vorhandene R1-Slice ist gemäß letzter Produktentscheidung auf #94 ein vorläufiger lokaler Gameplay-Meilenstein. Weitere Physikoptimierung beendet; vollständige Abnahme und Fußdrift bleiben offen. [Bedienung, gemeinsame Implementierung und Prüfung](goblin-playground.md): **http://127.0.0.1:4174/goblin/playground/**, Dev **http://127.0.0.1:5174/playground/**. R1 als gemeinsamer vorläufiger Szenenstandard; B/T1 über klare Auswahl, historische explizite URLs unverändert. Kein Merge, Deployment oder Aufstehen; Draft #95 bleibt Draft. Nutzer testet selbst, anschließend Feedback abwarten.
+
+Die nachfolgenden Berichte und ursprünglichen Empfehlungen sind historische Ergebnisse mit ihren jeweiligen Aufnahmeidentitäten; ihre Daten/FAILs wurden nicht umgewertet.
+
+---
+
 # R1-R?ckkehrversuch abgeschlossen ? Teilverbesserung, kein Abkling-Pass
 
 Aktueller [R1-Bericht mit sechs Starts und offenen Kriterien](gameplay-upright-return-results.md), [eingefrorene Planung](gameplay-upright-return-plan.md). Empfehlung nachbessern; Draft #95 bleibt offen. Nachfolgender historischer T1-Bericht und s?mtliche FAILs unver?ndert erhalten.
