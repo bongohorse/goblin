@@ -1,6 +1,19 @@
 # Goblin Playground
 
-Persönliches lokales Testlab für den vorhandenen assistierten Gameplay-Prototyp, Refs #88/#94, Draft-PR #95. R1 ist vorläufiger Standard. Bekannte Fußdrift und die offene vollständige Abnahme bleiben sichtbar; kein Aufstehen und keine Nutzerabnahme.
+Persönliches lokales Testlab für den vorhandenen assistierten Gameplay-Prototyp, Refs #88/#94/#99. R1 ist vorläufiger Standard. Bekannte Fußdrift und die offene vollständige Abnahme bleiben sichtbar; kein Aufstehen und keine Nutzerabnahme.
+
+## Freier Lauf, Zeitlupe und frischer Reset (#99)
+
+Der Playground läuft standardmäßig ohne Simulationszeitlimit und ohne kontinuierliche Aufnahme. Pause, Marker und Einzelschritt bleiben verfügbar, auch nach 10 oder 60 Sekunden. Numerische Safety bleibt unabhängig davon wirksam. Das ist kein Standing-Erfolgsnachweis.
+
+- **Geschwindigkeit:** 0,25×, 0,5× oder 1× wirkt sofort auf Simulationsfortschritt pro Wandzeit. Der normale Physikschritt bleibt 1/60 s (Rapier liest dessen Float32-Darstellung zurück). Pause und Geschwindigkeitswechsel verwerfen Clock-Reste; kein Nachholen von Wartezeit. Einzelschritt führt bei jeder Geschwindigkeit genau einen normalen Step aus.
+- **Timer:** standardmäßig aus. Wahl von 10/30/60 s gilt erst nach Reset oder Variantenwechsel. Die Anzeige nennt den tatsächlich aktiven Run-Timer. Er pausiert einmal beobachtend bei der gewählten Simulationszeit; Einzelschritt und Fortsetzen sind danach möglich. Ein aktiver Griff erfordert weiterhin einen ausdrücklich benannten Sicherheitsabbruch. Export enthält die aktive Laufpolitik und die Geschwindigkeit am Marker.
+- **Reset:** alte Session samt Griffanker und World freigeben, dann neue Session/World über denselben Initialisierungspfad wie beim Start und Variantenwechsel. Neue Run-ID; Pointerbindung, Pending-Inputs, Marker, Notizen und laufgebundene Daten gelöscht. Variante, Geschwindigkeit, Timerwahl und Kamera bleiben; Hilfe/Testblock werden nach den bestehenden Resetoptionen initialisiert. Ein vorher ausgeschalteter Assist wird durch Pause/Step/Resume niemals reaktiviert.
+- **Historische Runner:** explizite 6/10/12-s-Fenster und terminale Safety-Endsemantik bleiben erhalten. Nur der Playground wählt die freie Sessionpolitik; `observe`-URLparameter können dort kein historisches Ersatzlimit aktivieren. Kein Controller-/Preset-/Forschungsdatenumbau.
+
+Aktuellen `origin/main` in einem sauberen Arbeitsbaum oder isolierten Worktree verwenden, `npm ci`, normalen Build und `node node_modules/vite/bin/vite.js build --config vite.gameplay.config.js` ausführen. Lokaler Produktionszugang und Buildidentität siehe unten. Ein Merge veröffentlicht den separaten Playgroundbuild nicht automatisch. Keine weitere P0-Feedbackrunde als Voraussetzung. Nach #99 STOPP; #100/Kameras wird nicht automatisch begonnen.
+
+<details><summary>Historisches P0-Testprotokoll vor #99 (keine aktuelle Ausbauvoraussetzung)</summary>
 
 ## Spieler-Testprotokoll – P0 (09.10.2026, keine zusätzliche Implementierung)
 
@@ -41,6 +54,8 @@ node scripts/gameplay-upright-preview.cjs
 
 **STOPP nach Nutzerbeobachtung:** Feedback auswerten und **einen** eng begrenzten nächsten Gameplay-Hebel empfehlen. Kein Umbau von R1, Kamera, Reglern, Ghost/Replay, Forschung, Gate #15 oder Server-/CI-Infrastruktur durch diese Anleitung.
 
+</details>
+
 ## Zugang und Bedienung
 
 - Dev: `node node_modules/vite/bin/vite.js --config vite.gameplay.config.js`, strikt Port 5174, **http://127.0.0.1:5174/playground/**.
@@ -48,7 +63,7 @@ node scripts/gameplay-upright-preview.cjs
 - Bereits laufende fremde Server erhalten. Nach Sourceänderungen den eigenen Devserver neu starten: Buildmetadaten werden beim Laden der Vite-Konfiguration erzeugt. Für den Nutzertest den frisch gebauten Preview bevorzugen.
 
 1. B, T1 oder R1 wählen. Jeder Variantenwechsel erzeugt eine neue Simulation mit pausiertem Schritt 0 und neuer Runbindung. B: vorhandene Haltungshilfe ohne zusätzliche Zielreaktion; T1: vorhandene Zielreaktion; R1: T1 mit vorhandener sanfterer Rückkehr.
-2. Start, dann kleiner/starker Schubser oder direkt am Körper ziehen. Loslassen nutzt den bisherigen Wurfvertrag. Nach 10 simulierten Sekunden pausiert das bestehende Fenster; neuer Versuch mit Reset.
+2. Start, dann kleiner/starker Schubser oder direkt am Körper ziehen. Loslassen nutzt den bisherigen Wurfvertrag. Standardmäßig frei laufen; optionalen Timer vor einem frischen Run wählen. Timerende erhält den Zustand und erlaubt Fortsetzen. Geschwindigkeit 0,25×/0,5×/1× gilt sofort.
 3. **Pause ist eine Beobachtungspause:** Assistzustand, Motorbefehle, Reaktionsphase, Zielverlauf und vorgemerkte Schrittinputs bleiben erhalten. Fortsetzen holt keine Wandzeit nach. Einzelschritt ist genau ein tatsächlicher 1/60-s-Schritt im selben Pfad und endet wieder pausiert. Während Pause können keine neuen Schubser/Griffe oder Pointerbewegungen aufgestaut werden.
    **Ausnahme aktiver Griff:** Pause/Markieren bricht ihn ausdrücklich als Sicherheitsstopp ab, ohne Wurf. Griff, starker Schubser, Sicherheitsstopp, Escape und Fokus-/Tabverlust schalten Hilfen aus; auch bei bereits beobachtungspausiertem Run. Fortsetzen schaltet sie nicht wieder ein. Nur Reset schaltet die gewählten Hilfen erneut ein. Bewusstes „Hilfe jetzt ausschalten“ ist eine getrennte Aktion.
 4. Unter Kamera drehen/zoomen, Seitenansicht oder Kamera-Reset. Rechte Maustaste/Mausrad bzw. zwei Finger; optional ein Finger/linke Taste zum Kameradrehen statt Greifen.
