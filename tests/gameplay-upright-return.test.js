@@ -7,6 +7,8 @@ import {UprightSession,CONFIG_B} from '../src/gameplay/upright-session.js';
 import {analyzeReturn} from '../scripts/gameplay-upright-return-analysis.mjs';
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
+import {createHash} from 'node:crypto';
+import {RETURN_TRIALS} from '../src/gameplay/upright-return-protocol.js';
 await R.init();
 // Synthetic counters/native command reads, zero world.step calls.
 test('R1 preserves all rise/hold samples and uses one bounded, smooth, exact-deadline return',()=>{
@@ -19,6 +21,29 @@ test('R1 preserves all rise/hold samples and uses one bounded, smooth, exact-dea
   }
   assert.deepEqual(returnAtStep(90),targetAtStep(60));assert.deepEqual(returnAtStep(720),targetAtStep(60));
   assert.ok(returnAtStep(19).angle-returnAtStep(20).angle<targetAtStep(19).angle-targetAtStep(20).angle);
+});
+
+test('stored six-start R1 evidence preserves budget, exact event guards, interruption, reset and negative settling result',()=>{
+  const r=JSON.parse(gunzipSync(fs.readFileSync('docs/development/gameplay-upright-return-evidence.json.gz')));
+  assert.deepEqual(r.budget,{started:6,completed:6,maxStarts:6,maxSeconds:12});
+  assert.equal(r.records.reduce((sum,t)=>sum+t.final.steps,0),3840);
+  assert.deepEqual([r.errors,r.warnings,r.badResponses],[[],[],[]]);
+  assert.equal(r.checks.length,6);assert.ok(r.checks.every(c=>c.stepfree&&c.stepsBefore===0&&c.stepsAfter===0&&c.pausedInputGuard));
+  r.records.forEach((t,i)=>{
+    const plan=RETURN_TRIALS[i];assert.equal(t.id,plan.id);assert.equal(t.final.steps,plan.durationSteps);
+    assert.equal(t.trace.length,plan.durationSteps+1);assert.ok(t.trace.every((p,n)=>p.step===n&&!p.invalid&&p.maxAnchorError<=.15));
+    assert.equal(t.trial.outcomes.length,plan.actions.length);
+    t.trial.outcomes.forEach((o,j)=>{const a=plan.actions[j];assert.equal(o.kind,a.kind);assert.equal(o.applied,true);assert.equal(o.actualStep,a.step);assert.equal(o.observed.invalid,false);if(a.policy.upright)assert.equal(o.observed.upright,true);if(a.policy.activeTarget)assert.equal(o.observed.activeTarget,true);});
+    for(const e of t.events.filter(e=>e.kind==='interrupt')){assert.equal(e.motionUnchanged,true);assert.equal(e.nativeMotorCommands.length,22);assert.ok(e.nativeMotorCommands.every(c=>c.cap===0&&c.stiffness===0&&c.damping===0));}
+    const clip=r.provenance.clips[i];assert.equal(createHash('sha256').update(fs.readFileSync('docs/development/gameplay-upright-media/return-'+(i+1)+'.webm')).digest('hex'),clip.sha256);
+  });
+  for(const [i,step] of [[3,150],[4,150],[5,120]])assert.ok(r.records[i].trace.filter(t=>t.step>step).every(t=>!t.assisted&&t.activeMotorAxes===0&&t.maxWorldForce===0&&t.maxWorldTorque===0&&t.observation.controller.targetStart===null));
+  const reset=r.records[4].reset;assert.equal(reset.final.steps,0);assert.equal(reset.paused,true);assert.equal(reset.pending,null);assert.equal(reset.trial,null);assert.equal(reset.final.grab.active,false);assert.deepEqual(reset.final.parts,r.records[4].initial.parts);assert.deepEqual(reset.final.counts,r.records[4].initial.counts);
+  assert.equal(r.records[5].trace.find(t=>t.metrics.nonFootFloor.length).step,172);
+  const analysis=analyzeReturn(r.records);assert.deepEqual(analysis,r.analysis);
+  assert.deepEqual(analysis.comparison,{lowerReturnRms:true,lowerAfterRms:true,noLateRmsGrowth:true,noLateAmplitudeGrowth:false});
+  const old=JSON.parse(gunzipSync(fs.readFileSync('docs/development/gameplay-upright-target-finish-evidence.json.gz'))).records[3];
+  for(let n=0;n<=360;n++)assert.deepEqual(r.records[1].trace[n].observation,old.trace[n].observation,'historical legacy body/controller state Step'+n);
 });
 test('B and idle T1 remain identical; R1 interruptions/reset cannot restore targets or motion-write',()=>{
   for(const reaction of ['B','T1']){

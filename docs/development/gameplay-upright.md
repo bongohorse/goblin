@@ -1,3 +1,9 @@
+# R1-R?ckkehrversuch abgeschlossen ? Teilverbesserung, kein Abkling-Pass
+
+Aktueller [R1-Bericht mit sechs Starts und offenen Kriterien](gameplay-upright-return-results.md), [eingefrorene Planung](gameplay-upright-return-plan.md). Empfehlung nachbessern; Draft #95 bleibt offen. Nachfolgender historischer T1-Bericht und s?mtliche FAILs unver?ndert erhalten.
+
+---
+
 # T1-Restversuch abgeschlossen — sichtbarer Nutzen, Abklingen/Sicherheitsumfang offen (09.10.2026)
 
 [Vorabplanung des Restbudgets](https://github.com/bongohorse/goblin/issues/94#issuecomment-6073366540), [ursprünglicher T1-Vertrag](https://github.com/bongohorse/goblin/issues/94#issuecomment-6073175691), [V2](https://github.com/bongohorse/goblin/issues/94#issuecomment-6072689640). **Empfehlung: nachbessern; kein vollständiger Gameplay-Pass.** Genau derselbe T1-Kandidat, keine Parameteränderung.
