@@ -26,6 +26,8 @@ async function main(){
 
 
     if(process.argv.includes('--issue113')){
+      assert.equal(await page.locator('#phaseStatus').evaluate(async e=>{let changes=0;const observer=new MutationObserver(()=>changes++);observer.observe(e,{childList:true,subtree:true,characterData:true});await new Promise(resolve=>setTimeout(resolve,200));observer.disconnect();return changes;}),0,'paused animation frames do not repeat live announcements');
+      assert.equal(await page.locator('#stepStatus').getAttribute('aria-hidden'),'true');
       const closePanels=()=>page.locator('aside > details').evaluateAll(es=>es.forEach(e=>e.open=false));
       const fits=()=>page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,safety:document.getElementById('safetyStop').getBoundingClientRect().toJSON(),stage:document.getElementById('view').getBoundingClientRect().toJSON()}));
       await closePanels();await page.screenshot({path:path.join(out,'editor-desktop.png')});let bounds=await fits();assert.equal(bounds.overflow,false);assert.ok(bounds.stage.width>=990);assert.ok(bounds.safety.bottom<150);

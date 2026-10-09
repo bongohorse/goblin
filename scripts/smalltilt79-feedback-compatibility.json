@@ -1,7 +1,13 @@
 {
   "reviewed_head": "b3440544520a8792694b177c3637b26906343115",
-  "scope": "Exact reviewed feedback integration, not physics equivalence or Standing acceptance",
+  "arena_ui_review": "Issue #113 / PR #115 against ffd78071beb613a98dabda908f01e2241176d47f; original ledger and archived measurements unchanged",
+  "scope": "Exact reviewed feedback integration plus #113 English Arena UI/QA (DOM strings, accessibility and fixture timing); not physics equivalence or Standing acceptance",
   "files": {
+    "index.html": "df837e38e2a60361497e861d852a5898ab7b32491efff190bcd02c8b0a23effd",
+    "src/main.js": "d213fd9ea202d9f3820204cc1556b4141c8be458bb0228036b8e4ee57cec0062",
+    "src/rig-debug.js": "fcd1b02c540de2f29065eb7655156612cdb1e0f6f5a51dac77ae7f381ea7ee6f",
+    "src/style.css": "992746fc434d692ef30202ee033670de2559650f4c845953b05607e118215985",
+    "tests/browser-smoke.cjs": "fc22b3958b7dd662f4a04cae5beb2ce5735f6ca8701603af5e4559dfaa838da0",
     "labs/standing/index.html": "2e2cb916c2c73d988f84528181858c8852f8d684d833799976c65d96eb34cec3",
     "src/labs/standing/browser.js": "ede6195dc04069348d15998c3bcf79db313ab206255f4144c6d8d932adf7bfa1",
     "src/labs/standing/style.css": "c19e56177505a375f914066269c7be981da49ff321dc714e6a74232bcf250b03",

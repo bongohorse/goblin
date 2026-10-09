@@ -20,6 +20,8 @@ Finale Head-/Buildidentität, Rohbelege, Tests/CI und Release sind in #113/#88/P
 
 ## Finales Layout
 
+Reviewkorrekturen: Die sichtbaren Zeit-/Stepzahlen liegen außerhalb der Live-Region; nur geänderte Run-/Safetyphasen werden angekündigt. Der historische #79-Ledger enthält auch Arena-UI und Browserfixture. Deren ursprüngliche Bytes sind nun bytegenau unter `frozen-inputs` gesichert; bestehende historische Hashes bleiben unverändert. Explizite aktuelle Review-Pins akzeptieren ausschließlich die geprüfte #113-UI/QA-Version, einschließlich Mutationstests. Dies ist Archivkompatibilität, keine neue Physik- oder Standing-Abnahme.
+
 ![Desktop](../evidence/issue113/desktop.png)
 ![Inspector](../evidence/issue113/inspector.png)
 ![Small landscape](../evidence/issue113/landscape.png)

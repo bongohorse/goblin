@@ -194,11 +194,15 @@ try{
       const state={SETTLING:'Settling',ASSISTED_READY:'Assisted upright',DYNAMIC:'Free dynamics',DOWN:'Down',STOPPED:'Safety stop'};
       const safety=session.pauseContext.kind==='safety'&&session.paused;
       $('status').dataset.state=safety?'safety':session.paused?'paused':'running';
-      $('status').textContent=(safety?'Safety: '+(reasons[session.pauseContext.reason]||session.pauseContext.reason):(session.paused?(session.pauseContext.reason==='timer-end'?'Timer reached':'Paused'):'Running')+' · '+(state[sim.state]||sim.state))+' · '+(sim.steps/60).toFixed(2)+' s · #'+sim.steps;
+      const phase=(safety?'Safety: '+(reasons[session.pauseContext.reason]||session.pauseContext.reason):(session.paused?(session.pauseContext.reason==='timer-end'?'Timer reached':'Paused'):'Running')+' · '+(state[sim.state]||sim.state));
+      if($('phaseStatus').textContent!==phase)$('phaseStatus').textContent=phase;
+      // Time/steps remain visible without frame-by-frame live-region announcements.
+      $('stepStatus').textContent=' · '+(sim.steps/60).toFixed(2)+' s · #'+sim.steps;
       $('status').title=$('pauseStatus').textContent;
       $('runOptions').textContent=session.runPolicy.timerSteps===null?'Free run · timer off':
         'Run timer: '+session.runPolicy.timerSteps/60+' s simulation'+(session.timerReached?' · already reached':'');
-      $('assistStatus').textContent='Assist '+(sim.enabled?'on':'off');
+      const assist='Assist '+(sim.enabled?'on':'off');
+      if($('assistStatus').textContent!==assist)$('assistStatus').textContent=assist;
       $('assistStatus').title='Target: '+sim.targetAssist().phase+'; assistance stays off after safety until reset';
       $('identity').textContent='Build '+build.build_id+' · variant '+variantId(options)+' · run '+run;
     }
@@ -258,4 +262,4 @@ try{
     for(const [id,mode] of cameraPointers){const surface=viewports.targets.get(mode);if(surface.hasPointerCapture(id))surface.releasePointerCapture(id);}cameraPointers.clear();
     cameraViews?.dispose();viewports?.dispose();inspection?.dispose();for(const cleanup of inputCleanup)cleanup();session.dispose();for(const r of resources)r.dispose();renderer.dispose();}
   addEventListener('pagehide',dispose,{once:true});
-}catch(error){console.error(error);$('status').dataset.state='error';$('status').textContent='Initialization failed: '+error.message;}
+}catch(error){console.error(error);$('status').dataset.state='error';const target=$('phaseStatus')||$('status');target.textContent='Initialization failed: '+error.message;}

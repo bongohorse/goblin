@@ -13,7 +13,7 @@ const changedRead = (path, change) => name => {
 
 test('79 accepts exact reviewed feedback while historical UI retains original ledger identity', () => {
   assert.equal(assertCurrentCompatibility().compatible_source_boundary, true);
-  for (const path of ['labs/standing/index.html', 'src/labs/standing/browser.js', 'src/labs/standing/style.css']) {
+  for (const path of ['index.html', 'src/main.js', 'src/rig-debug.js', 'src/style.css', 'tests/browser-smoke.cjs', 'labs/standing/index.html', 'src/labs/standing/browser.js', 'src/labs/standing/style.css']) {
     const historical = readHistoricalInput(path);
     assert.equal(hash(historical), ledger.files.find(input => input.path === path).sha256);
     assert.notEqual(hash(fs.readFileSync(path)), hash(historical));
@@ -22,6 +22,8 @@ test('79 accepts exact reviewed feedback while historical UI retains original le
 
 test('79 rejects any unreviewed browser/helper/HTML/CSS edit, including UI physics injection', () => {
   const changes = [
+    ['index.html', text => text.replace('</body>', '<script>window.standingLab.destroy()</script></body>')],
+    ...['src/main.js', 'src/rig-debug.js', 'src/style.css', 'tests/browser-smoke.cjs'].map(path => [path, text => text + '\nunreviewed change\n']),
     ['src/labs/standing/browser.js', text => text.replace('await initRapier();', 'await initRapier(); RAPIER.init();')],
     ['src/labs/standing/browser.js', text => text.replace('sim.step();', 'sim.step();sim.step();')],
     ['src/labs/standing/feedback.js', text => text.replace('pause();', 'pause(); sim.world.step();')],
@@ -55,7 +57,7 @@ test('79 rejects core physics, initialization, clock, measurement and export sou
 });
 
 test('79 rejects archived UI corruption independently of accepted current feedback', () => {
-  for (const path of ['labs/standing/index.html', 'src/labs/standing/browser.js', 'src/labs/standing/style.css']) {
+  for (const path of ['index.html', 'labs/standing/index.html', 'src/labs/standing/browser.js', 'src/labs/standing/style.css']) {
     const read = changedRead(ROOT + 'frozen-inputs/' + path, text => text + '\ncorrupt\n');
     assert.equal(assertCurrentCompatibility(read).compatible_source_boundary, true);
     assert.throws(() => readHistoricalInput(path, read), /historical source changed/);

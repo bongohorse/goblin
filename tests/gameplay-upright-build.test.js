@@ -11,9 +11,9 @@ test('isolated gameplay production entry builds with relative assets, independen
     await build({configFile:'vite.gameplay.config.js',build:{outDir:out,emptyOutDir:false},logLevel:'error'});
     const html=await fs.readFile(path.join(out,'gameplay/upright/index.html'),'utf8');
     assert.match(html,/\.\.\/\.\.\/assets\//);
-    assert.match(html,/Konfiguration/);
+    assert.match(html,/Configuration/);
     const comparison=await fs.readFile(path.join(out,'gameplay/upright/comparison.html'),'utf8');
-    assert.match(comparison,/Referenzvergleich V2/);assert.match(comparison,/\.\.\/\.\.\/assets\//);
+    assert.match(comparison,/V2 reference comparison/);assert.match(comparison,/\.\.\/\.\.\/assets\//);
     const playground=await fs.readFile(path.join(out,'playground/index.html'),'utf8');
     assert.match(playground,/Goblin Playground/);assert.match(playground,/\.\.\/assets\//);
     assert.deepEqual(await fs.readFile(path.join(out,'target-finish-evidence.json.gz')),await fs.readFile('docs/development/gameplay-upright-target-finish-evidence.json.gz'));
