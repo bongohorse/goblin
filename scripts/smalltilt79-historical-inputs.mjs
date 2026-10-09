@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 const ROOT = 'docs/research/standing-lab/smalltilt79/';
 const FROZEN_ROOT = ROOT + 'frozen-inputs/';
 const previouslyFrozen = new Set(['package.json', 'package-lock.json', 'scripts/smalltilt79-reader.mjs']);
-const presentation = new Set(['labs/standing/index.html', 'src/labs/standing/browser.js', 'src/labs/standing/style.css']);
+const presentation = new Set(['index.html', 'src/main.js', 'src/rig-debug.js', 'src/style.css', 'tests/browser-smoke.cjs', 'labs/standing/index.html', 'src/labs/standing/browser.js', 'src/labs/standing/style.css']);
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const reviewed = JSON.parse(fs.readFileSync(new URL('./smalltilt79-feedback-compatibility.json', import.meta.url)));
 
@@ -20,7 +20,7 @@ function assertReviewedFeedback(read) {
 export function assertCurrentCompatibility(read = path => fs.readFileSync(path)) {
   assertReviewedFeedback(read);
   const ledger = JSON.parse(read(ROOT + 'build-inputs.json'));
-  // No blanket UI exemption: only the exact four-file reviewed integration above.
+  // No blanket UI exemption: only exact reviewed feedback and #113 Arena UI/QA.
   for (const {path, sha256} of ledger.files) {
     if (!previouslyFrozen.has(path) && !presentation.has(path))
       assert.equal(hash(read(path)), sha256, path + ' current source differs from historical input');

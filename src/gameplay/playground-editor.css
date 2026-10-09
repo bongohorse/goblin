@@ -1,0 +1,30 @@
+/* Editor shell owns DOM layout only; cameras and physics retain their existing owners. */
+body[data-playground]{font:13px/1.45 system-ui,sans-serif;background:#10171e;color:#dce6eb}
+body[data-playground] #app{height:100dvh;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto minmax(0,1fr)}
+.editor-header{display:flex;align-items:center;gap:18px;padding:8px 16px;border-bottom:1px solid #2b3946;background:#18222c;min-height:46px}
+body[data-playground] h1{font-size:16px;letter-spacing:-.02em;margin:0;white-space:nowrap}.editor-header h1>span:last-child{font-weight:400;color:#9fb0be}.logo-mark{display:inline-grid;place-items:center;width:24px;height:24px;background:#a7d9bb;color:#152d21;border-radius:6px;margin-right:6px;font-weight:800}
+body[data-playground] #status{padding:0;margin:0;border:0;background:none;min-height:0;min-width:0;font-size:12px;flex:1;color:#bde5cb}
+body[data-playground] #status[data-state=safety],body[data-playground] #status[data-state=error]{color:#ffb6a9}body[data-playground] #assistStatus{margin:0;font-size:11px;color:#9cb4c4;white-space:nowrap;flex-shrink:0}
+.editor-toolbar,.editor-views{display:flex;gap:10px;align-items:center;padding:5px 12px;background:#141f28;border-bottom:1px solid #2b3946;min-width:0}
+.transport,.interaction,.view-layout{display:flex;align-items:center;gap:5px}.transport{flex:none}.interaction{min-width:0;overflow-x:auto}.editor-toolbar label{display:flex;align-items:center;white-space:nowrap;border:1px solid #354957;border-radius:5px;padding:6px 9px;min-height:40px}.editor-toolbar label:has(input:checked){background:#284b40;border-color:#7ac3a6}
+body[data-playground] button{padding:6px 11px;min-height:40px;font-size:12px;border:1px solid #354957;border-radius:5px;background:#21313e;white-space:nowrap}body[data-playground] button:hover:not(:disabled){background:#314a59}body[data-playground] #play{background:#305846}body[data-playground] #reset{background:#21313e}body[data-playground] #safetyStop{color:#ffc2b8;border-color:#85554e;background:#3b2828}
+body[data-playground] button[aria-pressed=true]{border-color:#81c9aa;background:#284b40;color:#dcffed}
+.editor-views{overflow-x:auto}.editor-views .cameraViews{display:flex;gap:5px}.editor-views .cameraViews button{flex:none}
+.editor-workspace{display:grid;grid-template-columns:minmax(0,1fr) 280px;min-height:0;min-width:0}
+body[data-playground] aside{padding:10px;background:#17222b;border-left:1px solid #30414c;min-height:0;min-width:0;overflow:auto}
+body[data-playground] aside>details{margin:0 0 7px;padding:0;border:1px solid #30414c;border-radius:6px;overflow:hidden}
+body[data-playground] summary{font-size:12px;font-weight:600;padding:11px 10px;min-height:40px;background:#1c2b36}
+body[data-playground] details[open]>summary{border-bottom:1px solid #30414c;margin-bottom:6px}
+body[data-playground] aside details>*:not(summary){margin-left:10px;margin-right:10px}body[data-playground] aside details>details{margin:8px 10px}
+body[data-playground] label{padding:6px 0;font-size:12px}body[data-playground] input{width:16px;height:16px;margin-right:5px}
+body[data-playground] select,body[data-playground] textarea{padding:8px;min-height:40px;font-size:12px;border-radius:5px;background:#101c25}
+body[data-playground] aside details>select,body[data-playground] aside details>textarea{width:calc(100% - 20px)}
+.field-pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}.inspectionToggles{gap:0 8px}.inspectionToggles label{min-height:38px}
+body[data-playground] #inspectionValues{display:grid;grid-template-columns:minmax(75px,.8fr) minmax(0,1.2fr);gap:6px 8px;font-size:12px;padding-bottom:8px}body[data-playground] #inspectionValues dt{margin:0;color:#a8bbc7;font-weight:400}body[data-playground] #inspectionValues dd{margin:0;color:#dfebed}
+body[data-playground] #inspectionValues dd details{margin:0;border:0;padding:0;font-size:11px}body[data-playground] #inspectionValues dd summary{padding:0;background:none;font-weight:400;min-height:24px;color:#c2e2d2;overflow-wrap:anywhere;white-space:normal}body[data-playground] #inspectionValues dd details[open]>summary{margin:0;border:0}body[data-playground] #inspectionValues dd p{margin:4px 0;color:#94aab8}
+body[data-playground] #hint{font-size:11px;bottom:6px;left:6px;right:auto;max-width:calc(100% - 12px);text-align:left;background:#101c25e0;padding:4px 8px}
+body[data-playground] #input{min-height:0;font-size:11px}body[data-playground] #identity{font-size:11px}
+body[data-playground] :is(button,select,textarea,summary,input):focus-visible{outline:2px solid #acdfc9;outline-offset:2px}
+@media(max-width:850px){.editor-workspace{grid-template-columns:minmax(0,1fr) 240px}.editor-header{gap:10px;padding:6px 10px}.editor-header h1>span:last-child{display:none}body[data-playground] #assistStatus{max-width:150px;white-space:normal}.editor-toolbar,.editor-views{padding:4px 6px;gap:6px}body[data-playground] button{padding:6px 8px;min-height:40px}.editor-toolbar label{padding:6px 8px}}
+@media(max-width:520px) and (orientation:portrait){body[data-playground] #app{height:auto;min-height:100dvh;grid-template-rows:auto auto auto auto}.editor-workspace{grid-template-columns:1fr;grid-template-rows:52dvh auto}body[data-playground] #view{height:auto}body[data-playground] aside{border-left:0;border-top:1px solid #30414c;overflow:visible}.editor-header{flex-wrap:wrap;gap:4px 12px}.editor-header h1{width:100%}body[data-playground] #assistStatus{max-width:110px}.editor-toolbar{flex-wrap:wrap}.interaction{width:100%}.editor-toolbar button,.editor-toolbar label{min-height:44px}.editor-views button{min-height:44px}}
+.editor-header{padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right));padding-top:max(6px,env(safe-area-inset-top))}body[data-playground] aside{padding-bottom:max(10px,env(safe-area-inset-bottom))}

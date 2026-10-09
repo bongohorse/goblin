@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>Goblin · V2 Referenzvergleich</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>Goblin · V2 reference comparison</title>
 <style>body{margin:24px;background:#152832;color:#e6ffef;font:16px system-ui}main{max-width:1280px;margin:auto}a{color:#badb9b}button,select,input{font:inherit;margin:5px;padding:6px}table{border-collapse:collapse;width:100%;margin:12px 0}td,th{padding:7px;border-bottom:1px solid #49646b;text-align:left}video{width:100%;background:#111}article{display:grid;grid-template-columns:1fr 1fr;gap:12px}pre{white-space:pre-wrap}small{color:#c4d2d5}@media(max-width:700px){article{grid-template-columns:1fr}body{margin:12px}}</style></head>
-<body><main><h1>Kleiner Schubser · Referenzvergleich V2</h1>
-<p>Gespeicherte native Beobachtung · B unverändert · keine laufende Physik · kein Standing-/Gameplay-Pass.</p>
-<p><a href="./?yield=B">Zur pausiert startenden Gameplay-Szene</a></p>
-<label>Paar <select id="pair"></select></label><label>Andere Ergebnisdatei <input id="file" type="file" accept=".json,.gz"></label>
-<p id="identity"></p><p id="status" role="status">Daten laden …</p>
-<h2>H · Sichtbarkeit separat</h2><p id="human"></p>
-<article><section><h3>R · ohne Eingabe</h3><video id="reference" controls preload="metadata"></video></section><section><h3>P · Originalkleinimpuls</h3><video id="input" controls preload="metadata"></video></section></article>
-<p><button id="play">Beide ab gewählten Clippositionen · 1×</button><button id="pause">Beide pausieren</button></p>
-<small>Native Clips enthalten Lade-/Bedienvorlauf. Für den Sichtvergleich beide über die sichtbare HUD-Simulationszeit ausrichten und ab derselben Zeit starten. Die quantitative Zuordnung unten ist exakt stepgleich; Clip-Wallclock wird nicht als Stepnachweis verwendet. Diagramme/Zoom sind kein Sichtbarkeitserfolg.</small>
-<h2>Q · Gerichtete Messung</h2><p id="legacy"></p><label>Gespeicherter Messstep, keine Physik <input id="step" type="range" min="0" max="360" value="121"><span id="time"></span></label>
-<table><thead><tr><th>Bezugspunkt</th><th>Δ mit Schub / mm</th><th>Δ quer / mm</th><th>Δ Höhe / mm</th></tr></thead><tbody id="points"></tbody></table>
-<pre id="angles"></pre><details><summary>Feste Fenster / Restbewegung / relative Körperbewegung</summary><pre id="windows"></pre></details>
-<h2>S · Sicherheitsbefund separat</h2><pre id="safety"></pre><p>Historische 2°-FAILs bleiben erhalten. Kein Merge/Deployment oder nächste Phase.</p>
+<body><main><h1>Small push · V2 reference comparison</h1>
+<p>Stored native observation · B unchanged · no live physics · not a Standing/gameplay pass.</p>
+<p><a href="./?yield=B">Open the paused gameplay scene</a></p>
+<label>Pair <select id="pair"></select></label><label>Other result file <input id="file" type="file" accept=".json,.gz"></label>
+<p id="identity"></p><p id="status" role="status">Loading data...</p>
+<h2>H · Visibility separately</h2><p id="human"></p>
+<article><section><h3>R · no input</h3><video id="reference" controls preload="metadata"></video></section><section><h3>P · original small impulse</h3><video id="input" controls preload="metadata"></video></section></article>
+<p><button id="play">Both from selected clip positions · 1×</button><button id="pause">Pause both</button></p>
+<small>Native clips include loading and interaction setup. Align both using the visible HUD simulation time. Quantitative rows below match exact steps; clip wall time is not step evidence. Charts/zoom do not establish visibility success.</small>
+<h2>Q · Directional measurement</h2><p id="legacy"></p><label>Stored measurement step, no physics <input id="step" type="range" min="0" max="360" value="121"><span id="time"></span></label>
+<table><thead><tr><th>Reference point</th><th>Δ along push / mm</th><th>Δ transverse / mm</th><th>Δ height / mm</th></tr></thead><tbody id="points"></tbody></table>
+<pre id="angles"></pre><details><summary>Fixed windows / residual movement / relative body movement</summary><pre id="windows"></pre></details>
+<h2>S · Safety separately</h2><pre id="safety"></pre><p>Historical 2° FAIL results are preserved. No next experiment is activated.</p>
 </main><script type="module" src="../../src/gameplay/upright-comparison-view.js"></script></body></html>

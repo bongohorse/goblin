@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#170f0b" />
+  <title>Beat your Goblin — Physics Sandbox</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div id="game"></div>
+
+  <section id="startScreen" class="overlay active">
+    <div class="start-card">
+      <div class="start-art" aria-hidden="true">
+        <div class="start-logo">BEAT <span>your</span> <b>GOBLIN</b></div>
+        <div class="start-goblin">👺</div>
+      </div>
+      <div class="start-copy">
+        <h1>Beat your Goblin</h1>
+        <p>Physik-Sandbox mit Ragdoll-Goblin. Greifen, ziehen, werfen und mit unterschiedlichen Tools experimentieren.</p>
+        <button id="startBtn" class="primary">SPIEL STARTEN</button>
+        <small>Three.js + Rapier 3D · Maus und Touch</small>
+      </div>
+    </div>
+  </section>
+
+  <header id="hud">
+    <div class="brand">BEAT <span>your</span> <b>GOBLIN</b></div>
+    <div class="stats">
+      <div>⭐ <strong id="score">0</strong></div>
+      <div>🔥 x<strong id="combo">1</strong></div>
+      <div>⏱ <strong id="time">60</strong>s</div>
+    </div>
+  </header>
+
+  <aside id="objectives">
+    <h3>🎯 Ziele</h3>
+    <label><input id="goalFall" type="checkbox" disabled> Lass den Goblin fallen</label>
+    <label><input id="goalParts" type="checkbox" disabled> Triff 3 Körperteile</label>
+    <label><input id="goalThrows" type="checkbox" disabled> Wirf 3 Objekte</label>
+  </aside>
+
+  <div id="hint">Tool wählen und den Goblin oder die Arena anklicken.</div>
+
+  <nav id="toolbar">
+    <button data-tool="hand" class="selected">🖐️<span>Hand</span></button>
+    <button data-tool="glove">🥊<span>Boxen</span></button>
+    <button data-tool="hammer">🔨<span>Hammer</span></button>
+    <button data-tool="plunger">🪠<span>Saugnapf</span></button>
+    <button data-tool="broom">🧹<span>Besen</span></button>
+    <button data-tool="fan">🌪️<span>Gebläse</span></button>
+    <button data-tool="magnet">🧲<span>Magnet</span></button>
+    <button data-tool="rock">🪨<span>Stein</span></button>
+    <button data-tool="ball">🔴<span>Ball</span></button>
+    <button data-tool="bowling">⚫<span>Bowling</span></button>
+    <button data-tool="crate">📦<span>Kiste</span></button>
+    <button data-tool="barrel">🛢️<span>Fass</span></button>
+    <button data-tool="fish">🐟<span>Fisch</span></button>
+    <button data-tool="spring">🌀<span>Feder</span></button>
+    <button data-tool="ice">🧊<span>Eis</span></button>
+  </nav>
+
+  <div id="actions">
+    <button id="resetBtn">↻ Reset</button>
+    <button id="cameraBtn">🎥 Kamera</button>
+    <button id="helpBtn">?</button>
+  </div>
+
+  <section id="help" class="panel">
+    <button id="closeHelp">×</button>
+    <h2>Core Gameplay</h2>
+    <p><b>Hand:</b> Körperteil greifen und ziehen. <b>Boxen/Hammer:</b> direkter Impuls. <b>Besen:</b> Beine wegziehen. <b>Gebläse/Magnet:</b> kontinuierliche Kraft. Wurfobjekte reagieren vollständig physikalisch.</p>
+    <p>Der Goblin besteht aus mehreren Rapier-Rigid-Bodies mit Gelenken. Treffer am Arm bewegen den Arm; starke Impulse übertragen sich auf den gesamten Körper.</p>
+  </section>
+
+  <section id="endScreen" class="overlay">
+    <div class="end-card">
+      <h2>Runde beendet</h2>
+      <div class="final-score">⭐ <span id="finalScore">0</span></div>
+      <p id="finalText"></p>
+      <button id="againBtn" class="primary">NOCHMAL</button>
+    </div>
+  </section>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@ export const VARIANTS=Object.freeze({
   R1:Object.freeze({yieldProfile:'B',reaction:'T1',returnProfile:'R1'})
 });
 export function variantOptions(id){
-  if(!Object.hasOwn(VARIANTS,id))throw Error('Unbekannte Variante. Bitte B, T1 oder R1 wählen.');
+  if(!Object.hasOwn(VARIANTS,id))throw Error('Unknown variant. Choose B, T1 or R1.');
   return {...VARIANTS[id]};
 }
 // Shared by both routes. Explicit historical URLs retain their exact options.

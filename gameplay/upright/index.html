@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="data:,"><title>Goblin · Gameplay mit Hilfen</title></head>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="data:,"><title>Goblin · Assisted gameplay</title></head>
 <body><main id="app">
-<section id="view" aria-label="Goblin Spielfeld"><canvas aria-label="Körperteil greifen und ziehen"></canvas><div id="hint">Körperteil greifen und ziehen · Loslassen zum Werfen</div></section>
-<aside><p class="eyebrow">GAMEPLAY-PROTOTYP · KONFIGURATION B</p><h1>Schubsen. Ziehen.<br>Neu versuchen.</h1>
-<p class="notice">Gameplay mit Hilfen — kein Standing-Nachweis.<br>Vorläufiger R1-Standard; Fußdrift und vollständige Abnahme offen. <a href="../../playground/">Goblin Playground öffnen</a></p>
-<p id="status" role="status">Initialisierung …</p><p id="pauseStatus" role="status"></p><p id="input">Noch keine Interaktion</p>
-<div class="buttons"><button id="play" disabled>Start</button><button id="step" disabled>Einzelschritt</button><button id="reset" disabled>Manueller Reset</button></div>
-<button id="safetyStop" disabled>Sicherheitsstopp · Hilfe ausschalten</button>
-<div class="buttons"><button id="small" disabled>Klein · 0,4 Ns</button><button id="strong" disabled>Stark · 3,2 Ns</button></div>
-<label class="schedule"><input id="schedule" type="checkbox"> Schubser bei 2 s vormerken</label>
-<button id="assistOff" disabled>Assist jetzt ausschalten</button>
-<fieldset><legend>Beim nächsten manuellen Reset</legend>
-<label><input id="assisted" type="checkbox" checked> Assist B einschalten</label>
-<label><input id="obstacle" type="checkbox"> Festen Testblock einschalten</label></fieldset>
-<p class="config">Konfiguration <strong>B</strong> · Basisgains unverändert<br>Up-Nachgabe: feste URL-Variante, Status oben<br>Joint K/D 40/2 · Up K/D 60/2<br>Stützung 0,45 · Motor/Body-Cap 20 Nm</p>
-<details><summary>Messung &amp; Testzugang</summary><p id="metrics"></p><p id="identity"></p><button id="export" disabled>Step-Trace exportieren</button><p>Maximal 10 s je Fenster, dann Pause. Kein automatisches Aufstehen. Reset startet pausiert.</p></details>
-<p class="instructions">Pause erhält den Zustand; Einzelschritt bewegt genau einen Physikschritt. Bei aktivem Griff wird Pause zum Sicherheitsabbruch. Sicherheitsstopp/Fokusverlust schaltet Hilfen aus.<br>Assist AUS bleibt nach starkem Treffer, Griff oder bewusstem Ausschalten aus. Wieder einschalten nur mit manuellem Reset.</p>
+<section id="view" aria-label="Goblin viewport"><canvas aria-label="Grab and drag a body part"></canvas><div id="hint">Grab and drag a body part · Release to throw</div></section>
+<aside><p class="eyebrow">GAMEPLAY PROTOTYPE · CONFIGURATION B</p><h1>Push. Drag.<br>Try again.</h1>
+<p class="notice">Assisted gameplay — not a Standing result.<br>Provisional R1 default; foot drift and full acceptance pending. <a href="../../playground/">Open Goblin Playground</a></p>
+<p id="status" role="status">Initializing...</p><p id="pauseStatus" role="status"></p><p id="input">No interaction yet</p>
+<div class="buttons"><button id="play" disabled>Start</button><button id="step" disabled>Step</button><button id="reset" disabled>Reset</button></div>
+<button id="safetyStop" disabled>Safety stop · assistance off</button>
+<div class="buttons"><button id="small" disabled>Small · 0.4 Ns</button><button id="strong" disabled>Strong · 3.2 Ns</button></div>
+<label class="schedule"><input id="schedule" type="checkbox"> Schedule push at 2 s</label>
+<button id="assistOff" disabled>Turn assistance off</button>
+<fieldset><legend>Next reset</legend>
+<label><input id="assisted" type="checkbox" checked> Enable assistance B</label>
+<label><input id="obstacle" type="checkbox"> Enable fixed test block</label></fieldset>
+<p class="config">Configuration <strong>B</strong> · Baseline gains unchanged<br>Up yield: fixed URL variant, status above<br>Joint K/D 40/2 · Up K/D 60/2<br>Support 0.45 · Motor/Body-Cap 20 Nm</p>
+<details><summary>Measurements &amp; build</summary><p id="metrics"></p><p id="identity"></p><button id="export" disabled>Export step trace</button><p>Up to 10 s per window, then pause. No automatic recovery. Reset starts paused.</p></details>
+<p class="instructions">Pause preserves state; Step advances exactly one physics step. An active grab requires safety cancellation. Safety stop/focus loss turns assistance off.<br>Assistance stays OFF after a strong hit, grab or explicit interruption. Reset to enable it again.</p>
 </aside></main><script type="module" src="../../src/gameplay/upright-scene.js"></script></body></html>

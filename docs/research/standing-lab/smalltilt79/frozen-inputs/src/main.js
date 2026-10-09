@@ -192,7 +192,7 @@ renderer.domElement.addEventListener("pointerdown",ev=>{
   const wasReady=round.phase==="ready";
   round.beginAction();
   if(wasReady)clock.reset();
-  document.querySelector("#hint").textContent="Choose a tool, then click the Goblin or arena.";
+  document.querySelector("#hint").textContent="Tool wählen und den Goblin oder die Arena anklicken.";
   pointerDown=true; activePointer=ev.pointerId; renderer.domElement.setPointerCapture(ev.pointerId);
   const p=bodyPart(r.body);
   if((p && !["rock","ball","bowling","crate","barrel","fish"].includes(selectedTool)) || ["fan","magnet","spring"].includes(selectedTool))falls.markAction();
@@ -293,10 +293,10 @@ function resetGoblin(ready=round.phase!=="preparing"){
   ["goalFall","goalParts","goalThrows"].forEach(id=>document.querySelector("#"+id).checked=false);
   document.querySelector("#score").textContent=0;document.querySelector("#combo").textContent=1;document.querySelector("#time").textContent=60;
   document.querySelector("#endScreen").classList.remove("active");
-  document.querySelector("#hint").textContent="Ready · Your first action starts the round.";
+  document.querySelector("#hint").textContent="Bereit · Die erste Aktion startet die Runde.";
   syncMeshes();
 }
-document.querySelectorAll("#toolbar button").forEach(b=>b.onclick=()=>{cancelInteraction("tool");document.querySelectorAll("#toolbar button").forEach(x=>{x.classList.remove("selected");x.setAttribute('aria-pressed','false');});b.classList.add("selected");b.setAttribute('aria-pressed','true');selectedTool=b.dataset.tool;});
+document.querySelectorAll("#toolbar button").forEach(b=>b.onclick=()=>{cancelInteraction("tool");document.querySelectorAll("#toolbar button").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");selectedTool=b.dataset.tool;});
 document.querySelector("#resetBtn").onclick=()=>resetGoblin();
 document.querySelector("#cameraBtn").onclick=()=>{cancelInteraction("camera");camMode=(camMode+1)%3};
 document.querySelector("#helpBtn").onclick=()=>{document.querySelector("#help").classList.add("active");suspend();};
@@ -312,7 +312,7 @@ function endRound(){
   cancelInteraction();
   document.querySelector("#finalScore").textContent=score;
   const goals=[...document.querySelectorAll("#objectives input")].filter(x=>x.checked).length;
-  document.querySelector("#finalText").textContent=`${goals}/3 goals completed · ${hitParts.size} different body parts hit`;
+  document.querySelector("#finalText").textContent=`${goals}/3 Ziele erfüllt · ${hitParts.size} unterschiedliche Körperteile getroffen`;
   document.querySelector("#endScreen").classList.add("active");
 }
 
@@ -376,6 +376,3 @@ if(debugEnabled){
     })
   });
 }
-
-const toolHelp={hand:'Grab and drag; release to throw',glove:'Punch with an impulse',hammer:'Hit with a strong impulse',plunger:'Pull with the plunger',broom:'Sweep the legs',fan:'Hold to blow',magnet:'Hold to attract',rock:'Throw a rock',ball:'Throw a ball',bowling:'Throw a bowling ball',crate:'Throw a crate',barrel:'Throw a barrel',fish:'Throw a fish',spring:'Throw a spring',ice:'Throw ice'};
-for(const button of document.querySelectorAll('[data-tool]')){button.title=toolHelp[button.dataset.tool];button.setAttribute('aria-label',button.querySelector('span').textContent+': '+button.title);button.setAttribute('aria-pressed',String(button.classList.contains('selected')));}
