@@ -14,13 +14,13 @@ export class PlaygroundFeedback {
     this.marker=marker;return structuredClone(marker);
   }
   report(identity,{body_id=null,category='other',note=''},bodyIds){
-    if(!this.marker)throw Error('Bitte zuerst die aktuelle Stelle markieren.');
-    if(JSON.stringify(identity)!==JSON.stringify(this.marker.identity))throw Error('Die Markierung gehört zu einem anderen Run. Bitte neu markieren.');
-    if(typeof note!=='string'||note.length>NOTE_LIMIT)throw Error('Die Notiz darf höchstens 2000 Zeichen enthalten. Bitte kürzen.');
-    if(!CATEGORIES.includes(category))throw Error('Bitte eine gültige Kategorie wählen.');
-    if(body_id!==null&&!bodyIds.includes(body_id))throw Error('Bitte einen vorhandenen Körperteil wählen.');
+    if(!this.marker)throw Error('Mark the current step first.');
+    if(JSON.stringify(identity)!==JSON.stringify(this.marker.identity))throw Error('Marker belongs to another run. Mark again.');
+    if(typeof note!=='string'||note.length>NOTE_LIMIT)throw Error('Note must contain no more than 2000 characters. Shorten it.');
+    if(!CATEGORIES.includes(category))throw Error('Select a valid category.');
+    if(body_id!==null&&!bodyIds.includes(body_id))throw Error('Select an existing body part.');
     return encodeReport({feedback_schema_version:1,context:'goblin_playground',identity:structuredClone(identity),
       observation:{...structuredClone(this.marker),body_id,category,note},data_errors:structuredClone(this.marker.data_errors),
-      meaning:'Menschliche Beobachtung mit einem Zustandssnapshot. Keine vollständige Eingabeaufzeichnung, Replay- oder Reproduktionsgarantie. Keine vollständige Gameplay- oder Standing-Abnahme.'});
+      meaning:'Human observation with a state snapshot. No complete input history, replay or reproduction guarantee. No full gameplay or Standing acceptance.'});
   }
 }

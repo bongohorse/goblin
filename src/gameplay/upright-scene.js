@@ -6,6 +6,8 @@ import {PlaygroundCameras,CAMERA_VIEWS} from './playground-cameras.js';
 import {PlaygroundViewports,pointerNdc} from './playground-viewports.js';
 import {optionsFromSearch,variantOptions,variantId} from './upright-variants.js';
 import {PlaygroundFeedback} from './playground-feedback.js';
+import {BODY_LABELS} from './playground-inspection.js';
+import {PlaygroundInspectionView} from './playground-inspection-view.js';
 import './upright.css';
 
 const $=id=>document.getElementById(id);
@@ -23,17 +25,17 @@ try{
     resetOptions:{assisted:$('assisted').checked,obstacle:$('obstacle').checked}};}
   let {sim,session}=createUprightRun(options,sessionOptions());
   // V2 changes only the observation duration; same B/controller/step path.
-  if(!playground&&new URLSearchParams(location.search).get('observe')==='v2'){session.windowLimit=360;document.querySelector('details p:last-child').textContent='V2: maximal 6 s, dann Pause; keine Gameplay-Abnahme.';}
+  if(!playground&&new URLSearchParams(location.search).get('observe')==='v2'){session.windowLimit=360;document.querySelector('details p:last-child').textContent='V2: up to 6 s, then pause; not gameplay acceptance.';}
   if(!playground&&new URLSearchParams(location.search).get('observe')==='return'){
     session.windowLimit=720;
-    document.querySelector('details p:last-child').textContent='Rückkehrdiagnose: maximal 12 s; nur vorab armierte Schritte, keine vollständige Gameplay-Abnahme.';
+    document.querySelector('details p:last-child').textContent='Return diagnosis: up to 12 s; pre-armed steps only, not full gameplay acceptance.';
     window.uprightArmTrial=plan=>session.armTrial(plan);
   }
   const canvas=document.querySelector('canvas'),view=$('view');
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
   renderer.setClearColor(0x152832);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
   const scene=new THREE.Scene();
-  let camera=new THREE.PerspectiveCamera(36,1,.1,40),controls=null,cameraViews=null,viewports=null;
+  let camera=new THREE.PerspectiveCamera(36,1,.1,40),controls=null,cameraViews=null,viewports=null,inspection=null,inspectionMode=false;
   camera.position.set(3.8,2.7,6);camera.lookAt(.35,1.05,0);
   scene.add(new THREE.HemisphereLight(0xe6ffef,0x31444c,2.2));
   const light=new THREE.DirectionalLight(0xffffff,2.4);light.position.set(-3,6,4);scene.add(light);
@@ -60,7 +62,7 @@ try{
     viewports=new PlaygroundViewports(view);
     cameraViews=new PlaygroundCameras(viewports.targets,figureBounds());resizeViews();camera=cameraViews.camera;controls=cameraViews.controls;
     const selectCamera=mode=>{
-      if(sim.grab.active||cameraPointers.size){$('cameraViewStatus').textContent='Ansicht gesperrt: zuerst die laufende Geste beenden.';return;}
+      if(sim.grab.active||cameraPointers.size){$('cameraViewStatus').textContent='View locked: finish the active gesture first.';return;}
       activateCamera(mode);update();
     };
     for(const [id,mode] of Object.entries({cameraPerspective:'perspective',cameraFront:'front',side:'side',cameraTop:'top'}))$(id).onclick=()=>selectCamera(mode);
@@ -84,8 +86,10 @@ try{
       document.addEventListener(type,releaseCameraPointer,true);inputCleanup.push(()=>document.removeEventListener(type,releaseCameraPointer,true));
     }
     $('cameraFrame').onclick=()=>{if(!sim.grab.active&&!cameraPointers.size)cameraViews.frame(figureBounds());};
-    $('cameraMode').onchange=()=>{if(sim.grab.active||cameraPointers.size){$('cameraMode').checked=cameraViews.navigation;return;}cameraViews.setNavigation($('cameraMode').checked);};
+    $('cameraMode').onchange=()=>{if(sim.grab.active||cameraPointers.size){$('cameraMode').checked=cameraViews.navigation;return;}cameraViews.setNavigation($('cameraMode').checked);if($('cameraMode').checked){inspectionMode=false;$('inspectMode').checked=false;}update();};
     view.addEventListener('contextmenu',ev=>ev.preventDefault());
+    inspection=new PlaygroundInspectionView(scene,meshes,{floor,grid,material,feetMaterial},$('inspectionPanel'));inspection.rebind(sim);
+    $('inspectMode').onchange=()=>{if(sim.grab.active||cameraPointers.size){$('inspectMode').checked=inspectionMode;return;}inspectionMode=$('inspectMode').checked;if(inspectionMode){$('cameraMode').checked=false;cameraViews.setNavigation(false);}update();};
     const axes=new THREE.AxesHelper(1.15);axes.setColors(0xff5148,0x58df70,0x4b9eff);axes.position.y=.025;scene.add(axes);resources.push(axes.geometry,axes.material);
   }
   let pointerId=null,lastFrame=null,lastHitToken=null,frameIntervals=[],stepCosts=[];
@@ -106,19 +110,21 @@ try{
     cancelPointer(reason);const windowLimit=session.windowLimit;session.dispose();
     ({sim,session}=createUprightRun(options,sessionOptions()));
     if(!playground)session.windowLimit=windowLimit;
-    run++;clearFeedback();frameIntervals=[];stepCosts=[];lastFrame=null;lastHitToken=null;$('input').textContent='Manueller Reset · Start erforderlich';sync();update();
+    inspection?.rebind(sim);run++;clearFeedback();frameIntervals=[];stepCosts=[];lastFrame=null;lastHitToken=null;$('input').textContent='Fresh reset · start required';sync();update();
   }
   function reset(){freshRun('reset');}
   function move(ev,final=false){if(session.paused)return;ray(ev);if(sim.grab.active&&raycaster.ray.intersectPlane(dragPlane,dragPoint))sim.grab.move(dragPoint,ev.timeStamp/1000,final);}
   view.addEventListener('pointerdown',ev=>{
-    if(session.paused||sim.invalid||pointerId!==null||!ev.isPrimary||ev.button!==0||$('cameraMode')?.checked)return;
+    if(pointerId!==null||!ev.isPrimary||ev.button!==0||$('cameraMode')?.checked)return;
+    if(inspectionMode){ray(ev);const hit=pickBody(R,sim.world,sim.rig.byBody.keys(),raycaster.ray.origin,raycaster.ray.direction);inspection.select(hit?sim.rig.byBody.get(hit.body.handle).spec.id:null);ev.preventDefault();return;}
+    if(session.paused||sim.invalid)return;
     ray(ev);const hit=pickBody(R,sim.world,sim.rig.byBody.keys(),raycaster.ray.origin,raycaster.ray.direction);if(!hit)return;
     dragPlane.setFromNormalAndCoplanarPoint(camera.getWorldDirection(new THREE.Vector3()),hit.hit.point);
     if(!sim.beginGrab(hit.body,hit.hit.point,ev.timeStamp/1000))return;
     if(cameraViews)cameraViews.lock(true,viewports.rects);else if(controls)controls.enabled=false;
     pointerId=ev.pointerId;view.setPointerCapture(pointerId);ev.preventDefault();
     const id=sim.rig.byBody.get(hit.body.handle).spec.id;session.event('grab-begin',{body:id,point:hit.hit.point});
-    $('input').textContent='Griff: '+id+' · Assist ausgeschaltet';update();
+    $('input').textContent='Grab: '+id+' · assistance off';update();
   },true);
   view.addEventListener('pointermove',ev=>{if(ev.pointerId===pointerId){move(ev);ev.preventDefault();}});
   view.addEventListener('pointerup',ev=>{
@@ -126,35 +132,35 @@ try{
     session.event('grab-release',{release:sim.grab.diagnostics.lastRelease});cancelPointer('release');update();
   });
   for(const type of ['pointercancel','lostpointercapture'])view.addEventListener(type,ev=>{if(ev.pointerId===pointerId){cancelPointer(type);session.event('pointer-cancel',{reason:type});update();}});
-  $('play').onclick=()=>{if(session.paused){session.resume();lastFrame=null;$('input').textContent='Simulation läuft';}else observePause('pause');update();};
+  $('play').onclick=()=>{if(session.paused){session.resume();lastFrame=null;$('input').textContent='Simulation running';}else observePause('pause');update();};
   $('safetyStop').onclick=()=>pause('manual-safety-stop');
-  $('step').onclick=()=>{session.singleStep();sync();update();};
+  $('step').onclick=()=>{session.singleStep();sync();inspection?.update(sim,performance.now(),true);update();};
   $('reset').onclick=reset;
   if(playground){
     $('speed').onchange=()=>{session.setSpeed(Number($('speed').value));lastFrame=null;update();};
-    $('timer').onchange=()=>{$('input').textContent='Timerwahl gilt erst nach Reset oder Variantenwechsel.';};
+    $('timer').onchange=()=>{$('input').textContent='Timer selection applies after reset or variant change.';};
     $('variant').value=variantId(options);
     $('variant').onchange=()=>{
       options=variantOptions($('variant').value);freshRun('variant-change');
       const url=new URL(location.href);url.search='';url.searchParams.set('variant',$('variant').value);history.replaceState(null,'',url);
-      $('input').textContent='Variante gewechselt · neuer Run · Start erforderlich';sync();update();
+      $('input').textContent='Variant changed · fresh run · start required';sync();update();
     };
-    for(const [id,label] of Object.entries({pelvis:'Becken',torso:'Oberkörper',head:'Kopf',upperArmL:'Oberarm links',upperArmR:'Oberarm rechts',lowerArmL:'Unterarm links',lowerArmR:'Unterarm rechts',handL:'Hand links',handR:'Hand rechts',upperLegL:'Oberschenkel links',upperLegR:'Oberschenkel rechts',lowerLegL:'Unterschenkel links',lowerLegR:'Unterschenkel rechts',footL:'Fuß links',footR:'Fuß rechts'})){
+    for(const [id,label] of Object.entries(BODY_LABELS)){
       if(!sim.rig.byId.has(id))continue;const option=document.createElement('option');option.value=id;option.textContent=label;$('body').append(option);
     }
     $('mark').onclick=()=>{
       const marker=feedback.mark(identity(),sim.steps,()=>sim.snapshot(),browserContext,()=>observePause('marker'));
-      $('feedbackStatus').textContent='Markiert: Schritt '+marker.step+' · Run '+run+(marker.data_errors.length?' · Zustandsdaten teilweise nicht verfügbar':'');update();
+      $('feedbackStatus').textContent='Marked step '+marker.step+' · run '+run+(marker.data_errors.length?' · some state data unavailable':'');update();
     };
     $('feedbackExport').onclick=()=>{
       try{
         const result=feedback.report(identity(),{body_id:$('body').value||null,category:$('category').value,note:$('note').value},[...sim.rig.byId.keys()]);
         download(result.json,'goblin-playground-'+variantId(options)+'-run-'+run+'-step-'+feedback.marker.step+'.json');
-        $('feedbackStatus').textContent=result.diagnostic?'Diagnosebericht heruntergeladen; fehlende Daten sind gekennzeichnet.':'Feedback als JSON heruntergeladen.';
+        $('feedbackStatus').textContent=result.diagnostic?'Diagnostic report downloaded; missing data identified.':'Feedback JSON downloaded.';
       }catch(error){$('feedbackStatus').textContent=error.message;}
     };
   }
-  function clearFeedback(){feedback.clear();if(playground){$('note').value='';$('body').value='';$('category').value='other';$('feedbackStatus').textContent='Noch keine Stelle markiert.';}}
+  function clearFeedback(){feedback.clear();if(playground){$('note').value='';$('body').value='';$('category').value='other';$('feedbackStatus').textContent='No marker yet.';}}
   function identity(){return {build,variant:variantId(options),options:{...options},run_policy:session.runPolicy,run_id:sessionId+'-'+run};}
   function download(json,name){
     const url=URL.createObjectURL(new Blob([json],{type:'application/json'})),a=document.createElement('a');
@@ -162,51 +168,52 @@ try{
   }
   for(const [id,strong] of [['small',false],['strong',true]])$(id).onclick=()=>{
     const ok=session.push(strong,$('schedule').checked);
-    $('input').textContent=ok?((strong?'Starker':'Kleiner')+' Schubser'+($('schedule').checked?' bei 2 s vorgemerkt':'')):'Start erforderlich / Zeitpunkt 2 s bereits vorbei';update();
+    $('input').textContent=ok?((strong?'Strong':'Small')+' push'+($('schedule').checked?' scheduled at 2 s':'')):'Start required / 2 s already passed';update();
   };
-  $('assistOff').onclick=()=>{sim.interrupt('manual-assist-off');session.event('assist-off');$('input').textContent='Hilfe bewusst ausgeschaltet · bleibt aus bis Reset';update();};
+  $('assistOff').onclick=()=>{sim.interrupt('manual-assist-off');session.event('assist-off');$('input').textContent='Assistance turned off · remains off until reset';update();};
   function sync(){for(const {spec,body} of sim.rig.byId.values()){const m=meshes.get(spec.id);m.position.copy(body.translation());m.quaternion.copy(body.rotation());}block.visible=sim.obstacleEnabled;scene.updateMatrixWorld(true);}
   function project(point,mode=cameraViews?.mode){const c=cameraViews?cameraViews.states.get(mode).camera:camera,p=new THREE.Vector3(point.x,point.y,point.z).project(c),r=canvas.getBoundingClientRect(),rect=viewports?.rect(mode)||{x:0,y:0,width:r.width,height:r.height};return {x:r.left+rect.x+(p.x+1)*rect.width/2,y:r.top+rect.y+(1-p.y)*rect.height/2};}
   function update(){
     $('step').disabled=!session.paused||!!sim.invalid||sim.steps>=session.windowLimit||document.hidden;
-    const reasons={hidden:'Seite verborgen',blur:'Fokus verloren',escape:'Escape',
-      'manual-safety-stop':'manuell','pause-active-grab':'Pause bei aktivem Griff',
-      'marker-active-grab':'Markierung bei aktivem Griff','timer-end-active-grab':'Timer bei aktivem Griff','window-limit':'Runfenster beendet',safety:'ungültiger Zustand'};
+    const reasons={hidden:'page hidden',blur:'focus lost',escape:'Escape',
+      'manual-safety-stop':'manual','pause-active-grab':'pause during grab',
+      'marker-active-grab':'marker during grab','timer-end-active-grab':'timer during grab','window-limit':'run window ended',safety:'invalid state'};
     $('pauseStatus').textContent=session.paused?(session.pauseContext.kind==='safety'?
-      'Sicherheitsstopp · Hilfe aus · '+(reasons[session.pauseContext.reason]||session.pauseContext.reason):
-      session.pauseContext.kind==='observation'?(session.pauseContext.reason==='timer-end'?'Timer erreicht · Zustand erhalten · Fortsetzen möglich':'Beobachtung pausiert · Zustand erhalten'):'Frischer Run · Start erforderlich'):
-      'Simulation läuft · Pause erhält den Zustand';
+      'Safety stop · assistance off · '+(reasons[session.pauseContext.reason]||session.pauseContext.reason):
+      session.pauseContext.kind==='observation'?(session.pauseContext.reason==='timer-end'?'Timer reached · state preserved · resume available':'Observation paused · state preserved'):'Fresh run · start required'):
+      'Simulation running · pause preserves state';
     if(playground){
-      for(const id of ['cameraMode','cameraReset','cameraFrame','cameraPerspective','cameraFront','side','cameraTop','cameraQuad','cameraSingle'])$(id).disabled=sim.grab.active||cameraPointers.size>0;
-      $('cameraViewStatus').textContent=sim.grab.active?'Ansicht gesperrt: zuerst den Körpergriff loslassen.':cameraPointers.size?'Ansicht gesperrt: zuerst die Kamerageste beenden.':CAMERA_VIEWS[cameraViews.mode].label+' · '+(camera.isOrthographicCamera?'orthografisch':'perspektivisch');
-      $('hint').textContent=cameraViews.navigation?(camera.isOrthographicCamera?'Kamera verschieben · zwei Finger zum Verschieben und Zoomen':'Kamera drehen · zwei Finger zum Verschieben und Zoomen'):'Körperteil anfassen und ziehen · Loslassen zum Werfen';
+      for(const id of ['inspectMode','inspectBody','inspectJoint','cameraMode','cameraReset','cameraFrame','cameraPerspective','cameraFront','side','cameraTop','cameraQuad','cameraSingle'])$(id).disabled=sim.grab.active||cameraPointers.size>0;
+      $('cameraViewStatus').textContent=sim.grab.active?'View locked: release the body grab first.':cameraPointers.size?'View locked: finish the active gesture first.':CAMERA_VIEWS[cameraViews.mode].label+' · '+(camera.isOrthographicCamera?'orthographic':'perspective');
+      $('hint').textContent=inspectionMode?'Select a body to inspect · no grab or impulse':cameraViews.navigation?(camera.isOrthographicCamera?'Pan camera · two fingers pan and zoom':'Rotate camera · two fingers pan and zoom'):'Grab a body and drag · release to throw';
       for(const [id,mode] of Object.entries({cameraPerspective:'perspective',cameraFront:'front',side:'side',cameraTop:'top'}))$(id).setAttribute('aria-pressed',String(cameraViews.mode===mode));
       $('cameraQuad').setAttribute('aria-pressed',String(viewports.layout==='quad'));$('cameraSingle').setAttribute('aria-pressed',String(viewports.layout==='single'));
       $('feedbackExport').disabled=!feedback.marker;
-      const state={SETTLING:'Einpendeln',ASSISTED_READY:'Aufrecht mit Hilfe',DYNAMIC:'Freie Dynamik',DOWN:'Am Boden',STOPPED:'Sicherheitsstopp'};
-      $('status').textContent=(session.paused?'Pausiert':'Läuft')+' · '+(state[sim.state]||sim.state)+' · Schritt '+sim.steps+' · '+(sim.steps/60).toFixed(2)+' s Simulationszeit · '+String(session.speed).replace('.',',')+'×';
-      $('runOptions').textContent=session.runPolicy.timerSteps===null?'Freier Lauf · Timer aus':
-        'Timer dieses Runs: '+session.runPolicy.timerSteps/60+' s Simulationszeit'+(session.timerReached?' · bereits erreicht':'');
-      $('assistStatus').textContent='Hilfe '+(sim.enabled?'aktiv':'aus')+' · Ziel '+({NEUTRAL:'neutral',RISE:'Auslenkung',HOLD:'Halten',RETURN:'Rückkehr',OFF:'aus'}[sim.targetAssist().phase]||sim.targetAssist().phase);
-      $('identity').textContent='Build '+build.build_id+' · Variante '+variantId(options)+' · Run '+run;
+      const state={SETTLING:'Settling',ASSISTED_READY:'Assisted upright',DYNAMIC:'Free dynamics',DOWN:'Down',STOPPED:'Safety stop'};
+      $('status').textContent=(session.paused?'Paused':'Running')+' · '+(state[sim.state]||sim.state)+' · step '+sim.steps+' · '+(sim.steps/60).toFixed(2)+' s simulation · '+session.speed+'×';
+      $('runOptions').textContent=session.runPolicy.timerSteps===null?'Free run · timer off':
+        'Run timer: '+session.runPolicy.timerSteps/60+' s simulation'+(session.timerReached?' · already reached':'');
+      $('assistStatus').textContent='Assistance '+(sim.enabled?'on':'off')+' · target '+({NEUTRAL:'neutral',RISE:'rise',HOLD:'hold',RETURN:'return',OFF:'off'}[sim.targetAssist().phase]||sim.targetAssist().phase);
+      $('identity').textContent='Build '+build.build_id+' · variant '+variantId(options)+' · run '+run;
     }
-    $('play').textContent=session.paused?(sim.steps>=session.windowLimit?'Fenster beendet':'Start / Fortsetzen'):'Pause';
+    $('play').textContent=session.paused?(sim.steps>=session.windowLimit?'Window ended':'Start / resume'):'Pause';
     $('play').disabled=!!sim.invalid||sim.steps>=session.windowLimit||document.hidden;
     $('small').disabled=$('strong').disabled=session.paused||!!sim.invalid;
-    if(!playground)$('status').textContent=(session.paused?'PAUSE · ':'')+sim.state+' · t='+(sim.steps/60).toFixed(2)+' s\nAssist '+(sim.enabled?'EIN':'AUS')+' · '+sim.reason+'\nUp '+sim.upAssist().phase+' · '+Math.round(sim.upAssist().factor*100)+' % · '+sim.yieldProfile+'\nZiel '+sim.targetAssist().id+' · '+sim.targetAssist().phase+' · '+(sim.targetAssist().angle*180/Math.PI).toFixed(2)+'° · gestaltete Gameplayhilfe'+(session.lastRun?'\nLetzter Physikstep: '+session.lastRun.final.state:'');
+    if(!playground)$('status').textContent=(session.paused?'PAUSE · ':'')+sim.state+' · t='+(sim.steps/60).toFixed(2)+' s\nAssist '+(sim.enabled?'ON':'OFF')+' · '+sim.reason+'\nUp '+sim.upAssist().phase+' · '+Math.round(sim.upAssist().factor*100)+' % · '+sim.yieldProfile+'\nTarget '+sim.targetAssist().id+' · '+sim.targetAssist().phase+' · '+(sim.targetAssist().angle*180/Math.PI).toFixed(2)+'° · designed gameplay assistance'+(session.lastRun?'\nLast physics step: '+session.lastRun.final.state:'');
     const token=sim.lastHit?sim.lastHit.step+':'+sim.lastHit.strength:null;
-    if(token!==null&&token!==lastHitToken){lastHitToken=token;$('input').textContent=(sim.lastHit.strength===3.2?'Starker':'Kleiner')+' Schubser ausgelöst · t='+(sim.lastHit.step/60).toFixed(2)+' s';}
-    $('metrics').textContent='t '+(sim.steps/60).toFixed(2)+' s · Torso '+(sim.metrics.torsoTilt*180/Math.PI).toFixed(3)+'° · Motor-Cap '+sim.commands.motorCap+' Nm · Stützkraft '+sim.commands.support.toFixed(2)+' N · Bodies/Joints '+sim.world.bodies.len()+'/'+sim.world.impulseJoints.len();
+    if(token!==null&&token!==lastHitToken){lastHitToken=token;$('input').textContent=(sim.lastHit.strength===3.2?'Strong':'Small')+' push triggered · t='+(sim.lastHit.step/60).toFixed(2)+' s';}
+    $('metrics').textContent='t '+(sim.steps/60).toFixed(2)+' s · torso '+(sim.metrics.torsoTilt*180/Math.PI).toFixed(3)+'° · motor cap '+sim.commands.motorCap+' Nm · support command '+sim.commands.support.toFixed(2)+' N · bodies/joints '+sim.world.bodies.len()+'/'+sim.world.impulseJoints.len();
   }
   const gl=renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');
   const environment={userAgent:navigator.userAgent,platform:navigator.platform,get dpr(){return devicePixelRatio;},get renderDpr(){return renderer.getPixelRatio();},
     backend:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),webgl:gl.getParameter(gl.VERSION)};
   function cameraSnapshot(){return cameraViews?cameraViews.snapshot():{position:camera.position.toArray(),quaternion:camera.quaternion.toArray(),fov:camera.fov,projection:camera.projectionMatrix.toArray(),view:camera.matrixWorldInverse.toArray()};}
-  function browserContext(){return {environment,run_controls:{speed:session.speed,timerReached:session.timerReached},camera:cameraSnapshot(),viewports:viewports?{...viewports.snapshot(),cameras:[...cameraViews.states.keys()].map(id=>cameraViews.snapshot(id))}:null,viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}}};}
+  function readInspectionAtMarker(){inspection.update(sim,performance.now(),true);return inspection.snapshot().readout;}
+  function browserContext(){return {environment,run_controls:{speed:session.speed,timerReached:session.timerReached},camera:cameraSnapshot(),inspection:inspection?{...inspection.snapshot(),readout:inspection.selected?readInspectionAtMarker():null}:null,viewports:viewports?{...viewports.snapshot(),cameras:[...cameraViews.states.keys()].map(id=>cameraViews.snapshot(id))}:null,viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}}};}
   function report(){camera.updateMatrixWorld(true);return {build,environment,observationIdentity:{mass:sim.mass,dt:1/60,nativeTimestep:sim.world.timestep,config:sim.config,yieldProfile:sim.yieldProfile,reaction:sim.reaction,returnProfile:sim.returnProfile,returnSource:build.return_sha256,gravity:{...sim.world.gravity},sources:build.physics_sha256},
     observationCamera:{...cameraSnapshot(),canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},...session.report(),lastPhysicsState:session.trace.at(-1)?.state,frameIntervals:frameIntervals.slice(),stepCosts:stepCosts.slice()};}
   const renderSamples=[];
-  window.uprightDiagnostics=()=>({...report(),viewports:viewports?{...viewports.snapshot(),views:viewports.rects.map(rect=>({...rect,camera:cameraViews.snapshot(rect.id),step:sim.steps,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation(),rect.id)}))}))}:null,renderSamples:renderSamples.slice(),cameraPointers:cameraPointers.size,runIdentity:identity(),rendererMemory:{...renderer.info.memory},pointerId,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation())})),blockScreen:project({x:1.35,y:1,z:0})});
+  window.uprightDiagnostics=()=>({...report(),inspection:inspection?.snapshot()??null,viewports:viewports?{...viewports.snapshot(),views:viewports.rects.map(rect=>({...rect,camera:cameraViews.snapshot(rect.id),step:sim.steps,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation(),rect.id)}))}))}:null,renderSamples:renderSamples.slice(),cameraPointers:cameraPointers.size,runIdentity:identity(),rendererMemory:{...renderer.info.memory},pointerId,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation())})),blockScreen:project({x:1.35,y:1,z:0})});
   window.uprightTrace=()=>({build,environment,...(session.lastRun||session.report())});
   window.uprightStepState=()=>({steps:sim.steps,paused:session.paused,invalid:sim.invalid});
   if(!playground)$('export').onclick=()=>download(JSON.stringify(report(),null,2),'goblin-step-trace.json');
@@ -227,7 +234,7 @@ try{
     const before=sim.steps,start=performance.now();session.tick(ms/1000);
     if(!playground&&sim.steps>before)stepCosts.push({steps:sim.steps-before,ms:performance.now()-start}); // Includes read-only observer cost.
     if(session.paused&&pointerId!==null)cancelPointer('window-end');
-    const tickMs=performance.now()-start;sync();const renderStart=performance.now();renderer.info.reset();
+    const tickMs=performance.now()-start;sync();inspection?.update(sim,ms);const renderStart=performance.now();renderer.info.reset();
     if(viewports){
       renderer.setScissorTest(true);
       for(const rect of viewports.rects){
@@ -243,6 +250,6 @@ try{
   sync();update();renderer.setAnimationLoop(render);
   function dispose(){if(disposed)return;disposed=true;renderer.setAnimationLoop(null);cancelPointer('destroy');
     for(const [id,mode] of cameraPointers){const surface=viewports.targets.get(mode);if(surface.hasPointerCapture(id))surface.releasePointerCapture(id);}cameraPointers.clear();
-    cameraViews?.dispose();viewports?.dispose();for(const cleanup of inputCleanup)cleanup();session.dispose();for(const r of resources)r.dispose();renderer.dispose();}
+    cameraViews?.dispose();viewports?.dispose();inspection?.dispose();for(const cleanup of inputCleanup)cleanup();session.dispose();for(const r of resources)r.dispose();renderer.dispose();}
   addEventListener('pagehide',dispose,{once:true});
-}catch(error){console.error(error);$('status').textContent='Initialisierung fehlgeschlagen: '+error.message;}
+}catch(error){console.error(error);$('status').textContent='Initialization failed: '+error.message;}

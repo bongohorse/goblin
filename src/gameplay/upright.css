@@ -6,3 +6,4 @@ select,textarea{font:inherit;width:100%;color:#eaf4f1;background:#20343e;border:
 .cameraViews{display:grid;grid-template-columns:1fr 1fr}.cameraViews button[aria-pressed=true]{background:#446c59;border-color:#a6f5db}.axisX{color:#ffb2a8}.axisY{color:#a8efb0}.axisZ{color:#a8caff}
 
 .cameraSurface{position:absolute;touch-action:none;border:1px solid #49646b;outline-offset:-3px}.cameraSurface[hidden]{display:none}.cameraSurface.selected{border:2px solid #a6f5db}.viewLabel{position:absolute;top:6px;left:8px;padding:2px 6px;background:#152832e6;color:#eaf4f1;font-size:12px;pointer-events:none}body[data-playground] #hint{z-index:2;background:#152832d9;border-radius:5px;padding:3px;bottom:6px;left:6px;right:6px}
+.inspectionToggles{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px}#inspectionValues{font-size:11px;overflow-wrap:anywhere}#inspectionValues dt{font-weight:700;color:#d0ece1;margin-top:8px}#inspectionValues dd{margin:2px 0 8px;color:#aac8c5}
