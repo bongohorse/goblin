@@ -1,5 +1,6 @@
 /* Editor shell owns DOM layout only; cameras and physics retain their existing owners. */
-body[data-playground]{font:13px/1.45 system-ui,sans-serif;background:#10171e;color:#dce6eb}
+/* Round fractional browser-zoom widths down before canvas/layout allocation. */
+body[data-playground]{font:13px/1.45 system-ui,sans-serif;background:#10171e;color:#dce6eb;overflow-x:clip;width:round(down,100%,1px)}
 body[data-playground] #app{height:100dvh;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr)}
 .editor-controls{position:sticky;top:0;z-index:10;min-width:0;background:#18222c}
 .editor-header{display:flex;align-items:center;gap:18px;padding:8px 16px;border-bottom:1px solid #2b3946;background:#18222c;min-height:46px}

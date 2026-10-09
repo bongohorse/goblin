@@ -81,11 +81,12 @@ async function main(){
     await page.bringToFront();await page.reload();await page.waitForFunction(()=>window.uprightDiagnostics);await open();await settle();
     const zoom=await page.evaluate(()=>({width:innerWidth,height:innerHeight,dpr:devicePixelRatio}));
     assert.ok(zoom.width<1280,'native browser zoom must actually change the CSS viewport');
-    const safety=await page.locator('#safetyStop').boundingBox();assert.ok(safety.y>=0&&safety.y+safety.height<=zoom.height);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+    const safety=await page.locator('#safetyStop').boundingBox();assert.ok(safety.y>=0&&safety.y+safety.height<=zoom.height);
+    const overflow=await page.evaluate(()=>{const y=scrollY;scrollTo(10000,y);const result={client:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth,x:scrollX};scrollTo(0,y);return result;});assert.ok(overflow.scroll<=overflow.client+1,'fractional zoom rounding must not hide real overflow');assert.equal(overflow.x,0,'no horizontal page scroll at actual browser zoom');
     await page.screenshot({path:path.join(out,'zoom.png')});const normal=zoomOptions.find(o=>o.label.includes('100%'));await zoomControl.selectOption(normal.value);await settings.close();await page.bringToFront();await page.reload();await page.waitForFunction(()=>window.uprightDiagnostics);await open();
     await page.setViewportSize({width:390,height:844});await page.locator('#note').scrollIntoViewIfNeeded();await settle();
     const pinned=await page.locator('#safetyStop').boundingBox();assert.ok(pinned.y>=0&&pinned.y+pinned.height<=844);const status=await page.locator('#assistStatus').boundingBox();assert.ok(status.y>=0);
-    await page.screenshot({path:path.join(out,'portrait-scrolled.png'),fullPage:true});
+    await page.screenshot({path:path.join(out,'portrait-scrolled.png')});
     await page.setViewportSize({width:480,height:240});await page.evaluate(()=>scrollTo(0,0));await settle();
     const stage=await page.locator('#view').boundingBox();assert.ok(stage.height>=220);assert.ok(stage.width>=450);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
     await page.screenshot({path:path.join(out,'short-landscape.png')});

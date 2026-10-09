@@ -1,5 +1,5 @@
 {
-  "out": "C:\\Users\\Mega\\AppData\\Local\\Temp\\goblin-editor-review-V7NUMf",
+  "out": "C:\\Users\\Mega\\AppData\\Local\\Temp\\goblin-editor-review-t3OKTR",
   "browser": "156.0.8078.4",
   "baseline": {
     "revision": "ffd78071beb613a98dabda908f01e2241176d47f",
@@ -47,9 +47,9 @@
     }
   },
   "candidate": {
-    "revision": "a20948b8c3a0a9ca1bbda8324cce1a3779b4c00e",
-    "dirty": false,
-    "build_id": "5d82df1aae4ac2b9",
+    "revision": "55b3e988d1bc51e85e3bf2a5554d60b64b3a8969",
+    "dirty": true,
+    "build_id": "bdff616fe1783d44",
     "inputs": {
       "src/gameplay/upright-scene.js": "beeb621a3a38734a5f11e8fe5ee94f93cbd41937fc1806d6a7392dabba589349",
       "src/gameplay/upright-session.js": "faed6e1bee98c1f511324b68c33e5c1f199783fa3c75828a27f09fb1d79e4eb3",
@@ -75,7 +75,7 @@
       "src/gameplay/playground-viewports.js": "dee18b371f624f40d707569c7c0eddc1c78da774eccd35e2f1900290260407fc",
       "src/gameplay/playground-inspection.js": "ee0a4f43755ddc68ffc0bc4ecf3eccef67d9e54dcb96a2c94ead9ee8b4a00420",
       "src/gameplay/playground-inspection-view.js": "d21e5f9088305f1d2b43bdff1c920b82b825a279180f68ba35d3204efd4a5212",
-      "src/gameplay/playground-editor.css": "e5a7ef0c2d2f378368ef6a49168d0bdfe58d194550d28b49681b25ca85d0f8fb"
+      "src/gameplay/playground-editor.css": "b9df5308166a2be92ea398daa79ed5a6fcda6ed04e4557a5a9fd9329be7feb70"
     },
     "scene_sha256": "beeb621a3a38734a5f11e8fe5ee94f93cbd41937fc1806d6a7392dabba589349",
     "session_sha256": "faed6e1bee98c1f511324b68c33e5c1f199783fa3c75828a27f09fb1d79e4eb3",
