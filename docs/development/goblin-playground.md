@@ -34,6 +34,8 @@ Kein echter Mobilhardware-, Hidden/Resume-, Performance-, Dauerstabilitäts-, vo
 
 Umgebung: Fetch zunächst durch FETCH_HEAD-Sandboxgrenze blockiert, gezielt freigegebener Fetch erfolgreich. gh401 durch vorhandenen GitHub-Connector ersetzt; globalen Node26 durch vorhandenen lokalen Node24 ersetzt. `npm ci` mit eigenem Worktreecache. Schreibfreie Prozessabfrage nach Sandboxverweigerung gezielt freigegeben; bestehende Browser/Server erhalten, eigene Server auf freien Ports gestartet. Native QA-Commandline-Abfrage benötigte explizites `--enable-automation`; erster Versuch endete vor UI-/Physikstart, korrigiert im eigenen Browserprozess. Keine globale Konfiguration/Credentials/MCPänderung.
 
+Der erste vollständige lokale npm-Testunterprozess verwendete trotz Node24-Elternprozess den globalen Node26 und wurde nicht als finaler Projektnachweis gewertet. PATH ausschließlich für den finalen Prüfprozess auf den vorhandenen Node24 gesetzt; keine globale Änderung.
+
 ## Selbstreview
 
 Spec: bedienbarer lokaler Slice statt URL-/Runnerhauptansicht; alle bestehenden Parameter/Forschungsstopps erhalten. Keine Nutzerabnahme, kein Merge/Deployment. Engineering: ein gemeinsamer Step-/Interaktionspfad; vorhandene World bei Variantenwechsel freigegeben, Renderer/Meshes weiterverwendet, OrbitControls beim Verlassen entsorgt, Download-Blob freigegeben. Keine Arena-/Standing-/Rig-/Grab-/Clock-/Dependency-/main-Viteänderung. Historische Belege und Pins unverändert. Nächster Hebel ausschließlich: Nutzerfeedback zum vorhandenen Slice abwarten. Danach STOPP.
