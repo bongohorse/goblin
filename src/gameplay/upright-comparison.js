@@ -22,12 +22,13 @@ function validate(record,role,issues){
   if(!Array.isArray(record?.trace)||record.trace.length!==361){issues.push('complete-steps-0-360:'+role);return;}
   for(let i=0;i<=360;i++){
     const t=record.trace[i];
+    if(!t||typeof t!=='object'){issues.push('missing-step:'+role+':'+i);continue;}
     if(t.step!==i||t.time!==i/60)issues.push('step/time:'+role+':'+i);
     if(!Number.isFinite(t.torso?.tilt)||!Number.isFinite(t.pelvis?.tilt))issues.push('legacy-tilt:'+role+':'+i);
     if(!Array.isArray(t.observation?.bodies)||t.observation.bodies.length!==15||!t.observation?.controller||
       !Array.isArray(t.metrics?.feet)||t.metrics.feet.length!==2||!Array.isArray(t.metrics?.nonFootFloor)||!Number.isFinite(t.metrics.pelvisHeight)||
       t.metrics.feet.some(f=>!['footL','footR'].includes(f.id)||f.distance!==null&&!Number.isFinite(f.distance))||
-      !Number.isFinite(t.maxAnchorError)||!t.commands||!Number.isFinite(t.commands.support)||!Number.isFinite(t.commands.motorCap)||!t.commands.torques)issues.push('state:'+role+':'+i);
+      !Number.isFinite(t.maxAnchorError)||!t.commands||!Number.isFinite(t.commands.support)||!Number.isFinite(t.commands.motorCap)||!t.commands.torques||Object.values(t.commands.torques).some(v=>!vector(v)))issues.push('state:'+role+':'+i);
     for(const id of POINT_IDS){
       const p=t.observation?.points?.[id],q=p?.rotation;
       if(!vector(p?.position)||!vector(p?.velocity)||!vector(p?.angularVelocity)||
@@ -56,14 +57,14 @@ export function comparePair(reference,input){
   const issues=[];validate(reference,'reference',issues);validate(input,'input',issues);
   if(reference?.pairId!==input?.pairId)issues.push('reference-assignment');
   if(!equal(reference?.identity,input?.identity)||!equal(reference?.camera,input?.camera))issues.push('different-identity/camera');
-  const hits=record=>(record?.events||[]).filter(e=>e.kind==='impulse-observation');
+  const hits=record=>(record?.events||[]).filter(e=>e?.kind==='impulse-observation');
   if(hits(reference).length)issues.push('input-in-reference');
   const h=hits(input);
   if(h.length!==1||h[0].step!==120||h[0].strength!==.4||!equal(h[0].direction,{x:1,y:0,z:0})||
     !equal(h[0].localPoint,{x:0,y:.30,z:0})||!vector(h[0].point)||!vector(h[0].deltaVelocity)||!vector(h[0].deltaAngularVelocity))issues.push('original-input');
   const allowed=new Set(['manual-reset','resume','scheduled-push','push-before','push-after','impulse-observation','interrupt','pause']);
   for(const record of [reference,input])for(const e of record?.events||[])
-    if(!allowed.has(e.kind)||e.kind==='interrupt'&&e.step<360||e.kind==='pause'&&e.step<360)issues.push('extra-interruption/input');
+    if(!allowed.has(e?.kind)||e.kind==='interrupt'&&e.step<360||e.kind==='pause'&&e.step<360)issues.push('extra-interruption/input');
   if(!issues.length)for(let i=0;i<=120;i++)if(!equal(reference.trace[i],input.trace[i])){issues.push('different-pre-input-state:'+i);break;}
   const H={status:'unbewertet',questions:['Klar sichtbare eigene Reaktion?','In Schubrichtung von Eigenbewegung unterscheidbar?','Binnen 2 s kontrolliert abgeklungen und bereit?'],answers:null};
   if(issues.length)return {version:'V2',pairId:input?.pairId,Q:{valid:false,issues:[...new Set(issues)]},H,S:{status:'unbewertbar'}};

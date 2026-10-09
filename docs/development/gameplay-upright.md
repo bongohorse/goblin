@@ -1,3 +1,179 @@
+# V2 — lesender Referenzvergleich, abgeschlossen (09.10.2026)
+
+**Beobachter geliefert; kein Gameplay-Pass.** [Prüfvertrag V2](https://github.com/bongohorse/goblin/issues/94#issuecomment-6072689640), [Zählung vor Laufstart](https://github.com/bongohorse/goblin/issues/94#issuecomment-6072753264).
+B, Assist-/Physik-/Eingabeparameter und alle historischen 2°-FAILs bleiben unverändert. Y1/Y2 sind keine Defaults. PR #95 bleibt Draft.
+
+## Q — quantitative Messung
+
+Genau **4/4 native Sequenzen à6 Simulationssekunden**, erster Start erfolgreich:
+R1 ohne Input → P1 mit Originalkleinimpuls → R2 ohne Input → P2 mit Originalkleinimpuls.
+Ein Paar zählt zwei Sequenzen; keine Zusatz-CLI-Diagnose oder Ersatzläufe.
+Beide Paare besitzen vollständige Steps0–360, identische gesamte Vorzustands-/Körper-/Commandtraces bis Step120 und dieselbe Konfigurations-/Quellen-/Kameraidentität. Beide Eingabeantworten sind stepweise identisch.
+
+Quelle: **4ad37a6dec91317f59738e25f18fc3ecb4b21d9e**. Derselbe vorhandene
+`UprightSession.tick → UprightSlice.step → world.step`-Pfad, dt1/60;
+Rapier-Getter liefert die entsprechende Float32-Zahl0,01666666753590107.
+Der Recorder liest fünf Body-Ursprünge, alle15 Körper inklusive Schlafzuständen,
+Assist-/Timer-/Grabzustand und native Geschwindigkeiten vor/nach Input.
+Keine weitere World oder Controllerimplementierung im Vergleich.
+
+Original0,4N·s in Welt+X beiStep120, Torso-Lokalpunkt(0;0,30;0);
+tatsächlicher Weltpunkt(−0,01050536;1,76736735;−0,00730463)m.
+Unmittelbar Δvₓ0,200000008m/s, Δωz−1,249042530rad/s.
+Gerichtete Unterschiede **P minus zeitgleiches R**, d=+X, c=−Z:
+
+| Body-Ursprung | größter positiver Δd2–4s | kleinster Δd2–4s |
+|---|---:|---:|
+| Kopf | +8,711mm (Step130) | −18,408mm (211) |
+| Torso | +5,448mm (131) | −17,490mm (214) |
+| Becken | +4,131mm (131) | −17,318mm (219) |
+| Fuß L | +0,270mm (124) | −28,437mm (240) |
+| Fuß R | +3,514mm (240) | −4,277mm (190) |
+
+Torso Δβ in Schubebene maximal **+0,24011°** beiStep129, danach
+−0,15690° bei153. Orthogonale Δγ etwa−0,06669…+0,04390°.
+Up-Vektordifferenz maximal0,24011°. Relative Kopf-/Torso-Becken-/Fußbasisbewegung,
+Bildprojektion, komplette Winkel-/Geschwindigkeitsverläufe und Fensterwerte im Rohbeleg.
+
+Torso-Geschwindigkeitsdifferenz RMS: Antwort2–4s0,02932m/s,
+letzte halbe Antwortsekunde0,00824m/s, Nachfenster4–6s0,00547m/s.
+Restversatz am Ende etwa−8,080mm am Torso. Die Füße bewegen sich asymmetrisch weiter:
+FußL am Ende−39,808mm, FußR ungefähr+19,828mm gegenüber R.
+Dies ist kein vollständiger Stillstands-/Abklingnachweis.
+
+**Legacy V1 getrennt:** Beide Paare0,4424263024° zusätzliche absolute
+Torso-Neigung → **FAIL gegen unveränderte2°**. Keine neue Amplitudenschwelle.
+Stored-Test bestätigt die vollständige Torso-Pose-/Velocity-/Up-Trajektorie
+Steps0–360 exakt gegenüber dem ursprünglichen nativen B-Schubserbeleg.
+
+[Rohbeleg mit getrennten Q/H/S, gzip](gameplay-upright-v2-evidence.json.gz).
+SHA256 gzip:`cc8c77ebee4d03eab8bd421bcd69af66834f57965d14a0d2916d34cc3cd2e3a0`.
+Unannotiertes originales lokales JSON SHA256:
+`7a01a8b475ceb89efea19c2f8f6b2a739be1ca593f7cc0ca1c6a6b646de1b658`.
+Die spätere H-Annotation verändert keine Messwerte; das Original liegt lokal in
+`browser-observation-v2-20261009/results.json`, zusammen mit Budget/Clips.
+
+## H — Sichtbarkeit separat
+
+Agentenbewertung aus nativer1×-Eingabeclipwiedergabe bei Original1280×720/DPR1
+und Reaktionsframes, anschließend R/P über die sichtbare HUD-Zeit verglichen:
+1. **Nein:** weiterhin nur schwaches kurzes Versetzen, kein klar lesbarer kleiner Treffer.
+2. **Unklar:** Richtung ist messbar; die schwache Bildbewegung lässt sich nicht überzeugend
+   als eigene gerichtete Reaktion vom Leerlauf unterscheiden.
+3. **Unklar:** Oberkörper bleibt unterstützt aufrecht und ruhig; fortgesetzte Fußbewegung
+   begrenzt die Aussage zum vollständig kontrollierten Abklingen.
+
+Keine Nutzerabnahme, Spaßscore oder aus Diagramm/Zoom abgeleitete Sichtbarkeit.
+Paar2 ist quantitativ identisch, aber nicht als separate menschliche Abnahme gewertet.
+
+[ReferenzR1](gameplay-upright-media/v2-1.webm) ·
+[EingabeP1](gameplay-upright-media/v2-2.webm) ·
+[ReferenzR2](gameplay-upright-media/v2-3.webm) ·
+[EingabeP2](gameplay-upright-media/v2-4.webm).
+
+Die nativen Clips enthalten Lade-/Bedienvorlauf; gleiche Video-Wallclock ist
+nicht automatisch gleiche Simulationszeit. Beide Clips über HUD-t ausrichten.
+Die mathematischen Vergleiche sind dagegen exakt stepgleich.
+Die verkleinerten nebeneinander angezeigten Clips dienen dem Vergleich,
+ersetzen nicht die Bewertung des Eingabeclips im normalen Bildmaßstab.
+
+## S — Sicherheit separat
+
+Alle vier bleiben vor der Endpause `ASSISTED_READY`, kein Fall/Balance-lost,
+kein invalid oder Nicht-Fuß-Bodenkontakt; maxJointankerlücke0,00530m.
+Beide Eingabeläufe erfüllen beiτ=2s den bisherigen aufrechten Bereich mit
+Becken-/Torso≤15°, Beckenhöhe0,95–1,25m und Fußnähe/Berührung.
+Native Commandcaps bleiben im bestehenden Rahmen.
+Die Fensterpause schaltet anschließend wie bisher die Hilfen aus;
+Endpause ist kein früher Assistverlust.
+
+Kein neuer Griff-/Stark-/Block-/Assist-Aus-/Reset-Verhaltensnachweis,
+keine solverinterne Motorimpulsmessung, vollständige Durchdringungsabnahme,
+15s-Haltung, Hidden/Resume, Touch/Mobilhardware, Standing- oder Performancefreigabe.
+Diese bisherigen Anforderungen/Prüflücken bleiben erhalten.
+
+## Bedingungen, Checks und Selbstreview
+
+Windows11/win32 10.0.26300 x64, Node24.21.0, native ChromePortable156.0.8078.4,
+isoliertes Profil `5ba362d2ac316fc0613e21c146a9c1ae93e934243509699da469f11b01412c7b`.
+Executable SHA256 `ea4eb4ea31e82309db8b8b9dcdd445f2ed997d09f96f95f7d78db26ed39be249`.
+1280×720/DPR1, Canvas940×720; unveränderte Kamera(3,8;2,7;6), FOV36°,
+Look-at(0,35;1,05;0). Ryzen5 5600X, RTX3070Ti ANGLE/Direct3D11/WebGL2.
+Bereinigte Launchargumente im Rohbeleg; keine Background-Throttling-Disableflags.
+Keine allgemeine Hardware-/Frameratebehauptung.
+
+- **120/120 Repositorytests**, null übersprungen; gezielte Zuordnung-/Vorzeichen-/
+  Step-/Missing-data-/Read-only-/Stored-Checks ohne neue Diagnosekampagne.
+- Produktions- und isolierter Gameplaybuild erfolgreich; reguläre finale Head-CI
+  wird im PR/Issue unter ihrer tatsächlichen Headidentität verlinkt.
+- Native Vergleichsansicht: Rohdaten laden, Paarwechsel, Stepanzeige und seekbare
+  Clipwiedergabe geprüft; keine Consolefehler/-warnungen. Vergleichsansicht enthält
+  weder World noch laufende Simulation.
+- Vollständiger Diff als **Selbstreview**, kein unabhängiger Review.
+  Assistcontroller, Rig, Grab, FixedClock, Produktionsarena, normale Vitekonfiguration,
+  Lock und Forschungsdateien bytegleich. Bestehende historical Reports/Archive erhalten.
+  Nur Recorder/Auswertung, feste6s-Beobachtungsgrenze, reine Vergleichsansicht,
+  Aufnahmeverdrahtung, Tests und Belege. Kamera-/Renderparameter unverändert.
+  Nach der Messung nur Clipseek und fehlende/null Reader-Datensätze abgesichert;
+  kein Recorder-/Physikpfad geändert, Stored-Vergleich bleibt identisch.
+
+## Lokaler Testzugang
+
+**Ohne neue Physik:** http://127.0.0.1:4174/goblin/gameplay/upright/comparison.html
+Paar1/2 wählen → Q/Legacy/S lesen → Messstep bewegen →
+Clips über HUD-t ausrichten und bei1× abspielen.
+Clippositionen sind Videowiedergabe, keine Parameterregler.
+
+**Eigener Spieltest, pausierter Start:** http://127.0.0.1:4174/goblin/gameplay/upright/?yield=B&observe=v2
+Start → Klein bei2s vormerken → sechs Sekunden → manueller Reset.
+Eigene Nutzerinteraktion ist keine bereits erfolgte Abnahme.
+**Agentenbudget4/4 beendet; Runner nicht erneut starten.**
+
+Falls Preview fehlt, im PR-Worktree:
+`npx vite build --config vite.gameplay.config.js`, dann
+`node scripts/gameplay-upright-preview.cjs`.
+Strikter4174, keinen fremden Server übernehmen. Der Build enthält die
+gespeicherten Rohdaten/Clips für die Vergleichsansicht; normale Arena bleibt separat.
+
+## Umgebungsfehler und begrenzte Maßnahmen
+
+Normaler Prozesshelper scheiterte vor Start(`helper_unknown_error / setup refresh`);
+vorhandener Node-Zugang und gezielt genehmigte Fetch-/Git-/Test-/Browserprozesse erfolgreich.
+Stepfreier Wasmcheck im REPL scheiterte an dessen Embeddergrenze; derselbe
+API-Read ohne world.step im vorhandenen Node-Kindprozess erfolgreich.
+Keine globale Konfiguration/Installation oder Fremdprozesse verändert.
+Diese zwei lokalen Ersatzmaßnahmen waren jeweils unmittelbar begrenzt;
+Helperursache bleibt offen, keine notwendige Laufprüfung dadurch blockiert.
+
+DevTools-Dateiscreenshot verweigerte den angegebenen Workspacepfad;
+keine Pfad-/Berechtigungsreparatur, nur reguläre Inline-Screenshotausgabe benutzt.
+Native Runner-Screenshots liegen bereits im lokalen Belegordner.
+Der vorhandene Previewserver unterstützt keine Byte-Ranges:
+erster Clipseek landete bei0s. In-scope die reine Ansicht auf Blobwiedergabe
+mit URL-Revoke bei Paarwechsel/Teardown geändert; Seek anschließend erfolgreich.
+Kein Serverneustart, keine neue Simulation. PowerShell-Testlog ist UTF16;
+korrekt decodiert, kein Test wiederholt oder Ergebnis verloren.
+
+## Genau ein nächster Schritt — Empfehlung, nicht freigegeben
+
+**Ein separat begrenzter Versuch mit einem kurzzeitig in Schubrichtung
+verschobenen Aufrichtziel für den gekoppelten Oberkörper.**
+Begründung: Der Impuls wirkt und erzeugt eine kleine gerichtete Antwort,
+aber steife Haltung/gekoppeltes Rig machen daraus kein klares Feedback.
+Ein ausdrücklich gekennzeichnetes ereignisabhängiges Poseziel könnte die
+bestehenden zulässigen Bewegungen des gesamten Rigs nutzen, statt nur die
+unveränderte Zielaufrichtung passiv schwächer zu machen.
+
+Das wäre ein anderer begrenzter Gameplay-Assistmechanismus, keine hier
+belegte Fehlerkorrektur oder Erfolgszusage. Vor Freigabe wären Zielverlauf,
+Caps und Griff-/Hit-/Fall-/Reset-Unterbrechung festzulegen.
+Keine Gainsuche, stärkere Originaleingabe, Rigänderung oder weitere
+Vertragsrevision wird dadurch aktiviert. **Hier nicht implementiert/gestartet.**
+
+**PR bleibt Draft. Kein Merge/Deployment/Recovery/Folgepaket. STOPP.**
+
+---
+
 # Nachgabeversuch — 09.10.2026: kein ausreichender Nutzen, STOPP
 
 [Vorabplan](https://github.com/bongohorse/goblin/issues/94#issuecomment-6072289713), PR #95 bleibt Draft. Vorher war die kleine B-Reaktion schwach; jetzt sind zwei eng begrenzte Torque-Nachgabevarianten implementiert und verglichen. **Keine Variante erfüllt das unveränderte 2°-Kriterium oder den vorab festgelegten Diagnose-Mehrnutzen. Alte FAILs bleiben bestehen.**

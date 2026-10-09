@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {gunzipSync} from 'node:zlib';
 import R from '@dimforge/rapier3d-compat';
 import {UprightSlice} from '../src/gameplay/upright-assist.js';
 import {CONFIG_B,UprightSession} from '../src/gameplay/upright-session.js';
@@ -86,6 +87,9 @@ test('V2 signs are world +X / -Z; includes feet, relative motion, angle wrapping
 test('V2 refuses absent, duplicate, mistimed and nonfinite data instead of defaulting to zero',()=>{
   for(const corrupt of [
     P=>P.trace.splice(129,1),
+    P=>P.trace[129]=null,
+    P=>P.trace[129].commands.torques={torso:null},
+    P=>P.events.push(null),
     P=>P.trace[129].step=128,
     P=>P.trace[129].time+=.01,
     P=>delete P.trace[129].observation.points.head,
@@ -112,4 +116,16 @@ test('V2 capture reads native state without writes or a physics step',()=>{
     assert.ok(Math.abs(input.deltaVelocity.x-.2)<1e-6);assert.ok(input.deltaAngularVelocity.z<0);
     assert.equal(sim.steps,0);sim.step=step;
   }finally{session.dispose();}
+});
+
+test('stored native V2 pairs stay aligned and retain the archived B trajectory and FAIL',()=>{
+  const data=JSON.parse(gunzipSync(fs.readFileSync(new URL('../docs/development/gameplay-upright-v2-evidence.json.gz',import.meta.url))));
+  assert.equal(data.records.length,4);
+  const archive=JSON.parse(gunzipSync(fs.readFileSync(new URL('../docs/development/gameplay-upright-browser-evidence.json.gz',import.meta.url))));
+  for(let i=0;i<4;i+=2){
+    const c=comparePair(data.records[i],data.records[i+1]);assert.equal(c.Q.valid,true);
+    assert.equal(c.Q.legacyV1.pass,false);assert.equal(c.S.inputSafe,true);
+    const old=archive.results[2].observed.trace;
+    for(const row of data.records[i+1].trace)assert.deepEqual(row.torso,old[row.step].torso,'read-only recording does not change native B');
+  }
 });

@@ -1,6 +1,8 @@
 import {comparePair,POINT_IDS} from './upright-comparison.js';
 const $=id=>document.getElementById(id);
-let data,result;
+let data,result,videoGeneration=0;
+const clipUrls=new Map();
+addEventListener('pagehide',()=>{for(const url of clipUrls.values())URL.revokeObjectURL(url);});
 async function decode(buffer,gzip){return JSON.parse(await (gzip?new Response(new Blob([buffer]).stream().pipeThrough(new DecompressionStream('gzip'))).text():new TextDecoder().decode(buffer)));}
 function showRow(){
   if(!result?.Q.valid)return;
@@ -17,6 +19,7 @@ function showRow(){
   $('windows').textContent=JSON.stringify({windows:result.Q.windows,relativeAtStep:row.relative},null,2);
 }
 function showPair(){
+  const generation=++videoGeneration;
   const id=$('pair').value,R=data.records.find(r=>r.pairId===id&&r.role==='reference'),P=data.records.find(r=>r.pairId===id&&r.role==='input');
   result=comparePair(R,P);
   $('identity').textContent='V2 · Paar '+id+' · Build '+(P?.identity?.build?.revision||'unbekannt')+' · '+(P?.identity?.environment?.userAgent||'');
@@ -26,8 +29,15 @@ function showPair(){
   $('safety').textContent=JSON.stringify(result.S,null,2);
   for(const [role,record] of [['reference',R],['input',P]]){
     const video=$(role);video.pause();
-    if(record&&Number.isInteger(record.number)&&record.number>=1&&record.number<=4)video.src='./v2-media/sequence-'+record.number+'.webm';
-    else video.removeAttribute('src');
+    if(clipUrls.has(role)){URL.revokeObjectURL(clipUrls.get(role));clipUrls.delete(role);}
+    video.removeAttribute('src');
+    if(record&&Number.isInteger(record.number)&&record.number>=1&&record.number<=4){
+      // The local preview has no byte-range endpoint. Blob playback supports seeking without changing the server.
+      fetch('./v2-media/sequence-'+record.number+'.webm').then(async response=>{
+        if(!response.ok)throw Error('Clip '+response.status);const blob=await response.blob();
+        if(generation!==videoGeneration)return;const url=URL.createObjectURL(blob);clipUrls.set(role,url);video.src=url;
+      }).catch(error=>{if(generation===videoGeneration)$('status').textContent='Clipdaten: '+error.message;});
+    }
   }
   $('points').replaceChildren();$('angles').textContent='';$('windows').textContent='';showRow();
 }
