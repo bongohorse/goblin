@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link rel="icon" href="data:,"><title>Goblin Playground</title></head>
+<body data-playground="true"><main id="app">
+<section id="view" aria-label="Goblin Spielfeld"><canvas aria-label="Körperteil greifen und ziehen"></canvas><div id="hint">Körperteil anfassen und ziehen · Loslassen zum Werfen</div></section>
+<aside><p class="eyebrow">DEIN PERSÖNLICHES TESTLAB</p><h1>Goblin Playground</h1>
+<p class="notice">Vorläufiger Gameplay-Prototyp mit Hilfen. Bekannte Fußdrift; vollständige Abnahme offen. Kein Standing-Nachweis.</p>
+<p id="identity">Build wird geladen …</p>
+<label for="variant">Variante vergleichen</label><select id="variant" disabled><option value="R1">R1 · sanfte Rückkehr (Standard)</option><option value="T1">T1 · ursprüngliche Zielreaktion</option><option value="B">B · ohne zusätzliche Zielreaktion</option></select>
+<p class="instructions">Jeder Wechsel beginnt einen neuen, pausierten Run. Markierung und Notiz werden dabei gelöscht.</p>
+<p id="status" role="status">Initialisierung …</p><p id="assistStatus"></p><p id="pauseStatus" role="status"></p><p id="input">Noch keine Interaktion</p>
+<div class="buttons"><button id="play" disabled>Start</button><button id="step" disabled>Einzelschritt</button><button id="reset" disabled>Reset</button></div>
+<div class="buttons"><button id="small" disabled>Kleiner Schubser</button><button id="strong" disabled>Starker Schubser</button></div>
+<p class="instructions">Pause und Markieren erhalten den Zustand. Bei aktivem Griff wird der Griff sicher abgebrochen; die Hilfe bleibt aus. Sicherheitsstopp, Fokusverlust und starker Schubser schalten Hilfen aus. Nur Reset schaltet sie wieder ein. Nach 10 s endet der Run.</p>
+<button id="safetyStop" disabled>Sicherheitsstopp · Hilfe ausschalten</button>
+<details><summary>Kamera</summary><label><input id="cameraMode" type="checkbox"> Mit Maus / einem Finger Kamera drehen</label><p>Sonst: rechte Maustaste zum Drehen, Mausrad zum Zoomen. Mit zwei Fingern drehen und zoomen.</p><div class="buttons"><button id="cameraReset">Kamera zurücksetzen</button><button id="side">Seitenansicht</button></div></details>
+<details open><summary>Beobachtung &amp; Feedback</summary><button id="mark" disabled>Aktuelle Stelle markieren</button><p class="instructions">Kopiert den aktuellen Zustand vor der Pause. Bei aktivem Griff ist der folgende Sicherheitsabbruch im Export benannt. Ein neuer Marker ersetzt den alten; kein Zurückspulen.</p>
+<label for="body">Körperteil (optional)</label><select id="body"><option value="">Keine Auswahl</option></select>
+<label for="category">Kategorie</label><select id="category"><option value="other">Sonstiges</option><option value="foot">Fuß</option><option value="head">Kopf</option><option value="joint">Gelenk</option><option value="balance">Balance</option></select>
+<label for="note">Deine Beobachtung</label><textarea id="note" rows="3" maxlength="2000" placeholder="Was fällt dir auf? Was hast du zuvor gemacht?"></textarea>
+<button id="feedbackExport" disabled>Feedback als JSON herunterladen</button><p id="feedbackStatus" role="status">Noch keine Stelle markiert.</p><p class="instructions">Enthält Build, Variante, Run, Schritt, Zustand, Kamera, Browser und deine Notiz. Lokaler Download; keine Übertragung. Keine vollständige Eingabeaufzeichnung oder Reproduktionsgarantie.</p></details>
+<details><summary>Technische Details</summary><p id="metrics"></p><p>R1 = T1 mit vorhandener R1-Rückkehr. Alle Varianten verwenden dasselbe Rig, dieselben Gains, Caps und Impulse. Kleiner Schubser 0,4 Ns; starker 3,2 Ns, jeweils in Welt-X.</p>
+<label><input id="schedule" type="checkbox"> Schubser bei 2 s vormerken</label><button id="assistOff" disabled>Hilfe jetzt ausschalten</button>
+<fieldset><legend>Beim nächsten Reset</legend><label><input id="assisted" type="checkbox" checked> Haltungshilfe einschalten</label><label><input id="obstacle" type="checkbox"> Vorhandenen Testblock einschalten</label></fieldset><p>Kein automatisches Aufstehen. Kamera und Diagnose lesen nur den Zustand.</p></details>
+</aside></main><script type="module" src="../src/gameplay/upright-scene.js"></script></body></html>
