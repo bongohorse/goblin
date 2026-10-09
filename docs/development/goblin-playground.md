@@ -10,19 +10,48 @@ Persönliches lokales Testlab für den vorhandenen assistierten Gameplay-Prototy
 
 1. B, T1 oder R1 wählen. Jeder Variantenwechsel erzeugt eine neue Simulation mit pausiertem Schritt 0 und neuer Runbindung. B: vorhandene Haltungshilfe ohne zusätzliche Zielreaktion; T1: vorhandene Zielreaktion; R1: T1 mit vorhandener sanfterer Rückkehr.
 2. Start, dann kleiner/starker Schubser oder direkt am Körper ziehen. Loslassen nutzt den bisherigen Wurfvertrag. Nach 10 simulierten Sekunden pausiert das bestehende Fenster; neuer Versuch mit Reset.
-3. Pause, Griff und starker Schubser schalten Hilfen über den bestehenden Pfad aus. Fortsetzen bleibt dynamisch. Nur manueller Reset schaltet gewählte Hilfen wieder ein. Einzelschritt ist ein tatsächlicher 1/60-s-Schritt im selben Step-Pfad; kein Wiederanschalten der Hilfe.
+3. **Pause ist eine Beobachtungspause:** Assistzustand, Motorbefehle, Reaktionsphase, Zielverlauf und vorgemerkte Schrittinputs bleiben erhalten. Fortsetzen holt keine Wandzeit nach. Einzelschritt ist genau ein tatsächlicher 1/60-s-Schritt im selben Pfad und endet wieder pausiert. Während Pause können keine neuen Schubser/Griffe oder Pointerbewegungen aufgestaut werden.
+   **Ausnahme aktiver Griff:** Pause/Markieren bricht ihn ausdrücklich als Sicherheitsstopp ab, ohne Wurf. Griff, starker Schubser, Sicherheitsstopp, Escape und Fokus-/Tabverlust schalten Hilfen aus; auch bei bereits beobachtungspausiertem Run. Fortsetzen schaltet sie nicht wieder ein. Nur Reset schaltet die gewählten Hilfen erneut ein. Bewusstes „Hilfe jetzt ausschalten“ ist eine getrennte Aktion.
 4. Unter Kamera drehen/zoomen, Seitenansicht oder Kamera-Reset. Rechte Maustaste/Mausrad bzw. zwei Finger; optional ein Finger/linke Taste zum Kameradrehen statt Greifen.
-5. Aktuelle Stelle markieren: pausiert einen laufenden Run und kopiert genau einen Zustand. Optional Körperteil, Kategorie und Notiz wählen; Feedback als JSON herunterladen. Neue Markierung ersetzt die alte. Reset/Variante löschen Marker, Notiz und Auswahl.
+5. Aktuelle Stelle markieren: kopiert genau einen Zustand **vor dem Pausenrequest** und pausiert zustandstreu, solange kein Griff aktiv ist. Bei aktivem Griff hält der Export den Vor-Abbruch-Zustand sowie den anschließend ausgeführten Sicherheitsabbruch fest. Optional Körperteil, Kategorie und Notiz wählen; Feedback als JSON herunterladen. Neue Markierung ersetzt die alte. Reset/Variante löschen Marker, Notiz und Auswahl.
 
-JSON enthält Buildrevision/Quellhash/dirty, Variante, eindeutige Sitzungs-/Run-ID, markierten Schritt/Zeit, verfügbaren Körper-/Assist-/Grabzustand, Kamera/Browser/Viewport und Nutzertext. Kein Upload, vollständiger Inputverlauf, Solverrestore, Replay oder Reproduktionsversprechen. Snapshotfehler erzeugen einen ausdrücklich unvollständigen Diagnosebericht; ungültige Kategorie/Körperwahl und Notizen über 2000 Zeichen werden verständlich abgelehnt. Vorhandene finite JSON- und Größenprüfungen aus dem Feedback-MVP werden wiederverwendet.
+JSON enthält Buildrevision/Quellhash/dirty, Variante, eindeutige Sitzungs-/Run-ID, markierten Schritt/Zeit, verfügbaren Körper-/Assist-/Grabzustand, Kamera/Browser/Viewport und Nutzertext. `observation.pause` nennt Pausenart/Ursache, Request und Aktion (`observation-pause`, `safety-stop`, `already-paused`); `snapshot_timing=before-pause-request` bezeichnet den kopierten Zustand. Bei einer bereits bestehenden Sicherheitspause ist die frühere Ursache kein neuer Abbruch beim Marker. Kein Upload, vollständiger Inputverlauf, Solverrestore, Replay oder Reproduktionsversprechen. Snapshotfehler erzeugen einen ausdrücklich unvollständigen Diagnosebericht; ungültige Kategorie/Körperwahl und Notizen über 2000 Zeichen werden verständlich abgelehnt. Vorhandene finite JSON- und Größenprüfungen aus dem Feedback-MVP werden wiederverwendet.
 
 ## Gemeinsame Implementierung
 
 Beide HTML-Routen laden **dieselbe** `src/gameplay/upright-scene.js`, `UprightReturnSlice`, `UprightSession`, `createGoblinRig`, `ContactGrab`, Motoren und FixedClock. Gemeinsame URL-Variantenzuordnung, Default R1 auf beiden Routen; explizite historische URLs behalten ihre Werte. Kein Playgroundcontroller, keine anderen Gains/Caps/Impulse/Zielkurven, keine Kopie der Physik. Einzelschritt und Clock benutzen `advanceStep()` mit derselben bisherigen Reihenfolge. Variantenwechsel baut nur eine frische Instanz des vorhandenen Pfades.
 
-Unterschiede: deutsche Bedienoberfläche, Orbitkamera und lesende Diagnose. Playground deaktiviert ausschließlich den historischen Recorder/Audit, hält keinen Steptrace oder kontinuierliche Framedaten und exportiert nur einen Marker. Gezielter echter Rapier-Test vergleicht für B/T1/R1 jeden vollständigen Snapshot bei gleicher Eingabe zwischen FixedClock mit Recorder und Einzelschritt ohne Recorder. Kamera-/Markerzugriff schreibt keine Körpertransformation.
+Unterschiede: deutsche Bedienoberfläche, Orbitkamera und lesende Diagnose. Playground deaktiviert ausschließlich den historischen Recorder/Audit, hält keinen Steptrace oder kontinuierliche Framedaten und exportiert nur einen Marker. Gezielter echter Rapier-Test vergleicht für B/T1/R1 jeden vollständigen Snapshot bei gleicher Eingabe zwischen FixedClock mit Recorder und Einzelschritt ohne Recorder. `observePause()` ist in beiden Routen der gemeinsame Beobachtungshalt; `pause(reason)` bleibt der explizite historische Sicherheitsweg für bestehende Runner. Keine UI stellt alte Kräfte/Motoren wieder her. Kamera-/Snapshotzugriff schreibt keine Körpertransformation.
 
-## Prüfung und Grenzen
+## P0: zustandstreue Pause und Markierung (09.10.2026)
+
+Vorheriger Head `463acf4591c9845e9b534a57f7d285216f903ea7`: UI-Pause und laufende Markierung riefen die Sicherheitsunterbrechung auf; Resume ließ Hilfen aus. Diese damalige Semantik und ihre Ergebnisse sind **historisch**, keine Beobachtungspause. Gespeicherte Clips/Traces/FAILs und ihre Provenienz bleiben unverändert.
+
+| Prüffall | Ergebnis am neuen P0-Stand |
+|---|---|
+| B/T1/R1, gleiche Stepinputs, unterbrochen vs. ununterbrochen | Über jeweils 144 Schritte identische vollständige native Snapshots, Controller-Timer, Schlafzustände und aufgezeichnete Motorparameter; Tests einschließlich aktiver Rise-/Returnphase |
+| Pause/Marker, lange Wandzeit, Einzelschritt/Resume | Keine Änderung am physikalischen Zustand beim Beobachten, genau ein regulärer Step, kein Catch-up; vorgemerkter kleiner Input bleibt bis Step120 erhalten und wird dort einmal angewendet |
+| Aktiver Griff, Marker vor Abbruch | Vorzustand mit Griff kopiert; klar benannter Sicherheitsstopp, Griff/Pointer/Pending aufgeräumt, kein Wurf und keine Assistreaktivierung |
+| Bereits ausgeschaltete Hilfe / Invalidität / Runende / Reset | Keine Reaktivierung durch Resume/Step; Invalidität/Runende sperren Fortschritt, Reset/Variantenwechsel beginnen frisch ohne alte Marker/Notizen |
+| Native Windows-Chrome-Bedienung und Download | B/T1/R1: Pause in Reaktion, 1,5 s Wandzeit warten, exakter eingefrorener Snapshot, Step/Resume und laufender Marker; tatsächliche JSON-Downloads samt Payload, Pending-Reset und Tastaturmarker während Mausgriff; auch Originalprototyp geprüft |
+
+Gezielte Regression: `node --test tests/gameplay-observation-pause.test.js`. Gesamte vorgeschriebene Tests: **142/142**, keine übersprungen; normaler und separater Gameplaybuild bestanden unter Node24.21.0. Keine Parameterstudie/Gameplay-Abnahme. Der separate Build zeigt Build-ID **53c6fb42d332d83e**; finale Revision/dirty und finale Head-CI werden bei Übergabe in #88/#94/PR95 verlinkt.
+
+Native Chrome Portable156.0.8078.4, eigenes temporäres Profil, 1280×720/DPR1, NVIDIA RTX3070Ti ANGLE/D3D11/WebGL2; 744×360 Touch-Emulation geprüft. Keine Console-/Assetfehler im Ablauf. #97 stepfreie Runner-/Node-/Blank-Browserchecks und Produktions-HTML+3 direkte Assets geprüft. Launchargumente, lokale Screenshots/Downloadpayloads und Ergebnis liegen im temporären QA-Verzeichnis; private Pfade bleiben lokal.
+
+**Native Hidden/Resume bleibt offen:** Aktivierung eines eigenen zweiten Tabs erzeugte trotz normaler Hintergrunddrosselung kein `hidden`-Ereignis. Erster gezielter Versuch endete am 5-s-Timeout; begrenzte Folgeprüfung hielt die fehlende Fähigkeit ausdrücklich als NOT PROVEN fest und führte die unabhängigen UI-Checks fort. Keine synthetischen Events/Visibilityoverrides. Der gemeinsame Sicherheitsweg auch bei schon pausierter Beobachtung ist gezielt getestet; das ersetzt keine native Visibility-Abnahme.
+
+Umgebung in diesem Paket: genehmigter gezielter Fetch erfolgreich; lokale Node24-Installation statt globaler Node26, vorhandene gelockte Worktree-Abhängigkeiten. Schreibfreie Chrome-Prozessidentifikation benötigte nach einmaliger Zugriffsverweigerung gezielten Prozesslesezugriff; vorhandenes natives Executable bestätigt, keine Fremdprozesse/Browserprofile beendet. Eigene Server auf freien strikten Ports gestartet. Anfängliche Dateinamenannahmen/Windows-rg-Glob korrigiert anhand Inventar; kein Installations-/Konfigurationsumbau. Eine falsche Bodycount-Erwartung im neuen Grifftest korrigiert: vorhandenen Grundbestand plus genau einen Grabanker prüfen. Kein Runtime-/Parameterdefekt daraus abgeleitet.
+
+## Spec — P0-Selbstreview
+
+Freigegebener Paketvertrag aus #88 erfüllt im nachgewiesenen Umfang: gemeinsamer Beobachtungshalt, Safety-/Assist-Aus getrennt, Marker vor nötigem Griffabbruch mit ausdrücklicher Semantik, Pending/Pointer/Runbindung geprüft. Keine Kameraerweiterung, Wireframes, Trails, Regler oder Aufstehen. Historische Pauseverläufe bleiben unverändert archiviert. Keine Nutzer-, Standing-, Hardwareperformance- oder vollständige Gameplay-Abnahme; native Hidden/Resume ausdrücklich offen.
+
+## Engineering — P0-Selbstreview
+
+Vollständiger Paketdiff sowie PR-Diff gegen main geprüft, Selbstreview des Autors. Keine konkurrierenden Transformschreiber, kein Force-/Motorrestore, gleicher advanceStep-Pfad. Controller/Returnkurve/Rig/Grab/FixedClock/Standing/Forschungsdaten/Lock/main-Vite und Workflows bytegleich zum vorherigen Head. Pausekontext unterscheidet aktuellen Request von einer bereits bestehenden Sicherheitspause. Einzelschritt auch im ursprünglichen Prototyp; Blob-/Pointer-/World-Cleanup erhalten. Keine verbleibenden blockierenden Befunde im P0-Scope. Finaler Head/CI und erreichbarer frischer Build werden im Tracker bestätigt. PR bleibt Draft, kein Merge/Deployment; STOPP. Nächster möglicher Hebel: Kameraansichten aus #88, nur nach eigenem Nutzerauftrag.
+
+## Historische erste Playground-Übergabe und Grenzen (Head463acf4)
 
 #97: Runner-/Event-/HTTP-Vorabtests, Node24.21.0 Rapier init/read/free ohne Steps und native Blank-Wasm/WebGL2/Callback/Inline- und Dateiscreenshot erfolgreich. Video wird für dieses Feedbacklab nicht benötigt und nicht neu geprüft. Echte pausierte Szene Step0/Pending/Griff/Observer vor UI-Start geprüft. Produktions-HTML und direkte Assets werden gegen frische lokale Buildbytes verglichen.
 
@@ -36,6 +65,6 @@ Umgebung: Fetch zunächst durch FETCH_HEAD-Sandboxgrenze blockiert, gezielt frei
 
 Der erste vollständige lokale npm-Testunterprozess verwendete trotz Node24-Elternprozess den globalen Node26 und wurde nicht als finaler Projektnachweis gewertet. PATH ausschließlich für den finalen Prüfprozess auf den vorhandenen Node24 gesetzt; keine globale Änderung.
 
-## Selbstreview
+## Historisches Selbstreview der ersten Playground-Übergabe
 
 Spec: bedienbarer lokaler Slice statt URL-/Runnerhauptansicht; alle bestehenden Parameter/Forschungsstopps erhalten. Keine Nutzerabnahme, kein Merge/Deployment. Engineering: ein gemeinsamer Step-/Interaktionspfad; vorhandene World bei Variantenwechsel freigegeben, Renderer/Meshes weiterverwendet, OrbitControls beim Verlassen entsorgt, Download-Blob freigegeben. Keine Arena-/Standing-/Rig-/Grab-/Clock-/Dependency-/main-Viteänderung. Historische Belege und Pins unverändert. Nächster Hebel ausschließlich: Nutzerfeedback zum vorhandenen Slice abwarten. Danach STOPP.

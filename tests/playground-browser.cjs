@@ -5,7 +5,8 @@ const arg=name=>process.argv[process.argv.indexOf(name)+1];
 async function main(){
   if(!process.argv.includes('--executable')||!process.argv.includes('--url'))throw Error('Confirmed --executable and reachable --url required; no fallback');
   const out=await fs.mkdtemp(path.join(os.tmpdir(),'goblin-playground-qa-'));
-  const browser=await chromium.launch({executablePath:arg('--executable'),headless:false,args:['--enable-automation']});
+  const browser=await chromium.launch({executablePath:arg('--executable'),headless:false,args:['--enable-automation'],
+    ignoreDefaultArgs:['--disable-background-timer-throttling','--disable-backgrounding-occluded-windows','--disable-renderer-backgrounding']});
   const context=await browser.newContext({viewport:{width:1280,height:720},deviceScaleFactor:1,acceptDownloads:true});
   const page=await context.newPage(),errors=[],requests=[];
   page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(['error','warning'].includes(m.type()))errors.push(m.text());});
@@ -34,10 +35,64 @@ async function main(){
       assert.equal(fresh.observationIdentity.reaction,variant==='B'?'B':'T1');assert.equal(fresh.observationIdentity.returnProfile,variant==='R1'?'R1':'legacy');
       await page.locator('#play').click();await page.waitForFunction(()=>uprightStepState().steps>=20);
       await page.locator('#small').click();await page.locator('#play').click();const paused=await read();
-      await page.waitForTimeout(100);assert.deepEqual((await read()).final.parts,paused.final.parts);assert.equal((await read()).final.assisted,false);
+      assert.equal(paused.pause.kind,'observation');assert.equal(paused.final.assisted,true);
+      if(variant!=='B')assert.ok(['RISE','HOLD','RETURN'].includes(paused.final.targetAssist.phase));
+      await page.waitForTimeout(1500);assert.deepEqual((await read()).final,paused.final);assert.equal((await read()).pending,paused.pending);
+      await page.locator('#step').click();assert.equal((await read()).final.steps,paused.final.steps+1);assert.equal((await read()).paused,true);
+      await page.locator('#play').click();await page.waitForFunction(step=>uprightStepState().steps>step,paused.final.steps+1);
+      await page.locator('#mark').click();const marked=await read();assert.equal(marked.pause.kind,'observation');
+      assert.equal(marked.final.assisted,true);await page.waitForTimeout(300);assert.deepEqual((await read()).final,marked.final);
+      const markedDownloadPromise=page.waitForEvent('download');await page.locator('#feedbackExport').click();const markedDownload=await markedDownloadPromise;
+      const markedFile=path.join(out,markedDownload.suggestedFilename());await markedDownload.saveAs(markedFile);
+      const markedFeedback=JSON.parse(await fs.readFile(markedFile,'utf8'));
+      assert.deepEqual(markedFeedback.observation.snapshot,marked.final);assert.equal(markedFeedback.observation.pause.kind,'observation');
+      assert.equal(markedFeedback.observation.pause.snapshot_timing,'before-pause-request');assert.equal(markedFeedback.identity.variant,variant);
       await page.locator('#reset').click();assert.equal((await read()).final.steps,0);assert.equal((await read()).final.assisted,true);
     }
-    checks.push('B/T1/R1 fresh runs, small pushes, pause and reset');
+    checks.push('B/T1/R1 reaction pause: 1.5 s wall wait, exact frozen snapshot, one step, resume, running marker and actual download');
+    // Pending step120 input survives observation, but new paused pushes never queue.
+    await page.locator('summary').filter({hasText:'Technische Details'}).click();
+    await page.locator('#schedule').check();await page.locator('#play').click();await page.locator('#small').click();
+    await page.locator('#play').click();const pendingPause=await read();assert.equal(pendingPause.pending,false);
+    await page.waitForTimeout(300);assert.equal((await read()).pending,false);assert.equal(await page.locator('#small').isDisabled(),true);
+    await page.locator('#reset').click();assert.equal((await read()).pending,null);await page.locator('#schedule').uncheck();
+    // Native keyboard marking while the mouse still holds a grip avoids a hidden release/throw.
+    await page.locator('#play').click();const gripHand=(await read()).parts.find(p=>p.id==='handL').screen;
+    await page.mouse.move(gripHand.x,gripHand.y);await page.mouse.down();assert.equal((await read()).final.grab.active,true);
+    await page.locator('#mark').focus();await page.keyboard.press('Space');const cancelled=await read();
+    assert.equal(cancelled.paused,true);assert.equal(cancelled.pause.kind,'safety');assert.equal(cancelled.pause.reason,'marker-active-grab');
+    assert.equal(cancelled.final.grab.active,false);assert.equal(cancelled.pointerId,null);assert.equal(cancelled.final.grab.lastRelease.threw,false);
+    const cancelledMotion=cancelled.final.parts;await page.mouse.move(gripHand.x+80,gripHand.y-30);await page.mouse.up();
+    assert.deepEqual((await read()).final.parts,cancelledMotion);
+    const gripDownloadPromise=page.waitForEvent('download');await page.locator('#feedbackExport').click();const gripDownload=await gripDownloadPromise;
+    const gripFile=path.join(out,gripDownload.suggestedFilename());await gripDownload.saveAs(gripFile);
+    const gripFeedback=JSON.parse(await fs.readFile(gripFile,'utf8'));assert.equal(gripFeedback.observation.snapshot.grab.active,true);
+    assert.equal(gripFeedback.observation.pause.kind,'safety');assert.equal(gripFeedback.observation.pause.grab_cancelled,true);
+    await page.locator('#play').click();assert.equal((await read()).final.assisted,false);await page.locator('#reset').click();
+    await page.locator('#assistOff').click();await page.locator('#step').click();assert.equal((await read()).final.assisted,false);
+    await page.locator('#play').click();assert.equal((await read()).final.assisted,false);await page.locator('#safetyStop').click();
+    assert.equal((await read()).pause.reason,'manual-safety-stop');await page.locator('#reset').click();
+    checks.push('pending input preservation/reset; active-grip keyboard marker pre-safety payload; pointer cleanup/no throw; explicit assist-off and safety stop');
+    // Observe native visibility events with normal background throttling, including an already paused run.
+    await page.evaluate(()=>{window.nativeVisibility=[];document.addEventListener('visibilitychange',event=>{
+      const d=uprightDiagnostics();nativeVisibility.push({hidden:document.hidden,trusted:event.isTrusted,steps:d.final.steps,paused:d.paused,pause:d.pause});
+    });});
+    await page.locator('#play').click();await page.waitForFunction(()=>uprightStepState().steps>=5);await page.locator('#play').click();
+    const hiddenStart=(await read()).final.steps,other=await context.newPage();await other.bringToFront();
+    let observedHidden=true;
+    try{await page.waitForFunction(()=>document.hidden,null,{polling:100,timeout:5000});}
+    catch(error){if(error.name!=='TimeoutError')throw error;observedHidden=false;}
+    await page.waitForTimeout(300);
+    const hidden=await read();assert.equal(hidden.final.steps,hiddenStart);
+    if(observedHidden){assert.equal(hidden.pause.kind,'safety');assert.equal(hidden.final.assisted,false);}
+    await page.bringToFront();await page.waitForFunction(()=>!document.hidden);const events=await page.evaluate(()=>nativeVisibility);
+    if(observedHidden){assert.ok(events.some(e=>e.hidden&&e.trusted));assert.ok(events.some(e=>!e.hidden&&e.trusted));}
+    await page.locator('#play').click();await page.waitForFunction(step=>uprightStepState().steps>step,hiddenStart);
+    if(observedHidden)assert.equal((await read()).final.assisted,false);
+    await other.close();await page.locator('#reset').click();
+    await fs.writeFile(path.join(out,'native-visibility.json'),JSON.stringify(events,null,2));
+    checks.push(observedHidden?'native trusted hidden/visible while observation-paused; safety off, frozen step, actual resume progress without assist reactivation':
+      'NOT PROVEN native Hidden/Resume: own tab activation produced no hidden event; no synthetic substitute');
     // Camera changes only the view, never the paused physical state.
     await page.locator('summary').filter({hasText:'Kamera'}).click();const physical=(await read()).final;
     await page.locator('#side').click();assert.deepEqual((await read()).final,physical);
@@ -59,6 +114,16 @@ async function main(){
     assert.equal((await read()).final.grab.active,true);await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:mobileHand.x+25,y:mobileHand.y-10}]});
     await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});assert.equal((await read()).final.grab.active,false);
     await page.locator('#reset').click();await page.screenshot({path:path.join(out,'landscape.png')});checks.push('744x360 touch emulation grab/release, scrollable controls, no horizontal overflow');
+    await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:false});await page.setViewportSize({width:1280,height:720});
+    await page.goto(new URL('../gameplay/upright/?variant=R1',arg('--url')).href);await page.waitForFunction(()=>window.uprightDiagnostics);
+    await page.locator('#play').click();await page.waitForFunction(()=>uprightStepState().steps>=20);
+    await page.locator('#small').click();await page.locator('#play').click();const prototypePause=await read();
+    assert.equal(prototypePause.pause.kind,'observation');assert.equal(prototypePause.final.assisted,true);
+    await page.waitForTimeout(300);assert.deepEqual((await read()).final,prototypePause.final);
+    await page.locator('#step').click();assert.equal((await read()).final.steps,prototypePause.final.steps+1);
+    await page.locator('#play').click();await page.waitForFunction(step=>uprightStepState().steps>step,prototypePause.final.steps+1);
+    await page.locator('#safetyStop').click();assert.equal((await read()).final.assisted,false);
+    await page.locator('#reset').click();checks.push('original prototype uses the same observation/step/resume/safety controls');
     assert.deepEqual(errors,[]);assert.deepEqual(requests,[]);
     await fs.writeFile(path.join(out,'result.json'),JSON.stringify({identity,checks,errors,requests,feedbackFile:path.basename(file)},null,2));
     console.log(JSON.stringify({out,build:initial.build.build_id,checks,errors,requests}));

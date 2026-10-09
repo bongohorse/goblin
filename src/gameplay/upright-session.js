@@ -49,11 +49,29 @@ export class UprightSession {
   event(kind,detail={}){if(this.record)this.events.push({kind,step:this.sim.steps,time:this.sim.steps/60,...detail});}
   reset(options){
     this.sim.reset(options);this.clock.reset();this.paused=true;this.pending=null;
+    this.pauseContext={kind:'initial',reason:'reset',step:this.sim.steps};
     this.trace=[];this.events=[];this.lastRun=null;this.trial=null;this.event('manual-reset',{options});this.capture();
   }
   pause(reason='pause'){
+    this.pauseContext={kind:'safety',reason,step:this.sim.steps,
+      grab_cancelled:!!this.sim.grab.active,pending_discarded:this.pending!==null};
     this.sim.grab.cancel(reason);this.sim.interrupt(reason);this.paused=true;this.clock.reset();this.pending=null;
     this.event('pause',{reason});
+  }
+  // Observation is a clock stop, never an assist interruption or state restore.
+  // Keep pause() as the explicit historical safety path for existing callers.
+  observePause(reason='observation'){
+    let action='already-paused';
+    if(this.sim.grab.active){this.pause(reason+'-active-grab');action='safety-stop';}
+    else if(this.sim.invalid){this.pause('safety');action='safety-stop';}
+    else if(this.sim.steps>=this.windowLimit){this.pause('window-limit');action='safety-stop';}
+    else if(!this.paused||this.pauseContext.kind!=='safety'){
+      this.paused=true;this.clock.reset();
+      this.pauseContext={kind:'observation',reason,step:this.sim.steps};
+      this.event('observation-pause',{reason});
+      action='observation-pause';
+    }
+    return {...structuredClone(this.pauseContext),action,requested_reason:reason};
   }
   resume(){if(this.sim.invalid||this.sim.steps>=this.windowLimit)return;this.paused=false;this.clock.reset();this.event('resume');}
   push(strong,scheduled=false){
@@ -156,7 +174,7 @@ export class UprightSession {
   finish(reason='observation-end'){
     this.lastRun=this.report();this.pause(reason);
   }
-  report(){return {config:CONFIG_B,windowLimit:this.windowLimit,paused:this.paused,pending:this.pending,trial:structuredClone(this.trial),
+  report(){return {config:CONFIG_B,windowLimit:this.windowLimit,paused:this.paused,pause:structuredClone(this.pauseContext),pending:this.pending,trial:structuredClone(this.trial),
     final:this.sim.snapshot(),trace:structuredClone(this.trace),events:structuredClone(this.events)};}
   dispose(){this.pause('destroy');this.audit?.dispose();this.sim.dispose();}
 }

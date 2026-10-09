@@ -73,12 +73,17 @@ try{
     if(controls)controls.enabled=true;
     if(id!==null&&canvas.hasPointerCapture(id))canvas.releasePointerCapture(id);
   }
-  function pause(reason){cancelPointer(reason);session.pause(reason);update();}
+  function pause(reason){session.pause(reason);cancelPointer(reason);lastFrame=null;update();}
+  function observePause(reason){
+    const context=session.observePause(reason);
+    if(pointerId!==null)cancelPointer(context.reason);
+    lastFrame=null;update();return {...context,snapshot_timing:'before-pause-request'};
+  }
   function reset(){
     cancelPointer('reset');session.reset({assisted:$('assisted').checked,obstacle:$('obstacle').checked});
     run++;clearFeedback();frameIntervals=[];stepCosts=[];lastFrame=null;lastHitToken=null;$('input').textContent='Manueller Reset · Start erforderlich';sync();update();
   }
-  function move(ev,final=false){ray(ev);if(sim.grab.active&&raycaster.ray.intersectPlane(dragPlane,dragPoint))sim.grab.move(dragPoint,ev.timeStamp/1000,final);}
+  function move(ev,final=false){if(session.paused)return;ray(ev);if(sim.grab.active&&raycaster.ray.intersectPlane(dragPlane,dragPoint))sim.grab.move(dragPoint,ev.timeStamp/1000,final);}
   canvas.addEventListener('pointerdown',ev=>{
     if(session.paused||sim.invalid||pointerId!==null||!ev.isPrimary||ev.button!==0||$('cameraMode')?.checked)return;
     ray(ev);const hit=pickBody(R,sim.world,sim.rig.byBody.keys(),raycaster.ray.origin,raycaster.ray.direction);if(!hit)return;
@@ -95,7 +100,9 @@ try{
     session.event('grab-release',{release:sim.grab.diagnostics.lastRelease});cancelPointer('release');update();
   });
   for(const type of ['pointercancel','lostpointercapture'])canvas.addEventListener(type,ev=>{if(ev.pointerId===pointerId){cancelPointer(type);session.event('pointer-cancel',{reason:type});update();}});
-  $('play').onclick=()=>{if(session.paused){session.resume();$('input').textContent='Simulation läuft';}else pause('pause');update();};
+  $('play').onclick=()=>{if(session.paused){session.resume();lastFrame=null;$('input').textContent='Simulation läuft';}else observePause('pause');update();};
+  $('safetyStop').onclick=()=>pause('manual-safety-stop');
+  $('step').onclick=()=>{session.singleStep();sync();update();};
   $('reset').onclick=reset;
   if(playground){
     $('variant').value=variantId(options);
@@ -108,13 +115,11 @@ try{
       const url=new URL(location.href);url.search='';url.searchParams.set('variant',$('variant').value);history.replaceState(null,'',url);
       $('input').textContent='Variante gewechselt · neuer Run · Start erforderlich';sync();update();
     };
-    $('step').onclick=()=>{session.singleStep();sync();update();};
     for(const [id,label] of Object.entries({pelvis:'Becken',torso:'Oberkörper',head:'Kopf',upperArmL:'Oberarm links',upperArmR:'Oberarm rechts',lowerArmL:'Unterarm links',lowerArmR:'Unterarm rechts',handL:'Hand links',handR:'Hand rechts',upperLegL:'Oberschenkel links',upperLegR:'Oberschenkel rechts',lowerLegL:'Unterschenkel links',lowerLegR:'Unterschenkel rechts',footL:'Fuß links',footR:'Fuß rechts'})){
       if(!sim.rig.byId.has(id))continue;const option=document.createElement('option');option.value=id;option.textContent=label;$('body').append(option);
     }
     $('mark').onclick=()=>{
-      if(!session.paused)pause('marker');
-      const marker=feedback.mark(identity(),sim.steps,()=>sim.snapshot(),browserContext);
+      const marker=feedback.mark(identity(),sim.steps,()=>sim.snapshot(),browserContext,()=>observePause('marker'));
       $('feedbackStatus').textContent='Markiert: Schritt '+marker.step+' · Run '+run+(marker.data_errors.length?' · Zustandsdaten teilweise nicht verfügbar':'');update();
     };
     $('feedbackExport').onclick=()=>{
@@ -135,13 +140,20 @@ try{
     const ok=session.push(strong,$('schedule').checked);
     $('input').textContent=ok?((strong?'Starker':'Kleiner')+' Schubser'+($('schedule').checked?' bei 2 s vorgemerkt':'')):'Start erforderlich / Zeitpunkt 2 s bereits vorbei';update();
   };
-  $('assistOff').onclick=()=>{sim.interrupt('manual-assist-off');session.event('assist-off');update();};
+  $('assistOff').onclick=()=>{sim.interrupt('manual-assist-off');session.event('assist-off');$('input').textContent='Hilfe bewusst ausgeschaltet · bleibt aus bis Reset';update();};
   function sync(){for(const {spec,body} of sim.rig.byId.values()){const m=meshes.get(spec.id);m.position.copy(body.translation());m.quaternion.copy(body.rotation());}block.visible=sim.obstacleEnabled;scene.updateMatrixWorld(true);}
   function project(point){const p=new THREE.Vector3(point.x,point.y,point.z).project(camera),r=canvas.getBoundingClientRect();return {x:r.left+(p.x+1)*r.width/2,y:r.top+(1-p.y)*r.height/2};}
   function update(){
+    $('step').disabled=!session.paused||!!sim.invalid||sim.steps>=session.windowLimit||document.hidden;
+    const reasons={hidden:'Seite verborgen',blur:'Fokus verloren',escape:'Escape',
+      'manual-safety-stop':'manuell','pause-active-grab':'Pause bei aktivem Griff',
+      'marker-active-grab':'Markierung bei aktivem Griff','window-limit':'Runfenster beendet',safety:'ungültiger Zustand'};
+    $('pauseStatus').textContent=session.paused?(session.pauseContext.kind==='safety'?
+      'Sicherheitsstopp · Hilfe aus · '+(reasons[session.pauseContext.reason]||session.pauseContext.reason):
+      session.pauseContext.kind==='observation'?'Beobachtung pausiert · Zustand erhalten':'Frischer Run · Start erforderlich'):
+      'Simulation läuft · Pause erhält den Zustand';
     if(playground){
       for(const id of ['cameraMode','cameraReset','side'])$(id).disabled=sim.grab.active;
-      $('step').disabled=!session.paused||!!sim.invalid||sim.steps>=session.windowLimit||document.hidden;
       $('feedbackExport').disabled=!feedback.marker;
       const state={SETTLING:'Einpendeln',ASSISTED_READY:'Aufrecht mit Hilfe',DYNAMIC:'Freie Dynamik',DOWN:'Am Boden',STOPPED:'Sicherheitsstopp'};
       $('status').textContent=(session.paused?'Pausiert':'Läuft')+' · '+(state[sim.state]||sim.state)+' · Schritt '+sim.steps+' · '+(sim.steps/60).toFixed(2)+' s';
@@ -167,8 +179,8 @@ try{
   window.uprightStepState=()=>({steps:sim.steps,paused:session.paused,invalid:sim.invalid});
   if(!playground)$('export').onclick=()=>download(JSON.stringify(report(),null,2),'goblin-step-trace.json');
   if(!playground)$('identity').textContent='Build '+build.revision.slice(0,12)+' · Controller '+build.controller_sha256.slice(0,12)+' · Return '+sim.returnProfile;
-  for(const id of ['play','reset','assistOff',...(playground?['mark','variant']:['export'])])$(id).disabled=false;
-  function suspend(){if(!session.paused)pause(document.hidden?'hidden':'blur');else cancelPointer('suspend');lastFrame=null;}
+  for(const id of ['play','reset','assistOff','safetyStop',...(playground?['mark','variant']:['export'])])$(id).disabled=false;
+  function suspend(){pause(document.hidden?'hidden':'blur');}
   addEventListener('blur',suspend);
   addEventListener('keydown',ev=>{if(ev.key==='Escape'&&!ev.repeat){ev.preventDefault();pause('escape');}});
   document.addEventListener('visibilitychange',()=>{session.event('visibility',{hidden:document.hidden});if(document.hidden)suspend();else{session.clock.reset();update();}});

@@ -4,9 +4,10 @@ import {assertFinite,encodeReport,NOTE_LIMIT,CATEGORIES} from '../labs/standing/
 export class PlaygroundFeedback {
   constructor(){this.clear();}
   clear(){this.marker=null;}
-  mark(identity,step,snapshot,browser){
+  mark(identity,step,snapshot,browser,pause=()=>null){
     const marker={identity:structuredClone(identity),step,time_s:step/60,snapshot:null,browser:null,data_errors:[]};
-    for(const [part,read] of [['snapshot',snapshot],['browser',browser]]){
+    // Capture before any active-grab safety cancellation; pause reports its kind.
+    for(const [part,read] of [['snapshot',snapshot],['browser',browser],['pause',pause]]){
       try{const data=read();assertFinite(data);marker[part]=structuredClone(data);}
       catch(error){marker.data_errors.push({part,reason:String(error.message).slice(0,2000)});}
     }
