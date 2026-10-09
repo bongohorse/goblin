@@ -1,3 +1,56 @@
+# T1 — begrenzter Aufrichtzielversuch: technischer STOP (09.10.2026)
+
+[Vorabvertrag](https://github.com/bongohorse/goblin/issues/94#issuecomment-6073175691). Freigegeben war genau T1, kein Sweep. **Nicht spielerisch abgenommen; keine gültigen V2-Paare.** B bleibt Default, alle historischen FAILs unverändert. PR95 bleibt Draft.
+
+## Fester Kandidat und Ownership
+
+Nur pelvis-/torso-Welt-Up-Sollvektor: d=+X, u=(sinα,cosα,0), maximal6°; smoothstep-Anstieg6Steps/0,10s, Halten12Steps/0,20s, smoothstep-Rückkehr42Steps/0,70s. Insgesamt60Steps/1s nach kleinem Originalimpuls.6° ist eine kleine gestaltete Lean-Pose unter dem bestehenden15°-Bereitschaftsbereich, kein aus FAIL-Messwerten abgeleitetes Erfolgsgate. Alle B-Gains/Caps, relative Gelenkziele, Solver, Rig, Dämpfung und Impulse unverändert; kein zusätzlicher Impuls oder Transform-/Velocityschreiber. Rapier bleibt Owner. Norm-Cap20Nm unverändert.
+
+T1 nur bei ASSISTED_READY, Assist EIN, kein Griff. Kein Verlängern durch Treffer während aktiver Reaktion. Welt-Up spätestens nach60Steps. Griff/Assist AUS/starker Treffer/Fall/Obstacle/Pause/Reset löschen Startstep, OFF kann nicht wieder aktiv werden. B hat immer neutrales Ziel. Keine Kombination T1/Y1/Y2. Eigene Zielphase sichtbar als gestaltete Gameplayhilfe.
+
+## Budget und technischer Fehler
+
+Vorab sechs Läufe: B-R/B-P/T1-R/T1-P, T1 klein→Handgriff→Release→Assist AUS→pausierter Reset, T1 klein→stark. Jeder Start zählt; kein Ersatz-/Wiederholungslauf. Q/H/S nach V2, Legacy2° separat, keine neue Schwelle. Nach Lauf4 sollte fehlender sichtbarer Nutzen STOP auslösen.
+
+**Tatsächlich1/6 gestartet,0/6 abgeschlossen; alle fünf weiteren Läufe ungestartet.** Aufnahmehead **db25869cfe0c00f81961ccf9ee65ad9ecf51b0cf**. Erster nativer Start scheiterte noch vor Szenenstart am FFmpeg-Cachepfad und zählt0. Zweiter Prozess mit vorhandenem Repositorycache startete B-R; direkt nach Start scheiterte die neue Step-Wartefunktion an `ReferenceError: s is not defined`. Fehler des Agenten im Runner, kein physikalischer NO-GO. Der Argumentname des arrow callbacks war außerhalb seines Gültigkeitsbereichs verwendet. Browser wurde im vorhandenen finally geschlossen; kein kompletter Trace gespeichert. Budgetledger ist dauerhaft started1/completed0. Keine Auswertung des Restclips als Gameplaybefund.
+
+Paar unvollständig → gemäß vorab festgelegter Stopregel **STOP**, keine Ersatzreferenz, keine automatische Nutzung übriger Plätze. Wartefunktion innerhalb Scope korrigiert und über Mock-Page auf korrektes Step-Argument geprüft; dabei weder Browserlaunch noch world.step. Vor einer erneuten Verhaltensprüfung ist neue Freigabe nötig. **Keine weitere Variante.**
+
+[Rohes technisches Stopprotokoll](gameplay-upright-target-evidence.json) enthält Budget, Fehler/Reparatur und Hashes der lokal erhaltenen unvollständigen Clips unter `browser-observation-target-20261009-native`. Diese Clips sind Fehlerartefakte, kein Beleg für T1-Spielverhalten.
+
+## Getrennte Befunde
+
+| Befund | Ergebnis |
+|---|---|
+| Q | Unbewertbar: keine vollständige Referenz, kein Paar, keine neuen Neigungs-/Verschiebungswerte |
+| H | Nicht bewertet: T1 nie simuliert; keine Sichtbarkeits-/Spielgefühlaussage |
+| S | Nicht dynamisch geprüft: weder Hand-/Starklauf noch T1-Kleinlauf; nur stepfreie native Befehls-/Resetchecks |
+| Legacy V1 | Keine neue Auswertung; alle bisherigen2°-FAILs bleiben unverändert |
+
+Keine vollständige Gameplay-/Standing-/Performancefreigabe.15s, Hindernis, Hidden/Resume, Touch, solverinterne Kräfte und allgemeine Hardwarefreigabe nicht neu geprüft.
+
+## Stepfreie Prüfung und native UI
+
+Vier neue Unit/API-Checks ohne world.step: Zielrichtung/Norm/Grenzen und zeitlicher Verlauf; B-Neutralbefehle, Ziel-/Gain-/Cap-Erhalt und Transformownership; alle Unterbrechungen/Griff/Release/Reset ohne Altziel; Runner-Weitergabe des Step-Arguments. Gezielte Tests erfolgreich. Normale erforderliche Repositorytests bleiben separat; keine neuen Gameplay-Diagnosesequenzen dadurch.
+
+Native ChromeDevTools bestätigt den gebauten Aufnahmehead, T1/NEUTRAL, PAUSE/Step0, sichtbaren Zielstatus und Originalkamera.1280×720/DPR1, ChromePortable156.0.8078.4, Windows11, RTX3070Ti ANGLE/D3D11/WebGL2. Kein Start durch MCP. Screenshot zeigt Spielfeld und wesentliche Bedienung; Sidebar scrollt. Dieser UI-Befund beweist keine dynamische Reaktion. Playwright nutzt denselben bestätigten Executable mit eigenem temporärem Profil; vollständige neue Aufnahmeidentität wegen technischem Abbruch nicht gespeichert, keine erfundene Performance-/Hidden-Abnahme.
+
+## Umgebungsdiagnose
+
+Normaler Prozesshelper einmal helper_unknown_error vor Start. Vorhandener Node-Lesezugang und gezielt genehmigte Git/Test/Build/Browserprozesse erfolgreich; Ursache offen. Browser-Videohelfer fehlte am Standardcache: vorhandenen lokalen `.browser-tools/ffmpeg-1013/ffmpeg-win64.exe` überprüft; pro Prozess PLAYWRIGHT_BROWSERS_PATH gesetzt, nächster Launch erfolgreich. Kein Download/globaler Konfigurationsumbau, kein fremder Prozess beendet. Anschließender Runnerfehler ist Implementierungsfehler, separat oben dokumentiert und stepfrei behoben. Verbleibende Blockade: dynamische T1-Abnahme und vollständige V2-Paare fehlen; ohne neue Nutzerfreigabe kein Ersatzlauf.
+
+## Lokaler Testzugang und Empfehlung
+
+**T1 (pausiert, bewusst unbewertet):** http://127.0.0.1:4174/goblin/gameplay/upright/?reaction=T1&yield=B&observe=v2
+
+**B (unveränderte Referenz):** http://127.0.0.1:4174/goblin/gameplay/upright/?reaction=B&yield=B&observe=v2
+
+Für eigenen Spieltest: Start → „Schubser bei2s vormerken“/Klein → Zielphase beobachten; Hand/Stark/Assist AUS brechen ab; manueller Reset.6s-Fenster. Kein Aufstehen. Historische gespeicherte V2-Daten unter comparison.html bleiben alte B-Belege, **keine T1-Daten**. Agentenrunner nicht erneut starten.
+
+**Genau eine Empfehlung:** den korrigierten Messablauf mit demselben eingefrorenen T1-Kandidaten erst nach neuer Nutzerfreigabe prüfen. Dieser technische Abbruch rechtfertigt weder Verwerfen noch Weiterführen als Gameplaylösung. Kein Tuning, zweite Variante oder Vertragsrevision. **STOPP.**
+
+---
+
 # V2 — lesender Referenzvergleich, abgeschlossen (09.10.2026)
 
 **Beobachter geliefert; kein Gameplay-Pass.** [Prüfvertrag V2](https://github.com/bongohorse/goblin/issues/94#issuecomment-6072689640), [Zählung vor Laufstart](https://github.com/bongohorse/goblin/issues/94#issuecomment-6072753264).

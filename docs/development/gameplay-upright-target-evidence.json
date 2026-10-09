@@ -1,0 +1,78 @@
+{
+  "version": "V2-T1-technical-stop",
+  "contract": "https://github.com/bongohorse/goblin/issues/94#issuecomment-6073175691",
+  "sourceRevision": "db25869cfe0c00f81961ccf9ee65ad9ecf51b0cf",
+  "budget": {
+    "started": 1,
+    "completed": 0,
+    "maxSequences": 6,
+    "secondsPerSequence": 6,
+    "plan": [
+      "B-R",
+      "B-P",
+      "T1-R",
+      "T1-P",
+      "T1-grab-off-reset",
+      "T1-small-strong"
+    ]
+  },
+  "attempts": [
+    {
+      "kind": "launch",
+      "error": "missing ffmpeg at default cache",
+      "physicsStarted": false,
+      "repair": "existing repo-local .browser-tools cache per-process PLAYWRIGHT_BROWSERS_PATH",
+      "result": "native Chrome/video launch succeeded"
+    },
+    {
+      "kind": "B-R",
+      "error": "ReferenceError: s is not defined in wait helper after Start",
+      "physicsStarted": true,
+      "completed": false,
+      "replacement": false,
+      "repair": "forward step argument through separately testable waitForStep helper; no new run"
+    }
+  ],
+  "Q": {
+    "status": "unbewertbar",
+    "reason": "reference trace incomplete; no valid pairs"
+  },
+  "H": {
+    "status": "unbewertet",
+    "reason": "no candidate run"
+  },
+  "S": {
+    "status": "unbewertet",
+    "reason": "no safety runs; unit checks only"
+  },
+  "remainingRunsStarted": 0,
+  "artifacts": [
+    {
+      "name": "budget.json",
+      "bytes": 140,
+      "sha256": "87708e608b17ba13be305d8f3bfb000082318e385df5e13e92a103cc583e8dfd"
+    },
+    {
+      "name": "page@28901416837938311220ebef7a7af4cb.webm",
+      "bytes": 1600,
+      "sha256": "98d91cc195f6e51773794cc5297fccb5d15766a6b60ba46b87fd52a973f2502d"
+    },
+    {
+      "name": "page@719e77b0745d57d49c67c2890ada33d9.webm",
+      "bytes": 170265,
+      "sha256": "0dc5dcbbfd5c7a0c76b014fcb73abc8eb44b1b2639fe853a638a16a8aa954c00"
+    }
+  ],
+  "native": {
+    "os": "Windows11 10.0.26300 x64",
+    "chromeExecutableSha256": "ea4eb4ea31e82309db8b8b9dcdd445f2ed997d09f96f95f7d78db26ed39be249",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "dpr": 1,
+    "backend": "RTX3070Ti ANGLE/D3D11 WebGL2",
+    "nativeTool": "Chrome DevTools + existing Playwright runner",
+    "environmentObserved": "paused built T1 UI; launched native browser before runner error; no complete run identity/trace"
+  }
+}

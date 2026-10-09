@@ -7,6 +7,7 @@ const url='http://127.0.0.1:4174/goblin/gameplay/upright/';
 const yielding=process.argv.includes('--run-approved-yield');
 const targetTrial=process.argv.includes('--run-approved-target');
 const v2=process.argv.includes('--run-approved-v2');
+const waitForStep=(page,step)=>page.waitForFunction(s=>uprightDiagnostics().final.steps>=s||uprightDiagnostics().final.invalid,step,{timeout:30000});
 const p95=a=>a.length?a.slice().sort((a,b)=>a-b)[Math.ceil(a.length*.95)-1]:null;
 
 async function runV2({context,identity,out,errors,warnings,badResponses}){
@@ -78,7 +79,7 @@ async function runTarget({context,identity,out,errors,warnings,badResponses}){
     if(role!=='reference')await page.locator('#schedule').check();
     await budget(n);await page.locator('#play').click();
     if(role!=='reference')await page.locator('#small').click();
-    const diag=()=>page.evaluate(()=>uprightDiagnostics());const wait=step=>page.waitForFunction(s=>uprightDiagnostics().final.steps>=s||uprightDiagnostics().final.invalid,s,{timeout:30000});
+    const diag=()=>page.evaluate(()=>uprightDiagnostics());const wait=step=>waitForStep(page,step);
     let interaction=null,reset=null;
     if(n>=5){
       await wait(126);const before=await diag();
@@ -219,4 +220,5 @@ async function main(){
   }finally{await context.close();}
   console.log('Observation complete: '+results.length+'/8. Evidence: '+out);
 }
-main().catch(e=>{console.error(e);process.exitCode=1;});
+module.exports={waitForStep};
+if(require.main===module)main().catch(e=>{console.error(e);process.exitCode=1;});

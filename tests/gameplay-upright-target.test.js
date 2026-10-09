@@ -58,3 +58,16 @@ test('T1 interruption, strong hit, grab/release and paused reset cannot restore 
     ready();session.reset({assisted:true,obstacle:false});assert.deepEqual(sim.snapshot().parts,bind);
   }finally{session.dispose();}
 });
+
+import {createRequire} from 'node:module';
+const {waitForStep}=createRequire(import.meta.url)('./gameplay-upright-browser.cjs');
+test('native runner forwards exact step argument without launching or stepping',async()=>{
+  const original=globalThis.uprightDiagnostics;let observed=0;
+  globalThis.uprightDiagnostics=()=>({final:{steps:observed,invalid:null}});
+  try{
+    const calls=[];const page={waitForFunction:async(fn,arg,options)=>{
+      calls.push({arg,options});assert.equal(fn(arg),null);observed=arg;assert.equal(fn(arg),true);return 'ready';
+    }};
+    assert.equal(await waitForStep(page,360),'ready');assert.deepEqual(calls,[{arg:360,options:{timeout:30000}}]);
+  }finally{if(original===undefined)delete globalThis.uprightDiagnostics;else globalThis.uprightDiagnostics=original;}
+});
