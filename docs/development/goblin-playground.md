@@ -2,6 +2,44 @@
 
 Persönliches lokales Testlab für den vorhandenen assistierten Gameplay-Prototyp, Refs #88/#94, Draft-PR #95. R1 ist vorläufiger Standard. Bekannte Fußdrift und die offene vollständige Abnahme bleiben sichtbar; kein Aufstehen und keine Nutzerabnahme.
 
+## Spieler-Testprotokoll – P0 (09.10.2026, keine zusätzliche Implementierung)
+
+**Zweck:** Vor der Entscheidung über weiteres Get-up/Recovery zuerst die vorhandenen, nach #94 **nicht vollständig abgenommenen** B/T1/R1-Reaktionen selbst sehen und verwertbare Beobachtungen liefern. Dies ist **keine** 60-s-Standing-, 20-Zyklen-, Hidden-/Resume- oder Release-Abnahme. Kein automatischer P1-/P2-Ausbau.
+
+### Sicherer Zugang zum **aktuellen PR #95** auf Windows
+
+Die bestehenden localhost-Links sind **nur** gültig, wenn auf dem eigenen PC ein Server mit dem korrekten Branch/Build läuft. Ein schon offener Tab bzw. ein bereits laufender Server kann die **ältere** P0-Version zeigen. Für einen frischen, vom eigenen Arbeitsbaum getrennten Test im Goblin-Repository-Ordner in PowerShell:
+
+```powershell
+git fetch origin feat/gameplay-upright94
+git worktree add --detach ..\goblin-playground-pr95 origin/feat/gameplay-upright94
+cd ..\goblin-playground-pr95
+git rev-parse HEAD
+node --version
+npm ci
+node node_modules/vite/bin/vite.js build --config vite.gameplay.config.js
+node scripts/gameplay-upright-preview.cjs
+```
+
+- Bei `git rev-parse HEAD` muss **`5d497baeb91e20e0099c9c7bba7c96744d591f11`** oder ein danach eigens überprüfter PR-Head stehen. **Node >=24.21.0 <25** verwenden. Läuft im Terminal eine andere Branchversion, **nicht** aus einem alten Preview einen neuen Testerfolg ableiten.
+- Öffnen: **http://127.0.0.1:4174/goblin/playground/**. Der lokale Produktionspreview bindet ausschließlich `127.0.0.1:4174`. **Ist Port 4174 bereits belegt, bricht er ab**; weder fremde Prozesse beenden noch alten Server als neuen Build ausgeben. Im Bedarfsfall den belegten Prozess/Build erst identifizieren.
+- Die Oberfläche zeigt eine **16-stellige Build-ID**, aber **nicht den vollständigen Commit-SHA**. Im heruntergeladenen Feedback steht `identity.build.revision` mit dem vollständigen Commit sowie `identity.build.dirty`. **Erst diese Daten gegen den erwarteten Head prüfen**; die historische Build-ID `53c6fb42d332d83e` aus der älteren P0-Abnahme nicht als aktuelle Versionsbestätigung verwenden. Ein Workspace mit lokal geänderten Tracking-Dateien hat `dirty:true` und benötigt separate Kennzeichnung.
+- Die Arbeit an anderen Branches und laufenden Servern bleibt unangetastet. Das Worktree-Verzeichnis nur dann entfernen, wenn die eigenen dortigen Daten/Downloads nicht mehr benötigt werden.
+
+### Fünf kurze Beobachtungen (keine automatische Qualitätsfreigabe)
+
+1. **R1/Start/kleiner Schubser:** Standard R1 wählen, auf `Start` klicken, `Kleiner Schubser` auslösen. Ist das sichtbare Schwanken nachvollziehbar? Bewegt der Goblin sich überraschend seitwärts, driften Füße oder kippt der Kopf? **Nicht** nur „Test grün“ melden; Beobachtung und Zeitpunkt notieren.
+2. **Beobachtungspause:** Während der Reaktion `Pause`, mehrere Sekunden abwarten. Der angezeigte **Schritt** darf nicht weiterlaufen; `Einzelschritt` erhöht ihn um **genau eins**. `Start / Fortsetzen` holt die verstrichene Wartezeit nicht nach. Bei Abweichung Zeitpunkt/Schritt dokumentieren; nicht als physikalischen Standing-Pass interpretieren.
+3. **Markierung und Export:** Während eines laufenden Runs `Aktuelle Stelle markieren`; Körperteil/Kategorie/Notiz auswählen, `Feedback als JSON herunterladen`. Die Datei muss `identity.build.revision`, `identity.variant`, `identity.run_id`, `observation.step`, `observation.snapshot`, `observation.pause` und die eigene Notiz enthalten. Fehlen Felder, `data_errors` und konkrete Meldung notieren; keine vollständige Replay-Aufzeichnung erwarten.
+4. **B/T1/R1-Vergleich:** Nach jedem Variantenwechsel **frischer Run/Step0**; für jede Variante denselben kleinen Schubser von Hand ausprobieren. Unterschied in Lesbarkeit, Körperbewegung, Rückkehr und Fußdrift **qualitativ** beschreiben. Das sind subjektive Sichtproben, keine identischen Input-Traces oder messgenauen A/B-Läufe.
+5. **Starker Schubser oder Körperteilgriff:** Mit eigenem Reset beginnen; starker Stoß bzw. Griff soll die Hilfe abschalten und dynamischen Fall erlauben. **Pause/Markieren bei aktivem Griff ist ausnahmsweise ein Sicherheitsabbruch:** Griff lösen **ohne Wurf**, der Marker speichert den Vorzustand; Fortsetzen stellt die Hilfe **nicht** wieder her, Reset schon. Keine automatische Aufstehfunktion erwarten.
+
+**Mini-Feedback für die Entscheidung:** Genutzte Variante, Buildrevision, gut/schlecht verständliche Reaktion, größter störender Moment, zugehöriges Körperteil, ob Pause/Markierung/Reset klappen. Bei einem Problem möglichst den **lokal heruntergeladenen JSON-Bericht** und ein kurzes Screenshot-/Videobeispiel bereitstellen; private Dateipfade/Browserprofile sind nicht nötig. Die Dateien werden nicht automatisch hochgeladen.
+
+**Separater, weiterhin offener Nachweis:** Echte native Windows-Chrome-Portable-Hidden-/Visible-/Resume-Transition aus #61/#62 erfordert eine eigene Umgebung/Protokollprüfung; ein normaler Vordergrundspieltest und erfolgreiches Feedback-JSON belegen sie **nicht**. Die alten Drift-/H3-/Kopfbreiten-FAILs und fehlendes Aufstehen bleiben trotz positiver Eindrücke offen.
+
+**STOPP nach Nutzerbeobachtung:** Feedback auswerten und **einen** eng begrenzten nächsten Gameplay-Hebel empfehlen. Kein Umbau von R1, Kamera, Reglern, Ghost/Replay, Forschung, Gate #15 oder Server-/CI-Infrastruktur durch diese Anleitung.
+
 ## Zugang und Bedienung
 
 - Dev: `node node_modules/vite/bin/vite.js --config vite.gameplay.config.js`, strikt Port 5174, **http://127.0.0.1:5174/playground/**.
