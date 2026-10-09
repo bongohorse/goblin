@@ -12,9 +12,10 @@ async function main(){
   page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(['error','warning'].includes(m.type()))errors.push(m.text());});
   page.on('response',r=>{if(r.status()>=400)requests.push({url:r.url(),status:r.status()});});
   const read=()=>page.evaluate(()=>uprightDiagnostics());
+  const openEditorPanels=()=>page.locator('aside > details').evaluateAll(es=>{for(const e of es)if(['Run settings','Feedback'].includes(e.querySelector('summary')?.textContent))e.open=true;});
   const checks=[];
   try{
-    await page.goto(arg('--url'));await page.waitForFunction(()=>window.uprightDiagnostics);
+    await page.goto(arg('--url'));await page.waitForFunction(()=>window.uprightDiagnostics);await openEditorPanels();
     if(process.argv.includes('--issue100')&&!process.argv.includes('--issue101'))await page.locator('#cameraSingle').click();
     const initial=await read();assert.equal(initial.final.steps,0);assert.equal(initial.paused,true);assert.equal(initial.pending,null);
     assert.equal(initial.final.grab.active,false);assert.equal(initial.observationIdentity.returnProfile,'R1');assert.equal(initial.trace.length,0);
@@ -24,6 +25,26 @@ async function main(){
       url:arg('--url'),viewport:{width:1280,height:720},environment:initial.environment,build:initial.build};
 
 
+    if(process.argv.includes('--issue113')){
+      const closePanels=()=>page.locator('aside > details').evaluateAll(es=>es.forEach(e=>e.open=false));
+      const fits=()=>page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,safety:document.getElementById('safetyStop').getBoundingClientRect().toJSON(),stage:document.getElementById('view').getBoundingClientRect().toJSON()}));
+      await closePanels();await page.screenshot({path:path.join(out,'editor-desktop.png')});let bounds=await fits();assert.equal(bounds.overflow,false);assert.ok(bounds.stage.width>=990);assert.ok(bounds.safety.bottom<150);
+      await page.locator('#inspectMode').check();await page.locator('#inspectBody').selectOption('pelvis');
+      const source=page.locator('#inspectionValues dd summary').first();await source.focus();await page.keyboard.press('Enter');await page.waitForTimeout(350);
+      assert.equal(await source.evaluate(e=>e.parentElement.open&&e===document.activeElement),true,'readout update preserves disclosure and keyboard focus');
+      await page.locator('[data-inspection=colliders]').check();await page.locator('[data-inspection=joints]').check();await page.screenshot({path:path.join(out,'editor-inspector.png')});
+      await page.locator('#safetyStop').click();assert.equal(await page.locator('#status').getAttribute('data-state'),'safety');assert.match(await page.locator('#status').innerText(),/Safety/);assert.match(await page.locator('#assistStatus').innerText(),/off/);
+      await page.locator('#reset').click();await page.locator('#mark').click();assert.equal(await page.locator('#feedbackPanel').evaluate(e=>e.open),true);
+      await page.locator('#note').evaluate(e=>{e.value='a'.repeat(2001);});await page.locator('#feedbackExport').click();assert.match(await page.locator('#feedbackStatus').innerText(),/2000 characters/);await page.locator('#note').fill('');
+      await page.locator('#reset').click();await page.locator('#inspectMode').uncheck();for(const key of ['colliders','joints'])await page.locator('[data-inspection='+key+']').uncheck();
+      await closePanels();await page.setViewportSize({width:744,height:360});await page.locator('#cameraSingle').click();await page.screenshot({path:path.join(out,'editor-landscape.png')});bounds=await fits();assert.equal(bounds.overflow,false);assert.ok(bounds.stage.height>=190);assert.ok(bounds.safety.bottom<=360);
+      await page.locator('#cameraQuad').click();assert.equal(await page.locator('.cameraSurface:visible').count(),4);await page.screenshot({path:path.join(out,'editor-small-quad.png')});
+      await page.setViewportSize({width:390,height:844});await page.locator('#cameraSingle').click();await page.screenshot({path:path.join(out,'editor-portrait.png'),fullPage:true});assert.equal((await fits()).overflow,false);
+      await page.locator('#inspectionPanel').evaluate(e=>e.open=true);await page.locator('#inspectBody').selectOption('head');await page.locator('#inspectJoint').focus();assert.equal(await page.locator('#inspectJoint').evaluate(e=>e===document.activeElement),true);
+      await page.setViewportSize({width:1280,height:720});await page.locator('#cameraQuad').click();await page.locator('#cameraPerspective').click();await page.locator('#reset').click();await closePanels();await openEditorPanels();
+      const bad=await context.newPage();await bad.goto(arg('--url')+'?variant=unknown');await bad.waitForFunction(()=>document.getElementById('status').textContent.includes('Initialization failed'));assert.match(await bad.locator('#status').innerText(),/Unknown variant/);await bad.close();await page.bringToFront();
+      checks.push('Issue113: compact desktop/landscape/portrait layout, visible Safety, Quad/Single, persistent keyboard inspector disclosure, safety/assist-off status, auto-open feedback and English note/initialization errors; final layout screenshots');
+    }
     if(process.argv.includes('--issue102')){
       const open=()=>page.locator('#inspectionPanel').evaluate(e=>{e.open=true;});
       const toggle=(key,on)=>page.locator('[data-inspection='+key+']').setChecked(on);
@@ -78,7 +99,7 @@ async function main(){
       // Stress view: actual strong-push fall, non-contact/safety/command fields remain separate.
       await page.locator('#reset').click();await page.locator('#inspectBody').selectOption('pelvis');await page.locator('#play').click();await page.locator('#strong').click();await page.waitForTimeout(1600);await page.locator('#play').click();
       const fallen=await read();assert.equal(fallen.inspection.readout.run.assist_enabled,false);assert.equal(fallen.inspection.readout.assist.support.value,0);
-      await page.getByText('Camera',{exact:true}).evaluate(e=>{e.parentElement.open=true;});
+      await page.locator('summary').filter({hasText:/^Camera$/}).evaluate(e=>{e.parentElement.open=true;});
       for(const mode of ['perspective','front','side','top']){await page.locator('#'+({perspective:'cameraPerspective',front:'cameraFront',side:'side',top:'cameraTop'}[mode])).click();await page.locator('#cameraFrame').click();}
       await page.screenshot({path:path.join(out,'inspection-fallen.png')});await page.locator('#reset').click();
       // Small single-view touch inspection works while paused, then grab still works when inspect is disabled.
@@ -96,7 +117,7 @@ async function main(){
       assert.ok(!/\b(Kamera|Schritt|K?rper|Gelenke|Sicherheitsstopp|Hilfe|markieren|verf?gbar|Pausiert|Start erforderlich)\b/.test(uiText));assert.equal(await page.locator('html').getAttribute('lang'),'en');
       await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:false});await page.setViewportSize({width:1280,height:720});
       await settings(false);await page.locator('#inspectBody').selectOption('');await page.locator('#cameraPerspective').click();await page.locator('#cameraQuad').click();await page.locator('#inspectionPanel').evaluate(e=>{e.open=false;});
-      await page.getByText('Camera',{exact:true}).evaluate(e=>{e.parentElement.open=false;});await page.locator('aside').evaluate(a=>{a.scrollTop=0;});
+      await page.locator('summary').filter({hasText:/^Camera$/}).evaluate(e=>{e.parentElement.open=false;});await page.locator('aside').evaluate(a=>{a.scrollTop=0;});
       checks.push('Issue102: separate shared display toggles, all-view inspect picking without physics input; stable body/joint IDs, explicit units/sources/unavailable load, current marker payload; exact 40 native-step display parity; zero-effect paused selection; opt-in vectors/strong-push stress; bounded resources; small-view touch inspect and grab; English touched UI; measured overlay CPU submission/frame costs');
     }
     if(process.argv.includes('--issue101')){
@@ -166,7 +187,7 @@ async function main(){
       }
       await fs.writeFile(path.join(out,'viewport-costs.json'),JSON.stringify({identity,costs},null,2));console.log('Viewport costs',JSON.stringify(costs));
       // Automatic layout on a fresh document; manually chosen layouts persist across resize.
-      await page.reload();await page.waitForFunction(()=>window.uprightDiagnostics);
+      await page.reload();await page.waitForFunction(()=>window.uprightDiagnostics);await openEditorPanels();
       await page.setViewportSize({width:744,height:360});await page.waitForFunction(()=>uprightDiagnostics().viewports.layout==='single');
       await page.locator('aside').evaluate(a=>{a.scrollTop=0;});
       for(const id of ['cameraQuad','cameraSingle',...Object.values(buttons)]){const r=await page.locator('#'+id).boundingBox();assert.ok(r.y>=0&&r.y+r.height<=360,'mobile camera/layout switches visible');}
@@ -197,7 +218,7 @@ async function main(){
       for(const id of Object.values(buttons)){await page.locator('#'+id).click();await page.locator('#cameraFrame').click();}
       await page.screenshot({path:path.join(out,'quad-fallen.png')});await page.locator('#reset').click();
       const teardownRect=await page.locator('[data-camera=top]').boundingBox();await page.mouse.move(teardownRect.x+20,teardownRect.y+50);await page.mouse.down({button:'right'});
-      await page.reload();await page.mouse.up({button:'right'});await page.waitForFunction(()=>window.uprightDiagnostics);assert.equal((await read()).cameraPointers,0);assert.deepEqual((await read()).rendererMemory,memory);
+      await page.reload();await page.mouse.up({button:'right'});await page.waitForFunction(()=>window.uprightDiagnostics);await openEditorPanels();assert.equal((await read()).cameraPointers,0);assert.deepEqual((await read()).rendererMemory,memory);
       await page.locator('summary').filter({hasText:'Camera'}).click();
       // Leave the legacy shared UI regression in a large single perspective view.
       await page.locator('#cameraPerspective').click();await page.locator('#cameraSingle').click();await page.locator('#cameraReset').click();
@@ -416,7 +437,7 @@ async function main(){
     await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});assert.equal((await read()).final.grab.active,false);
     await page.locator('#reset').click();await page.screenshot({path:path.join(out,'landscape.png')});checks.push('744x360 touch emulation grab/release, scrollable controls, no horizontal overflow');
     await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:false});await page.setViewportSize({width:1280,height:720});
-    await page.goto(new URL('../gameplay/upright/?variant=R1',arg('--url')).href);await page.waitForFunction(()=>window.uprightDiagnostics);
+    await page.goto(new URL('../gameplay/upright/?variant=R1',arg('--url')).href);await page.waitForFunction(()=>window.uprightDiagnostics);await openEditorPanels();
     await page.locator('#play').click();await page.waitForFunction(()=>uprightStepState().steps>=20);
     await page.locator('#small').click();await page.locator('#play').click();const prototypePause=await read();
     assert.equal(prototypePause.pause.kind,'observation');assert.equal(prototypePause.final.assisted,true);

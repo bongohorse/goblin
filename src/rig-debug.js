@@ -4,7 +4,7 @@ import {worldAnchor} from './goblin-rig.js';
 // Opt-in visualization only. No forces, poses, collision settings or gameplay state writes.
 export function createRigDebug(scene,world,rig){
   const panel=document.createElement('fieldset');panel.id='rigDebug';
-  panel.innerHTML='<legend>Rig v1 · Debug</legend><label><input type="checkbox" data-view="colliders"> Collider (cyan)</label><label><input type="checkbox" data-view="joints"> Gelenke (gelb)</label><label><input type="checkbox" data-view="contacts"> Kontakte (orange)</label>';
+  panel.innerHTML='<legend>Rig v1 · Debug</legend><label><input type="checkbox" data-view="colliders"> Colliders (cyan)</label><label><input type="checkbox" data-view="joints"> Joints (yellow)</label><label><input type="checkbox" data-view="contacts"> Contacts (orange)</label>';
   Object.assign(panel.style,{position:'fixed',top:'80px',left:'12px',zIndex:'8',background:'#17120eee',color:'#fff',fontSize:'12px',display:'grid',gap:'4px'});
   document.body.append(panel);
   const objects=new Map(),enabled=new Set();let contactCount=0,disposed=false;

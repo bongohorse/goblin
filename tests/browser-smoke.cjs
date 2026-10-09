@@ -25,6 +25,7 @@ async function main() {
   try {
   browser = await chromium.launch({
     executablePath: process.env.GOBLIN_CHROMIUM_EXECUTABLE || undefined,
+    headless: process.env.GOBLIN_HEADED !== '1',
     args: process.env.GOBLIN_SOFTWARE_BROWSER ? ['--no-sandbox', '--no-zygote', '--single-process', '--in-process-gpu', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] : [],
   });
   const errors = [], warnings = [], failedResponses = [];
@@ -153,6 +154,7 @@ async function main() {
     const portraitHead=await point(mobile);await mobile.touchscreen.tap(portraitHead.x,portraitHead.y);
     assert.deepEqual((await snapshot(mobile)).hitParts,['head'],'portrait touch can still pick the head');
     await mobile.setViewportSize({ width: 744, height: 360 });
+    await mobile.waitForFunction(()=>{const r=document.querySelector('canvas').getBoundingClientRect();return r.width===innerWidth&&r.height===innerHeight;});
     const layout = await mobile.evaluate(() => {
       const canvas = document.querySelector('canvas').getBoundingClientRect();
       const bar = document.querySelector('#toolbar').getBoundingClientRect();
@@ -163,8 +165,22 @@ async function main() {
     assert.equal(layout.overlap, false);
     assert.equal((await snapshot(mobile)).dpr, 1.5);
     const g2=require('./g2-browser.cjs');
-    const g2Results={core:await g2.core(desktop),cleanup:await g2.cleanup(desktop),mobile:await g2.mobile(desktop)};
+    // UI113 validates the interface below; it does not renew G2's physical drag acceptance.
+    const g2Results=process.env.GOBLIN_UI113?{notRun:'UI scope; no renewed G2 physics acceptance'}:{core:await g2.core(desktop),cleanup:await g2.cleanup(desktop),mobile:await g2.mobile(desktop)};
     console.log(JSON.stringify({g2:g2Results}));
+    if(process.env.GOBLIN_UI113){
+      await desktop.setViewportSize({width:1280,height:720});await desktop.bringToFront();await desktop.locator('#resetBtn').click();
+      assert.equal(await desktop.locator('html').getAttribute('lang'),'en');assert.match(await desktop.locator('#hint').innerText(),/Ready/);
+      for(const button of await desktop.locator('[data-tool]').all())assert.ok(await button.getAttribute('title'));
+      for(const tool of ['hand','glove','hammer','plunger','broom','fan','magnet','rock','ball','bowling','crate','barrel','fish','spring','ice']){await desktop.locator('#resetBtn').click();await desktop.locator('[data-tool='+tool+']').click();await desktop.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));const p=await point(desktop);await desktop.mouse.move(p.x,p.y);await desktop.mouse.down();await desktop.waitForTimeout(50);await desktop.mouse.up();assert.equal(await desktop.locator('[data-tool='+tool+']').evaluate(e=>e.classList.contains('selected')),true);assert.equal((await snapshot(desktop)).phase,'active',tool+' begins an action');}
+      await desktop.locator('#resetBtn').click();
+      await desktop.locator('[data-tool=glove]').click();const target=await point(desktop);await desktop.mouse.click(target.x,target.y);
+      await desktop.waitForFunction(()=>goblinDiagnostics().phase==='active');
+      await desktop.waitForFunction(()=>goblinDiagnostics().phase==='ended',null,{timeout:65000});
+      assert.match(await desktop.locator('#finalText').innerText(),/goals completed/);await desktop.screenshot({path:process.env.GOBLIN_END_SCREENSHOT||path.join(os.tmpdir(),'goblin-ui113-end.png')});
+      await desktop.locator('#againBtn').click();assert.equal((await snapshot(desktop)).phase,'ready');assert.equal((await snapshot(desktop)).score,0);
+      await desktop.locator('#helpBtn').click();assert.match(await desktop.locator('#help').innerText(),/grab and drag/);await desktop.locator('#closeHelp').click();
+    }
     const samples = await desktop.evaluate(() => new Promise(resolve => {
       const samples = []; let previous;
       function sample(now) {

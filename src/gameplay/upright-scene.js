@@ -9,6 +9,7 @@ import {PlaygroundFeedback} from './playground-feedback.js';
 import {BODY_LABELS} from './playground-inspection.js';
 import {PlaygroundInspectionView} from './playground-inspection-view.js';
 import './upright.css';
+import './playground-editor.css';
 
 const $=id=>document.getElementById(id);
 const build=__GAMEPLAY_BUILD__;
@@ -89,7 +90,7 @@ try{
     $('cameraMode').onchange=()=>{if(sim.grab.active||cameraPointers.size){$('cameraMode').checked=cameraViews.navigation;return;}cameraViews.setNavigation($('cameraMode').checked);if($('cameraMode').checked){inspectionMode=false;$('inspectMode').checked=false;}update();};
     view.addEventListener('contextmenu',ev=>ev.preventDefault());
     inspection=new PlaygroundInspectionView(scene,meshes,{floor,grid,material,feetMaterial},$('inspectionPanel'));inspection.rebind(sim);
-    $('inspectMode').onchange=()=>{if(sim.grab.active||cameraPointers.size){$('inspectMode').checked=inspectionMode;return;}inspectionMode=$('inspectMode').checked;if(inspectionMode){$('cameraMode').checked=false;cameraViews.setNavigation(false);}update();};
+    $('inspectMode').onchange=()=>{if(sim.grab.active||cameraPointers.size){$('inspectMode').checked=inspectionMode;return;}inspectionMode=$('inspectMode').checked;if(inspectionMode){$('inspectionPanel').open=true;$('cameraMode').checked=false;cameraViews.setNavigation(false);}update();};
     const axes=new THREE.AxesHelper(1.15);axes.setColors(0xff5148,0x58df70,0x4b9eff);axes.position.y=.025;scene.add(axes);resources.push(axes.geometry,axes.material);
   }
   let pointerId=null,lastFrame=null,lastHitToken=null,frameIntervals=[],stepCosts=[];
@@ -151,6 +152,7 @@ try{
     $('mark').onclick=()=>{
       const marker=feedback.mark(identity(),sim.steps,()=>sim.snapshot(),browserContext,()=>observePause('marker'));
       $('feedbackStatus').textContent='Marked step '+marker.step+' · run '+run+(marker.data_errors.length?' · some state data unavailable':'');update();
+      $('feedbackPanel').open=true;
     };
     $('feedbackExport').onclick=()=>{
       try{
@@ -190,13 +192,17 @@ try{
       $('cameraQuad').setAttribute('aria-pressed',String(viewports.layout==='quad'));$('cameraSingle').setAttribute('aria-pressed',String(viewports.layout==='single'));
       $('feedbackExport').disabled=!feedback.marker;
       const state={SETTLING:'Settling',ASSISTED_READY:'Assisted upright',DYNAMIC:'Free dynamics',DOWN:'Down',STOPPED:'Safety stop'};
-      $('status').textContent=(session.paused?'Paused':'Running')+' · '+(state[sim.state]||sim.state)+' · step '+sim.steps+' · '+(sim.steps/60).toFixed(2)+' s simulation · '+session.speed+'×';
+      const safety=session.pauseContext.kind==='safety'&&session.paused;
+      $('status').dataset.state=safety?'safety':session.paused?'paused':'running';
+      $('status').textContent=(safety?'Safety: '+(reasons[session.pauseContext.reason]||session.pauseContext.reason):(session.paused?(session.pauseContext.reason==='timer-end'?'Timer reached':'Paused'):'Running')+' · '+(state[sim.state]||sim.state))+' · '+(sim.steps/60).toFixed(2)+' s · #'+sim.steps;
+      $('status').title=$('pauseStatus').textContent;
       $('runOptions').textContent=session.runPolicy.timerSteps===null?'Free run · timer off':
         'Run timer: '+session.runPolicy.timerSteps/60+' s simulation'+(session.timerReached?' · already reached':'');
-      $('assistStatus').textContent='Assistance '+(sim.enabled?'on':'off')+' · target '+({NEUTRAL:'neutral',RISE:'rise',HOLD:'hold',RETURN:'return',OFF:'off'}[sim.targetAssist().phase]||sim.targetAssist().phase);
+      $('assistStatus').textContent='Assist '+(sim.enabled?'on':'off');
+      $('assistStatus').title='Target: '+sim.targetAssist().phase+'; assistance stays off after safety until reset';
       $('identity').textContent='Build '+build.build_id+' · variant '+variantId(options)+' · run '+run;
     }
-    $('play').textContent=session.paused?(sim.steps>=session.windowLimit?'Window ended':'Start / resume'):'Pause';
+    $('play').textContent=session.paused?(sim.steps>=session.windowLimit?'Window ended':playground?'Run':'Start / resume'):'Pause';
     $('play').disabled=!!sim.invalid||sim.steps>=session.windowLimit||document.hidden;
     $('small').disabled=$('strong').disabled=session.paused||!!sim.invalid;
     if(!playground)$('status').textContent=(session.paused?'PAUSE · ':'')+sim.state+' · t='+(sim.steps/60).toFixed(2)+' s\nAssist '+(sim.enabled?'ON':'OFF')+' · '+sim.reason+'\nUp '+sim.upAssist().phase+' · '+Math.round(sim.upAssist().factor*100)+' % · '+sim.yieldProfile+'\nTarget '+sim.targetAssist().id+' · '+sim.targetAssist().phase+' · '+(sim.targetAssist().angle*180/Math.PI).toFixed(2)+'° · designed gameplay assistance'+(session.lastRun?'\nLast physics step: '+session.lastRun.final.state:'');
@@ -252,4 +258,4 @@ try{
     for(const [id,mode] of cameraPointers){const surface=viewports.targets.get(mode);if(surface.hasPointerCapture(id))surface.releasePointerCapture(id);}cameraPointers.clear();
     cameraViews?.dispose();viewports?.dispose();inspection?.dispose();for(const cleanup of inputCleanup)cleanup();session.dispose();for(const r of resources)r.dispose();renderer.dispose();}
   addEventListener('pagehide',dispose,{once:true});
-}catch(error){console.error(error);$('status').textContent='Initialization failed: '+error.message;}
+}catch(error){console.error(error);$('status').dataset.state='error';$('status').textContent='Initialization failed: '+error.message;}

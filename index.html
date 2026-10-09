@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
@@ -19,9 +19,9 @@
       </div>
       <div class="start-copy">
         <h1>Beat your Goblin</h1>
-        <p>Physik-Sandbox mit Ragdoll-Goblin. Greifen, ziehen, werfen und mit unterschiedlichen Tools experimentieren.</p>
-        <button id="startBtn" class="primary">SPIEL STARTEN</button>
-        <small>Three.js + Rapier 3D · Maus und Touch</small>
+        <p>A ragdoll physics sandbox. Grab, drag, throw and experiment with tools.</p>
+        <button id="startBtn" class="primary">Start game</button>
+        <small>Three.js + Rapier 3D · Mouse and touch</small>
       </div>
     </div>
   </section>
@@ -36,51 +36,51 @@
   </header>
 
   <aside id="objectives">
-    <h3>🎯 Ziele</h3>
-    <label><input id="goalFall" type="checkbox" disabled> Lass den Goblin fallen</label>
-    <label><input id="goalParts" type="checkbox" disabled> Triff 3 Körperteile</label>
-    <label><input id="goalThrows" type="checkbox" disabled> Wirf 3 Objekte</label>
+    <h3>🎯 Goals</h3>
+    <label><input id="goalFall" type="checkbox" disabled> Knock the Goblin down</label>
+    <label><input id="goalParts" type="checkbox" disabled> Hit 3 body parts</label>
+    <label><input id="goalThrows" type="checkbox" disabled> Throw 3 objects</label>
   </aside>
 
-  <div id="hint">Tool wählen und den Goblin oder die Arena anklicken.</div>
+  <div id="hint">Choose a tool, then click the Goblin or arena.</div>
 
   <nav id="toolbar">
     <button data-tool="hand" class="selected">🖐️<span>Hand</span></button>
-    <button data-tool="glove">🥊<span>Boxen</span></button>
+    <button data-tool="glove">🥊<span>Punch</span></button>
     <button data-tool="hammer">🔨<span>Hammer</span></button>
-    <button data-tool="plunger">🪠<span>Saugnapf</span></button>
-    <button data-tool="broom">🧹<span>Besen</span></button>
-    <button data-tool="fan">🌪️<span>Gebläse</span></button>
+    <button data-tool="plunger">🪠<span>Plunger</span></button>
+    <button data-tool="broom">🧹<span>Broom</span></button>
+    <button data-tool="fan">🌪️<span>Fan</span></button>
     <button data-tool="magnet">🧲<span>Magnet</span></button>
-    <button data-tool="rock">🪨<span>Stein</span></button>
+    <button data-tool="rock">🪨<span>Rock</span></button>
     <button data-tool="ball">🔴<span>Ball</span></button>
     <button data-tool="bowling">⚫<span>Bowling</span></button>
-    <button data-tool="crate">📦<span>Kiste</span></button>
-    <button data-tool="barrel">🛢️<span>Fass</span></button>
-    <button data-tool="fish">🐟<span>Fisch</span></button>
-    <button data-tool="spring">🌀<span>Feder</span></button>
-    <button data-tool="ice">🧊<span>Eis</span></button>
+    <button data-tool="crate">📦<span>Crate</span></button>
+    <button data-tool="barrel">🛢️<span>Barrel</span></button>
+    <button data-tool="fish">🐟<span>Fish</span></button>
+    <button data-tool="spring">🌀<span>Spring</span></button>
+    <button data-tool="ice">🧊<span>Ice</span></button>
   </nav>
 
   <div id="actions">
     <button id="resetBtn">↻ Reset</button>
-    <button id="cameraBtn">🎥 Kamera</button>
-    <button id="helpBtn">?</button>
+    <button id="cameraBtn" title="Cycle camera views">🎥 Camera</button>
+    <button id="helpBtn" title="Open tool and game help" aria-label="Help">?</button>
   </div>
 
   <section id="help" class="panel">
-    <button id="closeHelp">×</button>
+    <button id="closeHelp" aria-label="Close help">×</button>
     <h2>Core Gameplay</h2>
-    <p><b>Hand:</b> Körperteil greifen und ziehen. <b>Boxen/Hammer:</b> direkter Impuls. <b>Besen:</b> Beine wegziehen. <b>Gebläse/Magnet:</b> kontinuierliche Kraft. Wurfobjekte reagieren vollständig physikalisch.</p>
-    <p>Der Goblin besteht aus mehreren Rapier-Rigid-Bodies mit Gelenken. Treffer am Arm bewegen den Arm; starke Impulse übertragen sich auf den gesamten Körper.</p>
+    <p><b>Hand:</b> grab and drag a body part; release to throw. <b>Punch/Hammer:</b> apply an impulse. <b>Broom:</b> sweep the legs. <b>Fan/Magnet:</b> apply a continuous force. Throwable objects use physics.</p>
+    <details><summary>About the ragdoll</summary><p>The Goblin consists of jointed Rapier rigid bodies. Hits move individual body parts; strong impulses affect the whole body.</p></details>
   </section>
 
   <section id="endScreen" class="overlay">
     <div class="end-card">
-      <h2>Runde beendet</h2>
+      <h2>Round complete</h2>
       <div class="final-score">⭐ <span id="finalScore">0</span></div>
       <p id="finalText"></p>
-      <button id="againBtn" class="primary">NOCHMAL</button>
+      <button id="againBtn" class="primary">Play again</button>
     </div>
   </section>
 

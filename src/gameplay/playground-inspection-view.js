@@ -88,8 +88,8 @@ export class PlaygroundInspectionView{
     if(force||ms-this.lastUi>=100){this.lastUi=ms;this.renderText();}
   }
   renderText(){
-    const target=this.panel.querySelector('#inspectionValues');target.replaceChildren();
-    if(!this.data){target.textContent='Select a body to inspect.';return;}
+    const target=this.panel.querySelector('#inspectionValues');
+    if(!this.data){target.textContent='Select a body to inspect.';delete target.dataset.rows;return;}
     const d=this.data,rows=[['Body / step',`${BODY_LABELS[d.body_id]} (${d.body_id}) · ${d.step} / ${fmt(d.time_s)} s`],['Run',`${d.run.state} · ${d.run.reason} · safety: ${d.run.safety||'none'}`]];
     const add=(label,f)=>rows.push([label,`${value(f)} ${f.unit} · ${f.quality} · ${f.frame} · ${f.source}${f.reason?' · '+f.reason:''}`]);
     add('Position',d.pose.position);add('Rotation',d.pose.rotation);add('Linear velocity',d.linear_velocity);add('Angular velocity',d.angular_velocity);add('Local +Y tilt',d.tilt);add('Floor gap',d.floor_gap);
@@ -99,7 +99,14 @@ export class PlaygroundInspectionView{
       rows.push(['Joint',`${j.id} · ${j.type} · ${j.parent} → ${j.child}`]);add('Anchor gap',j.anchor_gap);add('Hinge angle',j.angle);add('Target',j.target);add('Target error',j.error);add('Limits',j.limits);add('Relative angular velocity',j.relative_angular_velocity);
       rows.push(['Motor',j.motor.enabled?'Commanded on':'Off']);add('Per-axis cap',j.motor.cap);add('Stiffness',j.motor.stiffness);add('Damping',j.motor.damping);add('Solver motor torque',j.motor.solver_torque);
     }
-    for(const [label,text] of rows){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=text;target.append(dt,dd);}
+    const signature=JSON.stringify(rows.map(([label])=>label));
+    if(target.dataset.rows!==signature){target.replaceChildren();target.dataset.rows=signature;for(const [label] of rows){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;target.append(dt,dd);}}
+    const cells=target.querySelectorAll('dd');
+    for(const [index,[label,text]] of rows.entries()){
+      const dd=cells[index];
+      const split=text.indexOf(' · ');
+      if(split>=0){let details=dd.querySelector('details');if(!details){details=document.createElement('details');const summary=document.createElement('summary'),source=document.createElement('p');summary.title='Expand data source, frame and measurement limitations';details.append(summary,source);dd.replaceChildren(details);}details.querySelector('summary').textContent=text.slice(0,split);details.querySelector('p').textContent=text.slice(split+3);}else dd.textContent=text;
+    }
   }
   snapshot(){return {settings:{...this.settings},selected:this.selected,selectedJoint:this.selectedJoint,resources:this.objects.size,readout:this.data?structuredClone(this.data):null};}
   dispose(){if(this.disposed)return;this.disposed=true;this.panel.removeEventListener('change',this.onChange);for(const id of [...this.objects.keys()])this.remove(id);this.localOutlines=null;this.sim=null;this.data=null;}

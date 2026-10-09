@@ -1,4 +1,5 @@
 :root{font-family:Inter,system-ui,sans-serif;color:#fff;background:#140d09}
+button:focus-visible,summary:focus-visible{outline:3px solid #a4e9b0;outline-offset:3px}button[title]{cursor:pointer}.panel{max-height:85dvh;overflow:auto}.panel details{font-size:13px;color:#d1c7be}.panel summary{cursor:pointer;padding:8px 0}
 *{box-sizing:border-box}html,body,#game{margin:0;width:100%;height:100%;overflow:hidden}#game{height:100dvh}
 canvas{display:block;touch-action:none}
 button{font:inherit;color:inherit}
