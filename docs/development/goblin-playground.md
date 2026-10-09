@@ -13,6 +13,19 @@ Der Playground läuft standardmäßig ohne Simulationszeitlimit und ohne kontinu
 
 Aktuellen `origin/main` in einem sauberen Arbeitsbaum oder isolierten Worktree verwenden, `npm ci`, normalen Build und `node node_modules/vite/bin/vite.js build --config vite.gameplay.config.js` ausführen. Lokaler Produktionszugang und Buildidentität siehe unten. Ein Merge veröffentlicht den separaten Playgroundbuild nicht automatisch. Keine weitere P0-Feedbackrunde als Voraussetzung. Nach #99 STOPP; #100/Kameras wird nicht automatisch begonnen.
 
+## Vier einzelne Kameraansichten (#100)
+
+Sichtbare Umschalter wählen **Perspektive**, **Front von +Z**, **Seite von +X** oder **Oben von +Y**. Die letzten drei sind echte orthografische Kameras mit parallelen Strahlen, kein perspektivischer Seitenersatz. Front/Seite haben +Y als Bildoben; Top hat −Z als Bildoben und +X nach rechts. Weltachsen und Farblegende zeigen +X rot (Schubserrichtung), +Y grün und +Z blau.
+
+Jede Kamera behält Position, Ziel und Zoom beim Umschalten, auch nach Physikreset/Variantenwechsel. **Kamera zurücksetzen** restauriert nur die aktive Ansicht. **Figur einrahmen** passt nur diese Kamera an die aktuellen vollständigen Meshgrenzen an, auch bei liegendem Goblin. Resize aktualisiert Aspect/Frustum aller Ansichten ohne Physikschritte; schmale Querformate behalten eine ausreichend große Grundansicht. Bewusstes Heranzoomen oder Verschieben kann Teile aus dem Bild bewegen; Einrahmen holt die gesamte Figur zurück.
+
+- Perspektive: rechte Taste dreht, Umschalt + rechte Taste oder mittlere Taste verschiebt, Mausrad zoomt.
+- Orthografisch: rechte oder mittlere Taste verschiebt, Mausrad zoomt; keine Drehung.
+- Linke Taste/ein Finger greift standardmäßig einen Körperteil. **Kamera bewegen statt greifen** ordnet diese Geste ausschließlich der Kamera zu: Perspektive dreht, Orthografisch verschiebt. Zwei Finger verschieben/zoomen. Der Hinweis im Spielfeld nennt die gewählte Eingabeart.
+- Bei aktivem Körpergriff sind Umschalter, Reset, Einrahmen und Kameraeingabewahl gesperrt und erklärt. Kein stiller Griffabbruch. Greifen benutzt die tatsächliche aktive Kamera und die Canvas-Koordinaten; Weltachsen sind kein Physikobjekt.
+
+Feedback am Marker identifiziert Kameramodus, Projektionstyp, Blick-/Up-Konvention, Position, Ziel, Zoom, Near/Far sowie vollständige Projektions-/Viewmatrix; Orthografisch zusätzlich Frustum, Perspektive FOV. Kameraänderungen erzeugen keine Physikinputs und verändern keine Hilfen. Vier gleichzeitig sichtbare Ansichten bleiben **#101**, nicht Teil dieses Pakets und nicht automatisch gestartet.
+
 <details><summary>Historisches P0-Testprotokoll vor #99 (keine aktuelle Ausbauvoraussetzung)</summary>
 
 ## Spieler-Testprotokoll – P0 (09.10.2026, keine zusätzliche Implementierung)
@@ -66,7 +79,7 @@ node scripts/gameplay-upright-preview.cjs
 2. Start, dann kleiner/starker Schubser oder direkt am Körper ziehen. Loslassen nutzt den bisherigen Wurfvertrag. Standardmäßig frei laufen; optionalen Timer vor einem frischen Run wählen. Timerende erhält den Zustand und erlaubt Fortsetzen. Geschwindigkeit 0,25×/0,5×/1× gilt sofort.
 3. **Pause ist eine Beobachtungspause:** Assistzustand, Motorbefehle, Reaktionsphase, Zielverlauf und vorgemerkte Schrittinputs bleiben erhalten. Fortsetzen holt keine Wandzeit nach. Einzelschritt ist genau ein tatsächlicher 1/60-s-Schritt im selben Pfad und endet wieder pausiert. Während Pause können keine neuen Schubser/Griffe oder Pointerbewegungen aufgestaut werden.
    **Ausnahme aktiver Griff:** Pause/Markieren bricht ihn ausdrücklich als Sicherheitsstopp ab, ohne Wurf. Griff, starker Schubser, Sicherheitsstopp, Escape und Fokus-/Tabverlust schalten Hilfen aus; auch bei bereits beobachtungspausiertem Run. Fortsetzen schaltet sie nicht wieder ein. Nur Reset schaltet die gewählten Hilfen erneut ein. Bewusstes „Hilfe jetzt ausschalten“ ist eine getrennte Aktion.
-4. Unter Kamera drehen/zoomen, Seitenansicht oder Kamera-Reset. Rechte Maustaste/Mausrad bzw. zwei Finger; optional ein Finger/linke Taste zum Kameradrehen statt Greifen.
+4. Perspektive, Front, Seite oder Oben wählen; Pan/Zoom, Kamera-Reset oder Figur einrahmen nutzen. Gesten und Ansichtskonvention siehe #100 oben; bei Körpergriff sind Kameraaktionen gesperrt.
 5. Aktuelle Stelle markieren: kopiert genau einen Zustand **vor dem Pausenrequest** und pausiert zustandstreu, solange kein Griff aktiv ist. Bei aktivem Griff hält der Export den Vor-Abbruch-Zustand sowie den anschließend ausgeführten Sicherheitsabbruch fest. Optional Körperteil, Kategorie und Notiz wählen; Feedback als JSON herunterladen. Neue Markierung ersetzt die alte. Reset/Variante löschen Marker, Notiz und Auswahl.
 
 JSON enthält Buildrevision/Quellhash/dirty, Variante, eindeutige Sitzungs-/Run-ID, markierten Schritt/Zeit, verfügbaren Körper-/Assist-/Grabzustand, Kamera/Browser/Viewport und Nutzertext. `observation.pause` nennt Pausenart/Ursache, Request und Aktion (`observation-pause`, `safety-stop`, `already-paused`); `snapshot_timing=before-pause-request` bezeichnet den kopierten Zustand. Bei einer bereits bestehenden Sicherheitspause ist die frühere Ursache kein neuer Abbruch beim Marker. Kein Upload, vollständiger Inputverlauf, Solverrestore, Replay oder Reproduktionsversprechen. Snapshotfehler erzeugen einen ausdrücklich unvollständigen Diagnosebericht; ungültige Kategorie/Körperwahl und Notizen über 2000 Zeichen werden verständlich abgelehnt. Vorhandene finite JSON- und Größenprüfungen aus dem Feedback-MVP werden wiederverwendet.

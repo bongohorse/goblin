@@ -21,6 +21,77 @@ async function main(){
     const identity={version:browser.version(),executable:path.basename(arg('--executable')),profile:'own temporary Playwright profile',
       launchArguments:launch.arguments.map(a=>a.startsWith('--user-data-dir=')?'--user-data-dir=<temporary-profile>':a===arg('--executable')?'<confirmed-chrome>':a),
       url:arg('--url'),viewport:{width:1280,height:720},environment:initial.environment,build:initial.build};
+    if(process.argv.includes('--issue100')){
+      const buttons={perspective:'cameraPerspective',front:'cameraFront',side:'side',top:'cameraTop'},saved={};
+      const physics=initial.final,memory=initial.rendererMemory;
+      await page.locator('summary').filter({hasText:'Kamera'}).click();
+      for(const [mode,id] of Object.entries(buttons)){
+        await page.locator('#'+id).click();const view=await read();
+        assert.equal(view.observationCamera.mode,mode);assert.equal(view.observationCamera.type,mode==='perspective'?'perspective':'orthographic');
+        assert.deepEqual(view.final,physics);assert.deepEqual(view.rendererMemory,memory);
+        await page.locator('#cameraFrame').click();assert.deepEqual((await read()).final,physics);
+        const rect=await page.locator('canvas').boundingBox(),x=rect.x+rect.width*.3,y=rect.y+rect.height*.35;
+        const beforeCamera=(await read()).observationCamera;
+        await page.mouse.move(x,y);await page.mouse.down({button:'right'});await page.mouse.move(x+40,y+25,{steps:4});await page.mouse.up({button:'right'});
+        const moved=(await read()).observationCamera;
+        if(mode==='perspective')assert.notDeepEqual(moved.quaternion,beforeCamera.quaternion);
+        else{assert.notDeepEqual(moved.target,beforeCamera.target);assert.ok(moved.quaternion.every((v,i)=>Math.abs(v-beforeCamera.quaternion[i])<1e-12));}
+        const panBefore=(await read()).observationCamera.target;
+        if(mode==='perspective')await page.keyboard.down('Shift');
+        const panButton=mode==='perspective'?'right':'middle';await page.mouse.move(x,y);await page.mouse.down({button:panButton});await page.mouse.move(x+20,y-15);await page.mouse.up({button:panButton});await page.keyboard.up('Shift');
+        assert.notDeepEqual((await read()).observationCamera.target,panBefore);
+        await page.mouse.wheel(0,100);assert.deepEqual((await read()).final,physics);
+        saved[mode]=(await read()).observationCamera;
+      }
+      for(const [mode,id] of Object.entries(buttons)){
+        await page.locator('#'+id).click();assert.deepEqual((await read()).observationCamera,saved[mode]);
+        await page.locator('#mark').click();const dp=page.waitForEvent('download');await page.locator('#feedbackExport').click();
+        const d=await dp,file=path.join(out,'camera-'+mode+'.json');await d.saveAs(file);
+        const payload=JSON.parse(await fs.readFile(file,'utf8'));assert.deepEqual(payload.observation.browser.camera,JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(saved[mode]).filter(([key])=>key!=='canvas')))));
+        await page.locator('#cameraReset').click();await page.locator('#cameraFrame').click();
+        await page.screenshot({path:path.join(out,'camera-'+mode+'.png')});
+        await page.locator('#play').click();const head=(await read()).parts.find(p=>p.id==='head').screen;
+        await page.mouse.move(head.x,head.y);await page.mouse.down();const grip=await read();assert.equal(grip.final.grab.active,true);
+        const expected=grip.final.parts.find(p=>p.id==='head').handle;assert.equal(grip.final.grab.body,expected);
+        for(const action of [...Object.values(buttons),'cameraReset','cameraFrame','cameraMode'])assert.equal(await page.locator('#'+action).isDisabled(),true);
+        const attempt=await page.evaluate(()=>{const before=uprightDiagnostics();document.getElementById('cameraFront').onclick();const after=uprightDiagnostics();return {before:before.final,after:after.final,mode:after.observationCamera.mode};});
+        assert.deepEqual(attempt.after,attempt.before);assert.equal(attempt.mode,mode);
+        await page.mouse.move(head.x+10,head.y+5);await page.mouse.up();assert.equal((await read()).final.grab.active,false);
+        const liveChange=await page.evaluate(()=>{const before=uprightDiagnostics().final;document.getElementById('cameraTop').click();return {before,after:uprightDiagnostics().final};});
+        assert.deepEqual(liveChange.after,liveChange.before);await page.locator('#reset').click();
+      }
+      await page.setViewportSize({width:744,height:360});await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
+      for(const [mode,id] of Object.entries(buttons)){
+        await page.locator('#'+id).click();await page.locator('#cameraFrame').click();
+        assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+        const before=(await read()).final;await page.locator('#cameraMode').check();
+        const rect=await page.locator('canvas').boundingBox(),x=rect.x+rect.width*.3,y=rect.y+rect.height*.3;
+        await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y}]});
+        await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x+20,y:y+15}]});
+        await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});assert.deepEqual((await read()).final,before);
+        const pinchBefore=(await read()).observationCamera;
+        await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y},{x:x+35,y}]});
+        await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x-15,y:y+5},{x:x+55,y:y+5}]});
+        await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+        const pinchAfter=(await read()).observationCamera;
+        if(mode==='perspective')assert.notDeepEqual(pinchAfter.position,pinchBefore.position);else assert.notEqual(pinchAfter.zoom,pinchBefore.zoom);
+        assert.deepEqual((await read()).final,before);
+        await page.locator('#cameraMode').uncheck();await page.locator('#cameraFrame').click();
+        await page.locator('#play').click();const head=(await read()).parts.find(p=>p.id==='head').screen;
+        await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:head.x,y:head.y}]});assert.equal((await read()).final.grab.active,true);
+        await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await page.locator('#reset').click();
+        await page.screenshot({path:path.join(out,'landscape-'+mode+'.png')});
+      }
+      await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:false});await page.setViewportSize({width:1280,height:720});
+      await page.locator('#cameraPerspective').click();await page.locator('#cameraReset').click();
+      await page.locator('#play').click();await page.locator('#strong').click();await page.waitForTimeout(1800);await page.locator('#play').click();
+      const fallen=(await read()).final;
+      for(const id of Object.values(buttons)){await page.locator('#'+id).click();await page.locator('#cameraFrame').click();assert.deepEqual((await read()).final,fallen);}
+      await page.screenshot({path:path.join(out,'fallen-top.png')});await page.locator('#reset').click();
+      await page.locator('#cameraPerspective').click();await page.locator('#cameraReset').click();
+      await page.locator('summary').filter({hasText:'Kamera'}).click();
+      checks.push('four true views; paused/live camera state isolation; orbit/pan/zoom and per-view memory; projection in actual downloads; mouse/head picking and active-grip lock in every view; 744x360 touch navigation/picking; fallen framing; bounded GPU counts');
+    }
     if(process.argv.includes('--issue99')){
       assert.equal(initial.windowLimit,null);assert.deepEqual(initial.runPolicy,{mode:'free',timerSteps:null});
       if(!process.argv.includes('--skip-long-run')){
