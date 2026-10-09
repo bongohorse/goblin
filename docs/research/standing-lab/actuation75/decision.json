@@ -1,0 +1,50 @@
+{
+  "valid": true,
+  "fresh_worlds": 135,
+  "positive_observations": 120,
+  "negative_observations": 15,
+  "immediate_impulse_controls": 40,
+  "local_discrimination": {
+    "guard_uOmega": 1e-10,
+    "guard_uH": 1e-10,
+    "results": [
+      {
+        "id": "negative-frame",
+        "positive_max": 0.000011868884556280025,
+        "negative_correct_min": 0.07392734526245132,
+        "negative_actual_max": 0.00001693843539250432,
+        "margins": [
+          0.07391547617789504,
+          0.0739104066270588
+        ],
+        "pass": true
+      },
+      {
+        "id": "negative-units",
+        "positive_max": 0.000011868884556280025,
+        "negative_correct_min": 0.22733597984559084,
+        "negative_actual_max": 9.153375595771936e-9,
+        "margins": [
+          0.22732411076103456,
+          0.22733597049221527
+        ],
+        "pass": true
+      },
+      {
+        "id": "negative-missing-reaction",
+        "positive_max": 1.998469148388647e-8,
+        "negative_paired_zero_min": 0.002500002483246517,
+        "negative_actual_integral_max": 1.2179478531538406e-8,
+        "margins": [
+          0.002499982298555033,
+          0.002499990103767985
+        ],
+        "pass": true
+      }
+    ],
+    "pass": true
+  },
+  "bounded_actuation_evidence": "local_supported",
+  "engine_precision": "indeterminate_not_certified",
+  "upright_approval": false
+}

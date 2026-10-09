@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "node": "v24.21.0",
+  "tests": 77,
+  "passes": 77,
+  "failures": 0,
+  "build": "pass_existing_chunk_warning",
+  "analytical_validation": {
+    "zero_anchor_isotropic": true,
+    "constrained_anchor_acceleration_max": 4.224686731655424e-15,
+    "torque_linearity": true,
+    "known_axis_mobility": true,
+    "principal_axis_analytic_convergence": [
+      {
+        "n": 8,
+        "left_endpoint_error": 0.0019683801498884546,
+        "midpoint_error": 0
+      },
+      {
+        "n": 16,
+        "left_endpoint_error": 0.0009841900749442255,
+        "midpoint_error": 0
+      },
+      {
+        "n": 32,
+        "left_endpoint_error": 0.0004920950374721136,
+        "midpoint_error": 3.469446951953614e-18
+      },
+      {
+        "n": 64,
+        "left_endpoint_error": 0.0002460475187360568,
+        "midpoint_error": 3.469446951953614e-18
+      }
+    ],
+    "pass": true
+  },
+  "reader_corruptions_rejected": 6,
+  "historical_manifest_entries": 50,
+  "attribution_fresh_worlds": 10,
+  "physics_approval": false,
+  "browser": "N/A CLI only"
+}

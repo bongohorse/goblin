@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "checks": "stored data only; no new Rapier experiment",
+  "states": 28,
+  "matrix_H_max_error": 9.296085298913178e-19,
+  "origin_shift_max_error": 1.00334476072978e-18,
+  "quaternion_sign_max_error": 0,
+  "reversed_frame_tensor_negative_separation": 0.0004137710839810202,
+  "encoded_commands": [
+    {
+      "requested": [
+        0.14999999999999997,
+        0,
+        0
+      ],
+      "encoded": [
+        0.14999999105930328,
+        0,
+        0
+      ],
+      "norm": 0.14999999105930328
+    },
+    {
+      "requested": [
+        -0.14999999999999997,
+        0,
+        0
+      ],
+      "encoded": [
+        -0.14999999105930328,
+        0,
+        0
+      ],
+      "norm": 0.14999999105930328
+    },
+    {
+      "requested": [
+        0,
+        0.14999999999999997,
+        0
+      ],
+      "encoded": [
+        0,
+        0.14999999105930328,
+        0
+      ],
+      "norm": 0.14999999105930328
+    },
+    {
+      "requested": [
+        0,
+        -0.14999999999999997,
+        0
+      ],
+      "encoded": [
+        0,
+        -0.14999999105930328,
+        0
+      ],
+      "norm": 0.14999999105930328
+    },
+    {
+      "requested": [
+        0,
+        0,
+        0.14999999999999997
+      ],
+      "encoded": [
+        0,
+        0,
+        0.14999999105930328
+      ],
+      "norm": 0.14999999105930328
+    },
+    {
+      "requested": [
+        0,
+        0,
+        -0.14999999999999997
+      ],
+      "encoded": [
+        0,
+        0,
+        -0.14999999105930328
+      ],
+      "norm": 0.14999999105930328
+    },
+    {
+      "requested": [
+        0.09282791216329139,
+        -0.046413956081645696,
+        0.10829923085717329
+      ],
+      "encoded": [
+        0.09282790869474411,
+        -0.046413954347372055,
+        0.10829922556877136
+      ],
+      "norm": 0.1499999934986509
+    },
+    {
+      "requested": [
+        -0.09282791216329139,
+        0.046413956081645696,
+        -0.10829923085717329
+      ],
+      "encoded": [
+        -0.09282790869474411,
+        0.046413954347372055,
+        -0.10829922556877136
+      ],
+      "norm": 0.1499999934986509
+    }
+  ],
+  "manifest_hash_corruption_rejected": true,
+  "historical_entries": 62,
+  "manifests": [
+    {
+      "name": "torso-torque60",
+      "entries": 5
+    },
+    {
+      "name": "finite-step66",
+      "entries": 9
+    },
+    {
+      "name": "review68",
+      "entries": 14
+    },
+    {
+      "name": "target-study52",
+      "entries": 22
+    },
+    {
+      "name": "gate-b72",
+      "entries": 12
+    }
+  ],
+  "engine_precision": "indeterminate_not_certified"
+}

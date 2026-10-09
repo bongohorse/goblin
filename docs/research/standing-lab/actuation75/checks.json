@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "node": "v24.21.0",
+  "locked_npm_ci": "pass",
+  "npm_test": {
+    "tests": 83,
+    "pass": 83,
+    "fail": 0
+  },
+  "build": "pass; existing Rapier chunk warning",
+  "fresh_protocol_worlds": 135,
+  "additional_protocol_worlds": 0,
+  "historical_425_reruns": 0,
+  "reader": "valid; recomputed 135 stored observations",
+  "reader_corruptions_rejected": 15,
+  "analysis_reproduced_byte_identical": true,
+  "protocol_and_config_unchanged": true,
+  "historical_manifest_entries_unchanged": 72,
+  "browser": "N/A CLI-only",
+  "upright_experiments": 0,
+  "engine_precision": "indeterminate_not_certified"
+}

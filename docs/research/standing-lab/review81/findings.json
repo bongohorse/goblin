@@ -1,0 +1,25 @@
+{
+  "reviewed_head": "5aa32acc5d4b71d4f5abc6b2d3bceee88da28669",
+  "fixed_base": "dc44ff06d8cdb56829506c8ce1faceeb32462c82",
+  "self_review": true,
+  "findings": [
+    {
+      "severity": "P2",
+      "location": "scripts/smalltilt79-reader.mjs:35",
+      "reason": "Final-only reaction classification accepts all75 worlds even when coherent failed matched reaction would require stop after world30.",
+      "proof_old_valid": true,
+      "proof_old_worlds": 75,
+      "required_stop_world": 30,
+      "fix": "Independent per-prefix decision chronology in review-smalltilt81.mjs; active archive entry uses validateReviewed. Frozen historical reader unchanged."
+    },
+    {
+      "severity": "P3",
+      "location": "scripts/smalltilt79-reader.mjs:14",
+      "reason": "Standalone historical reader only checks build-id format; accepts the right commit with a false source hash. Original archive entry already verified the hash.",
+      "proof_old_accepts_zero_source_hash": true,
+      "fix": "Reviewed stored-data entry explicitly pins both registered historical build identities."
+    }
+  ],
+  "measurement_changes": false,
+  "extra_measurement_worlds": 0
+}

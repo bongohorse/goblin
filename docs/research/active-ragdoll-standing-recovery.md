@@ -1,8 +1,8 @@
 # Goblin Standing Foundation Research
 
 **Status:** active research document  
-**Last updated:** 2026-10-04  
-**Current scope:** stable physical standing only  
+**Last updated:** 2026-10-07
+**Current scope:** stable **unassisted fully dynamic** standing research only; not the mandatory implementation strategy for the game. See [gameplay-first policy](../development/gameplay-first.md).  
 **Related work:** Issue #15, Draft PR #29  
 **Engine baseline:** Three.js 0.186.1, `@dimforge/rapier3d-compat` 0.21.0
 
@@ -21,11 +21,11 @@ We are **not** currently solving:
 - grabbing or carrying objects;
 - hiding, fleeing or other AI behavior.
 
-Those features depend on a stable physical body and are deferred until standing works.
+Those features are deferred **inside this fully dynamic physics-research sequence**, not forbidden as separately scoped, clearly assisted gameplay prototypes. The product may use animation/IK/bounded helps without declaring this research gate passed.
 
 ## Goal
 
-The Goblin must remain a fully dynamic physical ragdoll and stand reliably for **60 seconds** without:
+For **this unassisted Standing experiment**, the Goblin must remain a fully dynamic physical ragdoll and stand reliably for **60 seconds** without:
 
 - teleporting bodies;
 - directly forcing transforms as a hidden correction;
@@ -43,9 +43,11 @@ The primary metric is **time until first non-foot ground contact**:
 - start timing when the standing simulation begins;
 - allow normal foot-floor contact;
 - stop at the first floor contact by any other Goblin body part;
-- record the exact elapsed time for every run;
-- **60.0 seconds or more = full standing success**;
+- record elapsed simulation time and termination reason for every run;
+- **60.0 seconds or more = passes the Standing time criterion**; full acceptance additionally requires the conditions below;
 - shorter times are useful comparison data, but are not passing gates.
+
+A stop before first non-foot contact gives a right-censored contact time, not a measured fall time. Record observed duration and the actual stop reason separately; drift FAIL and contact failure are different events. Timeout may establish the 60-second time criterion without full acceptance. Follow the scoped protocol for stopping or bounded continued observation; invalid measurements establish no valid contact-time bound. Times retain their fixed-step/observer resolution and historical measurement version. See [Standing Lab measurement semantics](../development/labs.md#primary-standing-metric).
 
 A standing solution is accepted only when it:
 
@@ -74,12 +76,17 @@ Use these labels:
 
 Test one meaningful variable at a time where practical.
 
-Do not convert a hypothesis into production code before a bounded standing fixture proves it.
+Do not claim a **fully dynamic unassisted Standing solution** from an unverified hypothesis. Assisted gameplay motion follows its own [gameplay acceptance](../development/gameplay-first.md), rather than inheriting this research gate.
 
 Before implementation, verify APIs against the installed `@dimforge/rapier3d-compat` version. Current upstream Rapier docs can differ from 0.21.0.
 
 Detailed literature/industry review:
 - `docs/research/standing-literature-review-2026-10-04.md`
+- [Modern character-control shortlist, 2026-10-07](modern-character-control-2026-10-07.md): learned control, contact-guided planning and recovery references, with explicit transfer and evidence limits.
+
+### Modern control literature update — 2026-10-07
+
+**PRIMARY SOURCE + HYPOTHESIS + DEFERRED.** Newer work supports investigating contact-aware planning, learned joint control and reusable motion priors. PartwiseMPC, the 2022 get-up work, HumanUP, AdaptNet and the 2026 SMP/InstantMimic/LYRIC results are documented in the shortlist. None establishes standing on our Rapier rig or resolves the finite-step measurement blocker. Keep classical internal torso/COM feedback as the near-term hypothesis; a separately scoped MimicKit feasibility audit is a later option, not training authorization. Fully dynamic research get-up and locomotion remain deferred under this scope, and existing research gate stops/acceptance criteria remain unchanged. An assisted gameplay slice is governed separately.
 
 Physics Lab workflow:
 - `docs/development/labs.md`
@@ -388,7 +395,7 @@ common-frame cap diagnostics pass without changing thresholds. Retain MovingFram
 and ForceBased as references; fixed-native remains a bounded research candidate.
 No balance feedback, production integration, full standing or recovery acceptance.
 
-**Do not continue physical get-up development yet.**
+**Do not continue fully dynamic, unassisted get-up research inside this Standing workstream yet.**
 
 Draft PR #29 demonstrated useful physics findings, but the Goblin still lacks a proven standing foundation.
 
@@ -396,7 +403,7 @@ The next work should answer:
 
 > What is the smallest Rapier-based controller and solver configuration that lets the existing fully dynamic Goblin stand reliably for 60 seconds?
 
-Until that question is answered, get-up work is deferred.
+Until that question is answered, **fully dynamic get-up research in this workstream** is deferred. Separate, labelled gameplay recovery prototypes can be scoped and evaluated without claiming this Standing result.
 
 ## Deferred work
 
@@ -501,7 +508,7 @@ When new standing research is performed:
 3. record the result, including negative results;
 4. state what it changes about the current standing hypothesis;
 5. update the comparison/decision;
-6. do not expand scope into get-up or locomotion until standing is accepted.
+6. do not expand **this fully dynamic Standing research scope** into get-up or locomotion until its acceptance and separate authorization; assisted gameplay prototypes follow their own scope.
 
 This file is the durable research memory for the current standing problem.
 
@@ -522,3 +529,53 @@ variability. Clean Windows built browser matches all six; native hidden/GPU/weak
 device/production budgets and actual motor effort remain unavailable/unaccepted.
 See [full evidence and decision](standing-lab/model-ab48.md). No balance controller,
 default switch, merge or deployment; any further experiment needs explicit scope.
+
+## 2026-10-07 — isolated internal torso torque (#60)
+
+**PROJECT EVIDENCE, BLOCKED VALIDATION:** [Protocol](standing-lab/torso-torque60-protocol.md) and [minimal blocker/decision](standing-lab/torso-torque60/README.md). Five fresh identical first-step sets: anisotropic rotated-principal-frame instantaneous torque-impulse mapping passes, but continuous torque and offset shoulder-constraint responses miss the frozen initial-frame velocity/momentum oracle. That oracle is a linearized initial response, while pinned Rapier integrates32 substeps with evolving orientation and gyroscopic terms; its Float32-only acceptance-resolution argument is insufficient. No engine defect or controller instability established, no tolerance changes, no upright/FullRig-balance experiment or adoption. Diagnose independent finite-step reference/resolution first; keep MovingFrame/ForceBased100/12/Solver32 and original #54 strict-false result. A later FullRig torso A/B still needs secondary standing criteria and pose-motor conflict policy before COM feedback.
+
+## 2026-10-07 — independent finite-step review (#66/#68)
+
+**PROJECT EVIDENCE:** [Stacked review and separate decisions](standing-lab/review68/README.md). Independent matrix/world-angular-momentum and quaternion Newton/Euler references agree within the fixed reporting budget in12 controls/17 torque cases.425 fresh discrete measurements confirm canonical residuals1.05603e-4rad/s and1.25510e-6kg*m²/s and nonmonotone refinement; no universal Float32 floor/engine defect. The historical PRE misses/#54 remain unchanged. Original frame preregistration and tensor-bound wording have explicit errata. Continuous endpoint and contemporaneous POST spin+orbital H are suitable comparison objects, not controller acceptance. Recommend only restricted research merge after fixes/CI; #60 stays stopped until a separate physically justified Gate-B budget/protocol decision. No upright/COM/FullRig experiment.
+
+### Issue #72 measurement requirements — 2026-10-07
+
+[Versioned Torso Gate-B protocol and decision](standing-lab/gate-b72/README.md) separates application accuracy, reference verification, input representation and engine integration/constraint error. Independent capsule/zero-speed mobility and principal-axis sensitivities provide conditional measurement ceilings from the existing .01rad/.02rad/s/6s contract, not thresholds fitted to residual maxima. One preregistered fixed free-versus-connected one-step attribution (five fresh worlds each) associates residuals with connection, but does not isolate ERP/roundoff or establish a domain-wide engine envelope. A corrected torso-specific bias screen exceeds neither the existing physical purpose nor grants positive acceptance; the initially mismatched arm-axis screen is retained as withdrawn.
+
+Decision: Gate B/#60 remains blocked. Physical error allocation, applied-cap representation policy and a valid observable/engine envelope are still missing; protocol fields remain null and cannot pass. Historical False/native#54 evidence unchanged. Draft research only, no small-upright/Standing/COM/FullRig experiment, automatic continuation or physical approval.
+
+### Issue #74 narrower actuation claim — 2026-10-07
+
+[Bounded actuation protocol/review](standing-lab/actuation74/README.md) records the explicit project decision: missing general engine precision does not invalidate separately verified commands or local API/fixture controls. Preserve #72 broad-claim/unknown-budget artifacts as history. Versioned future actual frame/units/missing-reaction commands must demonstrate local empirical discrimination; endpoint and contemporaneous spin-plus-orbital POST-H are descriptive, no precision pass marker. Command pairing neither proves absence of common external/numerical moments nor does a residual establish hidden support or6s torque bias.
+
+Recommend a separate bounded27-case actuation execution, with strict requested/applied vector caps and explicit Float32 encoding. No new engine measurements, precision envelope, Gate-B/Upright/Standing permission or automatic #60 continuation here. Original .01rad/.02rad/s/6s small-upright behavior remains for later direct measurement only.
+
+### Bounded actual actuation evidence — Issue75 / 2026-10-07
+
+[Real actuation study](standing-lab/actuation75/README.md) executes the unchanged
+Issue74 matrix:135 fresh worlds, actual wrong-frame/units/missing-reaction API
+commands, all frozen local separations pass. Commands, physical residuals and
+uncertified general precision remain separate. Local fixture evidence only;
+no upright/controller/standing approval. #60 still needs a separate execution order.
+
+### Separate bounded review decisions — Issue77 / 2026-10-07
+
+[Stacked review and own135-case reproduction](standing-lab/review77/README.md)
+reproduces75 exactly and fixes two data-validation findings without changing
+commands or criteria. Research integration is suitable after final-head checks.
+Separately, local evidence justifies proposing the original small-tilt behavior
+study; outcome unknown, original thresholds retained, no precision envelope
+required for that narrow claim. Proposed protocol is unexecuted, #60 still needs
+a separate execution order; no controller/Standing approval.
+
+
+## Issue79: frozen local small-tilt result (2026-10-07)
+
+The Issue77 proposal was preregistered with clean harness7534e4e473b0371d4e54da553dd59b6ef4abbf6e and executed once:75 fresh worlds/18330 steps, no tuning or extra worlds. All50 core on/off repeats satisfy the original strict terminal criteria;15 motion controls and five wrong-sign/five missing-reaction negatives pass their scoped audits. Worst on final tilt0.0012776867401871105rad and transverse speed0.0010753405532686344rad/s; off drift<=1.0184203577678907e-8rad. This establishes local_smalltilt_supported for the unchanged two-body fixture only. Partner motion remains significant (endpoint speed up to0.8537436605789117rad/s); energy/H/partner behavior are descriptive, no new bounds or engine certification. Original16False/native54 remain. No general controller, Standing, COM/Hip/Yaw, FullRig, recovery or get-up release. Parent60 stays open; no automatic continuation. Full preregistration, raw lossless archive, strict reader and decision: [smalltilt79/decision.md](standing-lab/smalltilt79/decision.md), DraftPR80/Issue79.
+
+
+## Issue81: own SmallTilt reproduction and scope review (2026-10-08)
+
+Own75 fresh worlds/18330 steps from clean PR80 head5aa32acc5d4b71d4f5abc6b2d3bceee88da28669 exactly reproduce every original run object, without tuning/pilot or extra study worlds. Independent matrix/atan2/PD/encoding/spin+orbitalH/terminal/matched-reaction calculations support only the prescribed two-body local_smalltilt_supported decision. Additional evidence: On transient partner speed peaks at34.242619879418996rad/s although final maximum is0.8537436605789117rad/s;2870/9000 On PRE pair powers are positive,2915 On energy increments positive. Encoded axial component is tiny but nonzero. These are descriptive limitations, not new pass bounds or precision certification.
+
+The stored-data review found and fixed a missing per-prefix matched-negative stop check (P2), and strengthened historical source-build identity checking in the current review/archive entry (P3); original frozen runner/reader/model/protocol and all100+40 manifest entries retained. No physics/messcode change or further measurement. Research-only merge recommendation depends on final actual-head CI, with93 local tests/build green; full report and lossless reproduction in [review81/README.md](standing-lab/review81/README.md), Issue81/PR80. Same assistant self-review explicitly disclosed. No Standing/get-up/FullRig/general controller release; #60 remains open. A next bounded FullRig-torso comparison is only a handoff: preregister secondary criteria, pose-motor condition and physical torque distribution before any next execution.

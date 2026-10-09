@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "review_issue": 77,
+  "original_harness": "4cce5d01261eae0588a9fb75c75a2f6ab0de7371",
+  "reproduction_harness": "ffeb408e68abd88a784570277ba0ba03f8e61d28",
+  "fresh_worlds": 135,
+  "case_count": 27,
+  "case_observations_identical": true,
+  "oracle_controls_identical": true,
+  "local_discrimination_identical": true,
+  "original_raw_sha256": "aa33294e1a5b4b6387c3ddf01db92693a95cf3b61565eae4e0114df406325ec8",
+  "reproduction_raw_sha256": "bea11f19d4133f85f8d10007b85f027abc3e20685f39a7e201489230cef33152",
+  "new_upright_runs": 0
+}

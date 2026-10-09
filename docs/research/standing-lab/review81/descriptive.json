@@ -1,0 +1,47 @@
+{
+  "motion:on": {
+    "worlds": 15,
+    "steps": 15,
+    "peak_partner_speed": 0.29841607306449247,
+    "positive_pair_power_steps": 0,
+    "energy_increase_steps": 15,
+    "max_abs_encoded_axial": 0,
+    "max_physical_delta_H": 0.0000014457998441273146
+  },
+  "negative:wrong-sign": {
+    "worlds": 5,
+    "steps": 310,
+    "peak_partner_speed": 32.371731646823115,
+    "positive_pair_power_steps": 255,
+    "energy_increase_steps": 260,
+    "max_abs_encoded_axial": 1.683389424383952e-9,
+    "max_physical_delta_H": 0.00016664735761188942
+  },
+  "negative:missing-reaction": {
+    "worlds": 5,
+    "steps": 5,
+    "peak_partner_speed": 0.007952601088644666,
+    "positive_pair_power_steps": 0,
+    "energy_increase_steps": 5,
+    "max_abs_encoded_axial": 2.2510089278671153e-11,
+    "max_physical_delta_H": 0.0017866706196813713
+  },
+  "core:on": {
+    "worlds": 25,
+    "steps": 9000,
+    "peak_partner_speed": 34.242619879418996,
+    "positive_pair_power_steps": 2870,
+    "energy_increase_steps": 2915,
+    "max_abs_encoded_axial": 7.072581010431067e-10,
+    "max_physical_delta_H": 0.00016626007100052742
+  },
+  "core:off": {
+    "worlds": 25,
+    "steps": 9000,
+    "peak_partner_speed": 1.347921047377418e-10,
+    "positive_pair_power_steps": 0,
+    "energy_increase_steps": 3095,
+    "max_abs_encoded_axial": 0,
+    "max_physical_delta_H": 1.9891620088791275e-12
+  }
+}

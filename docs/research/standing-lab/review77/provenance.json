@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "review_issue": 77,
+  "original_heads": {
+    "main": "dd0cfed3ab14c0456152877cf85212c12b55e430",
+    "pr73": "c8fc2816951a559b5b4fc5ff0c4c6e7b745985ea",
+    "pr76": "ffeb408e68abd88a784570277ba0ba03f8e61d28",
+    "original_measurement": "4cce5d01261eae0588a9fb75c75a2f6ab0de7371"
+  },
+  "current_stackbase": "d0ebe935cf4a2331c69b0f1ae716ba248c4002a1",
+  "reproduction_source": {
+    "git_commit": "ffeb408e68abd88a784570277ba0ba03f8e61d28",
+    "dirty": false,
+    "build_id": "ffeb408e68abd88a784570277ba0ba03f8e61d28:28a59c996e85e98c8f376734e7c4016a24f97cead5a9035aed7a13b8055224d8",
+    "node": "v24.21.0",
+    "os": "win32 10.0.26300",
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+    "rapier": "0.21.0",
+    "upstream": "b716d375efc0201003f0cd9ef7168eee0b62c177",
+    "protocol_head": "c8fc2816951a559b5b4fc5ff0c4c6e7b745985ea",
+    "config_sha256": "24433a2f565a9dd98e2457ff5c8f7989139937c9e7ab8c457c2fad953181cb12",
+    "protocol_sha256": "750409855e633c0207bb7fc158699e2dfb234a2f1994096e2dbf718ed77c7b09"
+  },
+  "reproduction_sha256": "bea11f19d4133f85f8d10007b85f027abc3e20685f39a7e201489230cef33152",
+  "original_raw_sha256": "aa33294e1a5b4b6387c3ddf01db92693a95cf3b61565eae4e0114df406325ec8",
+  "config_sha256": "24433a2f565a9dd98e2457ff5c8f7989139937c9e7ab8c457c2fad953181cb12",
+  "protocol_sha256": "750409855e633c0207bb7fc158699e2dfb234a2f1994096e2dbf718ed77c7b09",
+  "current_sources": [
+    {
+      "path": "scripts/actuation75-reader.mjs",
+      "sha256": "0d5279509e10972b98503a5445e5c8bf6fbc7bde3ce4522d6cd888410cf4b017"
+    },
+    {
+      "path": "scripts/actuation75-corruptions.mjs",
+      "sha256": "b8caf40211cf1d53fbf4972a25f72d4a2ddd2361a4be4b8d5b0b5478b5805671"
+    },
+    {
+      "path": "scripts/review-actuation74.mjs",
+      "sha256": "e7bd4a90413864e00fdb8a4b34402818cc700ac33c63de04ebb0e92b6a08d1a6"
+    },
+    {
+      "path": "scripts/review-upright77.mjs",
+      "sha256": "421cdf306f6d5f7a614e5d3c61b12276d346287e0c976fff2184b80f6ca06918"
+    },
+    {
+      "path": "tests/actuation75.test.js",
+      "sha256": "aee304ed68ecc08851ecd9b30b3426aa0170903e8f84ba0342955d8e052a4164"
+    },
+    {
+      "path": "tests/actuation74.test.js",
+      "sha256": "c7c3c8a0992bf2b9a8e6744555625e71879e20b24890283823e3a1d794ab856f"
+    }
+  ],
+  "original83entries_unchanged": true,
+  "command_model_runner_unchanged_after_reproduction": true,
+  "no_further_measurement_required": "only stored-data/schema/manifest changes; no command/physical/reference criterion or fixture change",
+  "source_heads_note": "Original75/77 code/evidence identities remain historical in raw/source hashes after stack rebase. Final evidence commit is identified in GitHub exact-head reviews."
+}

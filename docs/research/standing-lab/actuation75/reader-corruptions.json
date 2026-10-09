@@ -1,0 +1,77 @@
+[
+  {
+    "name": "missing case",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  [\n    'impulse-free-0',\n    'torque-free-0',\n    'torque-connected-0',\n    'impulse-free-1',\n...\n    'negative-frame',\n-   'negative-units'\n  ]\n"
+  },
+  {
+    "name": "repeat id",
+    "rejected": true,
+    "error": "Expected values to be strictly equal:\n\n6 !== 1\n"
+  },
+  {
+    "name": "wrong build id",
+    "rejected": true,
+    "error": "The input did not match the regular expression /^4cce5d01261eae0588a9fb75c75a2f6ab0de7371:[a-f0-9]{64}$/. Input:\n\n'not-a-build'\n"
+  },
+  {
+    "name": "positive torque beyond strict cap",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    api: 'addTorque',\n    api_units: 'Nm',\n    applied_encoded_pair: [\n      [\n+       0.15000000596046448,\n-       0.14999999105930328,\n        0,\n        0\n      ],\n     "
+  },
+  {
+    "name": "intervening step",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  [\n    {\n      body: 0,\n      op: 'addTorque',\n      step: 0,\n...\n    {\n+     body: undefined,\n+     op: 'world.step',\n-     body: 1,\n-     op: 'addTorque',\n"
+  },
+  {
+    "name": "wrong API units",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    api: 'addTorque',\n+   api_units: 'Nm*s',\n-   api_units: 'Nm',\n    applied_encoded_pair: [\n      [\n        0.14999999105930328,\n        0,\n        0\n"
+  },
+  {
+    "name": "incorrect reset readback",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    {\n+     x: 1,\n-     x: 0,\n      y: 0,\n      z: 0\n    },\n    {\n      x: 0,\n"
+  },
+  {
+    "name": "fault actual readback changed to intended",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    {\n+     x: 0.14999999105930328,\n+     y: 0,\n+     z: 0\n-     x: 0.1325952261686325,\n-     y: 0.04507753625512123,\n-     z: -0.053726326674222946\n    },\n    {\n      x: -"
+  },
+  {
+    "name": "physical POST H corrupted",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    POST: {\n      E: 0.00036039668095675303,\n      H: [\n        -3.2389307512079024e-10,\n...\n    physical_delta_H: [\n+     1,\n-     -3.2389307512079024e-1"
+  },
+  {
+    "name": "PRE alignment uncertainty corrupted",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    POST: {\n      E: 0.00036039915933432185,\n      H: [\n        -4.952902224204109e-9,\n...\n      initial_alignment_difference: {\n+       angular: 1,\n-    "
+  },
+  {
+    "name": "convergence forged",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    POST: {\n      E: 0.00036039915933432185,\n      H: [\n        -4.952902224204109e-9,\n...\n          error: {\n+           angular: 1,\n-           angular:"
+  },
+  {
+    "name": "frozen discrimination guard enlarged",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    guard_uH: 1e-10,\n+   guard_uOmega: 1,\n-   guard_uOmega: 1e-10,\n    pass: true,\n    results: [\n      {\n        id: 'negative-frame',\n        margins: [\n"
+  },
+  {
+    "name": "engine certification invented",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    H_acceptance_marker: null,\n    endpoint_acceptance_marker: null,\n+   general_envelope: 0.001,\n-   general_envelope: null,\n    status: 'indeterminate_not_certified'\n  }\n"
+  },
+  {
+    "name": "unscoped physics approval",
+    "rejected": true,
+    "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  [\n    'bounded_actuation_evidence',\n    'case_count',\n    'cases',\n    'command_contract',\n...\n    'oracle_controls',\n+   'pass_physics',\n    'provenance',\n"
+  },
+  {
+    "name": "nested standing approval",
+    "rejected": true,
+    "error": "unscoped physics/standing approval field"
+  }
+]

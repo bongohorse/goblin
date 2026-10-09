@@ -2,7 +2,7 @@
 
 **Question:** How should a fully dynamic Goblin be controlled so it can stand reliably without hidden supports, teleporting, or turning the ragdoll kinematic?
 
-**Scope:** standing only. Walking, get-up, object interaction and autonomous behavior remain deferred.
+**Scope:** **unassisted, fully dynamic Standing research only**. Walking, get-up, object interaction and autonomous behavior are deferred **within this research sequence**, not forbidden as separate assisted gameplay prototypes. See [gameplay-first policy](../development/gameplay-first.md).
 
 This note records external research and implementation evidence that directly changes the standing investigation. It complements the canonical summary in `docs/research/active-ragdoll-standing-recovery.md`.
 
@@ -287,11 +287,11 @@ This is conceptually useful because it separates:
 
 ### Goblin rule
 
-A virtual model is acceptable **only if its output is realized through physical internal torques/contact reactions**.
+For **scientific unassisted Standing acceptance**, a virtual model is acceptable **only if its output is realized through physical internal torques/contact reactions**. An assisted gameplay prototype has different, explicitly labelled acceptance rules.
 
 A literal world-space spring that pulls the pelvis to an invisible target can make a demo stand, but it violates our current success definition if that spring acts as hidden support.
 
-Use world/pelvis springs only as a **diagnostic control condition**, never silently as the production standing solution.
+Use world/pelvis springs only as **diagnostic conditions for this unassisted experiment**, not as unreported evidence of fully physical Standing. They may be considered as **openly declared, bounded gameplay assists** under separate collision, interruption and performance QA.
 
 ## 8. What shipped games actually tell us
 
@@ -565,14 +565,14 @@ Only if S1–S6 cannot make the existing rig stand:
 
 Do not change all of these together.
 
-## 14. What not to do next
+## 14. What not to do next in this Standing research workstream
 
-Do not:
+Do not (within the frozen/fully dynamic Standing experiment):
 
 - resume get-up development;
 - add walking/stepping;
 - implement reinforcement learning;
-- add a hidden pelvis-to-world spring as the production answer;
+- add a hidden pelvis-to-world spring as the **unassisted Standing research** answer;
 - simply increase friction;
 - simply increase torque;
 - simply maximize solver iterations;

@@ -1,0 +1,359 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bounded-internal-actuation74-v1",
+  "origin_issue": 74,
+  "base_main": "dd0cfed3ab14c0456152877cf85212c12b55e430",
+  "reviewed_input_head": "e025db63db1294e47b2ffc7a6279534cda55530b",
+  "execution_status": "protocol_only_no_execution_authorized_here",
+  "rapier": "0.21.0",
+  "upstream": "b716d375efc0201003f0cd9ef7168eee0b62c177",
+  "fixture_source": "scripts/torso-torque60-fixtures.js unchanged",
+  "oracle_id": "continuous-newton-euler66-plus-independent-matrix-world-L68-v1",
+  "encoding_id": "bounded-toward-zero-f32-v1",
+  "cap_Nm": 0.15,
+  "dt_nominal_s": 0.016666666666666666,
+  "solver_iterations": 32,
+  "internal_pgs_iterations": 1,
+  "repeats": 5,
+  "public_steps_per_torque_case": 1,
+  "public_steps_per_impulse_case": 0,
+  "cases": [
+    {
+      "id": "impulse-free-0",
+      "method": "impulse",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "torque-free-0",
+      "method": "torque",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "torque-connected-0",
+      "method": "torque",
+      "connected": true,
+      "synthetic": false,
+      "direction": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "impulse-free-1",
+      "method": "impulse",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "torque-free-1",
+      "method": "torque",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "torque-connected-1",
+      "method": "torque",
+      "connected": true,
+      "synthetic": false,
+      "direction": [
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "impulse-free-2",
+      "method": "impulse",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "torque-free-2",
+      "method": "torque",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "torque-connected-2",
+      "method": "torque",
+      "connected": true,
+      "synthetic": false,
+      "direction": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "impulse-free-3",
+      "method": "impulse",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "id": "torque-free-3",
+      "method": "torque",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "id": "torque-connected-3",
+      "method": "torque",
+      "connected": true,
+      "synthetic": false,
+      "direction": [
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "id": "impulse-free-4",
+      "method": "impulse",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "torque-free-4",
+      "method": "torque",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "torque-connected-4",
+      "method": "torque",
+      "connected": true,
+      "synthetic": false,
+      "direction": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "impulse-free-5",
+      "method": "impulse",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "id": "torque-free-5",
+      "method": "torque",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "id": "torque-connected-5",
+      "method": "torque",
+      "connected": true,
+      "synthetic": false,
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "id": "impulse-free-6",
+      "method": "impulse",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        0.6,
+        -0.3,
+        0.7
+      ]
+    },
+    {
+      "id": "torque-free-6",
+      "method": "torque",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        0.6,
+        -0.3,
+        0.7
+      ]
+    },
+    {
+      "id": "torque-connected-6",
+      "method": "torque",
+      "connected": true,
+      "synthetic": false,
+      "direction": [
+        0.6,
+        -0.3,
+        0.7
+      ]
+    },
+    {
+      "id": "impulse-free-7",
+      "method": "impulse",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        -0.6,
+        0.3,
+        -0.7
+      ]
+    },
+    {
+      "id": "torque-free-7",
+      "method": "torque",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        -0.6,
+        0.3,
+        -0.7
+      ]
+    },
+    {
+      "id": "torque-connected-7",
+      "method": "torque",
+      "connected": true,
+      "synthetic": false,
+      "direction": [
+        -0.6,
+        0.3,
+        -0.7
+      ]
+    },
+    {
+      "id": "negative-missing-reaction",
+      "method": "torque",
+      "connected": true,
+      "synthetic": false,
+      "direction": [
+        1,
+        0,
+        0
+      ],
+      "fault": "omit_partner"
+    },
+    {
+      "id": "negative-frame",
+      "method": "torque",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        1,
+        0,
+        0
+      ],
+      "fault": "body_principal_to_world_wrongly_applied_to_declared_world_vector_on_both"
+    },
+    {
+      "id": "negative-units",
+      "method": "torque",
+      "connected": false,
+      "synthetic": true,
+      "direction": [
+        1,
+        0,
+        0
+      ],
+      "fault": "multiply_torque_by_actual_T_once"
+    }
+  ],
+  "numerical_reference_checks": {
+    "velocity_rad_s": 1e-10,
+    "angle_rad": 1e-10,
+    "position_m": 1e-11,
+    "H_kg_m2_s": 1e-10,
+    "energy_J": 1e-10,
+    "resolutions": [
+      16,
+      32,
+      64,
+      128,
+      256
+    ]
+  },
+  "engine_precision": {
+    "status": "indeterminate_not_certified",
+    "general_envelope": null,
+    "endpoint_acceptance_marker": null,
+    "H_acceptance_marker": null
+  },
+  "claims": [
+    "audited_commands",
+    "local_api_and_frame_controls",
+    "empirical_negative_discrimination_only",
+    "descriptive_endpoint_and_POST_H"
+  ],
+  "deferred_upright": {
+    "executed": false,
+    "kp_Nm_rad": 1.34,
+    "kd_Nm_s_rad": 1.34,
+    "cap_Nm": 0.15,
+    "nominal_steps": 360,
+    "terminal_tilt_lt_rad": 0.01,
+    "terminal_transverse_speed_lt_rad_s": 0.02,
+    "domain_max_tilt_rad": 0.2,
+    "requires_separate_authorization": true
+  }
+}

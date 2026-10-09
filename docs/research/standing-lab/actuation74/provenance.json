@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "base_main": "dd0cfed3ab14c0456152877cf85212c12b55e430",
+  "reviewed_pr": 73,
+  "reviewed_input_head": "e025db63db1294e47b2ffc7a6279534cda55530b",
+  "existing_attribution_measured_harness": "5632c0497d8fd151b4529fb3a0f0e105c6d9b536",
+  "new_engine_measurements": 0,
+  "prior_artifact_entries_unchanged": 62,
+  "prior_method_source_hashes": "gate-b72/provenance.json are historical e025db6 snapshots; unchanged",
+  "current_method_sources": [
+    {
+      "path": "scripts/torso-gate-b72-reader.mjs",
+      "sha256": "db679b759ff6d480f50d517ded6c51c5778138e141a8e5684f77e03f5fab2b1b"
+    },
+    {
+      "path": "scripts/review-actuation74.mjs",
+      "sha256": "e2e27e21a9795b79b0a4a5fac8a51c23bceb59fd51104171464a25fca47472c1"
+    },
+    {
+      "path": "tests/torso-gate-b72.test.js",
+      "sha256": "f7929609f5609a10484d94ec8455f7061b4e10885d5142845dce589222adf42a"
+    },
+    {
+      "path": "tests/actuation74.test.js",
+      "sha256": "f305ee8287a672d382ab2b2f6fdd48e74a1527f06f3fb1cc7e60fc2d84e1c6d2"
+    }
+  ],
+  "config_sha256": "24433a2f565a9dd98e2457ff5c8f7989139937c9e7ab8c457c2fad953181cb12",
+  "protocol_sha256": "750409855e633c0207bb7fc158699e2dfb234a2f1994096e2dbf718ed77c7b09"
+}

@@ -1,0 +1,181 @@
+
+> beat-your-goblin@0.2.2 test
+> node --test tests/*.test.js
+
+✔ physical POST-H has independent matrix, shifted-origin and quaternion-sign checks (38.3166ms)
+✔ representation cap is strict and not a per-axis box or residual tolerance (5.7737ms)
+✔ manifest rejects mismatched expected hash (1.1657ms)
+✔ manifest rejects omitted and unexpected entries; legacy exclusions are explicit (7.8369ms)
+✔ frozen actuation75 constructions preserve strict caps and expose actual fault vectors (3.684ms)
+✔ stored 135 real actuation observations satisfy the frozen local decision (3526.6528ms)
+✔ reader rejects targeted provenance/phase/command/reference/decision corruption (6160.5577ms)
+✔ nested public setup/state schema rejects type coercion and incomplete getter records (146.9812ms)
+✔ independent ODE passes analytic, gyro and spherical conservation/convergence controls (938.0475ms)
+✔ reference rejects singular constraints and invalid physical inputs (1.0091ms)
+✔ rotation distance identifies quaternion signs and resolves tiny rotations (0.7817ms)
+✔ raw reader rejects tampering, missing cases, stale config and false negative flags (9585.2089ms)
+✔ the real spring motor bounds the resultant impulse, including diagonal targets and rotated bodies (208.7668ms)
+✔ grabbing a high-speed collision does not erase contact momentum or overwrite its spin (8.9761ms)
+✔ release preserves transverse/contact movement and spin, and never boosts an already faster throw (1.4326ms)
+✔ stationary movement samples suppress a throw before the stale window, unlike a duplicate pointerup (1.2276ms)
+{
+  throws: [
+    {
+      rate: 30,
+      before: 7.395353651726236,
+      speed: 7.395353651726236,
+      threw: true,
+      maxForce: 80,
+      maxSpeed: 7.395353651726236,
+      position: [Object]
+    },
+    {
+      rate: 60,
+      before: 7.359562944460208,
+      speed: 7.359562944460208,
+      threw: true,
+      maxForce: 80,
+      maxSpeed: 7.359562944460208,
+      position: [Object]
+    },
+    {
+      rate: 144,
+      before: 6.986615275815257,
+      speed: 7.112561094432621,
+      threw: true,
+      maxForce: 80,
+      maxSpeed: 6.986615275815257,
+      position: [Object]
+    },
+    {
+      rate: 240,
+      before: 7.359562944460208,
+      speed: 7.359562944460208,
+      threw: true,
+      maxForce: 80,
+      maxSpeed: 7.359562944460208,
+      position: [Object]
+    }
+  ]
+}
+{
+  grabCycles: {
+    maxForce: 120,
+    maxSpeed: 9.444144661648993,
+    maxGap: 0.03073805466797793,
+    maxHoldError: 0.036787000993844785
+  }
+}
+✔ local anchor follows actual body rotation; off-centre pulling rotates while tracking the point (177.521ms)
+✔ timed input at 30/60/144/240Hz produces bounded comparable throws; slow release differs (38.7134ms)
+✔ release corrects existing motion, heavy props get less speed, stale gestures and abort never throw (3.679ms)
+✔ duplicate release preserves recent movement, while the grip never overwrites collision velocities (1.3214ms)
+✔ 20 real articulated grab/reset cycles remain bounded, retain no constraint/force, and tolerate body removal (1821.0586ms)
+✔ collider picking uses semantic body handles and restored collider poses before next step (1.8292ms)
+✔ study hashes and reader preserve frozen parameters, declared gain units and same-step evidence (752.0872ms)
+✔ study invalid latch never continues or claims Standing time; calibrated impact diagnostics prohibited (7255.8655ms)
+✔ native models: real per-axis torque caps/reaction, signs/frames, inertia scaling and predeclared scalar response (1547.9618ms)
+✔ study reader rejects missing/corrupt comparison payload and first terminal (399.0319ms)
+✔ diagnostic reader checks horizon, invalid cause and first-contact chronology (22.2565ms)
+✔ loaded five-body native chain reproduces a real limit breach independent of self-contact or angle oracle (416.4574ms)
+✔ isolated load-path counterfactuals bound the diagnosis without changing passive definitions (479.5273ms)
+✔ independent matrix oracle resolves signed hinge twists, world/bind frames and quaternion wrapping (1.9222ms)
+✔ oracle distinguishes hinge twist from forbidden swing and pinned asin semantics (0.2274ms)
+✔ motor experiment hashes identify exact caps/solver configs without altering passive identity (71.1328ms)
+✔ frozen experiment rejects undeclared budgets, gain/rig/tolerance changes and invalid run horizons (5.93ms)
+✔ diagnostic continuation retains the original anomaly guard and never exports invalid standing time (696.1688ms)
+✔ solver32 contact end remains separate from guarded diagnostic continuation through the head impact (947.6826ms)
+✔ debug teardown disposes real Three resources and cannot be revived by a retained control (336.4851ms)
+{
+  maxGap: 0.06398664386005935,
+  maxSpeed: 8.915279431373332,
+  settledSpeed: 0,
+  settledAngularSpeed: 0
+}
+{
+  hingeAngles: [
+    { id: 'kneeL', sign: -1, angle: -0.05000006618513465 },
+    { id: 'kneeL', sign: 1, angle: 2.2999998505191837 },
+    { id: 'kneeR', sign: -1, angle: -0.05000006618513465 },
+    { id: 'kneeR', sign: 1, angle: 2.2999998505191837 },
+    { id: 'elbowL', sign: -1, angle: -2.3499998901119725 },
+    { id: 'elbowL', sign: 1, angle: 0.049999869308697556 },
+    { id: 'elbowR', sign: -1, angle: -2.3499998901119725 },
+    { id: 'elbowR', sign: 1, angle: 0.049999869308697556 }
+  ]
+}
+{
+  hammerMaxGap: 0.04527921964221647,
+  hammerTailSpeed: 0,
+  hammerTailAngularSpeed: 0
+}
+✔ rig contract has bijective body/collider/bone IDs, independent hands/feet and coincident bind anchors (28.4475ms)
+✔ repeated deterministic falls/impacts stay bounded and settle; reset and disposal clear physics resources (1731.43ms)
+✔ actual knees and elbows flex in the promised direction and enforce asymmetric stops (133.8948ms)
+✔ nonadjacent self contacts remain enabled; adjacent partner contacts are disabled (1.8505ms)
+✔ fast small extremity contacts at 10/35/60m/s do not tunnel through the arena floor, with or without CCD (4.942ms)
+✔ hammer-strength extremes and fast projectiles keep articulated anchors bounded (674.0528ms)
+✔ 10m/s direct and glancing projectiles generate real head contact manifolds (11.1494ms)
+✔ spawn, ready and reset never permit score or consume round time (1.5435ms)
+✔ pause freezes round time and blocks input; expiry blocks scoring (18.1118ms)
+✔ fixed stepping agrees at 30, 60 and 144 render FPS (1.3507ms)
+✔ stalls are bounded and pause/reset discard accumulated time (0.8099ms)
+✔ spawn falls and prop-only actions cannot award a fall (0.2719ms)
+✔ direct goblin action awards only a new fall once, reset clears cause (0.179ms)
+✔ 79 archived single execution retains all75 worlds/18330 steps and frozen decisions (10263.0228ms)
+✔ 79 archive rejects missing/reordered parts and byte/hash corruption without worlds (495.3084ms)
+✔ 79 frozen matrix and independent pure geometry; zero worlds (63.3968ms)
+✔ 79 world damping, yaw covariance/null, domain and units controls (0.6922ms)
+✔ 81 independent terminal/command/physical-H audit supports every original and fresh repeat (11918.8667ms)
+✔ 81 rejects later worlds after a coherent matched-reaction blocker; accepts the exact stopped prefix (1706.94ms)
+✔ 81 rejects false registered source identity and lossless-replay metadata corruption (6165.6423ms)
+✔ 81 rejects duplicate steps, altered setup/pass/terminal criteria and hidden in-world domain continuation (1502.6961ms)
+✔ spherical targets: real tracking/sign/frame/matrix/cap/reaction oracles (3239.121ms)
+✔ target contract rejects global/malformed mapping and keeps distinct identities (8.1175ms)
+✔ fixed study reset replaces handles, preserves neutral frames, frees resources and obeys invalid latch (112.5502ms)
+✔ target reader rejects legacy/mixed/corrupt reports and verifies neutral A/B evidence (754.9796ms)
+✔ review54 independently reproduces original rotated-body strict momentum miss without relabeling pass (150.7491ms)
+✔ target reader rejects nested unknown/nonfinite or mixed legacy fields (19.5226ms)
+✔ target reader rejects wrong study/model/frames, missing measurements, invalid peaks/terminal and nonfinite known fields (230.6439ms)
+Load calibration [
+  { reverse: false, normal_load_N: 9.810000593438714, contacts: 4 },
+  { reverse: true, normal_load_N: 9.81000081695612, contacts: 4 }
+]
+✔ normal impulses, world points and signs calibrate 1 kg weight in either internal order (214.4906ms)
+✔ exact initial contact detects touching/penetration; predictive gap never counts actual contact (5.7016ms)
+✔ COM velocity uses Rapier mass-centre velocity, not rotating body-origin velocity (24.1675ms)
+✔ feet allowed, simultaneous nonfeet canonically latched once, endstep contact beats timeout (198.064ms)
+✔ nonfoot start contact has time zero with all IDs; zero-gravity calibration timeout has 3600 steps (1390.8046ms)
+✔ invalid/missing body never exports success, hashes deterministic and snapshot result immutable (41.5004ms)
+✔ motor reader rejects coherently false hinge and angular velocity against same-step bodies (340.4926ms)
+✔ incomplete motor export includes clicked-step evidence without mutating scheduled checkpoints (28.463ms)
+✔ motor v2 reader enforces frozen config, tracking and provenance while passive v1 hash stays unchanged (120.792ms)
+✔ fresh reset rebinds every motor handle; pending export stays on its clicked run and dispose clears references (441.3409ms)
+✔ integrated solver32 normal modes preserve candidate contact/timeout references and stop permanently (3878.7272ms)
+Native cap/counterreaction diagnostic [{"type":"revolute","sign":-1,"effort_Nm":{"x":-0.04999999513448503,"y":-2.182787274090633e-13,"z":-6.3419328816261e-10},"momentum_residual":6.36646321480126e-15},{"type":"revolute","sign":1,"effort_Nm":{"x":0.04999999513448503,"y":-2.182787274090633e-13,"z":6.3419328816261e-10},"momentum_residual":6.36646321480126e-15},{"type":"spherical","sign":-1,"effort_Nm":{"x":-0.04999999302462568,"y":-6.577338369441114e-8,"z":-2.560988663427577e-7},"momentum_residual":1.4551915919545737e-14},{"type":"spherical","sign":1,"effort_Nm":{"x":0.04999999302462568,"y":-6.577338369441114e-8,"z":2.560988663427577e-7},"momentum_residual":1.4551915919545737e-14},{"type":"combined","effort_Nm":{"x":0.05000000193260068,"y":0.04999999962271,"z":0.050000000347375645},"total_effort_Nm":0.08660254147696034}]
+✔ public spherical descriptor view preserves one physical joint; installed factory mismatch is explicit (9.7812ms)
+✔ revolute tracks both signs and respects asymmetric limits; off and wrong sign fail the intended target (355.6548ms)
+✔ spherical moving-frame targets track every axis/sign and combined orientation in rotated world frames (221.469ms)
+✔ saturated native motor impulse/cap and unequal-inertia counterreaction measured, not inferred from setters (4.9776ms)
+✔ actual passive checkpoints agree at 30/60/144 Hz and irregular render intervals (716.9118ms)
+✔ five fresh worlds reproduce all checkpoints; compare ignores identifiers/timing but catches corruption (345.6482ms)
+✔ fresh reset after terminal clears measurements/contacts and reproduces the complete result (132.4235ms)
+✔ lab config is immutable, validated and transitively independent from production (72.3876ms)
+✔ actual passive rig mass, COM, analytic inertia, anchors, limits and collisions match contract (217.8911ms)
+✔ fresh reset discards entire old world, events and maps over 20 cycles (971.6018ms)
+✔ one fixed step path, pause/resume/stall discard and passive fall remain bounded (91.5842ms)
+✔ hinge diagnostic reports real twist and asymmetric stops under torque (29.1982ms)
+✔ independent analytic controls and requirement sensitivity, not endpoint fit (3.4848ms)
+✔ stored fixed attribution reader and corruption discrimination (1804.9568ms)
+✔ upright yaw and quaternion sign invariance; bounded vector and out-of-domain rejection (2.6604ms)
+✔ world torso damping responds to co-rotation and leaves axial yaw free (0.3375ms)
+✔ public mass initialization and rotated anisotropic impulse controls; preregistered misses remain failures (186.6913ms)
+✔ blocker reader verifies IDs, complete fresh-run set, finite data and failure semantics (270.9502ms)
+ℹ tests 93
+ℹ suites 0
+ℹ pass 93
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 26998.0116

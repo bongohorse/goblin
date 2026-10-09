@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "criteria_origin": "config and analytic budget fixed before this assessment; not fitted to endpoints",
+  "source": "review68/diagnosis.json",
+  "source_sha256": "0b5c2fff1cee2c6bbb05eb49c3672d6eb6ad9c353930ab5a9fa9c82e0d858c4a",
+  "canonical_paired": {
+    "angular_rad_s": 0.00010560269743758851,
+    "H_kg_m2_s": 0.0000012551022966893554
+  },
+  "velocity_bias_screen_rad_s": 0.0016666666666666668,
+  "coherent_external_H_screen_kg_m2_s": 8.895699388678033e-7,
+  "wrong_frame_reference_only_min_rad_s": 0.012560444332534278,
+  "missing_reaction_canonical_H": [
+    0.0025000026469692133
+  ],
+  "decision": "H residual exceeds coherent-bias screen; no claim of actual persistent external torque; unresolved engine/observation envelope; gate stays blocked",
+  "original_flags_reclassified": false,
+  "missing_reaction_matched_external_reference_error": [
+    1.1986238738059732e-8
+  ],
+  "budget_method_version": 2,
+  "correction": "Initial arm-axis screen withdrawn by output-definition self-review; torso transverse analytic screen remains conditional, not approved criterion; no endpoint fit",
+  "initial_input_sensitivity_max_angular_rad_s": 3.1829209206593685e-7,
+  "input_sensitivity_scope": "finite historical matched/ideal input comparison, not all-operation or domain-wide bound",
+  "units_negative_free_velocity_lower_bound_rad_s": 0.025588036464181334
+}

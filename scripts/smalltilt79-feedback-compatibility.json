@@ -1,0 +1,10 @@
+{
+  "reviewed_head": "b3440544520a8792694b177c3637b26906343115",
+  "scope": "Exact reviewed feedback integration, not physics equivalence or Standing acceptance",
+  "files": {
+    "labs/standing/index.html": "2e2cb916c2c73d988f84528181858c8852f8d684d833799976c65d96eb34cec3",
+    "src/labs/standing/browser.js": "ede6195dc04069348d15998c3bcf79db313ab206255f4144c6d8d932adf7bfa1",
+    "src/labs/standing/style.css": "c19e56177505a375f914066269c7be981da49ff321dc714e6a74232bcf250b03",
+    "src/labs/standing/feedback.js": "bd3b6be20e46580f41bda44a7e774e79acf8f21b0cc7254ad60297e566d9c478"
+  }
+}

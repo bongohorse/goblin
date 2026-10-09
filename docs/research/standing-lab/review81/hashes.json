@@ -1,0 +1,70 @@
+{
+  "valid": true,
+  "historical_entries": 100,
+  "issue79_entries": 40,
+  "source_pins": 91,
+  "manifests": [
+    {
+      "dir": "docs/research/standing-lab/torso-torque60",
+      "entries": 5,
+      "legacy_exclusions": [
+        "README.md"
+      ]
+    },
+    {
+      "dir": "docs/research/standing-lab/finite-step66",
+      "entries": 9,
+      "legacy_exclusions": []
+    },
+    {
+      "dir": "docs/research/standing-lab/review68",
+      "entries": 14,
+      "legacy_exclusions": [
+        "README.md"
+      ]
+    },
+    {
+      "dir": "docs/research/standing-lab/target-study52",
+      "entries": 22,
+      "legacy_exclusions": [
+        "README.md"
+      ]
+    },
+    {
+      "dir": "docs/research/standing-lab/gate-b72",
+      "entries": 12,
+      "legacy_exclusions": []
+    },
+    {
+      "dir": "docs/research/standing-lab/actuation74",
+      "entries": 10,
+      "legacy_exclusions": []
+    },
+    {
+      "dir": "docs/research/standing-lab/actuation75",
+      "entries": 11,
+      "legacy_exclusions": []
+    },
+    {
+      "dir": "docs/research/standing-lab/review77-manifest",
+      "entries": 4,
+      "legacy_exclusions": []
+    },
+    {
+      "dir": "docs/research/standing-lab/review77",
+      "entries": 13,
+      "legacy_exclusions": []
+    },
+    {
+      "dir": "docs/research/standing-lab/smalltilt79",
+      "entries": 40,
+      "legacy_exclusions": []
+    }
+  ],
+  "config_sha256": "4d25b75469a23fd6fc56732e08e952b2e9dfa7a36f14baf53cdc03a270ee6a42",
+  "protocol_sha256": "938274db30281bd350789ae168a6a5dbf9bdf68043aa5723c3438b60909be9ea",
+  "source_pins_sha256": "8cad0410a0a0727ab1574b7d4d48e53151196cebb79eb0b03ad85ab8e3249884",
+  "original_raw_sha256": "25be46c8779a3b9c8c0f5b21f3682c4eaa9626d13b1cf6eec4afd72c7ceb69bb",
+  "reproduction_raw_sha256": "c25e5aae9a410e1d0a1530756f4e41089f0c5954ea1b2124260f71e8991cce1e",
+  "same_runs_sha256": "f18c799b78e55d7c2688c9a251c776c91deeacc05d3c54c82f52aa55ac98f3cf"
+}

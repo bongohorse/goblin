@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "node": "v24.21.0",
+  "npm_test": {
+    "tests": 80,
+    "pass": 80,
+    "fail": 0
+  },
+  "build": "pass; existing chunk warning",
+  "reader_targeted_corruptions_rejected": 8,
+  "new_findings_reproduced_then_rejected": 2,
+  "manifest_mismatched_hash_rejected": true,
+  "existing_artifact_entries": 62,
+  "independent_reference_checks": 29,
+  "independent_stored_state_momentum_checks": 28,
+  "new_Rapier_worlds": 0,
+  "new_upright_runs": 0,
+  "engine_precision": "indeterminate_not_certified",
+  "browser": "N/A CLI-only"
+}

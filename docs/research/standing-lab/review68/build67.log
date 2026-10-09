@@ -1,0 +1,23 @@
+
+> beat-your-goblin@0.2.2 build
+> vite build
+
+[36mvite v8.3.2 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 96 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/labs/standing/index.html          1.79 kB │ gzip:     0.76 kB
+dist/index.html                        3.85 kB │ gzip:     1.55 kB
+dist/assets/standing-Bf7H9AJG.css      1.13 kB │ gzip:     0.55 kB
+dist/assets/game-CP0aMMiy.css          5.57 kB │ gzip:     1.84 kB
+dist/assets/game-BFkQ9IsO.js          24.35 kB │ gzip:     9.64 kB │ map:    74.75 kB
+dist/assets/standing-CGALJnRz.js     202.43 kB │ gzip:    49.67 kB │ map:   690.64 kB
+dist/assets/rapier-DiMiCsrO.js     4,875.16 kB │ gzip: 1,803.65 kB │ map: 7,424.00 kB
+
+[32m✓ built in 4.32s[39m
+[33m[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
