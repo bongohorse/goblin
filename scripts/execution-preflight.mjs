@@ -75,6 +75,30 @@ export async function main(args) {
     if (options['--video']) {
       const bytes = await readFile(await video.path());
       if (bytes.length < 4 || !bytes.subarray(0, 4).equals(Buffer.from([0x1a,0x45,0xdf,0xa3]))) throw Error('video: missing WebM output');
+      stage = 'recorded video frame decode';
+      const playback = await browser.newPage();
+      try {
+        await playback.evaluate(async base64 => {
+          const media = document.createElement('video');
+          const url = URL.createObjectURL(new Blob([Uint8Array.from(atob(base64), c => c.charCodeAt(0))], {type: 'video/webm'}));
+          document.body.append(media);
+          try {
+            await new Promise((resolve, reject) => {
+              const timer = setTimeout(() => reject(Error('video: frame decode timeout')), 5000);
+              media.onloadeddata = () => {
+                clearTimeout(timer);
+                if (media.readyState >= 2 && media.videoWidth > 0 && media.videoHeight > 0) resolve();
+                else reject(Error('video: no decoded frame'));
+              };
+              media.onerror = () => { clearTimeout(timer); reject(Error('video: frame decode failed')); };
+              media.src = url;
+              media.load();
+            });
+          } finally {
+            media.removeAttribute('src'); media.load(); media.remove(); URL.revokeObjectURL(url);
+          }
+        }, bytes.toString('base64'));
+      } finally { await playback.close(); }
     }
     console.log('PASS blank browser/Wasm/WebGL2/real wait callback/inline+file screenshot', {version: browser.version(), ...capabilities, video: !!video});
   } catch (error) {
