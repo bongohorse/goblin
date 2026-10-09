@@ -15,13 +15,14 @@ git fetch origin feat/gameplay-upright94
 git worktree add --detach ..\goblin-playground-pr95 origin/feat/gameplay-upright94
 cd ..\goblin-playground-pr95
 git rev-parse HEAD
+git rev-parse origin/feat/gameplay-upright94
 node --version
 npm ci
 node node_modules/vite/bin/vite.js build --config vite.gameplay.config.js
 node scripts/gameplay-upright-preview.cjs
 ```
 
-- Bei `git rev-parse HEAD` muss **`5d497baeb91e20e0099c9c7bba7c96744d591f11`** oder ein danach eigens überprüfter PR-Head stehen. **Node >=24.21.0 <25** verwenden. Läuft im Terminal eine andere Branchversion, **nicht** aus einem alten Preview einen neuen Testerfolg ableiten.
+- **Beide `git rev-parse`-Zeilen müssen denselben vollständigen SHA zeigen**, passend zum aktuellen [Head von PR #95](https://github.com/bongohorse/goblin/pull/95/commits). Damit bleibt die Anleitung auch bei späteren reinen Dokumentations-Commits korrekt; der zuvor geprüfte CI-Head `5d497ba...` ist nur historische Referenz, **nicht** automatisch der zuletzt ausgecheckte Head. **Node >=24.21.0 <25** verwenden. Bei abweichenden SHAs **nicht** aus einem alten Preview einen neuen Testerfolg ableiten.
 - Öffnen: **http://127.0.0.1:4174/goblin/playground/**. Der lokale Produktionspreview bindet ausschließlich `127.0.0.1:4174`. **Ist Port 4174 bereits belegt, bricht er ab**; weder fremde Prozesse beenden noch alten Server als neuen Build ausgeben. Im Bedarfsfall den belegten Prozess/Build erst identifizieren.
 - Die Oberfläche zeigt eine **16-stellige Build-ID**, aber **nicht den vollständigen Commit-SHA**. Im heruntergeladenen Feedback steht `identity.build.revision` mit dem vollständigen Commit sowie `identity.build.dirty`. **Erst diese Daten gegen den erwarteten Head prüfen**; die historische Build-ID `53c6fb42d332d83e` aus der älteren P0-Abnahme nicht als aktuelle Versionsbestätigung verwenden. Ein Workspace mit lokal geänderten Tracking-Dateien hat `dirty:true` und benötigt separate Kennzeichnung.
 - Die Arbeit an anderen Branches und laufenden Servern bleibt unangetastet. Das Worktree-Verzeichnis nur dann entfernen, wenn die eigenen dortigen Daten/Downloads nicht mehr benötigt werden.
