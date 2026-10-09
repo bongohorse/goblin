@@ -10,7 +10,7 @@ export class FixedClock {
     this.accumulator = 0;
     this.elapsed = 0;
   }
-  advance(now, paused, tick, speed = 1) {
+  advance(now, paused, tick) {
     if (paused || this.previous === null) {
       this.previous = now;
       this.accumulator = 0;
@@ -18,7 +18,7 @@ export class FixedClock {
       return 0;
     }
     this.elapsed = Math.max(0, now - this.previous);
-    const delta = Math.min(this.step * this.maxSteps, this.elapsed) * speed;
+    const delta = Math.min(this.step * this.maxSteps, this.elapsed);
     this.previous = now;
     this.accumulator += delta;
     let steps = 0;

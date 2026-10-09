@@ -23,6 +23,7 @@ async function main(){
       url:arg('--url'),viewport:{width:1280,height:720},environment:initial.environment,build:initial.build};
     if(process.argv.includes('--issue99')){
       assert.equal(initial.windowLimit,null);assert.deepEqual(initial.runPolicy,{mode:'free',timerSteps:null});
+      if(!process.argv.includes('--skip-long-run')){
       await page.locator('#play').click();
       await page.waitForFunction(()=>uprightStepState().steps>3660,null,{timeout:85000});
       await page.locator('#play').click();const long=await read();
@@ -30,6 +31,7 @@ async function main(){
       assert.equal(long.trace.length,0);assert.equal(long.events.length,0);assert.equal(long.lastRun,undefined);
       console.log('Issue99: native free run exceeded 61 simulation seconds');
       checks.push('native foreground free run beyond 10/60 s, no trace/events, observation pause');
+      }
       for(const speed of ['0.25','0.5','1']){
         await page.locator('#speed').selectOption(speed);await page.locator('#reset').click();
         await page.locator('#play').click();await page.waitForTimeout(1200);await page.locator('#play').click();

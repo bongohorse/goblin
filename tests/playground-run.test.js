@@ -14,7 +14,8 @@ test('free native run passes 10 and 60 seconds without recording; safety remains
     assert.equal(sim.steps,3661);assert.equal(sim.invalid,null);assert.equal(session.paused,false);
     assert.equal(sim.world.timestep,Math.fround(1/60));assert.equal(session.trace.length,0);assert.equal(session.events.length,0);
     assert.equal(session.lastRun,null);assert.equal(session.report().windowLimit,null);
-    sim.invalid='diagnostic injected invalidity';session.observePause();
+    sim.rig.byId.get('torso').body.setLinvel({x:NaN,y:0,z:0},false);
+    sim.invalid=sim.safety();assert.equal(sim.invalid,'nonfinite:torso');session.observePause();
     assert.equal(session.pauseContext.kind,'safety');assert.equal(sim.enabled,false);
     session.resume();assert.equal(session.paused,true);assert.equal(session.singleStep(),false);
   }finally{session.dispose();}

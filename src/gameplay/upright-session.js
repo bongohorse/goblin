@@ -162,10 +162,15 @@ export class UprightSession {
           obstacle:this.sim.obstacleEnabled,lastHit:structuredClone(this.sim.lastHit)}}});
   }
   tick(now){
-    this.clock.advance(now,this.paused,()=>{
+    // Keep the historically pinned FixedClock byte-identical. Only this
+    // session maps bounded wall deltas to slow simulation time; dt stays fixed.
+    const delta=Math.min(this.clock.step*this.clock.maxSteps,Math.max(0,now-(this.wallPrevious??now)));
+    const clockNow=this.speed===1||this.clock.previous===null?now:this.clock.previous+delta*this.speed;
+    this.wallPrevious=now;
+    this.clock.advance(clockNow,this.paused,()=>{
       if(this.paused)return;
       this.advanceStep();
-    },this.speed);
+    });
   }
   advanceStep(){
     if(this.sim.invalid||this.sim.steps>=this.windowLimit)return false;
