@@ -1,14 +1,63 @@
-# Nachgabeversuch — 09.10.2026, in Prüfung
+# Nachgabeversuch — 09.10.2026: kein ausreichender Nutzen, STOPP
 
-Vorab fixiert: https://github.com/bongohorse/goblin/issues/94#issuecomment-6072289713
+[Vorabplan](https://github.com/bongohorse/goblin/issues/94#issuecomment-6072289713), PR #95 bleibt Draft. Vorher war die kleine B-Reaktion schwach; jetzt sind zwei eng begrenzte Torque-Nachgabevarianten implementiert und verglichen. **Keine Variante erfüllt das unveränderte 2°-Kriterium oder den vorab festgelegten Diagnose-Mehrnutzen. Alte FAILs bleiben bestehen.**
 
-Nur begrenzte pelvis-/torso-Up-Torques werden nach kleinem Schubser im Ready zeitweise skaliert. B: Faktor1; Y1:0 für12Steps +18Steps lineare Wiederherstellung; Y2:0 für24Steps +24Steps Wiederherstellung. Keine andere Hilfe/Gains/Pose/Impulse geändert. Timer ausschließlich1/60s-Schritte; interrupt/reset löschen das Fenster, keine automatische Aktivierung. URL-Presets ?yield=B/Y1/Y2, keine Regler. Aktive Phase/Faktor im Status.
+## Hypothese und kleinster Eingriff
 
-Budget maximal8; erste3 vergleichen B/Y1/Y2 bei0,4Ns nach2s. Kein sicherer Gain≥0,5° gegenüber B → STOPP nach3. Altes2°-Gate bleibt separat verbindlich; native Lesbarkeit separat. Ergebnisse folgen nach dem festgelegten Versuch, keine Erfolgsaussage.
+Globale Up-Torques könnten die kleine Inputantwort begrenzen. Nur die bereits auf20Nm begrenzten Torquevektoren für pelvis/torso werden zeitweise skaliert, einschließlich Tilt-Dämpfung. Keine zusätzliche Kraft. B-Gains, vertikale Stützung, Gelenkmotoren/Caps, Poseziele, Solver, Rig, dt und0,4/3,2Ns-Schubser unverändert. Default ist weiter B.
+
+Kleiner Impuls im ASSISTED_READY und aktivem Assist beginnt das Fenster vor dem folgenden Step. B:Faktor1; Y1:0 für12Steps(0,20s), linear0→1 über18Steps(0,30s); Y2:0 für24Steps(0,40s), linear0→1 über24Steps(0,40s). Wiederholter kleiner Impuls verlängert ein laufendes Fenster nicht. Der erste Ramp-Step beginnt bei0; voller Faktor wird im ersten Step nach30/48 abgelaufenen Schritten wieder angewendet. Simulationszeit1/60s, keine Wallclock-Timer.
+
+Interrupt/Griff/Stark/Assist AUS/Balanceverlust/Pause/Sicherheit/Reset/Dispose löschen das Fenster. Der Timer setzt enabled niemals auftrue. Reset startet ohne Altfenster pausiert. UI zeigt feste URL-Variante und FULL/YIELD/RESTORE/OFF samt Faktor; keine Parameterregler. Trace commands.upFactor ist der tatsächlich im aufgezeichneten Step angewandte Faktor, upAssist beschreibt den Zustand am Stepende/für den nächsten Step.
+
+## Fixierter Vergleich / Budget
+
+**3/8 Diagnoseversuche verbraucht**, jeweils10s native Simulation. B,Y1,Y2 jeweils kleiner Originalimpuls vorStep121 bei2s; genau eine Wiederholung je Variante, keine neuen Varianten, keine Wiederholung bis Pass. Vor-Input-Torso/Becken und Befehle bisStep120 numerisch identisch; Metadaten unterscheiden nur das Profil. Die neue B-Referenz reproduziert den alten0,44243°-FAIL.
+
+| Variante | Zusätzliche Torso-Up-Neigung2–4s | Mehr als B | Altes≥2° | Torso bei4s | Rückkehr |
+|---|---:|---:|---|---:|---|
+| B |0,44243°|—|FAIL|0,21951°|aufrecht|
+| Y1 |0,50151°|0,05908°|FAIL|0,13742°|aufrecht|
+| Y2 |0,73520°|0,29277°|FAIL|0,03988°|aufrecht|
+
+Messung: Maximum der Step-Endwerte121–240 minus Vorwert beiStep120 (alle0,06210°). Keine Senkung/Umdeutung der2°. Rückkehrbedingung der Diagnose: ab4s bis10s Becken/Torso≤15°, Beckenhöhe0,95–1,25m, keine Nicht-Fuß-Bodenauflage, Assist aktiv. Alle drei erfüllen diese begrenzte Rückkehr; maximaler Ankerabstand0,00530m, keine invalid-Zustände. Volle Up-Hilfe inY1 abStep151, Y2 ab169. Kein15s-/Last-/Standing-Nachweis.
+
+Keines der beiden Profile erreicht den **vorab** festgelegten Mehrnutzen≥0,5° gegenüber B. Deshalb planmäßig STOPP nach3, fünf mögliche Versuche **nicht** verwendet. Kein nachträgliches Tuning. Sequenzen4–8 (Wiederholung, klein→stark, klein→Handgriff, klein→Assist AUS, klein→Pause/Reset) wurden nicht begonnen. Deren dynamische/native Kriterien bleiben für die Nachgabevarianten offen.
+
+## Sichtbare Reaktion — getrennt von Messdaten
+
+Native Videoaufnahmen und daraus extrahierte Reaktionsframes gesichtet. Der Körper bleibt in allen Blicken nahezu aufrecht; Bewegung klein, kein überzeugend klarer Schwankmoment. Die gespeicherten Statusbilder zeigen YIELD0%, RESTORE und FULL passend zur Reaktionsphase. Numerische Verbesserung vonY2 ist **kein** bestätigter sichtbarer Gameplay-Erfolg. Keine menschliche Nutzerabnahme/Spaßwertung oder vollständige Video-/Bewegungswahrnehmungsstudie.
+
+[Native B-Aufnahme](gameplay-upright-media/yield-B.webm), [Y1](gameplay-upright-media/yield-Y1.webm), [Y2](gameplay-upright-media/yield-Y2.webm). Alle Originalvideos, Screenshots und Rohdaten lokal unter browser-observation-yield-20261009, keine neue Simulation zum Lesen nötig.
+
+[Unveränderte Rohdaten gzip](gameplay-upright-yield-evidence.json.gz), entpackt SHA256 c128fb223005707d386aa3536dfc64d8f1b11780e6a04d41c074bab4c6555fad. Beobachtungshead083ff02e4a78f33181b41385aa4976efefc7164b, Controllerhash f97da8547dd4b5fbdcf9360fba3498897cfec29aa1932317a8c1fe79820cd736. Nach Beobachtung nur Bericht/Belege ergänzt, kein weiterer Runtimeeingriff oder dynamischer Lauf.
+
+## Tests, Grenzen und Umgebungsdiagnose
+
+Drei gezielte neue Tests **ohne world.step** prüfen: feste Zeitprofile und begrenzte Skalierung bei unveränderten anderen Befehlen; Unterbrechung/Griff/Stark/Off/Down ohne Altreaktivierung; Pause/Reset und identische Spawn-/Nullvelocities. Reale native Setter werden benutzt, der Stepzähler ist eine Unit-Fixture. Ein anfänglicher Fixturefehler (Impuls verändert Winkelgeschwindigkeit auch ohne Step) durch Fixieren dieser Command-Fixture korrigiert; keine zusätzliche Verhaltenssimulation. Historischer Controllerhash bleibt im Archiv, Live-Hash-Freeze des nun ausdrücklich zur Änderung freigegebenen Gameplaycontrollers ersetzt; Forschungspins unverändert.
+
+**115/115 reguläre Tests bestanden,0 übersprungen; normaler Produktionsbuild und isolierter Gameplaybuild erfolgreich.** Bestehende Repository-Regressionen keine neue Assistkampagne. Finale Head-CI und Commit im PR/Issue. Keine Consolefehler/-warnungen oder HTTP-Fehler in den drei nativen Sequenzen. Selbstreview des vollständigen PR-Diffs sowie Nachgabediffs; Produktionsarena, Standing-Verträge, Rig/Grab/Runtime, normale Vitekonfiguration, Lock/Dependencies unverändert. Rapier bleibt dynamischer Transform-/Velocityowner.
+
+Native Windows11 win32 10.0.26300 x64, Node24.21.0, Chrome Portable156.0.8078.4 headful mit eigenem temporären Profil; Ryzen5 5600X, RTX3070Ti ANGLE/D3D11 WebGL2,1280×720/DPR1. Native Executable- und Profilhash sowie komplette bereinigte Startargumente in Rohdaten. Background-Throttling-Disableflags entfernt; Automationsflags no-sandbox/enable-unsafe-swiftshader dokumentiert, tatsächlicher Renderer NVIDIA. Keine Hardwarefreigabe. Nur deskriptive Frame-P95 B/Y1/Y2:12,2/12,2/18,2ms mit Video/Observer, kein dediziertes CPU-/GPU-Performanceexperiment.
+
+- Normales exec_command erneut helper_unknown_error/setup refresh vor Start. Node und gezielt freigegebene Shellaktionen funktionieren; Ursache normaler Prozessanbindung bleibt offen. Keine globale Reparatur.
+- Chrome-DevTools-Smoketest und gezielte native Prozessidentität erfolgreich; vorhandener Videoencoder wiederverwendet. Native Diagnose startete beim ersten Versuch, **0 Browserreparaturen/0 zusätzliche Starts**. Keine fremden Browser/Server beendet.
+- Ein Node-REPL-Aufruf mit den vollen Tests überschritt30s und verlor seinen Ergebnisstatus; Kernel zurückgesetzt. Gezielt geprüft: kein entsprechender Test-/Buildprozess mehr aktiv. Tests einmal mit dauerhaft erhaltener Shellausgabe wiederholt, nach33,35s115/115 bestanden; Build ebenfalls einmal mit erhaltenem Ergebnis bestätigt. Kein Browser-/Assistversuch wiederholt.
+- Stark/Hand/Off/Reset-Verhalten während Nachgabe nur API-/Unitgeprüft, **kein neuer dynamischer oder nativer Nachweis** nach dem Nutzengate. Historische B-Browserbefunde gelten nur für damaliges B. Hidden/Resume, Touch/Mobilhardware, Wurf und weitere ursprüngliche #94-Grenzen unverändert offen.
+
+## Lokaler eigener Test / Entscheidung
+
+Server4174 bereitgestellt: http://127.0.0.1:4174/goblin/gameplay/upright/?yield=B (unverändertes B-Verhalten), ?yield=Y1 oder ?yield=Y2 für die beiden festen Nachgabevarianten. URL neu laden startet pausiert. Start → kleiner Schubser, optional bei2s vormerken → Up-Phase beobachten → manueller Reset. Stark/Hand/Assist AUS bleiben zugänglich, sind für diese neue Nachgabephase nicht nativ abgenommen. Reset stellt dasselbe URL-Profil her, ohne Altfenster. Kein Defaultwechsel auf einen FAIL-Kandidaten.
+
+Neustartbefehle im historischen Abschnitt unten gelten weiter; Diagnosemodus heißt --run-approved-yield. **Nicht erneut durch den Agenten starten: fachlicher Stop bindet trotz3/8.**
+
+**Empfehlung: diese zwei Nachgabevarianten als Lösung für die kleine Reaktion verwerfen.** Der begrenzte Eingriff hat numerisch geringen Effekt und keinen ausreichenden Nutzennachweis. Das widerlegt nicht jede Assistarchitektur. Ein einzelner möglicher nächster Entscheidungshebel wäre eine separat begrenzte Prüfung der relativen Posemotor-Gegenhaltung statt weiterer Up-Timerverlängerung; reine Hypothese, hier nicht untersucht/freigegeben/implementiert. Keine Aufstehfunktion oder nächste Phase.
+
+**PR bleibt Draft, #94 bleibt offen/NO-GO. Kein Merge/Deployment. STOPP.**
 
 ---
 
-## Historische Browserphase 08.10.2026 (unverändert)
+## Historische Browserphase08.10.2026 (unverändert)
 
 # Gameplay B — lokaler Browser-Prototyp, weiterhin kein #94-Pass
 
