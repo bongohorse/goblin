@@ -3,6 +3,7 @@ import R from '@dimforge/rapier3d-compat';
 import {createUprightRun} from './upright-run.js';
 import {pickBody} from '../grab.js';
 import {PlaygroundCameras,CAMERA_VIEWS} from './playground-cameras.js';
+import {PlaygroundViewports,pointerNdc} from './playground-viewports.js';
 import {optionsFromSearch,variantOptions,variantId} from './upright-variants.js';
 import {PlaygroundFeedback} from './playground-feedback.js';
 import './upright.css';
@@ -32,7 +33,7 @@ try{
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
   renderer.setClearColor(0x152832);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
   const scene=new THREE.Scene();
-  let camera=new THREE.PerspectiveCamera(36,1,.1,40),controls=null,cameraViews=null;
+  let camera=new THREE.PerspectiveCamera(36,1,.1,40),controls=null,cameraViews=null,viewports=null;
   camera.position.set(3.8,2.7,6);camera.lookAt(.35,1.05,0);
   scene.add(new THREE.HemisphereLight(0xe6ffef,0x31444c,2.2));
   const light=new THREE.DirectionalLight(0xffffff,2.4);light.position.set(-3,6,4);scene.add(light);
@@ -52,26 +53,48 @@ try{
     meshes.set(spec.id,mesh(g,spec.id.startsWith('foot')?feetMaterial:material));
   }
   function figureBounds(){sync();const bounds=new THREE.Box3();for(const m of meshes.values())bounds.expandByObject(m);return bounds;}
+  const cameraPointers=new Map(),inputCleanup=[];let disposed=false;
+  function resizeViews(){const rects=viewports.resize(view.clientWidth,view.clientHeight,cameraPointers.size>0);cameraViews.resize(rects);cameraViews.lock(sim.grab.active,rects);}
+  function activateCamera(mode){viewports.select(mode);cameraViews.select(mode);resizeViews();camera=cameraViews.camera;controls=cameraViews.controls;}
   if(playground){
-    cameraViews=new PlaygroundCameras(canvas,figureBounds());camera=cameraViews.camera;controls=cameraViews.controls;
+    viewports=new PlaygroundViewports(view);
+    cameraViews=new PlaygroundCameras(viewports.targets,figureBounds());resizeViews();camera=cameraViews.camera;controls=cameraViews.controls;
     const selectCamera=mode=>{
-      if(sim.grab.active){$('cameraViewStatus').textContent='Ansicht gesperrt: zuerst den Körpergriff loslassen.';return;}
-      cameraViews.select(mode);camera=cameraViews.camera;controls=cameraViews.controls;update();
+      if(sim.grab.active||cameraPointers.size){$('cameraViewStatus').textContent='Ansicht gesperrt: zuerst die laufende Geste beenden.';return;}
+      activateCamera(mode);update();
     };
     for(const [id,mode] of Object.entries({cameraPerspective:'perspective',cameraFront:'front',side:'side',cameraTop:'top'}))$(id).onclick=()=>selectCamera(mode);
-    $('cameraReset').onclick=()=>{if(!sim.grab.active)cameraViews.reset();};
-    $('cameraFrame').onclick=()=>{if(!sim.grab.active)cameraViews.frame(figureBounds());};
-    $('cameraMode').onchange=()=>{if(sim.grab.active){$('cameraMode').checked=cameraViews.navigation;return;}cameraViews.setNavigation($('cameraMode').checked);};
-    canvas.addEventListener('contextmenu',ev=>ev.preventDefault());
+    $('cameraReset').onclick=()=>{if(!sim.grab.active&&!cameraPointers.size)cameraViews.reset();};
+    for(const [id,layout] of [['cameraQuad','quad'],['cameraSingle','single']])$(id).onclick=()=>{if(sim.grab.active||cameraPointers.size)return;viewports.setLayout(layout);resizeViews();update();};
+    for(const [mode,surface] of viewports.targets)surface.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();selectCamera(mode);}});
+    // Capture routing runs before OrbitControls. A gesture owns its view until all its pointers release.
+    view.addEventListener('pointerdown',ev=>{
+      const r=view.getBoundingClientRect(),hit=viewports.hit(ev.clientX-r.left,ev.clientY-r.top);
+      if(!hit)return;
+      const owner=cameraPointers.values().next().value;
+      if(sim.grab.active||(owner&&owner!==hit.id)){ev.stopImmediatePropagation();ev.preventDefault();return;}
+      if(!owner)activateCamera(hit.id);cameraPointers.set(ev.pointerId,hit.id);update();
+    },true);
+    view.addEventListener('wheel',ev=>{
+      if(sim.grab.active||cameraPointers.size){ev.stopImmediatePropagation();ev.preventDefault();return;}
+      const r=view.getBoundingClientRect(),hit=viewports.hit(ev.clientX-r.left,ev.clientY-r.top);if(hit)activateCamera(hit.id);
+    },{capture:true,passive:false});
+    const releaseCameraPointer=ev=>queueMicrotask(()=>{if(disposed||!cameraPointers.delete(ev.pointerId))return;resizeViews();update();});
+    for(const type of ['pointerup','pointercancel','lostpointercapture']){
+      document.addEventListener(type,releaseCameraPointer,true);inputCleanup.push(()=>document.removeEventListener(type,releaseCameraPointer,true));
+    }
+    $('cameraFrame').onclick=()=>{if(!sim.grab.active&&!cameraPointers.size)cameraViews.frame(figureBounds());};
+    $('cameraMode').onchange=()=>{if(sim.grab.active||cameraPointers.size){$('cameraMode').checked=cameraViews.navigation;return;}cameraViews.setNavigation($('cameraMode').checked);};
+    view.addEventListener('contextmenu',ev=>ev.preventDefault());
     const axes=new THREE.AxesHelper(1.15);axes.setColors(0xff5148,0x58df70,0x4b9eff);axes.position.y=.025;scene.add(axes);resources.push(axes.geometry,axes.material);
   }
   let pointerId=null,lastFrame=null,lastHitToken=null,frameIntervals=[],stepCosts=[];
   const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2(),dragPlane=new THREE.Plane(),dragPoint=new THREE.Vector3();
-  function ray(ev){const r=canvas.getBoundingClientRect();pointer.set((ev.clientX-r.left)/r.width*2-1,-((ev.clientY-r.top)/r.height*2-1));camera.updateMatrixWorld(true);raycaster.setFromCamera(pointer,camera);}
+  function ray(ev){const r=canvas.getBoundingClientRect(),rect=viewports?.rect()||{x:0,y:0,width:r.width,height:r.height};const ndc=pointerNdc(rect,ev.clientX-r.left,ev.clientY-r.top);pointer.set(ndc.x,ndc.y);camera.updateMatrixWorld(true);raycaster.setFromCamera(pointer,camera);}
   function cancelPointer(reason){
     const id=pointerId;pointerId=null;sim.grab.cancel(reason);
-    if(controls)controls.enabled=true;
-    if(id!==null&&canvas.hasPointerCapture(id))canvas.releasePointerCapture(id);
+    if(cameraViews)cameraViews.lock(false,viewports.rects);else if(controls)controls.enabled=true;
+    if(id!==null&&view.hasPointerCapture(id))view.releasePointerCapture(id);
   }
   function pause(reason){session.pause(reason);cancelPointer(reason);lastFrame=null;update();}
   function observePause(reason){
@@ -87,22 +110,22 @@ try{
   }
   function reset(){freshRun('reset');}
   function move(ev,final=false){if(session.paused)return;ray(ev);if(sim.grab.active&&raycaster.ray.intersectPlane(dragPlane,dragPoint))sim.grab.move(dragPoint,ev.timeStamp/1000,final);}
-  canvas.addEventListener('pointerdown',ev=>{
+  view.addEventListener('pointerdown',ev=>{
     if(session.paused||sim.invalid||pointerId!==null||!ev.isPrimary||ev.button!==0||$('cameraMode')?.checked)return;
     ray(ev);const hit=pickBody(R,sim.world,sim.rig.byBody.keys(),raycaster.ray.origin,raycaster.ray.direction);if(!hit)return;
     dragPlane.setFromNormalAndCoplanarPoint(camera.getWorldDirection(new THREE.Vector3()),hit.hit.point);
     if(!sim.beginGrab(hit.body,hit.hit.point,ev.timeStamp/1000))return;
-    if(controls)controls.enabled=false;
-    pointerId=ev.pointerId;canvas.setPointerCapture(pointerId);ev.preventDefault();
+    if(cameraViews)cameraViews.lock(true,viewports.rects);else if(controls)controls.enabled=false;
+    pointerId=ev.pointerId;view.setPointerCapture(pointerId);ev.preventDefault();
     const id=sim.rig.byBody.get(hit.body.handle).spec.id;session.event('grab-begin',{body:id,point:hit.hit.point});
     $('input').textContent='Griff: '+id+' · Assist ausgeschaltet';update();
-  });
-  canvas.addEventListener('pointermove',ev=>{if(ev.pointerId===pointerId){move(ev);ev.preventDefault();}});
-  canvas.addEventListener('pointerup',ev=>{
+  },true);
+  view.addEventListener('pointermove',ev=>{if(ev.pointerId===pointerId){move(ev);ev.preventDefault();}});
+  view.addEventListener('pointerup',ev=>{
     if(ev.pointerId!==pointerId)return;move(ev,true);sim.grab.release(ev.timeStamp/1000);
     session.event('grab-release',{release:sim.grab.diagnostics.lastRelease});cancelPointer('release');update();
   });
-  for(const type of ['pointercancel','lostpointercapture'])canvas.addEventListener(type,ev=>{if(ev.pointerId===pointerId){cancelPointer(type);session.event('pointer-cancel',{reason:type});update();}});
+  for(const type of ['pointercancel','lostpointercapture'])view.addEventListener(type,ev=>{if(ev.pointerId===pointerId){cancelPointer(type);session.event('pointer-cancel',{reason:type});update();}});
   $('play').onclick=()=>{if(session.paused){session.resume();lastFrame=null;$('input').textContent='Simulation läuft';}else observePause('pause');update();};
   $('safetyStop').onclick=()=>pause('manual-safety-stop');
   $('step').onclick=()=>{session.singleStep();sync();update();};
@@ -143,7 +166,7 @@ try{
   };
   $('assistOff').onclick=()=>{sim.interrupt('manual-assist-off');session.event('assist-off');$('input').textContent='Hilfe bewusst ausgeschaltet · bleibt aus bis Reset';update();};
   function sync(){for(const {spec,body} of sim.rig.byId.values()){const m=meshes.get(spec.id);m.position.copy(body.translation());m.quaternion.copy(body.rotation());}block.visible=sim.obstacleEnabled;scene.updateMatrixWorld(true);}
-  function project(point){const p=new THREE.Vector3(point.x,point.y,point.z).project(camera),r=canvas.getBoundingClientRect();return {x:r.left+(p.x+1)*r.width/2,y:r.top+(1-p.y)*r.height/2};}
+  function project(point,mode=cameraViews?.mode){const c=cameraViews?cameraViews.states.get(mode).camera:camera,p=new THREE.Vector3(point.x,point.y,point.z).project(c),r=canvas.getBoundingClientRect(),rect=viewports?.rect(mode)||{x:0,y:0,width:r.width,height:r.height};return {x:r.left+rect.x+(p.x+1)*rect.width/2,y:r.top+rect.y+(1-p.y)*rect.height/2};}
   function update(){
     $('step').disabled=!session.paused||!!sim.invalid||sim.steps>=session.windowLimit||document.hidden;
     const reasons={hidden:'Seite verborgen',blur:'Fokus verloren',escape:'Escape',
@@ -154,10 +177,11 @@ try{
       session.pauseContext.kind==='observation'?(session.pauseContext.reason==='timer-end'?'Timer erreicht · Zustand erhalten · Fortsetzen möglich':'Beobachtung pausiert · Zustand erhalten'):'Frischer Run · Start erforderlich'):
       'Simulation läuft · Pause erhält den Zustand';
     if(playground){
-      for(const id of ['cameraMode','cameraReset','cameraFrame','cameraPerspective','cameraFront','side','cameraTop'])$(id).disabled=sim.grab.active;
-      $('cameraViewStatus').textContent=sim.grab.active?'Ansicht gesperrt: zuerst den Körpergriff loslassen.':CAMERA_VIEWS[cameraViews.mode].label+' · '+(camera.isOrthographicCamera?'orthografisch':'perspektivisch');
+      for(const id of ['cameraMode','cameraReset','cameraFrame','cameraPerspective','cameraFront','side','cameraTop','cameraQuad','cameraSingle'])$(id).disabled=sim.grab.active||cameraPointers.size>0;
+      $('cameraViewStatus').textContent=sim.grab.active?'Ansicht gesperrt: zuerst den Körpergriff loslassen.':cameraPointers.size?'Ansicht gesperrt: zuerst die Kamerageste beenden.':CAMERA_VIEWS[cameraViews.mode].label+' · '+(camera.isOrthographicCamera?'orthografisch':'perspektivisch');
       $('hint').textContent=cameraViews.navigation?(camera.isOrthographicCamera?'Kamera verschieben · zwei Finger zum Verschieben und Zoomen':'Kamera drehen · zwei Finger zum Verschieben und Zoomen'):'Körperteil anfassen und ziehen · Loslassen zum Werfen';
       for(const [id,mode] of Object.entries({cameraPerspective:'perspective',cameraFront:'front',side:'side',cameraTop:'top'}))$(id).setAttribute('aria-pressed',String(cameraViews.mode===mode));
+      $('cameraQuad').setAttribute('aria-pressed',String(viewports.layout==='quad'));$('cameraSingle').setAttribute('aria-pressed',String(viewports.layout==='single'));
       $('feedbackExport').disabled=!feedback.marker;
       const state={SETTLING:'Einpendeln',ASSISTED_READY:'Aufrecht mit Hilfe',DYNAMIC:'Freie Dynamik',DOWN:'Am Boden',STOPPED:'Sicherheitsstopp'};
       $('status').textContent=(session.paused?'Pausiert':'Läuft')+' · '+(state[sim.state]||sim.state)+' · Schritt '+sim.steps+' · '+(sim.steps/60).toFixed(2)+' s Simulationszeit · '+String(session.speed).replace('.',',')+'×';
@@ -175,13 +199,14 @@ try{
     $('metrics').textContent='t '+(sim.steps/60).toFixed(2)+' s · Torso '+(sim.metrics.torsoTilt*180/Math.PI).toFixed(3)+'° · Motor-Cap '+sim.commands.motorCap+' Nm · Stützkraft '+sim.commands.support.toFixed(2)+' N · Bodies/Joints '+sim.world.bodies.len()+'/'+sim.world.impulseJoints.len();
   }
   const gl=renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');
-  const environment={userAgent:navigator.userAgent,platform:navigator.platform,dpr:devicePixelRatio,renderDpr:renderer.getPixelRatio(),
+  const environment={userAgent:navigator.userAgent,platform:navigator.platform,get dpr(){return devicePixelRatio;},get renderDpr(){return renderer.getPixelRatio();},
     backend:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),webgl:gl.getParameter(gl.VERSION)};
   function cameraSnapshot(){return cameraViews?cameraViews.snapshot():{position:camera.position.toArray(),quaternion:camera.quaternion.toArray(),fov:camera.fov,projection:camera.projectionMatrix.toArray(),view:camera.matrixWorldInverse.toArray()};}
-  function browserContext(){return {environment,run_controls:{speed:session.speed,timerReached:session.timerReached},camera:cameraSnapshot(),viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}}};}
+  function browserContext(){return {environment,run_controls:{speed:session.speed,timerReached:session.timerReached},camera:cameraSnapshot(),viewports:viewports?{...viewports.snapshot(),cameras:[...cameraViews.states.keys()].map(id=>cameraViews.snapshot(id))}:null,viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}}};}
   function report(){camera.updateMatrixWorld(true);return {build,environment,observationIdentity:{mass:sim.mass,dt:1/60,nativeTimestep:sim.world.timestep,config:sim.config,yieldProfile:sim.yieldProfile,reaction:sim.reaction,returnProfile:sim.returnProfile,returnSource:build.return_sha256,gravity:{...sim.world.gravity},sources:build.physics_sha256},
     observationCamera:{...cameraSnapshot(),canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},...session.report(),lastPhysicsState:session.trace.at(-1)?.state,frameIntervals:frameIntervals.slice(),stepCosts:stepCosts.slice()};}
-  window.uprightDiagnostics=()=>({...report(),runIdentity:identity(),rendererMemory:{...renderer.info.memory},pointerId,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation())})),blockScreen:project({x:1.35,y:1,z:0})});
+  const renderSamples=[];
+  window.uprightDiagnostics=()=>({...report(),viewports:viewports?{...viewports.snapshot(),views:viewports.rects.map(rect=>({...rect,camera:cameraViews.snapshot(rect.id),step:sim.steps,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation(),rect.id)}))}))}:null,renderSamples:renderSamples.slice(),cameraPointers:cameraPointers.size,runIdentity:identity(),rendererMemory:{...renderer.info.memory},pointerId,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation())})),blockScreen:project({x:1.35,y:1,z:0})});
   window.uprightTrace=()=>({build,environment,...(session.lastRun||session.report())});
   window.uprightStepState=()=>({steps:sim.steps,paused:session.paused,invalid:sim.invalid});
   if(!playground)$('export').onclick=()=>download(JSON.stringify(report(),null,2),'goblin-step-trace.json');
@@ -191,19 +216,33 @@ try{
   addEventListener('blur',suspend);
   addEventListener('keydown',ev=>{if(ev.key==='Escape'&&!ev.repeat){ev.preventDefault();pause('escape');}});
   document.addEventListener('visibilitychange',()=>{session.event('visibility',{hidden:document.hidden});if(document.hidden)suspend();else{session.clock.reset();update();}});
-  let width=0,height=0;
+  let width=0,height=0,renderDpr=0,renderLast=null;
+  renderer.info.autoReset=false;
   function render(ms){
-    const w=view.clientWidth,h=view.clientHeight;
-    if(w!==width||h!==height){width=w;height=h;renderer.setSize(w,h,false);if(cameraViews)cameraViews.resize(w,h);else{camera.aspect=w/h;camera.updateProjectionMatrix();}}
+    const frameStart=performance.now(),w=view.clientWidth,h=view.clientHeight,dpr=Math.min(devicePixelRatio,1.5);
+    if(dpr!==renderDpr){renderDpr=dpr;renderer.setPixelRatio(dpr);}
+    if(w!==width||h!==height){width=w;height=h;renderer.setSize(w,h,false);if(cameraViews)resizeViews();else{camera.aspect=w/h;camera.updateProjectionMatrix();}}
     if(!playground&&!session.paused&&lastFrame!==null)frameIntervals.push(ms-lastFrame);
     lastFrame=ms;
     const before=sim.steps,start=performance.now();session.tick(ms/1000);
     if(!playground&&sim.steps>before)stepCosts.push({steps:sim.steps-before,ms:performance.now()-start}); // Includes read-only observer cost.
     if(session.paused&&pointerId!==null)cancelPointer('window-end');
-    sync();renderer.render(scene,camera);update();
+    const tickMs=performance.now()-start;sync();const renderStart=performance.now();renderer.info.reset();
+    if(viewports){
+      renderer.setScissorTest(true);
+      for(const rect of viewports.rects){
+        const y=height-rect.y-rect.height;renderer.setViewport(rect.x,y,rect.width,rect.height);renderer.setScissor(rect.x,y,rect.width,rect.height);
+        renderer.render(scene,cameraViews.states.get(rect.id).camera);
+      }
+      renderer.setScissorTest(false);renderer.setViewport(0,0,width,height);
+    }else renderer.render(scene,camera);
+    const renderSubmitMs=performance.now()-renderStart;update();
+    if(playground){renderSamples.push({layout:viewports.layout,step:sim.steps,tickMs,renderSubmitMs,cpuMs:performance.now()-frameStart,intervalMs:renderLast===null?null:ms-renderLast,views:viewports.rects.length,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});if(renderSamples.length>240)renderSamples.shift();}
+    renderLast=ms;
   }
   sync();update();renderer.setAnimationLoop(render);
-  let disposed=false;
-  function dispose(){if(disposed)return;disposed=true;renderer.setAnimationLoop(null);cancelPointer('destroy');cameraViews?.dispose();session.dispose();for(const r of resources)r.dispose();renderer.dispose();}
+  function dispose(){if(disposed)return;disposed=true;renderer.setAnimationLoop(null);cancelPointer('destroy');
+    for(const [id,mode] of cameraPointers){const surface=viewports.targets.get(mode);if(surface.hasPointerCapture(id))surface.releasePointerCapture(id);}cameraPointers.clear();
+    cameraViews?.dispose();viewports?.dispose();for(const cleanup of inputCleanup)cleanup();session.dispose();for(const r of resources)r.dispose();renderer.dispose();}
   addEventListener('pagehide',dispose,{once:true});
 }catch(error){console.error(error);$('status').textContent='Initialisierung fehlgeschlagen: '+error.message;}

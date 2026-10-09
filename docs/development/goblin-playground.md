@@ -1,6 +1,6 @@
 # Goblin Playground
 
-Persönliches lokales Testlab für den vorhandenen assistierten Gameplay-Prototyp, Refs #88/#94/#99. R1 ist vorläufiger Standard. Bekannte Fußdrift und die offene vollständige Abnahme bleiben sichtbar; kein Aufstehen und keine Nutzerabnahme.
+Persönliches lokales Testlab für den vorhandenen assistierten Gameplay-Prototyp, Refs #88/#94/#99/#100/#101. R1 ist vorläufiger Standard. Bekannte Fußdrift und die offene vollständige Abnahme bleiben sichtbar; kein Aufstehen und keine Nutzerabnahme.
 
 ## Freier Lauf, Zeitlupe und frischer Reset (#99)
 
@@ -11,9 +11,9 @@ Der Playground läuft standardmäßig ohne Simulationszeitlimit und ohne kontinu
 - **Reset:** alte Session samt Griffanker und World freigeben, dann neue Session/World über denselben Initialisierungspfad wie beim Start und Variantenwechsel. Neue Run-ID; Pointerbindung, Pending-Inputs, Marker, Notizen und laufgebundene Daten gelöscht. Variante, Geschwindigkeit, Timerwahl und Kamera bleiben; Hilfe/Testblock werden nach den bestehenden Resetoptionen initialisiert. Ein vorher ausgeschalteter Assist wird durch Pause/Step/Resume niemals reaktiviert.
 - **Historische Runner:** explizite 6/10/12-s-Fenster und terminale Safety-Endsemantik bleiben erhalten. Nur der Playground wählt die freie Sessionpolitik; `observe`-URLparameter können dort kein historisches Ersatzlimit aktivieren. Kein Controller-/Preset-/Forschungsdatenumbau.
 
-Aktuellen `origin/main` in einem sauberen Arbeitsbaum oder isolierten Worktree verwenden, `npm ci`, normalen Build und `node node_modules/vite/bin/vite.js build --config vite.gameplay.config.js` ausführen. Lokaler Produktionszugang und Buildidentität siehe unten. Ein Merge veröffentlicht den separaten Playgroundbuild nicht automatisch. Keine weitere P0-Feedbackrunde als Voraussetzung. Nach #99 STOPP; #100/Kameras wird nicht automatisch begonnen.
+Aktuellen `origin/main` in einem sauberen Arbeitsbaum oder isolierten Worktree verwenden, `npm ci`, normalen Build und `node node_modules/vite/bin/vite.js build --config vite.gameplay.config.js` ausführen. Lokaler Produktionszugang und Buildidentität siehe unten. Ein Merge veröffentlicht den separaten Playgroundbuild nicht automatisch. Keine weitere P0-Feedbackrunde als Voraussetzung. Nach jedem beauftragten Paket STOPP; #102 wird nach #101 nicht automatisch begonnen.
 
-## Vier einzelne Kameraansichten (#100)
+## Kamerabasis (#100) und vier synchronisierte Views (#101)
 
 Sichtbare Umschalter wählen **Perspektive**, **Front von +Z**, **Seite von +X** oder **Oben von +Y**. Die letzten drei sind echte orthografische Kameras mit parallelen Strahlen, kein perspektivischer Seitenersatz. Front/Seite haben +Y als Bildoben; Top hat −Z als Bildoben und +X nach rechts. Weltachsen und Farblegende zeigen +X rot (Schubserrichtung), +Y grün und +Z blau.
 
@@ -22,9 +22,15 @@ Jede Kamera behält Position, Ziel und Zoom beim Umschalten, auch nach Physikres
 - Perspektive: rechte Taste dreht, Umschalt + rechte Taste oder mittlere Taste verschiebt, Mausrad zoomt.
 - Orthografisch: rechte oder mittlere Taste verschiebt, Mausrad zoomt; keine Drehung.
 - Linke Taste/ein Finger greift standardmäßig einen Körperteil. **Kamera bewegen statt greifen** ordnet diese Geste ausschließlich der Kamera zu: Perspektive dreht, Orthografisch verschiebt. Zwei Finger verschieben/zoomen. Der Hinweis im Spielfeld nennt die gewählte Eingabeart.
-- Bei aktivem Körpergriff sind Umschalter, Reset, Einrahmen und Kameraeingabewahl gesperrt und erklärt. Kein stiller Griffabbruch. Greifen benutzt die tatsächliche aktive Kamera und die Canvas-Koordinaten; Weltachsen sind kein Physikobjekt.
+- Bei laufender Griff- oder Kamerageste sind Umschalter, Kamerareset, Einrahmen, Layout und Kameraeingabewahl gesperrt und erklärt. Kein stiller Griffabbruch. Greifen benutzt die tatsächliche getroffene Kamera und deren Viewportkoordinaten; beim Ziehen über Viewportgrenzen bleibt die ursprüngliche Kamera gebunden. Weltachsen sind kein Physikobjekt.
 
-Feedback am Marker identifiziert Kameramodus, Projektionstyp, Blick-/Up-Konvention, Position, Ziel, Zoom, Near/Far sowie vollständige Projektions-/Viewmatrix; Orthografisch zusätzlich Frustum, Perspektive FOV. Kameraänderungen erzeugen keine Physikinputs und verändern keine Hilfen. Vier gleichzeitig sichtbare Ansichten bleiben **#101**, nicht Teil dieses Pakets und nicht automatisch gestartet.
+Auf Desktop zeigen vier beschriftete Views denselben Schritt: Perspektive/Front oben, Seite/Oben unten. **Einzelansicht** vergrößert die gewählte Kamera; **Vier Ansichten** kehrt zurück. Im Bild anklicken oder mit Tab/Enter wählen; alternativ die Umschalter außerhalb des Kamerabereichs benutzen. Bei weniger als 560×400 CSS-Pixeln Kamerafläche startet die automatische Darstellung als Einzelansicht. Eine ausdrücklich gewählte Darstellung bleibt bei Resize erhalten; auch auf kleinen Displays bleibt Vierfach manuell verfügbar. Kameraausrichtung, Ziel und Zoom bleiben erhalten, während die Projektion an den jeweiligen Ausschnitt angepasst wird.
+
+Ein WebGLRenderer zeichnet eine gemeinsame Scene mit Viewports/Scissor. Clock/Session/Physikwelt werden einmal pro Frame fortgeschrieben und Meshposen einmal synchronisiert, danach ohne Zustandswrites aus allen Kameras gezeichnet. Zukünftige Overlays/Trails/Replay müssen diese gemeinsame Scene/Session und gemeinsame Einstellungen verwenden. Dieses Paket implementiert diese späteren Features nicht. Keine zusätzlichen Renderziele oder Postprocessing; DPR höchstens 1,5, nur sichtbare Views zeichnen. Kameraeingaben hängen an getrennten, auf denselben Canvas gelegten Eingabeflächen; Pointercapture hält die laufende Geste fest. Cleanup entfernt alle OrbitControls, Flächen, Pointerbindungen und neuen Dokumentlistener.
+
+Feedback am Marker identifiziert die aktive Kamera und zusätzlich Layout, ausgewählte View, CSS-Rechtecke sowie alle vier Kameras: Projektionstyp, Blick-/Up-Konvention, Position, Ziel, Zoom, Near/Far und vollständige Projektions-/Viewmatrix; Orthografisch zusätzlich Frustum, Perspektive FOV. Kameraänderungen erzeugen keine Physikinputs und verändern keine Hilfen.
+
+Gezielte native Prüfung: `node tests/playground-browser.cjs --executable <bestätigter Chrome> --url <lokaler Playground> --issue101 --skip-long-run`. Sie ergänzt den bestehenden Pause/Reset/Feedback/Input-Ablauf um Vierfach/Einzel, Pointergrenzen, Kameraisolation, Touch, DPR2 mit Cap1,5, wiederholte Resets und einen Vergleich derselben laufenden Scene. Maximal 240 lesende Renderproben liegen in `uprightDiagnostics().renderSamples`; keine dauerhafte Runaufnahme. `tickMs`, `cpuMs` und `renderSubmitMs` sind CPU-Wandzeit, `intervalMs` ist RAF-Abstand, keine GPU-Zeit. Kosten und Screenshots werden in vorhandenen temporären QA-Artefakten gespeichert. Hardware-/Hidden-/Resume-/Standing-Grenzen im Issue/PR benennen.
 
 <details><summary>Historisches P0-Testprotokoll vor #99 (keine aktuelle Ausbauvoraussetzung)</summary>
 

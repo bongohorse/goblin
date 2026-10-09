@@ -45,7 +45,7 @@ export function frameCamera(camera,target,bounds,aspect){
 }
 
 export class PlaygroundCameras{
-  constructor(canvas,bounds){
+  constructor(targets,bounds){
     this.aspect=1;this.mode='perspective';this.states=new Map();this.navigation=false;
     for(const [id,view] of Object.entries(CAMERA_VIEWS)){
       const camera=id==='perspective'?new THREE.PerspectiveCamera(36,1,.05,40):new THREE.OrthographicCamera(-2,2,2,-2,.05,40);
@@ -53,12 +53,12 @@ export class PlaygroundCameras{
       const target=bounds.getCenter(new THREE.Vector3());
       camera.position.copy(target).add(new THREE.Vector3(...view.direction));camera.lookAt(target);
       frameCamera(camera,target,bounds,1);
-      const controls=new OrbitControls(camera,canvas);
+      const controls=new OrbitControls(camera,targets.get(id));
       controls.target.copy(target);controls.enableRotate=id==='perspective';controls.enablePan=true;
       controls.screenSpacePanning=true;controls.minDistance=.5;controls.maxDistance=30;
       controls.minZoom=.1;controls.maxZoom=10;
       controls.update();controls.saveState();controls.enabled=id===this.mode;
-      this.states.set(id,{camera,controls,initialSpan:camera.userData.span,initialNear:camera.near,initialFar:camera.far});
+      this.states.set(id,{camera,controls,initialSpan:camera.userData.span,initialNear:camera.near,initialFar:camera.far,aspect:1});
     }
     this.setNavigation(false);
   }
@@ -66,7 +66,7 @@ export class PlaygroundCameras{
   get controls(){return this.states.get(this.mode).controls;}
   select(mode){
     if(!this.states.has(mode))throw Error('Unknown camera view');
-    this.controls.enabled=false;this.mode=mode;this.controls.enabled=true;
+    this.mode=mode;
     this.camera.updateMatrixWorld(true);
   }
   setNavigation(enabled){
@@ -79,21 +79,25 @@ export class PlaygroundCameras{
       controls.touches.TWO=THREE.TOUCH.DOLLY_PAN;
     }
   }
-  resize(width,height){
-    this.aspect=Math.max(1,width)/Math.max(1,height);
-    for(const {camera} of this.states.values())resizeCamera(camera,this.aspect);
+  resize(rects){
+    for(const [id,state] of this.states){
+      const rect=rects.find(r=>r.id===id);state.controls.enabled=!!rect;
+      if(rect){state.aspect=Math.max(1,rect.width)/Math.max(1,rect.height);resizeCamera(state.camera,state.aspect);}
+    }
+    this.aspect=this.states.get(this.mode).aspect;
   }
+  lock(locked,rects){for(const [id,state] of this.states)state.controls.enabled=!locked&&rects.some(r=>r.id===id);}
   frame(bounds){frameCamera(this.camera,this.controls.target,bounds,this.aspect);this.controls.update();}
   reset(){
     const state=this.states.get(this.mode);state.camera.userData.span=state.initialSpan;
     state.camera.near=state.initialNear;state.camera.far=state.initialFar;
     state.controls.reset();resizeCamera(state.camera,this.aspect);
   }
-  snapshot(){
-    const c=this.camera;c.updateMatrixWorld(true);
-    return {mode:this.mode,label:CAMERA_VIEWS[this.mode].label,type:c.isOrthographicCamera?'orthographic':'perspective',
+  snapshot(mode=this.mode){
+    const {camera:c,controls}=this.states.get(mode);c.updateMatrixWorld(true);
+    return {mode,label:CAMERA_VIEWS[mode].label,type:c.isOrthographicCamera?'orthographic':'perspective',
       convention:{front:'+Z',side:'+X',top:'+Y',top_up:'-Z',push:'+X'},
-      position:c.position.toArray(),quaternion:c.quaternion.toArray(),up:c.up.toArray(),target:this.controls.target.toArray(),
+      position:c.position.toArray(),quaternion:c.quaternion.toArray(),up:c.up.toArray(),target:controls.target.toArray(),
       zoom:c.zoom,near:c.near,far:c.far,fov:c.isPerspectiveCamera?c.fov:null,
       frustum:c.isOrthographicCamera?{left:c.left,right:c.right,top:c.top,bottom:c.bottom}:null,
       projection:c.projectionMatrix.toArray(),view:c.matrixWorldInverse.toArray()};

@@ -15,12 +15,119 @@ async function main(){
   const checks=[];
   try{
     await page.goto(arg('--url'));await page.waitForFunction(()=>window.uprightDiagnostics);
+    if(process.argv.includes('--issue100')&&!process.argv.includes('--issue101'))await page.locator('#cameraSingle').click();
     const initial=await read();assert.equal(initial.final.steps,0);assert.equal(initial.paused,true);assert.equal(initial.pending,null);
     assert.equal(initial.final.grab.active,false);assert.equal(initial.observationIdentity.returnProfile,'R1');assert.equal(initial.trace.length,0);
     const cdp=await context.newCDPSession(page);const launch=await cdp.send('Browser.getBrowserCommandLine');
     const identity={version:browser.version(),executable:path.basename(arg('--executable')),profile:'own temporary Playwright profile',
       launchArguments:launch.arguments.map(a=>a.startsWith('--user-data-dir=')?'--user-data-dir=<temporary-profile>':a===arg('--executable')?'<confirmed-chrome>':a),
       url:arg('--url'),viewport:{width:1280,height:720},environment:initial.environment,build:initial.build};
+
+    if(process.argv.includes('--issue101')){
+      const buttons={perspective:'cameraPerspective',front:'cameraFront',side:'side',top:'cameraTop'};
+      const initialPhysics=initial.final,memory=initial.rendererMemory;
+      const views=d=>d.viewports.views;
+      const pose=c=>({position:c.position,quaternion:c.quaternion,target:c.target,zoom:c.zoom});
+      for(const id of ['cameraQuad','cameraSingle',...Object.values(buttons)]){const r=await page.locator('#'+id).boundingBox();assert.ok(r.y>=0&&r.y+r.height<=720,'layout and camera switches visible on entry');}
+      assert.equal(initial.viewports.layout,'quad');assert.deepEqual(views(initial).map(v=>v.id),Object.keys(buttons));
+      assert.equal(await page.locator('canvas').count(),1);assert.equal(await page.locator('.cameraSurface:visible').count(),4);
+      await page.locator('summary').filter({hasText:'Kamera'}).click();
+      for(const [mode,id] of Object.entries(buttons)){
+        await page.locator('#'+id).click();const d=await read(),v=views(d).find(v=>v.id===mode);
+        const rect=await page.locator('[data-camera='+mode+']').boundingBox();
+        const before=Object.fromEntries(views(d).map(v=>[v.id,pose(v.camera)]));
+        const x=rect.x+rect.width*.3,y=rect.y+rect.height*.4;
+        await page.mouse.move(x,y);await page.mouse.down({button:'right'});
+        assert.equal(await page.locator('#cameraSingle').isDisabled(),true);
+        // A keyboard/programmatic layout attempt during camera drag cannot hide its capture surface.
+        await page.evaluate(()=>document.getElementById('cameraSingle').onclick());
+        assert.equal((await read()).viewports.layout,'quad');
+        await page.mouse.move(x+35,y+20,{steps:3});await page.mouse.up({button:'right'});
+        await page.mouse.wheel(0,90);const after=await read();
+        assert.notDeepEqual(pose(views(after).find(v=>v.id===mode).camera),before[mode]);
+        for(const other of views(after).filter(v=>v.id!==mode))assert.deepEqual(pose(other.camera),before[other.id],'unhit cameras unchanged');
+        assert.deepEqual(after.final,initialPhysics);
+        const saved=pose(after.observationCamera);
+        await page.locator('#cameraSingle').click();assert.equal((await read()).viewports.layout,'single');
+        assert.equal(await page.locator('.cameraSurface:visible').count(),1);assert.deepEqual(pose((await read()).observationCamera),saved);
+        await page.locator('#cameraQuad').click();assert.deepEqual(pose((await read()).observationCamera),saved);
+        await page.locator('#cameraReset').click();await page.locator('#cameraFrame').click();
+        await page.locator('#play').click();const head=views(await read()).find(v=>v.id===mode).parts.find(p=>p.id==='head').screen;
+        await page.mouse.move(head.x,head.y);await page.mouse.down();const grip=await read();assert.equal(grip.final.grab.active,true);
+        assert.equal(grip.final.grab.body,grip.final.parts.find(p=>p.id==='head').handle);
+        assert.equal(await page.locator('#cameraSingle').isDisabled(),true);
+        await page.evaluate(()=>{document.getElementById('cameraSingle').onclick();document.getElementById('cameraTop').onclick();});
+        assert.equal((await read()).viewports.layout,'quad');assert.equal((await read()).viewports.selected,mode);
+        await page.setViewportSize({width:1281,height:721});assert.equal((await read()).final.grab.active,true);
+        // Capture keeps the original camera/ray even when dragging across a different viewport.
+        const otherRect=await page.locator('[data-camera='+(mode==='top'?'front':'top')+']').boundingBox();
+        await page.mouse.move(otherRect.x+otherRect.width/2,otherRect.y+otherRect.height/2,{steps:4});
+        assert.equal((await read()).viewports.selected,mode);assert.equal((await read()).final.grab.active,true);
+        await page.mouse.up();assert.equal((await read()).final.grab.active,false);assert.equal((await read()).cameraPointers,0);
+        await page.setViewportSize({width:1280,height:720});await page.locator('#reset').click();assert.deepEqual((await read()).rendererMemory,memory);
+      }
+      // Keyboard selection, exact one-step synchronization, reset keeps cameras but replaces run/world.
+      await page.locator('[data-camera=front]').focus();await page.keyboard.press('Enter');assert.equal((await read()).viewports.selected,'front');
+      const beforeStep=await read();await page.locator('#step').click();const stepped=await read();
+      assert.equal(stepped.final.steps,beforeStep.final.steps+1);assert.ok(views(stepped).every(v=>v.step===stepped.final.steps));
+      const run=stepped.runIdentity.run_id;await page.locator('#reset').click();assert.notEqual((await read()).runIdentity.run_id,run);
+      assert.deepEqual(views(await read()).map(v=>pose(v.camera)),views(beforeStep).map(v=>pose(v.camera)));
+      for(let i=0;i<6;i++){await page.locator('#cameraSingle').click();await page.locator('#cameraQuad').click();await page.locator('#reset').click();}
+      assert.deepEqual((await read()).rendererMemory,memory);
+      await page.screenshot({path:path.join(out,'quad-desktop.png')});
+      await page.locator('#mark').click();const downloadPromise=page.waitForEvent('download');await page.locator('#feedbackExport').click();
+      const download=await downloadPromise,file=path.join(out,'quad-feedback.json');await download.saveAs(file);
+      const payload=JSON.parse(await fs.readFile(file,'utf8'));assert.equal(payload.observation.browser.viewports.layout,'quad');assert.equal(payload.observation.browser.viewports.cameras.length,4);
+      // Read-only CPU submission/frame cost, same scene and shared running simulation. No GPU-time claim.
+      const costs={};const summary=(samples,key)=>{const a=samples.map(s=>s[key]).filter(Number.isFinite).sort((a,b)=>a-b);return {median:a[Math.floor(a.length*.5)],p95:a[Math.floor(a.length*.95)],samples:a.length};};
+      for(const layout of ['single','quad']){
+        await page.locator('#'+(layout==='single'?'cameraSingle':'cameraQuad')).click();await page.locator('#reset').click();await page.locator('#play').click();
+        await page.waitForTimeout(2200);const d=await read(),samples=d.renderSamples.filter(s=>s.layout===layout&&s.step>20).slice(-120);
+        assert.ok(samples.length>=50);assert.ok(d.final.steps>80&&d.final.steps<180,'one physics clock, not multiplied by views');
+        assert.ok(views(d).every(v=>v.step===d.final.steps));assert.equal(d.final.invalid,null);
+        costs[layout]={steps:d.final.steps,tickMs:summary(samples,'tickMs'),cpuMs:summary(samples,'cpuMs'),renderSubmitMs:summary(samples,'renderSubmitMs'),intervalMs:summary(samples,'intervalMs'),calls:samples.at(-1).calls,triangles:samples.at(-1).triangles};
+        await page.locator('#play').click();await page.locator('#reset').click();
+      }
+      await fs.writeFile(path.join(out,'viewport-costs.json'),JSON.stringify({identity,costs},null,2));console.log('Viewport costs',JSON.stringify(costs));
+      // Automatic layout on a fresh document; manually chosen layouts persist across resize.
+      await page.reload();await page.waitForFunction(()=>window.uprightDiagnostics);
+      await page.setViewportSize({width:744,height:360});await page.waitForFunction(()=>uprightDiagnostics().viewports.layout==='single');
+      await page.locator('aside').evaluate(a=>{a.scrollTop=0;});
+      for(const id of ['cameraQuad','cameraSingle',...Object.values(buttons)]){const r=await page.locator('#'+id).boundingBox();assert.ok(r.y>=0&&r.y+r.height<=360,'mobile camera/layout switches visible');}
+      await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
+      await page.locator('summary').filter({hasText:'Kamera'}).click();await page.locator('#cameraMode').check();
+      await page.locator('#cameraFront').click();let r=await page.locator('[data-camera=front]').boundingBox();const x=r.x+r.width*.3,y=r.y+r.height*.3;
+      const preTouch=(await read()).observationCamera;
+      await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y},{x:x+40,y}]});
+      await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x-15,y:y+10},{x:x+60,y:y+10}]});
+      await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});assert.notEqual((await read()).observationCamera.zoom,preTouch.zoom);
+      await page.locator('#cameraMode').uncheck();await page.locator('#cameraFrame').click();await page.locator('#play').click();
+      const head=(await read()).parts.find(p=>p.id==='head').screen;
+      await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:head.x,y:head.y}]});assert.equal((await read()).final.grab.active,true);
+      await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await page.locator('#reset').click();
+      await page.screenshot({path:path.join(out,'single-landscape.png')});
+      await page.locator('#cameraQuad').click();assert.equal(await page.locator('.cameraSurface:visible').count(),4);
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+      await page.screenshot({path:path.join(out,'quad-small.png')});
+      await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:false});await page.setViewportSize({width:1281,height:721});
+      assert.equal((await read()).viewports.layout,'quad');
+      // DPR cap and viewport rectangles in CSS space, using a separate confirmed-Chrome context.
+      const dense=await browser.newContext({viewport:{width:1281,height:721},deviceScaleFactor:2}),densePage=await dense.newPage();
+      await densePage.goto(arg('--url'));await densePage.waitForFunction(()=>window.uprightDiagnostics);
+      const dd=await densePage.evaluate(()=>({d:uprightDiagnostics(),buffer:{w:document.querySelector('canvas').width,h:document.querySelector('canvas').height},css:{w:document.querySelector('canvas').clientWidth,h:document.querySelector('canvas').clientHeight}}));
+      assert.equal(dd.d.environment.renderDpr,1.5);assert.equal(dd.buffer.w,Math.floor(dd.css.w*1.5));assert.equal(dd.buffer.h,Math.floor(dd.css.h*1.5));
+      assert.ok(views(dd.d).every(v=>v.camera.projection.every(Number.isFinite)));await dense.close();await page.bringToFront();
+      await page.setViewportSize({width:1280,height:720});await page.locator('#cameraPerspective').click();await page.locator('#play').click();await page.locator('#strong').click();await page.waitForTimeout(1500);await page.locator('#play').click();
+      for(const id of Object.values(buttons)){await page.locator('#'+id).click();await page.locator('#cameraFrame').click();}
+      await page.screenshot({path:path.join(out,'quad-fallen.png')});await page.locator('#reset').click();
+      const teardownRect=await page.locator('[data-camera=top]').boundingBox();await page.mouse.move(teardownRect.x+20,teardownRect.y+50);await page.mouse.down({button:'right'});
+      await page.reload();await page.mouse.up({button:'right'});await page.waitForFunction(()=>window.uprightDiagnostics);assert.equal((await read()).cameraPointers,0);assert.deepEqual((await read()).rendererMemory,memory);
+      await page.locator('summary').filter({hasText:'Kamera'}).click();
+      // Leave the legacy shared UI regression in a large single perspective view.
+      await page.locator('#cameraPerspective').click();await page.locator('#cameraSingle').click();await page.locator('#cameraReset').click();
+      await page.locator('summary').filter({hasText:'Kamera'}).click();
+      checks.push('Issue101: one canvas/shared step, four simultaneous views; viewport-only orbit/pan/zoom; mouse head picking/capture across boundaries; guarded view changes; camera retention, keyboard selection, resize/DPR2 cap, mobile single/touch and explicit quad; bounded reset resources; actual feedback includes all cameras; measured single/quad CPU submission and foreground frame intervals');
+    }
     if(process.argv.includes('--issue100')){
       const buttons={perspective:'cameraPerspective',front:'cameraFront',side:'side',top:'cameraTop'},saved={};
       for(const id of Object.values(buttons)){const r=await page.locator('#'+id).boundingBox();assert.ok(r.y>=0&&r.y+r.height<=720,'view switches visible on entry');}
