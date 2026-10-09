@@ -82,7 +82,7 @@ async function main(){
       for(const mode of ['perspective','front','side','top']){await page.locator('#'+({perspective:'cameraPerspective',front:'cameraFront',side:'side',top:'cameraTop'}[mode])).click();await page.locator('#cameraFrame').click();}
       await page.screenshot({path:path.join(out,'inspection-fallen.png')});await page.locator('#reset').click();
       // Small single-view touch inspection works while paused, then grab still works when inspect is disabled.
-      await page.setViewportSize({width:744,height:360});await page.locator('#cameraSingle').click();await page.locator('#cameraFront').click();
+      await page.setViewportSize({width:744,height:360});await page.locator('#cameraSingle').click();await page.locator('#cameraFront').click();await page.locator('#cameraReset').click();await page.locator('#cameraFrame').click();
       await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});await page.locator('#inspectMode').check();
       const touchHead=(await read()).parts.find(p=>p.id==='head').screen;
       await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:touchHead.x,y:touchHead.y}]});
@@ -96,6 +96,7 @@ async function main(){
       assert.ok(!/\b(Kamera|Schritt|K?rper|Gelenke|Sicherheitsstopp|Hilfe|markieren|verf?gbar|Pausiert|Start erforderlich)\b/.test(uiText));assert.equal(await page.locator('html').getAttribute('lang'),'en');
       await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:false});await page.setViewportSize({width:1280,height:720});
       await settings(false);await page.locator('#inspectBody').selectOption('');await page.locator('#cameraPerspective').click();await page.locator('#cameraQuad').click();await page.locator('#inspectionPanel').evaluate(e=>{e.open=false;});
+      await page.getByText('Camera',{exact:true}).evaluate(e=>{e.parentElement.open=false;});await page.locator('aside').evaluate(a=>{a.scrollTop=0;});
       checks.push('Issue102: separate shared display toggles, all-view inspect picking without physics input; stable body/joint IDs, explicit units/sources/unavailable load, current marker payload; exact 40 native-step display parity; zero-effect paused selection; opt-in vectors/strong-push stress; bounded resources; small-view touch inspect and grab; English touched UI; measured overlay CPU submission/frame costs');
     }
     if(process.argv.includes('--issue101')){
