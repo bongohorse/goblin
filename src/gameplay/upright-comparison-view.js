@@ -1,0 +1,45 @@
+import {comparePair,POINT_IDS} from './upright-comparison.js';
+const $=id=>document.getElementById(id);
+let data,result;
+async function decode(buffer,gzip){return JSON.parse(await (gzip?new Response(new Blob([buffer]).stream().pipeThrough(new DecompressionStream('gzip'))).text():new TextDecoder().decode(buffer)));}
+function showRow(){
+  if(!result?.Q.valid)return;
+  const row=result.Q.rows[Number($('step').value)];
+  $('time').textContent='Step '+row.step+' · t='+row.time.toFixed(3)+' s · τ='+row.tau.toFixed(3)+' s';
+  $('points').replaceChildren(...POINT_IDS.map(id=>{
+    const tr=document.createElement('tr');
+    for(const value of [id,...['d','c','y'].map(k=>(row.points[id].displacement[k]*1000).toFixed(3))]){
+      const td=document.createElement('td');td.textContent=value;tr.append(td);
+    }return tr;
+  }));
+  const degrees=v=>v*180/Math.PI;
+  $('angles').textContent=['torso','pelvis'].map(id=>id+' Δβ='+degrees(row.tilt[id].beta).toFixed(4)+'° · Δγ='+degrees(row.tilt[id].gamma).toFixed(4)+'° · Up-Vektordifferenz='+degrees(row.tilt[id].upDifference).toFixed(4)+'°').join('\n');
+  $('windows').textContent=JSON.stringify({windows:result.Q.windows,relativeAtStep:row.relative},null,2);
+}
+function showPair(){
+  const id=$('pair').value,R=data.records.find(r=>r.pairId===id&&r.role==='reference'),P=data.records.find(r=>r.pairId===id&&r.role==='input');
+  result=comparePair(R,P);
+  $('identity').textContent='V2 · Paar '+id+' · Build '+(P?.identity?.build?.revision||'unbekannt')+' · '+(P?.identity?.environment?.userAgent||'');
+  $('status').textContent=result.Q.valid?'Q: gültiges zeitgleiches Paar; kein automatischer Gameplay-Pass':'Q: unbewertbar · '+result.Q.issues.join(', ');
+  $('legacy').textContent=result.Q.valid?'Legacy V1: '+result.Q.legacyV1.additionalTiltDeg.toFixed(5)+'° zusätzlich · '+(result.Q.legacyV1.pass?'PASS':'FAIL')+' gegen unveränderte 2°':'Legacy nicht auswertbar';
+  $('human').textContent=JSON.stringify(data.pairs?.find(p=>p.pairId===id)?.H||result.H);
+  $('safety').textContent=JSON.stringify(result.S,null,2);
+  for(const [role,record] of [['reference',R],['input',P]]){
+    const video=$(role);video.pause();
+    if(record&&Number.isInteger(record.number)&&record.number>=1&&record.number<=4)video.src='./v2-media/sequence-'+record.number+'.webm';
+    else video.removeAttribute('src');
+  }
+  $('points').replaceChildren();$('angles').textContent='';$('windows').textContent='';showRow();
+}
+function load(value){
+  if(!Array.isArray(value.records))throw Error('V2 records fehlen');
+  data=value;const ids=[...new Set(data.records.map(r=>r.pairId))];$('pair').replaceChildren();
+  for(const id of ids){const option=document.createElement('option');option.value=id;option.textContent=id;$('pair').append(option);}
+  showPair();window.uprightComparison=()=>({version:'V2',pairId:result.pairId,valid:result.Q.valid,legacy:result.Q.legacyV1,safety:result.S,simulation:false});
+}
+$('pair').onchange=showPair;$('step').oninput=showRow;
+$('play').onclick=async()=>{try{await Promise.all(['reference','input'].map(id=>{$(id).playbackRate=1;return $(id).play();}));}catch(error){$('status').textContent='Clip-Wiedergabe: '+error.message;}};
+$('pause').onclick=()=>['reference','input'].forEach(id=>$(id).pause());
+$('file').onchange=async()=>{try{const file=$('file').files[0];if(file)load(await decode(await file.arrayBuffer(),file.name.endsWith('.gz')));}catch(error){$('status').textContent=error.message;}};
+try{const response=await fetch('../../v2-evidence.json.gz');if(!response.ok)throw Error('Noch kein V2-Rohbeleg im Build. Ergebnisdatei auswählen.');load(await decode(await response.arrayBuffer(),true));}
+catch(error){$('status').textContent=error.message;}

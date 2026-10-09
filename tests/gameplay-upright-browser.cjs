@@ -5,9 +5,58 @@ const {chromium}=require('playwright');
 const flag=name=>{const i=process.argv.indexOf(name);return i<0?null:process.argv[i+1];};
 const url='http://127.0.0.1:4174/goblin/gameplay/upright/';
 const yielding=process.argv.includes('--run-approved-yield');
+const v2=process.argv.includes('--run-approved-v2');
 const p95=a=>a.length?a.slice().sort((a,b)=>a-b)[Math.ceil(a.length*.95)-1]:null;
+
+async function runV2({context,identity,out,errors,warnings,badResponses}){
+  const {comparePair}=await import('../src/gameplay/upright-comparison.js');
+  const records=[],pairs=[];
+  const save=async()=>fs.writeFile(path.join(out,'results.json'),JSON.stringify({version:'V2',identity,url:url+'?yield=B&observe=v2',records,pairs,errors,warnings,badResponses}));
+  await fs.writeFile(path.join(out,'budget.json'),JSON.stringify({started:0,completed:0,maxSequences:4,secondsPerSequence:6,plan:['R1','P1','R2','P2']}));
+  for(let n=1;n<=4;n++){
+    const role=n%2?'reference':'input',pairId=String(Math.ceil(n/2));
+    console.log('V2 '+n+'/4 '+role+' pair '+pairId);
+    const page=await context.newPage(),video=page.video();
+    page.on('pageerror',e=>errors.push({number:n,message:e.message}));
+    page.on('console',m=>{if(m.type()==='error')errors.push({number:n,message:m.text()});if(m.type()==='warning')warnings.push({number:n,message:m.text()});});
+    page.on('response',r=>{if(r.status()>=400)badResponses.push({number:n,url:r.url(),status:r.status()});});
+    await page.goto(url+'?yield=B&observe=v2');await page.waitForFunction(()=>window.uprightDiagnostics);
+    await page.bringToFront();
+    await page.locator('#reset').click();
+    const initial=await page.evaluate(()=>uprightDiagnostics());
+    if(initial.final.steps!==0||!initial.paused||initial.windowLimit!==360||initial.observationIdentity.yieldProfile!=='B')throw Error('V2 initial window/config invalid; no sequence started');
+    if(n===1){
+      const cdp=await context.newCDPSession(page);
+      const args=await cdp.send('Browser.getBrowserCommandLine');
+      identity.launchArguments=args.arguments.map(a=>a.startsWith('--user-data-dir=')?'--user-data-dir=<isolated-profile>':a===flag('--executable')?'<confirmed-native-chrome>':a);
+      identity.environment=initial.environment;await cdp.detach();
+    }
+    if(role==='input')await page.locator('#schedule').check();
+    await fs.writeFile(path.join(out,'budget.json'),JSON.stringify({started:n,completed:records.length,maxSequences:4,secondsPerSequence:6,plan:['R1','P1','R2','P2']}));
+    await page.locator('#play').click();
+    if(role==='input')await page.locator('#small').click();
+    await page.waitForFunction(()=>uprightDiagnostics().final.steps>=360||uprightDiagnostics().final.invalid,{},{timeout:30000});
+    const end=await page.evaluate(()=>uprightDiagnostics());
+    const record={role,pairId,number:n,identity:{...end.observationIdentity,build:end.build,environment:end.environment,viewport:end.viewport},
+      camera:end.observationCamera,trace:end.trace,events:end.events,initial:initial.final,final:end.final};
+    records.push(record);
+    await fs.writeFile(path.join(out,'budget.json'),JSON.stringify({started:n,completed:records.length,maxSequences:4,secondsPerSequence:6,plan:['R1','P1','R2','P2']}));
+    await page.screenshot({path:path.join(out,'sequence-'+n+'.png')});
+    await save();await page.close();await video.saveAs(path.join(out,'sequence-'+n+'.webm'));
+    if(end.final.steps!==360||record.trace.some(t=>t.invalid||t.maxAnchorError>.15)||errors.length||badResponses.length){
+      console.log('V2 safety/technical STOP, no replacement');break;
+    }
+    if(role==='input'){
+      const pair=comparePair(records.at(-2),record);pairs.push(pair);await save();
+      console.log(JSON.stringify({pairId,valid:pair.Q.valid,issues:pair.Q.issues,legacy:pair.Q.legacyV1,safety:pair.S}));
+      if(!pair.Q.valid){console.log('V2 invalid common pairing: STOP');break;}
+    }
+  }
+  await save();console.log('V2 finished '+records.length+'/4; no automatic gameplay PASS.');
+}
+
 async function main(){
-  if(!process.argv.includes('--run-approved-eight')&&!yielding)throw Error('Explicit eight-sequence flag required. Never run through npm test.');
+  if(!process.argv.includes('--run-approved-eight')&&!yielding&&!v2)throw Error('Explicit eight-sequence flag required. Never run through npm test.');
   const executable=flag('--executable');if(!executable)throw Error('Confirmed native Chrome executable required.');
   const out=path.resolve(flag('--out')||'');if(!flag('--out'))throw Error('Fresh output directory required.');
   await fs.mkdir(out); // No overwrite/retry after budget expenditure.
@@ -23,6 +72,7 @@ async function main(){
     os:os.platform()+' '+os.release()+' '+os.arch(),cpu:os.cpus()[0].model,headless:false,viewport:{width:1280,height:720},dpr:1,
     ignoredDefaultArgs:ignored};
   try{
+    if(v2){await runV2({context,identity,out,errors,warnings,badResponses});return;}
     // Keep the initial blank tab alive: closing the last tab terminates a persistent Chrome window.
     for(let number=1;number<=8;number++){
       console.log('Starting fixed observation '+number+'/8');

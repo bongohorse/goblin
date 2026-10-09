@@ -1,5 +1,6 @@
 import {FixedClock} from '../runtime.js';
 import {rotate, jointObservation} from '../labs/standing/math.js';
+import {POINT_IDS} from './upright-comparison.js';
 
 // Exact archived B, not another assist candidate. No sliders or tuning.
 export const CONFIG_B=Object.freeze({id:'B',stiffness:40,damping:2,max_torque_Nm:20,
@@ -60,7 +61,13 @@ export class UprightSession {
       this.pending=strong;this.event('scheduled-push',{strong,atStep:120});return true;
     }
     this.event('push-before',{strong,torsoTilt:this.sim.metrics.torsoTilt});
+    const body=this.sim.rig.byId.get('torso').body;
+    const before={velocity:{...body.linvel()},angularVelocity:{...body.angvel()}};
     this.sim.push(strong);this.event('push-after',{strong,hit:structuredClone(this.sim.lastHit)});
+    const delta=(a,b)=>({x:a.x-b.x,y:a.y-b.y,z:a.z-b.z});
+    this.event('impulse-observation',{strength:strong?3.2:.4,direction:{x:1,y:0,z:0},localPoint:{x:0,y:.30,z:0},
+      point:structuredClone(this.sim.lastHit?.point),before,after:{velocity:{...body.linvel()},angularVelocity:{...body.angvel()}},
+      deltaVelocity:delta(body.linvel(),before.velocity),deltaAngularVelocity:delta(body.angvel(),before.angularVelocity)});
     return true;
   }
   capture(){
@@ -73,7 +80,11 @@ export class UprightSession {
       activeMotorAxes:commands.filter(c=>c.cap>0&&(c.stiffness>0||c.damping>0)).length,
       maxWorldForce:Math.max(...s.parts.map(p=>length(p.force))),maxWorldTorque:Math.max(...s.parts.map(p=>length(p.torque))),
       maxAnchorError:Math.max(...this.sim.entries.map(e=>jointObservation(e).anchor_error)),
-      metrics:s.metrics,grab:s.grab,counts:s.counts,invalid:s.invalid});
+      metrics:s.metrics,grab:s.grab,counts:s.counts,invalid:s.invalid,
+      observation:{points:Object.fromEntries(POINT_IDS.map(id=>{const p=s.parts.find(p=>p.id===id);return [id,structuredClone(p)];})),
+        bodies:s.parts.map(p=>({...p,sleeping:this.sim.rig.byId.get(p.id).body.isSleeping()})),
+        controller:{config:s.config,yieldProfile:this.sim.yieldProfile,yieldStart:this.sim.yieldStart,noSupport:this.sim.noSupport,rest:this.sim.rest,
+          obstacle:this.sim.obstacleEnabled,lastHit:structuredClone(this.sim.lastHit)}}});
   }
   tick(now){
     this.clock.advance(now,this.paused,()=>{
