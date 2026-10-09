@@ -2,10 +2,10 @@ import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 
 export const CAMERA_VIEWS=Object.freeze({
-  perspective:{label:'Perspektive',direction:[3.8,1.65,6],up:[0,1,0]},
-  front:{label:'Front · von +Z',direction:[0,0,1],up:[0,1,0]},
-  side:{label:'Seite · von +X',direction:[1,0,0],up:[0,1,0]},
-  top:{label:'Oben · von +Y',direction:[0,1,0],up:[0,0,-1]}
+  perspective:{label:'Perspective',direction:[3.8,1.65,6],up:[0,1,0]},
+  front:{label:'Front · from +Z',direction:[0,0,1],up:[0,1,0]},
+  side:{label:'Side · from +X',direction:[1,0,0],up:[0,1,0]},
+  top:{label:'Top · from +Y',direction:[0,1,0],up:[0,0,-1]}
 });
 
 export function resizeCamera(camera,aspect){

@@ -42,11 +42,11 @@ test('feedback is copied, run-bound, finite, limited, and exports snapshot failu
   assert.equal(report.report.observation.snapshot.parts[0].position.x,1);
   assert.equal(report.report.observation.step,7);assert.equal(report.report.identity.variant,'R1');
   assert.equal(JSON.parse(report.json).observation.note,'Beobachtung');
-  assert.throws(()=>f.report({...identity,run_id:'two'},fields,['head']),/anderen Run/);
+  assert.throws(()=>f.report({...identity,run_id:'two'},fields,['head']),/another run/);
   assert.throws(()=>f.report(identity,{...fields,note:'a'.repeat(2001)},['head']),/2000/);
-  assert.throws(()=>f.report(identity,{...fields,body_id:'missing'},['head']),/Körperteil/);
+  assert.throws(()=>f.report(identity,{...fields,body_id:'missing'},['head']),/body part/);
   f.mark(identity,8,()=>({x:NaN}),()=>({}));const diagnostic=f.report(identity,fields,['head']);
   assert.equal(diagnostic.diagnostic,true);assert.equal(diagnostic.report.observation.snapshot,null);
   assert.match(diagnostic.report.data_errors[0].reason,/Non-finite/);
-  f.clear();assert.throws(()=>f.report(identity,fields,['head']),/zuerst/);
+  f.clear();assert.throws(()=>f.report(identity,fields,['head']),/first/);
 });
