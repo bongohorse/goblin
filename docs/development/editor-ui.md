@@ -20,6 +20,26 @@ Finale Head-/Buildidentität, Rohbelege, Tests/CI und Release sind in #113/#88/P
 
 ## Finales Layout
 
+## Nachprüfung und Korrektur zu #113
+
+Der erste Abschluss war zu großzügig: Der40-Step-Test verglich Display OFF/ON innerhalb des Kandidaten, nicht den Stand vor dem Umbau. Escape in Textfeldern/Dialogen, echte Browserzoomänderung, Kontrastmessung und Nullgröße waren nicht gezielt belegt. Im Portrait verschwanden Toolbar und Status beim Scrollen zu den Panels. Eine explizite Zustands-/Fokusmatrix fehlte; der historische Textentwurf war vorhanden, die Matrix wurde erst hier nachgetragen.
+
+Korrekturen: Header/Transport sind im Dokumentfluss sticky; schmale/kurze Viewports erhalten eine scrollbare Stage von mindestens220px. Escape gehört in Formularen und Dialogen zur Eingabe, außerhalb davon zum Safety-Stop; ein aktiver physischer Griff hat immer Safety-Priorität. Nullgroße Stages erzeugen weder Raycasts noch neue Projektionen/Drawcalls, während Session und explizite Steps ihren Vertrag behalten. Zeit-/Stepzahlen bleiben ohne Live-Ansagen für assistive Technik lesbar; Assistwechsel werden nur bei Änderung angekündigt.
+
+| Zustand / Fokus | Verhalten |
+| --- | --- |
+| Fresh / paused | Run und Step erreichbar; Step genau einmal; Reset erzeugt frischen Run |
+| Running | Pause erhält Zustand; Safety außen erreichbar; Assistzustand sichtbar |
+| Textfeld / Select / Dialog | Escape für Editing/native Dialogaktion; kein unbeabsichtigter Run-Stop |
+| Aktiver Griff, auch bei Formularfokus | Escape cancelt ohne Throw, pausiert sicher, Assist OFF bis Reset |
+| Portrait mit Panel-Scroll | Status, Assist und Run/Step/Reset/Safety bleiben gepinnt |
+| Stage0×0, danach wieder sichtbar | Kein ungültiges Picking/Rendering; Session unverändert, Projektionen bleiben endlich |
+| Hidden / Fokusverlust | Bestehender Safetyvertrag bleibt; native Hidden/Resume weiterhin nicht nachgewiesen |
+
+`tests/editor-review-browser.cjs` vergleicht die native Produktionsbasis `ffd7807` und den Kandidaten bei0/1/40/120/180 Steps mit identischem kleinen Push. Snapshot-, Body-/Jointreadout und Feedback-Semantik sind exakt gleich. Native Keyboard-Escape/Form/Dialog/Grab, Tab/Space, großes Reflow bei aktivem Griff, Nullgröße/Restore, echter Chrome-Seitenzoom200% (640×360 CSSpx, DPR2) im eigenen Wegwerfprofil, Portrait-Scroll und480×240 bestehen. Gemessene zentrale Textkontraste7.47:1 bis11.68:1. Keine Konsolenfehler. Screenshots und Rohvergleich werden im zugehörigen PR/Issue verlinkt.
+
+Native Hidden/Resume bleibt nach zwei begrenzten echten Fenster-Minimize-/Restoreproben ohne `visibilitychange` **offen**; kein synthetischer Ersatz und keine gelockerte Akzeptanz. Mobilhardware und Screenreader-Geräteabnahme sind ebenfalls nicht behauptet. Der historische G2-Fehlbefund bleibt dokumentiert; dieser Nachtrag verändert keine Physik oder Schwellen.
+
 Reviewkorrekturen: Die sichtbaren Zeit-/Stepzahlen liegen außerhalb der Live-Region; nur geänderte Run-/Safetyphasen werden angekündigt. Der historische #79-Ledger enthält auch Arena-UI und Browserfixture. Deren ursprüngliche Bytes sind nun bytegenau unter `frozen-inputs` gesichert; bestehende historische Hashes bleiben unverändert. Explizite aktuelle Review-Pins akzeptieren ausschließlich die geprüfte #113-UI/QA-Version, einschließlich Mutationstests. Dies ist Archivkompatibilität, keine neue Physik- oder Standing-Abnahme.
 
 Screenshot-Satz: native Chrome156.0.8078.4, eigener temporärer Playwright-Profile, Build `a3af22bd8e66c2db`, identische finale UI-Quelldateien in allen vier Bildern; Desktop1280×720, Landscape744×360, Portrait390×844 (Scrollbar reduziert die Inhaltsbreite). Letzter visueller Fix: Grid-/Status-Minimum und nicht schrumpfender Assistindikator verhindern dessen Abschneiden neben der Portrait-Scrollbar. Der Browsercheck prüft nun ausdrücklich dessen rechte Grenze.
