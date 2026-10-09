@@ -1,0 +1,149 @@
+{
+  "out": "C:\\Users\\Mega\\AppData\\Local\\Temp\\goblin-editor-review-V7NUMf",
+  "browser": "156.0.8078.4",
+  "baseline": {
+    "revision": "ffd78071beb613a98dabda908f01e2241176d47f",
+    "dirty": false,
+    "build_id": "d496483706f7e2f3",
+    "inputs": {
+      "src/gameplay/upright-scene.js": "721195ad8f57bf8fc9cc881130c62b0428acacbc782e0983c0ec0a7894d5fa7c",
+      "src/gameplay/upright-session.js": "faed6e1bee98c1f511324b68c33e5c1f199783fa3c75828a27f09fb1d79e4eb3",
+      "src/gameplay/upright-assist.js": "7eeff15f59255d9c4d0ec54585ba222f2518bb746c16227df3b4e593aa309dd1",
+      "src/gameplay/upright-return.js": "3cdb35f8fd49dd84baa0e20cc5f76156afd4bd42d4c4413c70315a6dc0bb8828",
+      "src/gameplay/upright-variants.js": "c741fe50235b19babc3f8fa4d0530dcf76657db1fd35d5f42dcd878c7c67ba82",
+      "src/gameplay/playground-feedback.js": "88b77c165c59f436bd3022a5cae9b36f032cc9f917e81071c8d81213c7c8468c",
+      "src/gameplay/upright.css": "ec54bbf3b123132f4bb6bed7091db577a23600380151cc72c6c8d0d21061e607",
+      "src/labs/standing/feedback.js": "bd3b6be20e46580f41bda44a7e774e79acf8f21b0cc7254ad60297e566d9c478",
+      "src/labs/standing/config.js": "3f46489effb5eb4ff2df8e2af639f4279e2bd60e0f50f1315c474c0b42623161",
+      "src/goblin-rig.js": "8e8cdb0959fb91a5e5718c9b73e794756d54c8599175647599dd0da17236291c",
+      "src/grab.js": "a75781d305339f67233bf3d88800787e2ab2aff35ef62d5ce2b43474a6246eef",
+      "src/runtime.js": "1d7b98f4bf5598970a10aa8c7341bf8affc6eb585dfaf80061a88246ed0cbdc1",
+      "src/labs/standing/motors.js": "70deb98ee8aa8384cd84e99b8222cb02edbd5d2f8b56dcb016c8c25a5a8eedf6",
+      "src/labs/standing/math.js": "b62cd8594983793c99636e16b7bf04bd888f4ba6c9ba6d723abfb39af082b7ce",
+      "scripts/execution-event-checks.mjs": "e39f30cb672bf520dba30a79e7bf3b9341791ef166d41a545af35d92e91bc5df",
+      "package-lock.json": "a0f705bb717990368245124595be8edc29baba04dcf48e3d40473ea5be0b5be5",
+      "playground/index.html": "7feb2f576d08a0e4852bd8ce68950765b010758d1d53e2f284d36e5766f4e0f1",
+      "gameplay/upright/index.html": "9b2c444e13b99e912e9df3c63ed8bc524491642a4ac86e51efbd112bed6b917f",
+      "vite.gameplay.config.js": "5515513a7784fc04a415ed4675a99694d5e14cfca6132dfc198e8e045d6e050f",
+      "src/gameplay/upright-run.js": "8dfbb0d906f871847eddab4d8049cf1417321663b69d923602b4956773a6d93f",
+      "src/gameplay/playground-cameras.js": "77aa5eb5ed9c60ea2972297499985acb092ae81f1e4c3d7a80d4f570fee0ceb4",
+      "src/gameplay/playground-viewports.js": "dee18b371f624f40d707569c7c0eddc1c78da774eccd35e2f1900290260407fc",
+      "src/gameplay/playground-inspection.js": "ee0a4f43755ddc68ffc0bc4ecf3eccef67d9e54dcb96a2c94ead9ee8b4a00420",
+      "src/gameplay/playground-inspection-view.js": "52d97505ab7fddd60c78ee5bee556e1006460daaee0458a07ac38dda6db354b2"
+    },
+    "scene_sha256": "721195ad8f57bf8fc9cc881130c62b0428acacbc782e0983c0ec0a7894d5fa7c",
+    "session_sha256": "faed6e1bee98c1f511324b68c33e5c1f199783fa3c75828a27f09fb1d79e4eb3",
+    "controller_sha256": "7eeff15f59255d9c4d0ec54585ba222f2518bb746c16227df3b4e593aa309dd1",
+    "comparison_sha256": "4fe6f8ae7bbd564a0d35035e445c2741178c6ffab09a28dc7766aa0d8191f961",
+    "return_sha256": "3cdb35f8fd49dd84baa0e20cc5f76156afd4bd42d4c4413c70315a6dc0bb8828",
+    "physics_sha256": {
+      "src/gameplay/upright-assist.js": "7eeff15f59255d9c4d0ec54585ba222f2518bb746c16227df3b4e593aa309dd1",
+      "src/goblin-rig.js": "8e8cdb0959fb91a5e5718c9b73e794756d54c8599175647599dd0da17236291c",
+      "src/grab.js": "a75781d305339f67233bf3d88800787e2ab2aff35ef62d5ce2b43474a6246eef",
+      "src/runtime.js": "1d7b98f4bf5598970a10aa8c7341bf8affc6eb585dfaf80061a88246ed0cbdc1",
+      "src/labs/standing/motors.js": "70deb98ee8aa8384cd84e99b8222cb02edbd5d2f8b56dcb016c8c25a5a8eedf6",
+      "src/labs/standing/math.js": "b62cd8594983793c99636e16b7bf04bd888f4ba6c9ba6d723abfb39af082b7ce",
+      "package-lock.json": "a0f705bb717990368245124595be8edc29baba04dcf48e3d40473ea5be0b5be5"
+    }
+  },
+  "candidate": {
+    "revision": "a20948b8c3a0a9ca1bbda8324cce1a3779b4c00e",
+    "dirty": false,
+    "build_id": "5d82df1aae4ac2b9",
+    "inputs": {
+      "src/gameplay/upright-scene.js": "beeb621a3a38734a5f11e8fe5ee94f93cbd41937fc1806d6a7392dabba589349",
+      "src/gameplay/upright-session.js": "faed6e1bee98c1f511324b68c33e5c1f199783fa3c75828a27f09fb1d79e4eb3",
+      "src/gameplay/upright-assist.js": "7eeff15f59255d9c4d0ec54585ba222f2518bb746c16227df3b4e593aa309dd1",
+      "src/gameplay/upright-return.js": "3cdb35f8fd49dd84baa0e20cc5f76156afd4bd42d4c4413c70315a6dc0bb8828",
+      "src/gameplay/upright-variants.js": "c98a7417210309706f20a630b9f05835971a258bdd1cc54c7379eadcbee27b82",
+      "src/gameplay/playground-feedback.js": "88b77c165c59f436bd3022a5cae9b36f032cc9f917e81071c8d81213c7c8468c",
+      "src/gameplay/upright.css": "ec54bbf3b123132f4bb6bed7091db577a23600380151cc72c6c8d0d21061e607",
+      "src/labs/standing/feedback.js": "bd3b6be20e46580f41bda44a7e774e79acf8f21b0cc7254ad60297e566d9c478",
+      "src/labs/standing/config.js": "3f46489effb5eb4ff2df8e2af639f4279e2bd60e0f50f1315c474c0b42623161",
+      "src/goblin-rig.js": "8e8cdb0959fb91a5e5718c9b73e794756d54c8599175647599dd0da17236291c",
+      "src/grab.js": "a75781d305339f67233bf3d88800787e2ab2aff35ef62d5ce2b43474a6246eef",
+      "src/runtime.js": "1d7b98f4bf5598970a10aa8c7341bf8affc6eb585dfaf80061a88246ed0cbdc1",
+      "src/labs/standing/motors.js": "70deb98ee8aa8384cd84e99b8222cb02edbd5d2f8b56dcb016c8c25a5a8eedf6",
+      "src/labs/standing/math.js": "b62cd8594983793c99636e16b7bf04bd888f4ba6c9ba6d723abfb39af082b7ce",
+      "scripts/execution-event-checks.mjs": "e39f30cb672bf520dba30a79e7bf3b9341791ef166d41a545af35d92e91bc5df",
+      "package-lock.json": "a0f705bb717990368245124595be8edc29baba04dcf48e3d40473ea5be0b5be5",
+      "playground/index.html": "4beaa5010e7f0b3deeaf5092c761a665cfb0136811dadc04ba6a99eac46ff635",
+      "gameplay/upright/index.html": "2de35460b9f91d0f7dc3950136e020be442132a0a7deb9638593d1b6be4e2ee4",
+      "vite.gameplay.config.js": "ab5b4b81d7bc4a502045ec2ad7bd39b00c709f6d3bdf28c2b0013edcf12654a0",
+      "src/gameplay/upright-run.js": "8dfbb0d906f871847eddab4d8049cf1417321663b69d923602b4956773a6d93f",
+      "src/gameplay/playground-cameras.js": "77aa5eb5ed9c60ea2972297499985acb092ae81f1e4c3d7a80d4f570fee0ceb4",
+      "src/gameplay/playground-viewports.js": "dee18b371f624f40d707569c7c0eddc1c78da774eccd35e2f1900290260407fc",
+      "src/gameplay/playground-inspection.js": "ee0a4f43755ddc68ffc0bc4ecf3eccef67d9e54dcb96a2c94ead9ee8b4a00420",
+      "src/gameplay/playground-inspection-view.js": "d21e5f9088305f1d2b43bdff1c920b82b825a279180f68ba35d3204efd4a5212",
+      "src/gameplay/playground-editor.css": "e5a7ef0c2d2f378368ef6a49168d0bdfe58d194550d28b49681b25ca85d0f8fb"
+    },
+    "scene_sha256": "beeb621a3a38734a5f11e8fe5ee94f93cbd41937fc1806d6a7392dabba589349",
+    "session_sha256": "faed6e1bee98c1f511324b68c33e5c1f199783fa3c75828a27f09fb1d79e4eb3",
+    "controller_sha256": "7eeff15f59255d9c4d0ec54585ba222f2518bb746c16227df3b4e593aa309dd1",
+    "comparison_sha256": "4fe6f8ae7bbd564a0d35035e445c2741178c6ffab09a28dc7766aa0d8191f961",
+    "return_sha256": "3cdb35f8fd49dd84baa0e20cc5f76156afd4bd42d4c4413c70315a6dc0bb8828",
+    "physics_sha256": {
+      "src/gameplay/upright-assist.js": "7eeff15f59255d9c4d0ec54585ba222f2518bb746c16227df3b4e593aa309dd1",
+      "src/goblin-rig.js": "8e8cdb0959fb91a5e5718c9b73e794756d54c8599175647599dd0da17236291c",
+      "src/grab.js": "a75781d305339f67233bf3d88800787e2ab2aff35ef62d5ce2b43474a6246eef",
+      "src/runtime.js": "1d7b98f4bf5598970a10aa8c7341bf8affc6eb585dfaf80061a88246ed0cbdc1",
+      "src/labs/standing/motors.js": "70deb98ee8aa8384cd84e99b8222cb02edbd5d2f8b56dcb016c8c25a5a8eedf6",
+      "src/labs/standing/math.js": "b62cd8594983793c99636e16b7bf04bd888f4ba6c9ba6d723abfb39af082b7ce",
+      "package-lock.json": "a0f705bb717990368245124595be8edc29baba04dcf48e3d40473ea5be0b5be5"
+    }
+  },
+  "zoom": {
+    "width": 640,
+    "height": 360,
+    "dpr": 2
+  },
+  "contrast": [
+    {
+      "selector": "#play",
+      "ratio": 8.045963521843847
+    },
+    {
+      "selector": "#safetyStop",
+      "ratio": 8.98670371725179
+    },
+    {
+      "selector": "#phaseStatus",
+      "ratio": 11.68222962551509
+    },
+    {
+      "selector": "#assistStatus",
+      "ratio": 7.468597460863627
+    },
+    {
+      "selector": "aside summary",
+      "ratio": 11.435955089869655
+    },
+    {
+      "selector": "#inspectionValues dt",
+      "ratio": 8.151362080210516
+    }
+  ],
+  "visibility": [
+    {
+      "running": true,
+      "method": "native Chrome window minimize/restore",
+      "proven": false,
+      "events": []
+    },
+    {
+      "running": false,
+      "method": "native Chrome window minimize/restore",
+      "proven": false,
+      "events": []
+    }
+  ],
+  "checks": [
+    "exact baseline/candidate trace at 0/1/40/120/180 steps with small push; exported snapshot, inspector/joint readout and feedback semantics unchanged",
+    "measured key text contrast >=4.5:1, keyboard Tab order and visible focus; keyboard Space advances one paused step",
+    "real Escape in textarea preserves running assist; Escape outside form and while grabbing stops safely without a throw",
+    "zero-sized stage skips drawing, preserves finite projection and explicit step contract; restoration resumes rendering",
+    "NOT PROVEN native Hidden/Resume; no synthetic substitute",
+    "native browser zoom changes CSS viewport with reachable Safety; portrait scroll keeps Run/Safety/Assist pinned; short landscape retains scrollable 220px stage"
+  ],
+  "errors": []
+}

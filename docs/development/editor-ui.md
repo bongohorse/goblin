@@ -18,8 +18,6 @@ Tooltips ergänzen kurze englische Labels; aufklappbare Hilfe stellt dieselben I
 
 Finale Head-/Buildidentität, Rohbelege, Tests/CI und Release sind in #113/#88/PR verlinkt. Kein neues Forschungsprogramm und keine Umsetzung von #98/#103.
 
-## Finales Layout
-
 ## Nachprüfung und Korrektur zu #113
 
 Der erste Abschluss war zu großzügig: Der40-Step-Test verglich Display OFF/ON innerhalb des Kandidaten, nicht den Stand vor dem Umbau. Escape in Textfeldern/Dialogen, echte Browserzoomänderung, Kontrastmessung und Nullgröße waren nicht gezielt belegt. Im Portrait verschwanden Toolbar und Status beim Scrollen zu den Panels. Eine explizite Zustands-/Fokusmatrix fehlte; der historische Textentwurf war vorhanden, die Matrix wurde erst hier nachgetragen.
@@ -39,6 +37,10 @@ Korrekturen: Header/Transport sind im Dokumentfluss sticky; schmale/kurze Viewpo
 `tests/editor-review-browser.cjs` vergleicht die native Produktionsbasis `ffd7807` und den Kandidaten bei0/1/40/120/180 Steps mit identischem kleinen Push. Snapshot-, Body-/Jointreadout und Feedback-Semantik sind exakt gleich. Native Keyboard-Escape/Form/Dialog/Grab, Tab/Space, großes Reflow bei aktivem Griff, Nullgröße/Restore, echter Chrome-Seitenzoom200% (640×360 CSSpx, DPR2) im eigenen Wegwerfprofil, Portrait-Scroll und480×240 bestehen. Gemessene zentrale Textkontraste7.47:1 bis11.68:1. Keine Konsolenfehler. Screenshots und Rohvergleich werden im zugehörigen PR/Issue verlinkt.
 
 Native Hidden/Resume bleibt nach zwei begrenzten echten Fenster-Minimize-/Restoreproben ohne `visibilitychange` **offen**; kein synthetischer Ersatz und keine gelockerte Akzeptanz. Mobilhardware und Screenreader-Geräteabnahme sind ebenfalls nicht behauptet. Der historische G2-Fehlbefund bleibt dokumentiert; dieser Nachtrag verändert keine Physik oder Schwellen.
+
+[Nachprüfungsdaten](../evidence/issue113/review-result.json) · [Basis vor Umbau](../evidence/issue113/review-baseline.png) · [Kandidat](../evidence/issue113/review-candidate.png) · [200% Browserzoom](../evidence/issue113/review-zoom.png) · [Portrait mit Panel-Scroll](../evidence/issue113/review-portrait-scroll.png) · [Kurzes Querformat](../evidence/issue113/review-short-landscape.png). Native Quelle: `a20948b`, Build `5d82df1aae4ac2b9`, tracked inputs clean. Ungekürzte Baseline-/Kandidattraces und JSON-Downloads: `goblin-editor-review-V7NUMf/native-parity.json` unter Windows-Temp.
+
+## Layout und Archivkorrektur aus PR #115 (historisch)
 
 Reviewkorrekturen: Die sichtbaren Zeit-/Stepzahlen liegen außerhalb der Live-Region; nur geänderte Run-/Safetyphasen werden angekündigt. Der historische #79-Ledger enthält auch Arena-UI und Browserfixture. Deren ursprüngliche Bytes sind nun bytegenau unter `frozen-inputs` gesichert; bestehende historische Hashes bleiben unverändert. Explizite aktuelle Review-Pins akzeptieren ausschließlich die geprüfte #113-UI/QA-Version, einschließlich Mutationstests. Dies ist Archivkompatibilität, keine neue Physik- oder Standing-Abnahme.
 
