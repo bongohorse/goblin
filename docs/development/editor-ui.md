@@ -22,6 +22,8 @@ Finale Head-/Buildidentität, Rohbelege, Tests/CI und Release sind in #113/#88/P
 
 Reviewkorrekturen: Die sichtbaren Zeit-/Stepzahlen liegen außerhalb der Live-Region; nur geänderte Run-/Safetyphasen werden angekündigt. Der historische #79-Ledger enthält auch Arena-UI und Browserfixture. Deren ursprüngliche Bytes sind nun bytegenau unter `frozen-inputs` gesichert; bestehende historische Hashes bleiben unverändert. Explizite aktuelle Review-Pins akzeptieren ausschließlich die geprüfte #113-UI/QA-Version, einschließlich Mutationstests. Dies ist Archivkompatibilität, keine neue Physik- oder Standing-Abnahme.
 
+Screenshot-Satz: native Chrome156.0.8078.4, eigener temporärer Playwright-Profile, Build `a3af22bd8e66c2db`, identische finale UI-Quelldateien in allen vier Bildern; Desktop1280×720, Landscape744×360, Portrait390×844 (Scrollbar reduziert die Inhaltsbreite). Letzter visueller Fix: Grid-/Status-Minimum und nicht schrumpfender Assistindikator verhindern dessen Abschneiden neben der Portrait-Scrollbar. Der Browsercheck prüft nun ausdrücklich dessen rechte Grenze.
+
 ![Desktop](../evidence/issue113/desktop.png)
 ![Inspector](../evidence/issue113/inspector.png)
 ![Small landscape](../evidence/issue113/landscape.png)
