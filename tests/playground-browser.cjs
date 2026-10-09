@@ -23,6 +23,7 @@ async function main(){
       url:arg('--url'),viewport:{width:1280,height:720},environment:initial.environment,build:initial.build};
     if(process.argv.includes('--issue100')){
       const buttons={perspective:'cameraPerspective',front:'cameraFront',side:'side',top:'cameraTop'},saved={};
+      for(const id of Object.values(buttons)){const r=await page.locator('#'+id).boundingBox();assert.ok(r.y>=0&&r.y+r.height<=720,'view switches visible on entry');}
       const physics=initial.final,memory=initial.rendererMemory;
       await page.locator('summary').filter({hasText:'Kamera'}).click();
       for(const [mode,id] of Object.entries(buttons)){
@@ -61,6 +62,8 @@ async function main(){
         assert.deepEqual(liveChange.after,liveChange.before);await page.locator('#reset').click();
       }
       await page.setViewportSize({width:744,height:360});await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
+      await page.locator('aside').evaluate(a=>{a.scrollTop=0;});
+      for(const id of Object.values(buttons)){const r=await page.locator('#'+id).boundingBox();assert.ok(r.y>=0&&r.y+r.height<=360,'landscape switches visible at top');}
       for(const [mode,id] of Object.entries(buttons)){
         await page.locator('#'+id).click();await page.locator('#cameraFrame').click();
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
