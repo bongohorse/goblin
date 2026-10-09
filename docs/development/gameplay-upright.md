@@ -1,3 +1,15 @@
+# Nachgabeversuch — 09.10.2026, in Prüfung
+
+Vorab fixiert: https://github.com/bongohorse/goblin/issues/94#issuecomment-6072289713
+
+Nur begrenzte pelvis-/torso-Up-Torques werden nach kleinem Schubser im Ready zeitweise skaliert. B: Faktor1; Y1:0 für12Steps +18Steps lineare Wiederherstellung; Y2:0 für24Steps +24Steps Wiederherstellung. Keine andere Hilfe/Gains/Pose/Impulse geändert. Timer ausschließlich1/60s-Schritte; interrupt/reset löschen das Fenster, keine automatische Aktivierung. URL-Presets ?yield=B/Y1/Y2, keine Regler. Aktive Phase/Faktor im Status.
+
+Budget maximal8; erste3 vergleichen B/Y1/Y2 bei0,4Ns nach2s. Kein sicherer Gain≥0,5° gegenüber B → STOPP nach3. Altes2°-Gate bleibt separat verbindlich; native Lesbarkeit separat. Ergebnisse folgen nach dem festgelegten Versuch, keine Erfolgsaussage.
+
+---
+
+## Historische Browserphase 08.10.2026 (unverändert)
+
 # Gameplay B — lokaler Browser-Prototyp, weiterhin kein #94-Pass
 
 Freigegebener Beobachtungsschritt aus [#94](https://github.com/bongohorse/goblin/issues/94#issuecomment-6066134419), Draft [#95](https://github.com/bongohorse/goblin/pull/95).

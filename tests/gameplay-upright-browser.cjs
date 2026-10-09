@@ -4,9 +4,10 @@ const fs=require('node:fs/promises'),path=require('node:path'),os=require('node:
 const {chromium}=require('playwright');
 const flag=name=>{const i=process.argv.indexOf(name);return i<0?null:process.argv[i+1];};
 const url='http://127.0.0.1:4174/goblin/gameplay/upright/';
+const yielding=process.argv.includes('--run-approved-yield');
 const p95=a=>a.length?a.slice().sort((a,b)=>a-b)[Math.ceil(a.length*.95)-1]:null;
 async function main(){
-  if(!process.argv.includes('--run-approved-eight'))throw Error('Explicit eight-sequence flag required. Never run through npm test.');
+  if(!process.argv.includes('--run-approved-eight')&&!yielding)throw Error('Explicit eight-sequence flag required. Never run through npm test.');
   const executable=flag('--executable');if(!executable)throw Error('Confirmed native Chrome executable required.');
   const out=path.resolve(flag('--out')||'');if(!flag('--out'))throw Error('Fresh output directory required.');
   await fs.mkdir(out); // No overwrite/retry after budget expenditure.
@@ -15,7 +16,7 @@ async function main(){
   const context=await chromium.launchPersistentContext(profile,{executablePath:executable,headless:false,
     viewport:{width:1280,height:720},deviceScaleFactor:1,ignoreDefaultArgs:ignored,args:['--enable-automation'],
     recordVideo:{dir:out,size:{width:1280,height:720}}});
-  const results=[],errors=[],warnings=[],badResponses=[];
+  const results=[],errors=[],warnings=[],badResponses=[];let selected=null;
   const browser=context.browser(),identity={version:browser.version(),executable:path.basename(executable),
     executable_sha256:crypto.createHash('sha256').update(await fs.readFile(executable)).digest('hex'),
     profile:'isolated goblin-B-native temporary profile',profile_identity:crypto.createHash('sha256').update(profile).digest('hex'),
@@ -29,7 +30,8 @@ async function main(){
       page.on('pageerror',e=>errors.push({number,message:e.message}));
       page.on('console',m=>{if(m.type()==='error')errors.push({number,message:m.text()});if(m.type()==='warning')warnings.push({number,message:m.text()});});
       page.on('response',r=>{if(r.status()>=400)badResponses.push({number,url:r.url(),status:r.status()});});
-      await page.goto(url);await page.waitForFunction(()=>window.uprightDiagnostics);
+      const profileId=yielding?(number===1?'B':number===2?'Y1':number===3?'Y2':selected):'B';
+      await page.goto(url+(yielding?'?yield='+profileId:''));await page.waitForFunction(()=>window.uprightDiagnostics);
       if(number===1){
         const cdp=await context.newCDPSession(page);
         const args=await cdp.send('Browser.getBrowserCommandLine');
@@ -39,17 +41,20 @@ async function main(){
       }
       const diagnostic=()=>page.evaluate(()=>uprightDiagnostics());
       const waitStep=step=>page.waitForFunction(n=>uprightDiagnostics().final.steps>=n||uprightDiagnostics().final.invalid,step,{timeout:30000});
-      if(number===1)await page.locator('#assisted').uncheck();
-      if(number===7)await page.locator('#obstacle').check();
+      if(!yielding&&number===1)await page.locator('#assisted').uncheck();
+      if(!yielding&&number===7)await page.locator('#obstacle').check();
       await page.locator('#reset').click();
       const initial=await diagnostic();
       let inputSnapshot=null,resetSnapshot=null,pauseEvidence=null;
-      if(number===3||number===4||number===5)await page.locator('#schedule').check();
-      await fs.writeFile(path.join(out,'budget.json'),JSON.stringify({started:number,completed:results.length,maxSequences:8}));
+      if(yielding||number===3||number===4||number===5)await page.locator('#schedule').check();
+      await fs.writeFile(path.join(out,'budget.json'),JSON.stringify({started:number,completed:results.length,maxSequences:8,mode:yielding?'approved-yield':'original-B'}));
       await page.locator('#play').click();
-      if(number===3||number===4||number===5)await page.locator(number===5?'#strong':'#small').click();
-      if(number===6||number===7||number===8){
-        await waitStep(120);
+      if(yielding)await page.locator('#small').click();
+      else if(number===3||number===4||number===5)await page.locator(number===5?'#strong':'#small').click();
+      if(yielding&&number===5){await waitStep(126);await page.locator('#schedule').uncheck();await page.locator('#strong').click();}
+      if(yielding&&number===7){await waitStep(126);await page.locator('#assistOff').click();}
+      if(number===6||(!yielding&&number===7)||number===8){
+        await waitStep(yielding?126:120);
         const d=await diagnostic(),hand=d.parts.find(p=>p.id==='handL').screen;
         await page.mouse.move(hand.x,hand.y);await page.mouse.down();
         inputSnapshot=await diagnostic();
@@ -69,7 +74,7 @@ async function main(){
           await waitStep(number===7?240:210);await page.mouse.up();
         }
       }
-      await waitStep(number===5?440:number===6?440:number===8?180:600);
+      await waitStep(number===5?440:number===6?440:number===8?180:yielding&&number===7?330:600);
       let observed=await diagnostic();
       if(!observed.paused)await page.locator('#play').click(); // Pause before another physics step, no continuation.
       const end=await diagnostic(),trace=await page.evaluate(()=>uprightTrace());
@@ -78,11 +83,27 @@ async function main(){
         finalState:observed.trace.at(-1).state,finalReason:observed.trace.at(-1).reason,invalid:observed.final.invalid,
         frameIntervalP95Ms:p95(observed.frameIntervals),observerPhysicsPerFrameP95Ms:p95(observed.stepCosts.map(x=>x.ms)),
         maxAnchorError:Math.max(...observed.trace.map(x=>x.maxAnchorError)),inputSnapshot,resetSnapshot,pauseEvidence};
+      if(yielding){
+        const pre=observed.trace.find(t=>t.step===120);
+        const window=observed.trace.filter(t=>t.step>120&&t.step<=240);
+        const tail=observed.trace.filter(t=>t.step>=240);
+        const additional=(Math.max(...window.map(t=>t.torso.tilt))-(pre?.torso.tilt||0))*180/Math.PI;
+        Object.assign(summary,{profileId,additionalTiltDeg:additional,oldTwoDegreePass:additional>=2,
+          safeReturn:tail.length>0&&tail.every(t=>t.assisted&&t.pelvis.tilt<=Math.PI/12&&t.torso.tilt<=Math.PI/12&&
+            t.metrics.pelvisHeight>=.95&&t.metrics.pelvisHeight<=1.25&&!t.metrics.nonFootFloor.length)&&
+            !observed.trace.some(t=>t.invalid||t.maxAnchorError>.15)});
+      }
       // Keep actual trace plus API audit. These are command observations, not measured solver motor torques.
       results.push({summary,initial,observed,end,trace});
-      await fs.writeFile(path.join(out,'results.json'),JSON.stringify({identity,url,results,errors,warnings,badResponses}));
+      await fs.writeFile(path.join(out,'results.json'),JSON.stringify({identity,url,mode:yielding?'approved-yield':'original-B',selected,results,errors,warnings,badResponses}));
       await page.close();await video.saveAs(path.join(out,'sequence-'+number+'.webm'));
       console.log(JSON.stringify({number,seconds:summary.simulatedSeconds,state:summary.finalState,reason:summary.finalReason,invalid:summary.invalid}));
+      if(yielding&&number===3){
+        const reference=results[0].summary.additionalTiltDeg;
+        selected=results.slice(1).find(r=>r.summary.safeReturn&&r.summary.additionalTiltDeg-reference>=.5)?.summary.profileId||null;
+        await fs.writeFile(path.join(out,'decision.json'),JSON.stringify({selected,reference,minimumGainDeg:.5}));
+        if(!selected){console.log('No measurable safe benefit in either fixed variant: STOP after 3/8.');break;}
+      }
       if(summary.invalid||pauseEvidence?.preResetSnapshot?.final.invalid||summary.maxAnchorError>.15||end.final.time+(pauseEvidence?.simulatedSeconds||0)>10||errors.length||badResponses.length){
         console.log('Safety/technical stop: no remaining observation started.');break;
       }

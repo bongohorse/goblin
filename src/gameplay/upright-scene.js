@@ -9,7 +9,8 @@ const $=id=>document.getElementById(id);
 const build=__GAMEPLAY_BUILD__;
 try{
   await R.init();
-  const sim=new UprightSlice({config:CONFIG_B}),session=new UprightSession(sim);
+  const yieldProfile=new URLSearchParams(location.search).get('yield')||'B';
+  const sim=new UprightSlice({config:CONFIG_B,yieldProfile}),session=new UprightSession(sim);
   const canvas=document.querySelector('canvas'),view=$('view');
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
   renderer.setClearColor(0x152832);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
@@ -74,7 +75,7 @@ try{
     $('play').textContent=session.paused?(sim.steps>=600?'Fenster beendet':'Start / Fortsetzen'):'Pause';
     $('play').disabled=!!sim.invalid||sim.steps>=600||document.hidden;
     $('small').disabled=$('strong').disabled=session.paused||!!sim.invalid;
-    $('status').textContent=(session.paused?'PAUSE · ':'')+sim.state+' · t='+(sim.steps/60).toFixed(2)+' s\nAssist '+(sim.enabled?'EIN':'AUS')+' · '+sim.reason+(session.lastRun?'\nLetzter Physikstep: '+session.lastRun.final.state:'');
+    $('status').textContent=(session.paused?'PAUSE · ':'')+sim.state+' · t='+(sim.steps/60).toFixed(2)+' s\nAssist '+(sim.enabled?'EIN':'AUS')+' · '+sim.reason+'\nUp '+sim.upAssist().phase+' · '+Math.round(sim.upAssist().factor*100)+' % · '+sim.yieldProfile+(session.lastRun?'\nLetzter Physikstep: '+session.lastRun.final.state:'');
     const token=sim.lastHit?sim.lastHit.step+':'+sim.lastHit.strength:null;
     if(token!==null&&token!==lastHitToken){lastHitToken=token;$('input').textContent=(sim.lastHit.strength===3.2?'Starker':'Kleiner')+' Schubser ausgelöst · t='+(sim.lastHit.step/60).toFixed(2)+' s';}
     $('metrics').textContent='t '+(sim.steps/60).toFixed(2)+' s · Torso '+(sim.metrics.torsoTilt*180/Math.PI).toFixed(3)+'° · Motor-Cap '+sim.commands.motorCap+' Nm · Stützkraft '+sim.commands.support.toFixed(2)+' N · Bodies/Joints '+sim.world.bodies.len()+'/'+sim.world.impulseJoints.len();

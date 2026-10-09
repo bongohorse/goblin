@@ -66,7 +66,7 @@ export class UprightSession {
   capture(){
     const s=this.sim.snapshot(),torso=s.parts.find(p=>p.id==='torso'),pelvis=s.parts.find(p=>p.id==='pelvis');
     const commands=this.audit?[...this.audit.ledger.values()]:[];
-    this.trace.push({step:s.steps,time:s.time,state:s.state,reason:s.reason,assisted:s.assisted,
+    this.trace.push({step:s.steps,time:s.time,state:s.state,reason:s.reason,assisted:s.assisted,upAssist:s.upAssist,
       torso:{position:torso.position,rotation:torso.rotation,up:rotate({x:0,y:1,z:0},torso.rotation),velocity:torso.velocity,angularVelocity:torso.angularVelocity,tilt:s.metrics.torsoTilt},
       pelvis:{position:pelvis.position,rotation:pelvis.rotation,tilt:s.metrics.pelvisTilt},
       commands:s.commands,motorEnabled:s.motorEnabled,motorAxes:commands.length,
