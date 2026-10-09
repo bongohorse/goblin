@@ -10,7 +10,8 @@ const build=__GAMEPLAY_BUILD__;
 try{
   await R.init();
   const yieldProfile=new URLSearchParams(location.search).get('yield')||'B';
-  const sim=new UprightSlice({config:CONFIG_B,yieldProfile}),session=new UprightSession(sim);
+  const reaction=new URLSearchParams(location.search).get('reaction')||'B';
+  const sim=new UprightSlice({config:CONFIG_B,yieldProfile,reaction}),session=new UprightSession(sim);
   // V2 changes only the observation duration; same B/controller/step path.
   if(new URLSearchParams(location.search).get('observe')==='v2'){session.windowLimit=360;document.querySelector('details p:last-child').textContent='V2: maximal 6 s, dann Pause; keine Gameplay-Abnahme.';}
   const canvas=document.querySelector('canvas'),view=$('view');
@@ -77,7 +78,7 @@ try{
     $('play').textContent=session.paused?(sim.steps>=session.windowLimit?'Fenster beendet':'Start / Fortsetzen'):'Pause';
     $('play').disabled=!!sim.invalid||sim.steps>=session.windowLimit||document.hidden;
     $('small').disabled=$('strong').disabled=session.paused||!!sim.invalid;
-    $('status').textContent=(session.paused?'PAUSE · ':'')+sim.state+' · t='+(sim.steps/60).toFixed(2)+' s\nAssist '+(sim.enabled?'EIN':'AUS')+' · '+sim.reason+'\nUp '+sim.upAssist().phase+' · '+Math.round(sim.upAssist().factor*100)+' % · '+sim.yieldProfile+(session.lastRun?'\nLetzter Physikstep: '+session.lastRun.final.state:'');
+    $('status').textContent=(session.paused?'PAUSE · ':'')+sim.state+' · t='+(sim.steps/60).toFixed(2)+' s\nAssist '+(sim.enabled?'EIN':'AUS')+' · '+sim.reason+'\nUp '+sim.upAssist().phase+' · '+Math.round(sim.upAssist().factor*100)+' % · '+sim.yieldProfile+'\nZiel '+sim.targetAssist().id+' · '+sim.targetAssist().phase+' · '+(sim.targetAssist().angle*180/Math.PI).toFixed(2)+'° · gestaltete Gameplayhilfe'+(session.lastRun?'\nLetzter Physikstep: '+session.lastRun.final.state:'');
     const token=sim.lastHit?sim.lastHit.step+':'+sim.lastHit.strength:null;
     if(token!==null&&token!==lastHitToken){lastHitToken=token;$('input').textContent=(sim.lastHit.strength===3.2?'Starker':'Kleiner')+' Schubser ausgelöst · t='+(sim.lastHit.step/60).toFixed(2)+' s';}
     $('metrics').textContent='t '+(sim.steps/60).toFixed(2)+' s · Torso '+(sim.metrics.torsoTilt*180/Math.PI).toFixed(3)+'° · Motor-Cap '+sim.commands.motorCap+' Nm · Stützkraft '+sim.commands.support.toFixed(2)+' N · Bodies/Joints '+sim.world.bodies.len()+'/'+sim.world.impulseJoints.len();
@@ -85,7 +86,7 @@ try{
   const gl=renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');
   const environment={userAgent:navigator.userAgent,platform:navigator.platform,dpr:devicePixelRatio,renderDpr:renderer.getPixelRatio(),
     backend:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),webgl:gl.getParameter(gl.VERSION)};
-  function report(){return {build,environment,observationIdentity:{mass:sim.mass,dt:1/60,nativeTimestep:sim.world.timestep,config:sim.config,yieldProfile:sim.yieldProfile,gravity:{...sim.world.gravity},sources:build.physics_sha256},
+  function report(){return {build,environment,observationIdentity:{mass:sim.mass,dt:1/60,nativeTimestep:sim.world.timestep,config:sim.config,yieldProfile:sim.yieldProfile,reaction:sim.reaction,gravity:{...sim.world.gravity},sources:build.physics_sha256},
     observationCamera:{position:camera.position.toArray(),quaternion:camera.quaternion.toArray(),fov:camera.fov,projection:camera.projectionMatrix.toArray(),view:camera.matrixWorldInverse.toArray(),canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},...session.report(),lastPhysicsState:session.trace.at(-1)?.state,frameIntervals:frameIntervals.slice(),stepCosts:stepCosts.slice()};}
   window.uprightDiagnostics=()=>({...report(),pointerId,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation())})),blockScreen:project({x:1.35,y:1,z:0})});
   window.uprightTrace=()=>({build,environment,...(session.lastRun||session.report())});

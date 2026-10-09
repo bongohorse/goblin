@@ -13,12 +13,25 @@ export const LIMITS = Object.freeze({supportWeight:1.25, bodyTorque:20, jointTor
 export const YIELD_PROFILES=Object.freeze({B:Object.freeze({hold:0,restore:0}),
   Y1:Object.freeze({hold:12,restore:18}),Y2:Object.freeze({hold:24,restore:24})});
 const UP={x:0,y:1,z:0};
+// One frozen, labelled gameplay candidate. Step time only; no body writes.
+export const TARGET_REACTION=Object.freeze({id:'T1',angle:Math.PI/30,rise:6,hold:12,restore:42});
+const smooth=t=>t*t*(3-2*t);
+export function targetAtStep(elapsed){
+  if(!Number.isInteger(elapsed)||elapsed<0||elapsed>=60)return {phase:'NEUTRAL',angle:0,up:{...UP}};
+  const {rise,hold,restore,angle}=TARGET_REACTION;
+  const phase=elapsed<rise?'RISE':elapsed<rise+hold?'HOLD':'RETURN';
+  const amount=elapsed<rise?smooth(elapsed/rise):elapsed<rise+hold?1:1-smooth((elapsed-rise-hold)/restore);
+  const alpha=angle*amount;
+  return {phase,angle:alpha,up:{x:Math.sin(alpha),y:Math.cos(alpha),z:0}};
+}
 const cap=(v,n)=>norm(v)>n?scale(v,n/norm(v)):v;
 export const upAngle=body=>Math.acos(Math.max(-1,Math.min(1,rotate(UP,body.rotation()).y)));
 
 export class UprightSlice {
-  constructor({config=ASSIST_CONFIG, assisted=true, obstacle=false,yieldProfile='B'}={}) {
+  constructor({config=ASSIST_CONFIG, assisted=true, obstacle=false,yieldProfile='B',reaction='B'}={}) {
     if(!Object.hasOwn(YIELD_PROFILES,yieldProfile))throw Error('Invalid yield profile');
+    if(!['B','T1'].includes(reaction)||reaction==='T1'&&yieldProfile!=='B')throw Error('Invalid target reaction');
+    this.reaction=reaction;this.targetStart=null;
     this.yieldProfile=yieldProfile;this.yieldStart=null;
     const bounds={stiffness:100,damping:12,max_torque_Nm:20,supportFraction:1.25,
       heightStiffness:1000,heightDamping:200,upStiffness:200,upDamping:40};
@@ -51,6 +64,10 @@ export class UprightSlice {
     return {profile:this.yieldProfile,phase:elapsed<hold?'YIELD':'RESTORE',
       factor:elapsed<hold?0:(elapsed-hold)/restore,remaining:(hold+restore-elapsed)/60};
   }
+  targetAssist(){
+    if(!this.enabled)return {id:this.reaction,phase:'OFF',angle:0,up:{...UP}};
+    return {id:this.reaction,...targetAtStep(this.reaction==='T1'&&this.targetStart!==null?this.steps-this.targetStart:60)};
+  }
   clearWorldCommands(){for(const {body} of this.rig.byId.values()){body.resetForces(false);body.resetTorques(false);}this.commands={support:0,torques:{},motorCap:0,upFactor:0};}
   motors(enabled){
     const gains=enabled?this.config:{stiffness:0,damping:0,max_torque_Nm:0};
@@ -59,7 +76,7 @@ export class UprightSlice {
     this.motorEnabled=enabled;
   }
   interrupt(reason){
-    this.yieldStart=null;this.enabled=false;this.reason=reason;if(!this.invalid)this.state='DYNAMIC';
+    this.yieldStart=null;this.targetStart=null;this.enabled=false;this.reason=reason;if(!this.invalid)this.state='DYNAMIC';
     this.clearWorldCommands();this.motors(false);
   }
   reset({assisted=this.assisted,obstacle=this.obstacleEnabled}={}){
@@ -77,6 +94,7 @@ export class UprightSlice {
     if(this.invalid)return;
     if(strong)this.interrupt('strong-push');
     else if(this.enabled&&this.state==='ASSISTED_READY'&&!this.grab.active&&this.yieldProfile!=='B'&&this.upAssist().phase==='FULL')this.yieldStart=this.steps;
+    if(!strong&&this.reaction==='T1'&&this.enabled&&this.state==='ASSISTED_READY'&&!this.grab.active&&this.targetAssist().phase==='NEUTRAL')this.targetStart=this.steps;
     const body=this.rig.byId.get('torso').body;
     // Same collider-local point for both strengths, fixed before diagnostics.
     const point=worldAnchor(body,{x:0,y:.30,z:0}),strength=strong?3.2:.4;
@@ -94,10 +112,11 @@ export class UprightSlice {
     const force=Math.max(0,Math.min(LIMITS.supportWeight*this.mass*9.81,
       this.config.supportFraction*this.mass*9.81+this.config.heightStiffness*(target-pelvis.translation().y)-this.config.heightDamping*pelvis.linvel().y));
     pelvis.addForce({x:0,y:force,z:0},true);this.commands.support=force;
+    const targetUp=this.targetAssist().up;
     for(const id of ['pelvis','torso']){
       const body=this.rig.byId.get(id).body,up=rotate(UP,body.rotation()),w=body.angvel();
       const tiltVelocity=sub(w,scale(up,w.x*up.x+w.y*up.y+w.z*up.z));
-      const boundedTorque=cap(sub(scale(cross(up,UP),this.config.upStiffness),scale(tiltVelocity,this.config.upDamping)),LIMITS.bodyTorque);
+      const boundedTorque=cap(sub(scale(cross(up,targetUp),this.config.upStiffness),scale(tiltVelocity,this.config.upDamping)),LIMITS.bodyTorque);
       const torque=scale(boundedTorque,this.commands.upFactor);
       body.addTorque(torque,true);this.commands.torques[id]={...torque};
     }
@@ -145,7 +164,7 @@ export class UprightSlice {
     return true;
   }
   snapshot(){return {config:this.config,state:this.state,reason:this.reason,steps:this.steps,time:this.steps/60,
-    assisted:this.enabled,upAssist:this.upAssist(),invalid:this.invalid,commands:structuredClone(this.commands),motorEnabled:this.motorEnabled,metrics:structuredClone(this.metrics),
+    assisted:this.enabled,upAssist:this.upAssist(),targetAssist:this.targetAssist(),invalid:this.invalid,commands:structuredClone(this.commands),motorEnabled:this.motorEnabled,metrics:structuredClone(this.metrics),
     grab:this.grab.diagnostics,counts:{bodies:this.world.bodies.len(),colliders:this.world.colliders.len(),joints:this.world.impulseJoints.len()},
     parts:[...this.rig.byId.values()].map(({spec,body})=>({id:spec.id,handle:body.handle,position:{...body.translation()},rotation:{...body.rotation()},velocity:{...body.linvel()},angularVelocity:{...body.angvel()},force:{...body.userForce()},torque:{...body.userTorque()}}))};}
   dispose(){this.grab.cancel('destroy');this.interrupt('destroy');this.world.free();}

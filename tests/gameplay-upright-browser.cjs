@@ -5,6 +5,7 @@ const {chromium}=require('playwright');
 const flag=name=>{const i=process.argv.indexOf(name);return i<0?null:process.argv[i+1];};
 const url='http://127.0.0.1:4174/goblin/gameplay/upright/';
 const yielding=process.argv.includes('--run-approved-yield');
+const targetTrial=process.argv.includes('--run-approved-target');
 const v2=process.argv.includes('--run-approved-v2');
 const p95=a=>a.length?a.slice().sort((a,b)=>a-b)[Math.ceil(a.length*.95)-1]:null;
 
@@ -55,8 +56,64 @@ async function runV2({context,identity,out,errors,warnings,badResponses}){
   await save();console.log('V2 finished '+records.length+'/4; no automatic gameplay PASS.');
 }
 
+
+// Frozen T1 contract:6 starts max; every started world counts, no retry.
+async function runTarget({context,identity,out,errors,warnings,badResponses}){
+  const {comparePair}=await import('../src/gameplay/upright-comparison.js');
+  const records=[],pairs=[];const plan=['B-R','B-P','T1-R','T1-P','T1-grab-off-reset','T1-small-strong'];
+  const save=async()=>fs.writeFile(path.join(out,'results.json'),JSON.stringify({version:'V2-T1',identity,plan,records,pairs,errors,warnings,badResponses}));
+  const budget=async(started)=>fs.writeFile(path.join(out,'budget.json'),JSON.stringify({started,completed:records.length,maxSequences:6,secondsPerSequence:6,plan}));
+  await budget(0);
+  for(let n=1;n<=6;n++){
+    const reaction=n<=2?'B':'T1',role=n<=4?(n%2?'reference':'input'):'safety',pairId=n<=4?reaction:null;
+    console.log('T1 '+n+'/6 '+plan[n-1]);
+    const page=await context.newPage(),video=page.video();
+    page.on('pageerror',e=>errors.push({number:n,message:e.message}));
+    page.on('console',m=>{if(m.type()==='error')errors.push({number:n,message:m.text()});if(m.type()==='warning')warnings.push({number:n,message:m.text()});});
+    page.on('response',r=>{if(r.status()>=400)badResponses.push({number:n,url:r.url(),status:r.status()});});
+    await page.goto(url+'?reaction='+reaction+'&yield=B&observe=v2');await page.waitForFunction(()=>window.uprightDiagnostics);await page.bringToFront();
+    await page.locator('#reset').click();const initial=await page.evaluate(()=>uprightDiagnostics());
+    if(initial.final.steps!==0||!initial.paused||initial.windowLimit!==360||initial.observationIdentity.reaction!==reaction)throw Error('Frozen initial identity invalid; not started');
+    if(n===1){const cdp=await context.newCDPSession(page);const args=await cdp.send('Browser.getBrowserCommandLine');identity.launchArguments=args.arguments.map(a=>a.startsWith('--user-data-dir=')?'--user-data-dir=<isolated-profile>':a===flag('--executable')?'<confirmed-native-chrome>':a);identity.environment=initial.environment;await cdp.detach();}
+    if(role!=='reference')await page.locator('#schedule').check();
+    await budget(n);await page.locator('#play').click();
+    if(role!=='reference')await page.locator('#small').click();
+    const diag=()=>page.evaluate(()=>uprightDiagnostics());const wait=step=>page.waitForFunction(s=>uprightDiagnostics().final.steps>=s||uprightDiagnostics().final.invalid,s,{timeout:30000});
+    let interaction=null,reset=null;
+    if(n>=5){
+      await wait(126);const before=await diag();
+      if(before.final.invalid)throw Error('Safety abort before interaction');
+      if(n===5){
+        const hand=before.parts.find(p=>p.id==='handL').screen;
+        await page.mouse.move(hand.x,hand.y);await page.mouse.down();const grabbed=await diag();
+        interaction={before:before.final,grabbed:grabbed.final};
+        await page.mouse.move(hand.x+100,hand.y-70,{steps:12});await wait(180);await page.mouse.up();
+        await page.locator('#assistOff').click();interaction.afterOff=(await diag()).final;
+      }else{
+        await page.locator('#schedule').uncheck();await page.locator('#strong').click();interaction={before:before.final,after:(await diag()).final};
+      }
+    }
+    await wait(360);const end=await diag();
+    if(n===5){await page.locator('#reset').click();reset=(await diag()).final;}
+    const record={role,pairId,number:n,identity:{...end.observationIdentity,build:end.build,environment:end.environment,viewport:end.viewport},camera:end.observationCamera,trace:end.trace,events:end.events,initial:initial.final,final:end.final,interaction,reset};
+    records.push(record);await budget(n);await page.screenshot({path:path.join(out,'sequence-'+n+'.png')});await save();await page.close();await video.saveAs(path.join(out,'sequence-'+n+'.webm'));
+    if(end.final.steps!==360||record.trace.some(t=>t.invalid||t.maxAnchorError>.15)||errors.length||badResponses.length){console.log('Technical/safety STOP; no replacement');break;}
+    if(n===2||n===4){
+      const p=comparePair(records.at(-2),record);pairs.push(p);await save();console.log(JSON.stringify({pairId,valid:p.Q.valid,legacy:p.Q.legacyV1,safety:p.S}));
+      if(!p.Q.valid||!p.S.inputSafe||!p.S.referenceSafe||!p.S.returnEnvelopeAtTwoSeconds){console.log('Invalid/unsafe pair STOP');break;}
+    }
+    if(n===4){
+      console.log('WAITING_FOR_H_REVIEW: clips saved; write decision.json {continueSafety:true} only on visible benefit, else false. No physics while waiting.');
+      let decision=null;
+      for(let poll=0;poll<900;poll++){try{decision=JSON.parse(await fs.readFile(path.join(out,'decision.json'),'utf8'));break;}catch(e){if(e.code!=='ENOENT')throw e;}await new Promise(r=>setTimeout(r,1000));}
+      if(decision?.continueSafety!==true){console.log('No visible benefit or review timeout: STOP after4/6');break;}
+    }
+  }
+  await save();console.log('Target trial finished '+records.length+'/6; no automatic V2 PASS');
+}
+
 async function main(){
-  if(!process.argv.includes('--run-approved-eight')&&!yielding&&!v2)throw Error('Explicit eight-sequence flag required. Never run through npm test.');
+  if(!process.argv.includes('--run-approved-eight')&&!yielding&&!v2&&!targetTrial)throw Error('Explicit eight-sequence flag required. Never run through npm test.');
   const executable=flag('--executable');if(!executable)throw Error('Confirmed native Chrome executable required.');
   const out=path.resolve(flag('--out')||'');if(!flag('--out'))throw Error('Fresh output directory required.');
   await fs.mkdir(out); // No overwrite/retry after budget expenditure.
@@ -72,6 +129,7 @@ async function main(){
     os:os.platform()+' '+os.release()+' '+os.arch(),cpu:os.cpus()[0].model,headless:false,viewport:{width:1280,height:720},dpr:1,
     ignoredDefaultArgs:ignored};
   try{
+    if(targetTrial){await runTarget({context,identity,out,errors,warnings,badResponses});return;}
     if(v2){await runV2({context,identity,out,errors,warnings,badResponses});return;}
     // Keep the initial blank tab alive: closing the last tab terminates a persistent Chrome window.
     for(let number=1;number<=8;number++){

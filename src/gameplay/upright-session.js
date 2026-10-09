@@ -73,7 +73,7 @@ export class UprightSession {
   capture(){
     const s=this.sim.snapshot(),torso=s.parts.find(p=>p.id==='torso'),pelvis=s.parts.find(p=>p.id==='pelvis');
     const commands=this.audit?[...this.audit.ledger.values()]:[];
-    this.trace.push({step:s.steps,time:s.time,state:s.state,reason:s.reason,assisted:s.assisted,upAssist:s.upAssist,
+    this.trace.push({step:s.steps,time:s.time,state:s.state,reason:s.reason,assisted:s.assisted,upAssist:s.upAssist,targetAssist:s.targetAssist,
       torso:{position:torso.position,rotation:torso.rotation,up:rotate({x:0,y:1,z:0},torso.rotation),velocity:torso.velocity,angularVelocity:torso.angularVelocity,tilt:s.metrics.torsoTilt},
       pelvis:{position:pelvis.position,rotation:pelvis.rotation,tilt:s.metrics.pelvisTilt},
       commands:s.commands,motorEnabled:s.motorEnabled,motorAxes:commands.length,
@@ -83,7 +83,7 @@ export class UprightSession {
       metrics:s.metrics,grab:s.grab,counts:s.counts,invalid:s.invalid,
       observation:{points:Object.fromEntries(POINT_IDS.map(id=>{const p=s.parts.find(p=>p.id===id);return [id,structuredClone(p)];})),
         bodies:s.parts.map(p=>({...p,sleeping:this.sim.rig.byId.get(p.id).body.isSleeping()})),
-        controller:{config:s.config,yieldProfile:this.sim.yieldProfile,yieldStart:this.sim.yieldStart,noSupport:this.sim.noSupport,rest:this.sim.rest,
+        controller:{config:s.config,yieldProfile:this.sim.yieldProfile,yieldStart:this.sim.yieldStart,reaction:this.sim.reaction,targetStart:this.sim.targetStart,noSupport:this.sim.noSupport,rest:this.sim.rest,
           obstacle:this.sim.obstacleEnabled,lastHit:structuredClone(this.sim.lastHit)}}});
   }
   tick(now){
