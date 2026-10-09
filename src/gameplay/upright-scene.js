@@ -95,7 +95,7 @@ try{
   }
   let pointerId=null,lastFrame=null,lastHitToken=null,frameIntervals=[],stepCosts=[];
   const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2(),dragPlane=new THREE.Plane(),dragPoint=new THREE.Vector3();
-  function ray(ev){const r=canvas.getBoundingClientRect(),rect=viewports?.rect()||{x:0,y:0,width:r.width,height:r.height};const ndc=pointerNdc(rect,ev.clientX-r.left,ev.clientY-r.top);pointer.set(ndc.x,ndc.y);camera.updateMatrixWorld(true);raycaster.setFromCamera(pointer,camera);}
+  function ray(ev){const r=canvas.getBoundingClientRect();if(r.width<=0||r.height<=0)return false;const rect=viewports?.rect()||{x:0,y:0,width:r.width,height:r.height};if(rect.width<=0||rect.height<=0)return false;const ndc=pointerNdc(rect,ev.clientX-r.left,ev.clientY-r.top);pointer.set(ndc.x,ndc.y);camera.updateMatrixWorld(true);raycaster.setFromCamera(pointer,camera);return true;}
   function cancelPointer(reason){
     const id=pointerId;pointerId=null;sim.grab.cancel(reason);
     if(cameraViews)cameraViews.lock(false,viewports.rects);else if(controls)controls.enabled=true;
@@ -114,12 +114,12 @@ try{
     inspection?.rebind(sim);run++;clearFeedback();frameIntervals=[];stepCosts=[];lastFrame=null;lastHitToken=null;$('input').textContent='Fresh reset · start required';sync();update();
   }
   function reset(){freshRun('reset');}
-  function move(ev,final=false){if(session.paused)return;ray(ev);if(sim.grab.active&&raycaster.ray.intersectPlane(dragPlane,dragPoint))sim.grab.move(dragPoint,ev.timeStamp/1000,final);}
+  function move(ev,final=false){if(session.paused||!ray(ev))return;if(sim.grab.active&&raycaster.ray.intersectPlane(dragPlane,dragPoint))sim.grab.move(dragPoint,ev.timeStamp/1000,final);}
   view.addEventListener('pointerdown',ev=>{
     if(pointerId!==null||!ev.isPrimary||ev.button!==0||$('cameraMode')?.checked)return;
-    if(inspectionMode){ray(ev);const hit=pickBody(R,sim.world,sim.rig.byBody.keys(),raycaster.ray.origin,raycaster.ray.direction);inspection.select(hit?sim.rig.byBody.get(hit.body.handle).spec.id:null);ev.preventDefault();return;}
+    if(inspectionMode){if(!ray(ev))return;const hit=pickBody(R,sim.world,sim.rig.byBody.keys(),raycaster.ray.origin,raycaster.ray.direction);inspection.select(hit?sim.rig.byBody.get(hit.body.handle).spec.id:null);ev.preventDefault();return;}
     if(session.paused||sim.invalid)return;
-    ray(ev);const hit=pickBody(R,sim.world,sim.rig.byBody.keys(),raycaster.ray.origin,raycaster.ray.direction);if(!hit)return;
+    if(!ray(ev))return;const hit=pickBody(R,sim.world,sim.rig.byBody.keys(),raycaster.ray.origin,raycaster.ray.direction);if(!hit)return;
     dragPlane.setFromNormalAndCoplanarPoint(camera.getWorldDirection(new THREE.Vector3()),hit.hit.point);
     if(!sim.beginGrab(hit.body,hit.hit.point,ev.timeStamp/1000))return;
     if(cameraViews)cameraViews.lock(true,viewports.rects);else if(controls)controls.enabled=false;
@@ -231,28 +231,34 @@ try{
   for(const id of ['play','reset','assistOff','safetyStop',...(playground?['mark','variant']:['export'])])$(id).disabled=false;
   function suspend(){pause(document.hidden?'hidden':'blur');}
   addEventListener('blur',suspend);
-  addEventListener('keydown',ev=>{if(ev.key==='Escape'&&!ev.repeat){ev.preventDefault();pause('escape');}});
+  addEventListener('keydown',ev=>{
+    if(ev.key!=='Escape'||ev.repeat)return;
+    // Form/dialog Escape belongs to editing; an active physical grab always needs safety cancellation.
+    if(playground&&!sim.grab.active&&(ev.defaultPrevented||ev.target instanceof Element&&ev.target.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"]),dialog[open]')))return;
+    ev.preventDefault();pause('escape');
+  });
   document.addEventListener('visibilitychange',()=>{session.event('visibility',{hidden:document.hidden});if(document.hidden)suspend();else{session.clock.reset();update();}});
   let width=0,height=0,renderDpr=0,renderLast=null;
   renderer.info.autoReset=false;
   function render(ms){
     const frameStart=performance.now(),w=view.clientWidth,h=view.clientHeight,dpr=Math.min(devicePixelRatio,1.5);
-    if(dpr!==renderDpr){renderDpr=dpr;renderer.setPixelRatio(dpr);}
-    if(w!==width||h!==height){width=w;height=h;renderer.setSize(w,h,false);if(cameraViews)resizeViews();else{camera.aspect=w/h;camera.updateProjectionMatrix();}}
+    const drawable=w>0&&h>0;
+    if(drawable&&dpr!==renderDpr){renderDpr=dpr;renderer.setPixelRatio(dpr);}
+    if(drawable&&(w!==width||h!==height)){width=w;height=h;renderer.setSize(w,h,false);if(cameraViews)resizeViews();else{camera.aspect=w/h;camera.updateProjectionMatrix();}}
     if(!playground&&!session.paused&&lastFrame!==null)frameIntervals.push(ms-lastFrame);
     lastFrame=ms;
     const before=sim.steps,start=performance.now();session.tick(ms/1000);
     if(!playground&&sim.steps>before)stepCosts.push({steps:sim.steps-before,ms:performance.now()-start}); // Includes read-only observer cost.
     if(session.paused&&pointerId!==null)cancelPointer('window-end');
     const tickMs=performance.now()-start;sync();inspection?.update(sim,ms);const renderStart=performance.now();renderer.info.reset();
-    if(viewports){
+    if(drawable&&viewports){
       renderer.setScissorTest(true);
       for(const rect of viewports.rects){
         const y=height-rect.y-rect.height;renderer.setViewport(rect.x,y,rect.width,rect.height);renderer.setScissor(rect.x,y,rect.width,rect.height);
         renderer.render(scene,cameraViews.states.get(rect.id).camera);
       }
       renderer.setScissorTest(false);renderer.setViewport(0,0,width,height);
-    }else renderer.render(scene,camera);
+    }else if(drawable)renderer.render(scene,camera);
     const renderSubmitMs=performance.now()-renderStart;update();
     if(playground){renderSamples.push({layout:viewports.layout,step:sim.steps,tickMs,renderSubmitMs,cpuMs:performance.now()-frameStart,intervalMs:renderLast===null?null:ms-renderLast,views:viewports.rects.length,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});if(renderSamples.length>240)renderSamples.shift();}
     renderLast=ms;
