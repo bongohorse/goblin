@@ -21,6 +21,50 @@ async function main(){
     const identity={version:browser.version(),executable:path.basename(arg('--executable')),profile:'own temporary Playwright profile',
       launchArguments:launch.arguments.map(a=>a.startsWith('--user-data-dir=')?'--user-data-dir=<temporary-profile>':a===arg('--executable')?'<confirmed-chrome>':a),
       url:arg('--url'),viewport:{width:1280,height:720},environment:initial.environment,build:initial.build};
+    if(process.argv.includes('--issue99')){
+      assert.equal(initial.windowLimit,null);assert.deepEqual(initial.runPolicy,{mode:'free',timerSteps:null});
+      if(!process.argv.includes('--skip-long-run')){
+      await page.locator('#play').click();
+      await page.waitForFunction(()=>uprightStepState().steps>3660,null,{timeout:85000});
+      await page.locator('#play').click();const long=await read();
+      assert.equal(long.pause.kind,'observation');assert.equal(long.final.invalid,null);
+      assert.equal(long.trace.length,0);assert.equal(long.events.length,0);assert.equal(long.lastRun,undefined);
+      console.log('Issue99: native free run exceeded 61 simulation seconds');
+      checks.push('native foreground free run beyond 10/60 s, no trace/events, observation pause');
+      }
+      for(const speed of ['0.25','0.5','1']){
+        await page.locator('#speed').selectOption(speed);await page.locator('#reset').click();
+        await page.locator('#play').click();await page.waitForTimeout(1200);await page.locator('#play').click();
+        const d=await read();assert.ok(d.final.steps>=40*Number(speed)&&d.final.steps<=85*Number(speed));
+        assert.equal(d.speed,Number(speed));assert.equal(d.observationIdentity.nativeTimestep,initial.observationIdentity.nativeTimestep);
+        await page.waitForTimeout(300);assert.deepEqual((await read()).final,d.final);
+        await page.locator('#step').click();assert.equal((await read()).final.steps,d.final.steps+1);
+      }
+      await page.locator('#reset').click();const old=await read();
+      await page.locator('#timer').selectOption('10');assert.equal((await read()).runPolicy.timerSteps,null);
+      await page.locator('#reset').click();const timed=await read();
+      assert.notEqual(timed.runIdentity.run_id,old.runIdentity.run_id);assert.equal(timed.runPolicy.timerSteps,600);
+      await page.locator('#play').click();await page.waitForFunction(()=>uprightStepState().steps===600,null,{timeout:20000});
+      const expired=await read();assert.equal(expired.pause.kind,'observation');assert.equal(expired.pause.reason,'timer-end');
+      assert.equal(expired.final.assisted,true);await page.locator('#step').click();assert.equal((await read()).final.steps,601);
+      await page.locator('#play').click();await page.waitForFunction(()=>uprightStepState().steps>601);await page.locator('#play').click();
+      await page.locator('#mark').click();const timerDownload=page.waitForEvent('download');
+      await page.locator('#feedbackExport').click();const td=await timerDownload,tfile=path.join(out,td.suggestedFilename());
+      await td.saveAs(tfile);const payload=JSON.parse(await fs.readFile(tfile,'utf8'));
+      assert.equal(payload.identity.run_policy.timerSteps,600);assert.equal(payload.observation.browser.run_controls.speed,1);
+      await page.locator('summary').filter({hasText:'Kamera'}).click();await page.locator('#side').click();
+      const camera=(await read()).observationCamera,memory=(await read()).rendererMemory;
+      for(let i=0;i<5;i++){
+        const before=await read();await page.locator('#reset').click();const after=await read();
+        assert.notEqual(after.runIdentity.run_id,before.runIdentity.run_id);assert.equal(after.final.steps,0);
+        assert.equal(after.pointerId,null);assert.equal(after.pending,null);assert.equal(after.final.grab.active,false);
+        assert.deepEqual(after.rendererMemory,memory);assert.deepEqual(after.observationCamera,camera);
+        assert.equal(after.final.counts.bodies,15);assert.equal(await page.locator('#feedbackExport').isDisabled(),true);
+      }
+      await page.locator('summary').filter({hasText:'Kamera'}).click();
+      await page.locator('#timer').selectOption('');await page.locator('#reset').click();
+      checks.push('slow-motion UI fixed dt/frozen pause/single step; deferred timer, expiry/resume/export; five reset identities, bounded GPU counts and preserved camera');
+    }
     await page.locator('#step').click();assert.equal((await read()).final.steps,1);assert.equal((await read()).paused,true);
     await page.locator('#mark').click();await page.locator('#note').fill('Native Prüfung: ein Schritt, keine Nutzerabnahme.');
     await page.locator('#body').selectOption('footL');await page.locator('#category').selectOption('foot');

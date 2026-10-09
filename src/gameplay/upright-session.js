@@ -39,17 +39,27 @@ export function auditCommands(sim,onInterrupt){
 }
 
 export class UprightSession {
-  constructor(sim,{audit=true,record=true}={}){
+  constructor(sim,{audit=true,record=true,runPolicy={mode:'historical'},speed=1,resetOptions={assisted:true,obstacle:false}}={}){
+    if(!['historical','free'].includes(runPolicy.mode))throw Error('Invalid run policy');
+    const timerSteps=runPolicy.timerSteps??null;
+    if(timerSteps!==null&&(!Number.isSafeInteger(timerSteps)||timerSteps<1))throw Error('Invalid timer');
+    this.runPolicy=Object.freeze({mode:runPolicy.mode,timerSteps});
+    this.setSpeed(speed);
     this.record=record;
-    this.sim=sim;this.clock=new FixedClock();this.paused=true;this.windowLimit=600;
+    this.sim=sim;this.clock=new FixedClock();this.paused=true;this.windowLimit=runPolicy.mode==='free'?Infinity:600;
     this.trace=[];this.events=[];this.pending=null;this.lastRun=null;
-    this.audit=audit?auditCommands(sim,event=>this.events.push(event)):null;
-    this.reset({assisted:true,obstacle:false});
+    this.audit=audit?auditCommands(sim,event=>{if(this.record)this.events.push(event);}):null;
+    this.reset(resetOptions);
+  }
+  setSpeed(speed){
+    if(![.25,.5,1].includes(speed))throw Error('Invalid simulation speed');
+    this.speed=speed;this.clock?.reset();
   }
   event(kind,detail={}){if(this.record)this.events.push({kind,step:this.sim.steps,time:this.sim.steps/60,...detail});}
   reset(options){
     this.sim.reset(options);this.clock.reset();this.paused=true;this.pending=null;
     this.pauseContext={kind:'initial',reason:'reset',step:this.sim.steps};
+    this.timerReached=false;
     this.trace=[];this.events=[];this.lastRun=null;this.trial=null;this.event('manual-reset',{options});this.capture();
   }
   pause(reason='pause'){
@@ -152,7 +162,12 @@ export class UprightSession {
           obstacle:this.sim.obstacleEnabled,lastHit:structuredClone(this.sim.lastHit)}}});
   }
   tick(now){
-    this.clock.advance(now,this.paused,()=>{
+    // Keep the historically pinned FixedClock byte-identical. Only this
+    // session maps bounded wall deltas to slow simulation time; dt stays fixed.
+    const delta=Math.min(this.clock.step*this.clock.maxSteps,Math.max(0,now-(this.wallPrevious??now)));
+    const clockNow=this.speed===1||this.clock.previous===null?now:this.clock.previous+delta*this.speed;
+    this.wallPrevious=now;
+    this.clock.advance(clockNow,this.paused,()=>{
       if(this.paused)return;
       this.advanceStep();
     });
@@ -164,6 +179,9 @@ export class UprightSession {
     this.sim.step();this.capture();
     if(this.sim.invalid)this.finish('safety');
     else if(this.sim.steps>=this.windowLimit)this.finish('window-limit');
+    else if(!this.timerReached&&this.runPolicy.timerSteps!==null&&this.sim.steps>=this.runPolicy.timerSteps){
+      this.timerReached=true;this.observePause('timer-end');
+    }
     return true;
   }
   singleStep(){
@@ -174,7 +192,7 @@ export class UprightSession {
   finish(reason='observation-end'){
     this.lastRun=this.report();this.pause(reason);
   }
-  report(){return {config:CONFIG_B,windowLimit:this.windowLimit,paused:this.paused,pause:structuredClone(this.pauseContext),pending:this.pending,trial:structuredClone(this.trial),
+  report(){return {config:CONFIG_B,windowLimit:Number.isFinite(this.windowLimit)?this.windowLimit:null,runPolicy:this.runPolicy,speed:this.speed,timerReached:this.timerReached,paused:this.paused,pause:structuredClone(this.pauseContext),pending:this.pending,trial:structuredClone(this.trial),
     final:this.sim.snapshot(),trace:structuredClone(this.trace),events:structuredClone(this.events)};}
   dispose(){this.pause('destroy');this.audit?.dispose();this.sim.dispose();}
 }
