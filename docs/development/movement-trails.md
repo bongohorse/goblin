@@ -22,6 +22,8 @@ Actual tested production preview: **http://127.0.0.1:4183/goblin/playground/**, 
 
 `tests/trails-browser.cjs --url <above> --executable <confirmed-local-Chrome>` passed in **native Windows Portable Chrome 156.0.8078.4**, own temporary Playwright profile, DPR 1, WebGL2 / ANGLE D3D11 on NVIDIA RTX 3070 Ti. No background-throttling disabling flags. Raw [result](../evidence/issue103/result.json) records launch arguments, build/source hashes and measurements. Body origins and shared world buffers verified in all Quad/Single cameras; keyboard enable, monochrome, full-ring free run, Pause/Step/Reset, marker/JSON, native grab/release, camera gesture, three fresh variants and emulated touch inspection passed, with no new console/network errors. Twelve OFF/reset cycles returned to **18 renderer geometries** each time.
 
+The existing `tests/playground-browser.cjs` with `--issue100 --issue101 --issue102 --issue113` also passed on that exact production build: compact desktop/landscape/portrait layout, all cameras and gesture locks, mouse/emulated-touch picking and grab, overlay parity, marker/export, scheduled inputs, reaction pause/step/resume, Safety/reset, DPR and historical prototype controls. [Regression result](../evidence/issue103/regression.json). Its native tab activation produced no hidden event: **Hidden/Resume NOT PROVEN**, unchanged as an independent open acceptance.
+
 ![Desktop Quad: seven trails after a Strong push](../evidence/issue103/desktop.png)
 
 ![Small landscape: Single Front with monochrome trails and scrollable inspector](../evidence/issue103/landscape.png)
