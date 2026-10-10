@@ -218,8 +218,8 @@ try{
   const environment={userAgent:navigator.userAgent,platform:navigator.platform,get dpr(){return devicePixelRatio;},get renderDpr(){return renderer.getPixelRatio();},
     backend:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),webgl:gl.getParameter(gl.VERSION)};
   function cameraSnapshot(){return cameraViews?cameraViews.snapshot():{position:camera.position.toArray(),quaternion:camera.quaternion.toArray(),fov:camera.fov,projection:camera.projectionMatrix.toArray(),view:camera.matrixWorldInverse.toArray()};}
-  function readInspectionAtMarker(){inspection.update(sim,performance.now(),true);return inspection.snapshot().readout;}
-  function browserContext(){return {environment,run_controls:{speed:session.speed,timerReached:session.timerReached},camera:cameraSnapshot(),inspection:inspection?{...inspection.snapshot(),readout:inspection.selected?readInspectionAtMarker():null}:null,viewports:viewports?{...viewports.snapshot(),cameras:[...cameraViews.states.keys()].map(id=>cameraViews.snapshot(id))}:null,viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}}};}
+  function inspectionAtMarker(){inspection.update(sim,performance.now(),true);return inspection.snapshot();}
+  function browserContext(){return {environment,run_controls:{speed:session.speed,timerReached:session.timerReached},camera:cameraSnapshot(),inspection:inspection?inspectionAtMarker():null,viewports:viewports?{...viewports.snapshot(),cameras:[...cameraViews.states.keys()].map(id=>cameraViews.snapshot(id))}:null,viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}}};}
   function report(){camera.updateMatrixWorld(true);return {build,environment,observationIdentity:{mass:sim.mass,dt:1/60,nativeTimestep:sim.world.timestep,config:sim.config,yieldProfile:sim.yieldProfile,reaction:sim.reaction,returnProfile:sim.returnProfile,returnSource:build.return_sha256,gravity:{...sim.world.gravity},sources:build.physics_sha256},
     observationCamera:{...cameraSnapshot(),canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},...session.report(),lastPhysicsState:session.trace.at(-1)?.state,frameIntervals:frameIntervals.slice(),stepCosts:stepCosts.slice()};}
   const renderSamples=[];
@@ -250,7 +250,7 @@ try{
     const before=sim.steps,start=performance.now();session.tick(ms/1000);
     if(!playground&&sim.steps>before)stepCosts.push({steps:sim.steps-before,ms:performance.now()-start}); // Includes read-only observer cost.
     if(session.paused&&pointerId!==null)cancelPointer('window-end');
-    const tickMs=performance.now()-start;sync();inspection?.update(sim,ms);const renderStart=performance.now();renderer.info.reset();
+    const tickMs=performance.now()-start;sync();inspection?.update(sim,ms,session.paused&&inspection.settings.anchorGap&&inspection.jointSample?.step!==sim.steps);const renderStart=performance.now();renderer.info.reset();
     if(drawable&&viewports){
       renderer.setScissorTest(true);
       for(const rect of viewports.rects){

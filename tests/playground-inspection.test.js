@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import R from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
 import {createUprightRun} from '../src/gameplay/upright-run.js';
-import {readInspection,jointSegments} from '../src/gameplay/playground-inspection.js';
+import {readInspection,jointSegments,readJointGeometry,anchorGapClass,formatGap} from '../src/gameplay/playground-inspection.js';
+import {jointObservation} from '../src/labs/standing/math.js';
 import {colliderOutline} from '../src/gameplay/playground-inspection-view.js';
 import {assertFinite} from '../src/labs/standing/feedback.js';
 await R.init();
@@ -35,12 +36,54 @@ for(const variant of ['B','T1','R1'])test(variant+': repeated readouts/lines/col
       const before=candidate.sim.snapshot();
       for(const id of ['pelvis','head','footL'])assertFinite(readInspection(candidate.sim,id));
       jointSegments(candidate.sim.rig);
+      const sample=readJointGeometry(candidate.sim);
+      for(const id of candidate.sim.rig.byId.keys()){
+        const d=readInspection(candidate.sim,id,sample);
+        for(const j of d.joints){assert.equal(j.anchor_gap.step,d.step);assert.equal(j.anchor_gap.value,sample.joints.find(s=>s.id===j.id).anchor_gap.value);}
+      }
       if(step%30===0)for(const {collider} of candidate.sim.rig.byId.values())assert.ok(colliderOutline(collider).every(Number.isFinite));
       assert.deepEqual(candidate.sim.snapshot(),before);assert.deepEqual(candidate.sim.snapshot(),baseline.sim.snapshot());
     }
     const d=readInspection(candidate.sim,'pelvis');assert.equal(d.run.assist_enabled,false);assert.equal(d.joints[0].motor.enabled,false);assert.equal(d.joints[0].motor.cap.value,0);assert.equal(d.assist.support.value,0);
     assert.equal(candidate.session.trace.length,0);assert.equal(candidate.session.events.length,0);
   }finally{baseline.session.dispose();candidate.session.dispose();}
+});
+
+test('D1 uses exact metres-to-mm thresholds; tiny positive, zero and unavailable stay distinct',()=>{
+  for(const [mm,label] of [[0,'≤1 mm'],[.001,'≤1 mm'],[1,'≤1 mm'],[1.001,'1–5 mm'],[5,'1–5 mm'],[5.001,'5–20 mm'],[20,'5–20 mm'],[20.001,'>20 mm'],[30,'>20 mm']]){
+    const c=anchorGapClass(mm/1000);assert.equal(c.label,label);assert.ok(Math.abs(c.mm-mm)<1e-12);
+  }
+  assert.equal(formatGap(0),'0.000 mm');assert.equal(formatGap(.00000001),'<0.001 mm');
+  for(const v of [null,undefined,NaN,Infinity,-.01]){assert.equal(anchorGapClass(v).mm,null);assert.equal(formatGap(v),'N/A');}
+});
+
+test('D1 maps unequal adjacent joints and every segment to their own geometry range and inspector value',()=>{
+  const {sim,session}=createUprightRun({reaction:'B'},{record:false,audit:false});
+  try{
+    for(const [id,offset] of [['shoulderL',.003],['elbowL',.025]]){
+      const j=sim.rig.joints.get(id).joint,a=j.anchor2();j.setAnchor2({x:a.x+offset,y:a.y,z:a.z});
+    }
+    const before=sim.snapshot(),sample=readJointGeometry(sim);
+    assert.equal(sample.joints.length,14);assert.equal(sample.vertices.length,420);
+    for(const [index,j] of sample.joints.entries()){
+      assert.equal(j.start,index*10);assert.equal(j.count,10);
+      assert.deepEqual(sample.vertices.slice(j.start*3+6,j.start*3+12),[...Object.values(j.anchors.a),...Object.values(j.anchors.b)]);
+      assert.ok(Math.abs(j.anchor_gap.value-jointObservation(sim.entries.find(e=>e.spec.id===j.id)).anchor_error)<1e-12);
+    }
+    assert.equal(sample.joints.find(j=>j.id==='shoulderL').level.label,'1–5 mm');assert.equal(sample.joints.find(j=>j.id==='elbowL').level.label,'>20 mm');
+    assertFinite(sample);assert.deepEqual(JSON.parse(JSON.stringify(sample)),sample);
+    for(const id of sim.rig.byId.keys())for(const j of readInspection(sim,id,sample).joints)assert.deepEqual(j.anchor_gap,sample.joints.find(s=>s.id===j.id).anchor_gap);
+    assert.deepEqual(sim.snapshot(),before);
+    // Removed joint and non-finite source are labelled unavailable, never green or NaN GPU vertices.
+    const removed=sim.rig.joints.get('elbowL');sim.rig.joints.delete('elbowL');
+    const missing=readJointGeometry(sim),m=missing.joints.find(j=>j.id==='elbowL');assert.equal(m.level.label,'N/A');assert.equal(m.anchor_gap.value,null);
+    assert.equal(readInspection(sim,'lowerArmL',missing).joints.find(j=>j.id==='elbowL').anchor_gap.value,null);
+    sim.rig.joints.set('elbowL',removed);
+    const joint=sim.rig.joints.get('neck').joint,anchor=joint.anchor1.bind(joint);joint.anchor1=()=>({x:NaN,y:1,z:0});
+    const invalid=readJointGeometry(sim);joint.anchor1=anchor;
+    assert.equal(invalid.joints.find(j=>j.id==='neck').level.label,'N/A');assert.ok(invalid.vertices.every(Number.isFinite));
+    session.singleStep();assert.throws(()=>readInspection(sim,'head',sample),/same|share/);
+  }finally{session.dispose();}
 });
 
 test('collider outlines use actual native ball/capsule/cuboid sizes independently of render meshes',()=>{
