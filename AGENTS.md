@@ -12,6 +12,7 @@ Browser game built with Three.js, Rapier 3D and Vite.
 - VS Code / container setup: `docs/development/vscode.md`
 - Keep Goblin tools/configuration scoped to this repo; do not modify MGD or global editor settings.
 - Windows browser MCP is optional and disabled by default. Only enable it when Codex executes on Windows; Linux container browsers do not prove Windows GPU performance.
+- Goblin browser QA must use only the verified selected Chrome Portable Beta x64 (isolated profile), never Edge or a downloaded/installed Chrome fallback. Use `docs/development/browser-qa.md`; keep machine-specific paths local.
 - Build: `npm run build`
 - CI and GitHub Pages must stay green.
 
@@ -106,7 +107,7 @@ GitHub Issues are the source of truth. See `docs/agents/issue-tracker.md`.
 ## Browser tools
 Before budgeted runs, follow [Execution preflight and tested fallbacks](docs/development/execution-preflight.md). Capability checks do not authorize a stopped experiment or replace event preconditions.
 
-- On native Windows, prefer the configured `chrome-devtools` MCP for console/network diagnosis, screenshots and performance traces. Use the existing project Playwright MCP or browser scripts for repeatable input/reset/pause checks. Confirm tool availability and the actual browser before acting; report failures instead of silently switching browsers.
+- On native Windows, use only the verified selected Chrome Portable for Goblin browser QA. Prefer `chrome-devtools` MCP for console/network, screenshots and traces **only if it is connected to that same portable binary**; use the explicitly portable-pinned project Playwright MCP or scripts for repeatable input/reset/pause. If the selected binary cannot be reached, fail closed and report the limitation; never switch to Edge, installed Chrome or downloaded Chromium.
 - Read `docs/development/vscode.md` for setup. Keep absolute executable/profile paths local; do not change global configuration or the user's running devserver without task authorization.
 - Record browser version, executable/profile identity, launch arguments, URL, viewport/DPR and rendering backend when relevant to acceptance. A connection smoke test does not establish gameplay, GPU performance or Hidden/Resume acceptance.
 - Hidden/Resume acceptance requires observed native hidden and visible `visibilitychange` events and subsequent simulation progress. Synthetic events or disabled background throttling do not prove native behavior. Keep this separate from foreground performance runs.

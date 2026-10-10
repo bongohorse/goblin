@@ -1,0 +1,1876 @@
+{
+  "source_file": "chrome61-workspace-profile.json",
+  "source_sha256": "36cf7247c14d83176d5e82f34ba525b1098e2b24929de5ca8c8fced2a5a99d5e",
+  "sanitization": "Machine-specific executable/profile/argument paths omitted; measurement data retained",
+  "method": "Raw CDP with debugger detached during background interval; trusted in-page observer, no synthetic visibility or emulation",
+  "identity": {
+    "version": "156.0.8078.4",
+    "sha256": "ea4eb4ea31e82309db8b8b9dcdd445f2ed997d09f96f95f7d78db26ed39be249"
+  },
+  "pid": 31392,
+  "version": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/156.0.8078.4",
+    "revision": "@f842f52ef39fd97b449eb27cff414bf05a98ddce",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+    "jsVersion": "15.6.75"
+  },
+  "standalone": {
+    "before": {
+      "hidden": false,
+      "state": "visible",
+      "focus": true,
+      "now": 83.79999995231628
+    },
+    "hidden": [],
+    "returned": {
+      "hidden": false,
+      "state": "visible",
+      "focus": true,
+      "now": 5721.799999952316
+    },
+    "still": {
+      "hidden": false,
+      "state": "visible",
+      "focus": true,
+      "now": 6234.199999928474
+    },
+    "events": [],
+    "background": [
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 198.89999997615814
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 291.2999999523163
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 398.2999999523163
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 493.2999999523163
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 585.6999999284744
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 693.7999999523163
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 787.7999999523163
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 896.2999999523163
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 989.3999999761581
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1099
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1192
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1300
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1391.7999999523163
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1486.6999999284744
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1596.6999999284744
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1691.6999999284744
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1785.6999999284744
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1895.7999999523163
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1988.1000000238419
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2097.899999976158
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2193
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2289.399999976158
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2397.600000023842
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2490.600000023842
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2599
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2692.5
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2786.100000023842
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2895.5
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2988.100000023842
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3095.5
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3190
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3299.600000023842
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3393.6999999284744
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3489
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3585.1999999284744
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3696.6999999284744
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3790.1999999284744
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3899.6999999284744
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3993.1999999284744
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4086.600000023842
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4195.399999976158
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4288.299999952316
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4397.299999952316
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4489.600000023842
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4597.600000023842
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4689.600000023842
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4798.799999952316
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4892.899999976158
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4985.699999928474
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5094.699999928474
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5187.799999952316
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5296.5
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5390.299999952316
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5499.399999976158
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5593.699999928474
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": true,
+        "now": 5687.799999952316
+      }
+    ]
+  },
+  "live": {
+    "before": {
+      "hidden": false,
+      "state": "visible",
+      "focus": true,
+      "now": 716,
+      "d": {
+        "generation": 2,
+        "mode": "motor20",
+        "controller": "native-pose-hold-force-v1",
+        "solver": 32,
+        "motor_entries": 14,
+        "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+        "step": 11,
+        "paused": false,
+        "invalid": null,
+        "termination": null,
+        "bodies": 15,
+        "colliders": 16,
+        "joints": 14,
+        "listeners": 8,
+        "geometries": 16,
+        "textures": 1,
+        "programs": 1
+      }
+    },
+    "hidden": [],
+    "returned": {
+      "hidden": false,
+      "state": "visible",
+      "focus": true,
+      "now": 6371,
+      "d": {
+        "generation": 2,
+        "mode": "motor20",
+        "controller": "native-pose-hold-force-v1",
+        "solver": 32,
+        "motor_entries": 14,
+        "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+        "step": 39,
+        "paused": false,
+        "invalid": null,
+        "termination": null,
+        "bodies": 15,
+        "colliders": 16,
+        "joints": 14,
+        "listeners": 8,
+        "geometries": 16,
+        "textures": 1,
+        "programs": 1
+      }
+    },
+    "still": {
+      "hidden": false,
+      "state": "visible",
+      "focus": true,
+      "now": 6891.700000047684,
+      "d": {
+        "generation": 2,
+        "mode": "motor20",
+        "controller": "native-pose-hold-force-v1",
+        "solver": 32,
+        "motor_entries": 14,
+        "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+        "step": 70,
+        "paused": false,
+        "invalid": null,
+        "termination": null,
+        "bodies": 15,
+        "colliders": 16,
+        "joints": 14,
+        "listeners": 8,
+        "geometries": 16,
+        "textures": 1,
+        "programs": 1
+      }
+    },
+    "events": [],
+    "background": [
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 822.8000000715256,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 14,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 932.7000000476837,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 14,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1027.7000000476837,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 14,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1122.5,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 14,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1233.3000000715256,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 14,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1327.4000000953674,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 14,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1435.9000000953674,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 14,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1528,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 14,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1622,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 14,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1729.2000000476837,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 14,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1822.4000000953674,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 17,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 1932.5,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 17,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2024.5,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 17,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2133,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 17,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2224.7000000476837,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 17,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2331.4000000953674,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 17,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2423.9000000953674,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 17,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2533.4000000953674,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 17,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2625.8000000715256,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 17,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2733.5,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 17,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2827.5,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 20,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 2935.7000000476837,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 20,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3027.8000000715256,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 20,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3134.7000000476837,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 20,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3229.2000000476837,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 20,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3323.7000000476837,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 20,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3433.2000000476837,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 20,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3526.8000000715256,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 20,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3638.3000000715256,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 20,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3731.9000000953674,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 20,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3826.4000000953674,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 23,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 3936.4000000953674,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 23,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4029.9000000953674,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 23,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4124.400000095367,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 23,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4233.900000095367,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 23,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4329.700000047684,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 23,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4423.900000095367,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 23,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4536.700000047684,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 23,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4630.200000047684,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 23,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4724.700000047684,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 23,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4834.5,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 26,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 4928.300000071526,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 26,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5023.800000071526,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 26,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5134.300000071526,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 26,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5228.800000071526,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 26,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5335.100000023842,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 26,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5427.800000071526,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 26,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5536.600000023842,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 26,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5628.900000095367,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 26,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5723.800000071526,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 26,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5832.400000095367,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 29,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 5925.5,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 29,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 6023.300000071526,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 29,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 6127.600000023842,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 29,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": false,
+        "now": 6236.100000023842,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 29,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      },
+      {
+        "hidden": false,
+        "state": "visible",
+        "focus": true,
+        "now": 6322.400000095367,
+        "d": {
+          "generation": 2,
+          "mode": "motor20",
+          "controller": "native-pose-hold-force-v1",
+          "solver": 32,
+          "motor_entries": 14,
+          "run_id": "a6f0645c-fe38-4c0a-9925-a1048ace6d10",
+          "step": 36,
+          "paused": false,
+          "invalid": null,
+          "termination": null,
+          "bodies": 15,
+          "colliders": 16,
+          "joints": 14,
+          "listeners": 8,
+          "geometries": 16,
+          "textures": 1,
+          "programs": 1
+        }
+      }
+    ]
+  },
+  "resume": {
+    "first": {
+      "wall_ms": 0,
+      "step": 71
+    },
+    "last": {
+      "wall_ms": 1000.2999999523163,
+      "step": 131
+    },
+    "delta": 60,
+    "max_per_frame": 1
+  },
+  "provenance": {
+    "git_commit": "840c5b1f635da1682f8c84dbe671ac9bf2d465d9",
+    "dirty": false,
+    "build_id": "840c5b1f635da1682f8c84dbe671ac9bf2d465d9:a8b43967da40a2b9dbd7a6b060d389eed4db6061b43689994a81c6072e04611b"
+  }
+}

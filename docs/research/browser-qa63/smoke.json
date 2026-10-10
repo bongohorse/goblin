@@ -1,0 +1,107 @@
+{
+  "source_file": "review63-smoke.json",
+  "source_sha256": "7cd1c64776289ea64de0a050537817eeae1bb730c5d493d0bca15c640259ba04",
+  "sanitization": "Machine executable/profile/argument paths omitted; all measurement/event/frame data retained",
+  "identity": {
+    "headless": false,
+    "selected_installation_verified": true,
+    "isolated_profile": true
+  },
+  "version": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/156.0.8078.4",
+    "revision": "@f842f52ef39fd97b449eb27cff414bf05a98ddce",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+    "jsVersion": "15.6.75"
+  },
+  "smoke": {
+    "step": {
+      "generation": 2,
+      "mode": "motor20",
+      "controller": "native-pose-hold-force-v1",
+      "solver": 32,
+      "motor_entries": 14,
+      "run_id": "6f37299c-6f2a-46e9-abbd-dbb86f5601c2",
+      "step": 1,
+      "paused": true,
+      "invalid": null,
+      "termination": null,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 8,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    "paused": {
+      "generation": 2,
+      "mode": "motor20",
+      "controller": "native-pose-hold-force-v1",
+      "solver": 32,
+      "motor_entries": 14,
+      "run_id": "6f37299c-6f2a-46e9-abbd-dbb86f5601c2",
+      "step": 14,
+      "paused": true,
+      "invalid": null,
+      "termination": null,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 8,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    "still": {
+      "generation": 2,
+      "mode": "motor20",
+      "controller": "native-pose-hold-force-v1",
+      "solver": 32,
+      "motor_entries": 14,
+      "run_id": "6f37299c-6f2a-46e9-abbd-dbb86f5601c2",
+      "step": 14,
+      "paused": true,
+      "invalid": null,
+      "termination": null,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 8,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    "reset": {
+      "generation": 3,
+      "mode": "motor20",
+      "controller": "native-pose-hold-force-v1",
+      "solver": 32,
+      "motor_entries": 14,
+      "run_id": "2960ff0e-81eb-4d2f-8007-9a5412fa8a8e",
+      "step": 0,
+      "paused": true,
+      "invalid": null,
+      "termination": null,
+      "bodies": 15,
+      "colliders": 16,
+      "joints": 14,
+      "listeners": 8,
+      "geometries": 16,
+      "textures": 1,
+      "programs": 1
+    },
+    "exportDownloaded": true,
+    "game": {
+      "parts": 15,
+      "time": 60,
+      "score": 0
+    }
+  },
+  "provenance": {
+    "git_commit": "840c5b1f635da1682f8c84dbe671ac9bf2d465d9",
+    "dirty": false,
+    "build_id": "840c5b1f635da1682f8c84dbe671ac9bf2d465d9:a8b43967da40a2b9dbd7a6b060d389eed4db6061b43689994a81c6072e04611b"
+  },
+  "errors": []
+}

@@ -1,0 +1,8 @@
+{
+  "identity.json": "72317ecb1e62dbc2e9a29aef6a0f08d4192c2dd4558daa92a436d32e8d632041",
+  "mcp.json": "4c4e214ebf287d221b12da67d85e907c273e228c43b6a1af29ee377131de849e",
+  "attached.json": "b160d8e0e0fa90459452eb435beba437f9cadf452741995f12664a4df443b422",
+  "detached-pass.json": "d7335eee25dff58db126a71b84be2b5f3c0cae03b557a3655e5cd14a79543637",
+  "detached-temp-fail.json": "efff306a14abaf53ca6bdb0f5a5a9a3225cc4b9014aceaf85b65a010bdcbd8ca",
+  "detached-workspace-fail.json": "adfa86ee3675fc8edcf90253d72e7acd76c9f515dc6f643a21b192a590dc2803"
+}

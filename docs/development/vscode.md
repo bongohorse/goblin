@@ -33,30 +33,27 @@ npm run build
 npm run dev
 ```
 
-Open http://localhost:5174/?debug in Edge. Tasks are available under **Terminal → Run Task**. F5 with **Goblin: Windows Edge** starts Vite and a debugging browser; Chrome is an alternative if installed. Stop the development task through **Terminal → Terminate Task** when finished. `start-windows.bat` is an alternative that installs locked dependencies, propagates failures and starts from its own directory.
+Open http://localhost:5174/?debug using only the selected Chrome Portable with an isolated test profile; see the command below. Tasks are available under **Terminal → Run Task**. The repository has no F5 browser launch profiles: the former profiles could launch Edge or an unspecified installed Chrome. Stop the development task through **Terminal → Terminate Task** when finished. `start-windows.bat` is an alternative that installs locked dependencies, propagates failures and starts from its own directory.
+
+After configuring the ignored portable JSON as described in [Browser QA](browser-qa.md), run this in a second Windows terminal from the repository root. It reads the verified contained binary, fails without that configuration, and creates a fresh profile instead of using your portable user profile:
+
+```powershell
+node -e "const {spawn}=require('node:child_process'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'); const {executablePath}=require('./scripts/chrome-portable.cjs').portableChrome(); const profile=fs.mkdtempSync(path.join(os.tmpdir(),'goblin-chrome-manual-')); console.log({executablePath,profile}); spawn(executablePath,['--user-data-dir='+profile,'--no-first-run','--no-default-browser-check','http://localhost:5174/?debug'],{stdio:'ignore'}).on('error',e=>{console.error(e);process.exitCode=1});"
+```
+
+Check `chrome://version` for the selected executable, version and printed test profile before acceptance. This manual start has no debugger attached and can also be used for the native visibility countercheck. Close only this test browser when finished. Temporary profiles remain separate from your private profile; do not update the portable installation.
 
 ## Optional separate devcontainer
 
 With the container engine used for your MGD environment running, install Dev Containers in the Goblin profile and select **Dev Containers: Reopen in Container**. This repo supplies its own container, Node 24.21.0, Git/GitHub CLI and Codex extension. Creation runs `npm ci`; dependencies live in a Goblin-specific Docker volume, separate from native Windows dependencies and from MGD. No MGD volumes, credentials or Codex home directory are mounted.
 
-The development server forwards 5174 to Windows. Start **Goblin: dev** and open the forwarded URL in Windows Edge. F5 is configured to launch the browser on the UI host rather than inside Linux. If a particular container engine/debugger cannot do this, open Edge manually using the Ports panel. A container browser does not establish Windows GPU performance.
+The development server forwards 5174 to Windows. Start **Goblin: dev** and open the forwarded URL in the selected Chrome Portable on the Windows host using the isolated manual start above (substitute the forwarded URL if necessary). The portable configuration and start command belong on Windows, not inside Linux. A container browser does not establish Windows GPU performance.
 
 The container config is supplied for standard Dev Containers-compatible engines. Its creation and host browser launch must still be verified on your Windows/WSLC setup; they were not executed in the cloud environment.
 
-## Optional Codex browser control on Windows
+## Codex browser control and production checks
 
-`.codex/config.toml` includes a project-scoped Playwright MCP server named `goblin_windows_browser`, pinned to 0.0.83 and disabled by default. It launches installed Windows Edge with an isolated temporary browser session and vision tools for canvas interactions. No personal Edge profile is used, and closing the session discards its storage.
-
-When Codex executes natively on Windows with Node/npm on PATH:
-
-1. Trust this Goblin project in Codex after reviewing its configuration.
-2. Set this server's `enabled` to `true` in the project's `.codex/config.toml` and restart the Codex extension/session. Keep this machine-specific change local; do not commit it.
-3. Start `npm run dev` and ask Codex to open http://localhost:5174/?debug using `goblin_windows_browser`, inspect console errors and take a screenshot.
-4. Verify Edge's graphics acceleration and the actual renderer; browser access alone does not prove hardware rendering.
-
-Keep this server disabled when Codex executes inside Linux/WSL/devcontainer. Windows Edge is not installed there. Automatic control from that environment requires a separately configured Windows-host MCP connection; this repo does not assume a reachable host address or expose an unauthenticated browser-control port. Manual Windows Edge testing works independently of that connection.
-
-Project config complements user-level Codex config; it does not disable unrelated global MCP servers. Confirm the server name before browser actions. VS Code's F5 debugger and Codex MCP are separate browser sessions.
+Use only the selected Chrome Portable installation. See [Browser QA](browser-qa.md) for the local MCP configuration, isolated profiles, production harnesses and native visibility gates. No Edge or automatic browser fallback.
 
 ## Chrome DevTools MCP in the Codex VS Code extension
 
@@ -72,27 +69,13 @@ Save configuration, then use **Developer: Reload Window** in the VS Code command
 
 For the connection smoke test, ask Codex to use `chrome-devtools` to open http://localhost:5174/?debug, report the actual browser version and URL, take a screenshot and read the console without editing files. A user-reported test on 2026-10-07 succeeded with Windows Chrome Portable **156.0.8078.4**: start/debug screen captured, no console errors or warnings, only Vite connecting/connected messages. This records connectivity only; it is not an independently repeated gameplay, GPU or Hidden/Resume acceptance.
 
-Use DevTools for console/network diagnosis and performance traces; use Playwright for repeatable gameplay/input tests, including coordinate-based canvas interactions. Report the tool/browser used and any fallback explicitly. Do not interpret a DOM accessibility snapshot as proof of rendered canvas behavior.
+Use DevTools for console/network diagnosis and performance traces; use Playwright for repeatable gameplay/input tests, including coordinate-based canvas interactions. Report the exact tool/browser used; if Chrome Portable is unavailable, fail closed instead of silently switching to another browser. Do not interpret a DOM accessibility snapshot as proof of rendered canvas behavior.
 
 ### Foreground and Hidden/Resume checks
 
 For foreground measurements, record browser version, executable/profile identity, effective launch arguments, viewport/DPR and GPU/backend. Keep browser conditions consistent across comparisons. A Memory Saver exception can prevent discarding the test site but does not guarantee background animation.
 
 For native Hidden/Resume acceptance, inspect effective browser launch arguments for automation defaults that disable background throttling or occlusion behavior. Use normal Chrome behavior and require observed native hidden → visible events, pause evidence and actual simulation progress after resume. Dispatching synthetic events, switching an automation tab without observing visibility, or a successful connection smoke test cannot satisfy this gate. If native events cannot be produced, report the limitation and leave the gate open; use a manual check in the approved browser environment.
-
-## Production browser checks and continuation
-
-```powershell
-npx playwright install chromium
-npm run build
-npm run test:browser
-```
-
-These tests launch Chromium automatically and use the production `/goblin/` path. Screenshots default to the OS temporary directory. Chromium/touch emulation is not native Android or hardware-performance acceptance.
-
-Start a new Goblin Codex conversation with: "Read AGENTS.md, masterplan issue #11 and G0 issue #12, including their current comments. Verify the open G0 checks on this environment and document evidence before moving to G1. Use repo-local skills, keep MGD untouched, and report after each completed task."
-
-G0 implementation was merged in PR #22. Real-device/live-play acceptance remains open; do not mark it complete merely because setup/build works.
 
 ## Sources
 
@@ -101,6 +84,3 @@ G0 implementation was merged in PR #22. Real-device/live-play acceptance remains
 - Built-in browser debugging: https://code.visualstudio.com/docs/nodejs/browser-debugging
 - Codex project MCP configuration: https://developers.openai.com/codex/mcp
 - Playwright MCP: https://github.com/microsoft/playwright-mcp
-
-- Chrome DevTools MCP: https://developer.chrome.com/docs/devtools/agents
-- Chrome DevTools MCP configuration: https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/main/docs/configuration.md
