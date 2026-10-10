@@ -1,0 +1,233 @@
+{
+    "checks":  [
+                   "All15 body segments/all14 connected joints: ID/range/derived mm/step/selected line",
+                   "Pause/Step, small/strong push, Safety, reset and fresh B/T1/R1 variants, same closed step",
+                   "All Quad/Single cameras, native hold/release, keyboard toggle, emulated touch inspection, small landscape,12 reset/toggle cycles with zero retained overlay resources"
+               ],
+    "costs":  [
+                  {
+                      "size":  {
+                                   "width":  1280,
+                                   "height":  720
+                               },
+                      "on":  false,
+                      "step":  0,
+                      "samples":  180,
+                      "resources":  0,
+                      "memory":  {
+                                     "geometries":  18,
+                                     "textures":  1
+                                 },
+                      "calls":  72,
+                      "cpuMs":  {
+                                    "median":  0.5999999046325684,
+                                    "p95":  0.7999999523162842
+                                },
+                      "renderSubmitMs":  {
+                                             "median":  0.3999999761581421,
+                                             "p95":  0.6000000238418579
+                                         },
+                      "intervalMs":  {
+                                         "median":  7.800000000000182,
+                                         "p95":  13.899999999999636
+                                     },
+                      "heapUsedBytes":  12713684
+                  },
+                  {
+                      "size":  {
+                                   "width":  1280,
+                                   "height":  720
+                               },
+                      "on":  true,
+                      "step":  0,
+                      "samples":  180,
+                      "resources":  1,
+                      "memory":  {
+                                     "geometries":  19,
+                                     "textures":  1
+                                 },
+                      "calls":  76,
+                      "cpuMs":  {
+                                    "median":  0.6000000238418579,
+                                    "p95":  0.8000000715255737
+                                },
+                      "renderSubmitMs":  {
+                                             "median":  0.5,
+                                             "p95":  0.6000000238418579
+                                         },
+                      "intervalMs":  {
+                                         "median":  7.100000000000364,
+                                         "p95":  14.200000000000728
+                                     },
+                      "heapUsedBytes":  12117872
+                  },
+                  {
+                      "size":  {
+                                   "width":  744,
+                                   "height":  360
+                               },
+                      "on":  false,
+                      "step":  0,
+                      "samples":  180,
+                      "resources":  0,
+                      "memory":  {
+                                     "geometries":  18,
+                                     "textures":  1
+                                 },
+                      "calls":  72,
+                      "cpuMs":  {
+                                    "median":  0.5,
+                                    "p95":  0.7000000476837158
+                                },
+                      "renderSubmitMs":  {
+                                             "median":  0.3999999761581421,
+                                             "p95":  0.5
+                                         },
+                      "intervalMs":  {
+                                         "median":  7.099999999998545,
+                                         "p95":  14.199999999998909
+                                     },
+                      "heapUsedBytes":  12735328
+                  },
+                  {
+                      "size":  {
+                                   "width":  744,
+                                   "height":  360
+                               },
+                      "on":  true,
+                      "step":  0,
+                      "samples":  180,
+                      "resources":  1,
+                      "memory":  {
+                                     "geometries":  19,
+                                     "textures":  1
+                                 },
+                      "calls":  76,
+                      "cpuMs":  {
+                                    "median":  0.6000000238418579,
+                                    "p95":  0.7999999523162842
+                                },
+                      "renderSubmitMs":  {
+                                             "median":  0.3999999761581421,
+                                             "p95":  0.6000000238418579
+                                         },
+                      "intervalMs":  {
+                                         "median":  7.099999999998545,
+                                         "p95":  14.199999999998909
+                                     },
+                      "heapUsedBytes":  12163052
+                  }
+              ],
+    "errors":  [
+
+               ],
+    "requests":  [
+
+                 ],
+    "identity":  {
+                     "version":  "156.0.8078.4",
+                     "executable":  "Chrome.exe (confirmed Portable Chrome)",
+                     "profile":  "own temporary Playwright profile",
+                     "launchArguments":  [
+                                             "\u003cconfirmed-chrome\u003e",
+                                             "--disable-field-trial-config",
+                                             "--disable-background-networking",
+                                             "--disable-back-forward-cache",
+                                             "--disable-breakpad",
+                                             "--disable-client-side-phishing-detection",
+                                             "--disable-component-extensions-with-background-pages",
+                                             "--disable-component-update",
+                                             "--no-default-browser-check",
+                                             "--disable-default-apps",
+                                             "--disable-dev-shm-usage",
+                                             "--disable-edgeupdater",
+                                             "--disable-extensions",
+                                             "--disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,NetworkTimeServiceQuerying,AimEnabled,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion",
+                                             "--enable-features=CDPScreenshotNewSurface",
+                                             "--allow-pre-commit-input",
+                                             "--disable-hang-monitor",
+                                             "--disable-ipc-flooding-protection",
+                                             "--disable-popup-blocking",
+                                             "--disable-prompt-on-repost",
+                                             "--disable-updater-scheduler",
+                                             "--force-color-profile=srgb",
+                                             "--metrics-recording-only",
+                                             "--no-first-run",
+                                             "--password-store=basic",
+                                             "--use-mock-keychain",
+                                             "--no-service-autorun",
+                                             "--export-tagged-pdf",
+                                             "--disable-search-engine-choice-screen",
+                                             "--unsafely-disable-devtools-self-xss-warnings",
+                                             "--edge-skip-compat-layer-relaunch",
+                                             "--disable-infobars",
+                                             "--disable-search-engine-choice-screen",
+                                             "--disable-sync",
+                                             "--enable-unsafe-swiftshader",
+                                             "--no-sandbox",
+                                             "--enable-automation",
+                                             "--user-data-dir=\u003ctemporary\u003e",
+                                             "--remote-debugging-pipe",
+                                             "--no-startup-window",
+                                             "--flag-switches-begin",
+                                             "--flag-switches-end",
+                                             "--enable-unsafe-swiftshader"
+                                         ],
+                     "url":  "http://127.0.0.1:4182/goblin/playground/",
+                     "environment":  {
+                                         "userAgent":  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+                                         "platform":  "Win32",
+                                         "dpr":  1,
+                                         "renderDpr":  1,
+                                         "backend":  "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 Ti (0x00002482) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+                                         "webgl":  "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+                                     },
+                     "build":  {
+                                   "revision":  "6ae7fbb4be626c508083313dbbadbc7f3047797f",
+                                   "dirty":  false,
+                                   "build_id":  "6107bb375bea0699",
+                                   "inputs":  {
+                                                  "src/gameplay/upright-scene.js":  "d66bf506565a5c355a536691445718eaefa4df32a1cad74404308d748e27b67f",
+                                                  "src/gameplay/upright-session.js":  "faed6e1bee98c1f511324b68c33e5c1f199783fa3c75828a27f09fb1d79e4eb3",
+                                                  "src/gameplay/upright-assist.js":  "7eeff15f59255d9c4d0ec54585ba222f2518bb746c16227df3b4e593aa309dd1",
+                                                  "src/gameplay/upright-return.js":  "3cdb35f8fd49dd84baa0e20cc5f76156afd4bd42d4c4413c70315a6dc0bb8828",
+                                                  "src/gameplay/upright-variants.js":  "c98a7417210309706f20a630b9f05835971a258bdd1cc54c7379eadcbee27b82",
+                                                  "src/gameplay/playground-feedback.js":  "88b77c165c59f436bd3022a5cae9b36f032cc9f917e81071c8d81213c7c8468c",
+                                                  "src/gameplay/upright.css":  "ec54bbf3b123132f4bb6bed7091db577a23600380151cc72c6c8d0d21061e607",
+                                                  "src/labs/standing/feedback.js":  "bd3b6be20e46580f41bda44a7e774e79acf8f21b0cc7254ad60297e566d9c478",
+                                                  "src/labs/standing/config.js":  "3f46489effb5eb4ff2df8e2af639f4279e2bd60e0f50f1315c474c0b42623161",
+                                                  "src/goblin-rig.js":  "8e8cdb0959fb91a5e5718c9b73e794756d54c8599175647599dd0da17236291c",
+                                                  "src/grab.js":  "a75781d305339f67233bf3d88800787e2ab2aff35ef62d5ce2b43474a6246eef",
+                                                  "src/runtime.js":  "1d7b98f4bf5598970a10aa8c7341bf8affc6eb585dfaf80061a88246ed0cbdc1",
+                                                  "src/labs/standing/motors.js":  "70deb98ee8aa8384cd84e99b8222cb02edbd5d2f8b56dcb016c8c25a5a8eedf6",
+                                                  "src/labs/standing/math.js":  "b62cd8594983793c99636e16b7bf04bd888f4ba6c9ba6d723abfb39af082b7ce",
+                                                  "scripts/execution-event-checks.mjs":  "e39f30cb672bf520dba30a79e7bf3b9341791ef166d41a545af35d92e91bc5df",
+                                                  "package-lock.json":  "a0f705bb717990368245124595be8edc29baba04dcf48e3d40473ea5be0b5be5",
+                                                  "playground/index.html":  "9240054c9558422a8d4faa941f7515b5bfab6bdfaf38a552562a06ec972c26f4",
+                                                  "gameplay/upright/index.html":  "2de35460b9f91d0f7dc3950136e020be442132a0a7deb9638593d1b6be4e2ee4",
+                                                  "vite.gameplay.config.js":  "ab5b4b81d7bc4a502045ec2ad7bd39b00c709f6d3bdf28c2b0013edcf12654a0",
+                                                  "src/gameplay/upright-run.js":  "8dfbb0d906f871847eddab4d8049cf1417321663b69d923602b4956773a6d93f",
+                                                  "src/gameplay/playground-cameras.js":  "77aa5eb5ed9c60ea2972297499985acb092ae81f1e4c3d7a80d4f570fee0ceb4",
+                                                  "src/gameplay/playground-viewports.js":  "dee18b371f624f40d707569c7c0eddc1c78da774eccd35e2f1900290260407fc",
+                                                  "src/gameplay/playground-inspection.js":  "3284187331010d564daa6478371a5b061625b67fa145ce66e09046cf11cfe7f5",
+                                                  "src/gameplay/playground-inspection-view.js":  "ceb4783c017711e31c8669d598b0e15bae05e5ee8227f68ca16a6aced4e37fa8",
+                                                  "src/gameplay/playground-editor.css":  "1af102ebb05169de8886b556ee314701c6b07aebd12402436727b76677c554aa"
+                                              },
+                                   "scene_sha256":  "d66bf506565a5c355a536691445718eaefa4df32a1cad74404308d748e27b67f",
+                                   "session_sha256":  "faed6e1bee98c1f511324b68c33e5c1f199783fa3c75828a27f09fb1d79e4eb3",
+                                   "controller_sha256":  "7eeff15f59255d9c4d0ec54585ba222f2518bb746c16227df3b4e593aa309dd1",
+                                   "comparison_sha256":  "4fe6f8ae7bbd564a0d35035e445c2741178c6ffab09a28dc7766aa0d8191f961",
+                                   "return_sha256":  "3cdb35f8fd49dd84baa0e20cc5f76156afd4bd42d4c4413c70315a6dc0bb8828",
+                                   "physics_sha256":  {
+                                                          "src/gameplay/upright-assist.js":  "7eeff15f59255d9c4d0ec54585ba222f2518bb746c16227df3b4e593aa309dd1",
+                                                          "src/goblin-rig.js":  "8e8cdb0959fb91a5e5718c9b73e794756d54c8599175647599dd0da17236291c",
+                                                          "src/grab.js":  "a75781d305339f67233bf3d88800787e2ab2aff35ef62d5ce2b43474a6246eef",
+                                                          "src/runtime.js":  "1d7b98f4bf5598970a10aa8c7341bf8affc6eb585dfaf80061a88246ed0cbdc1",
+                                                          "src/labs/standing/motors.js":  "70deb98ee8aa8384cd84e99b8222cb02edbd5d2f8b56dcb016c8c25a5a8eedf6",
+                                                          "src/labs/standing/math.js":  "b62cd8594983793c99636e16b7bf04bd888f4ba6c9ba6d723abfb39af082b7ce",
+                                                          "package-lock.json":  "a0f705bb717990368245124595be8edc29baba04dcf48e3d40473ea5be0b5be5"
+                                                      }
+                               }
+                 },
+    "status":  "PASS"
+}
