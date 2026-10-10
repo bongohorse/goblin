@@ -33,4 +33,9 @@ body[data-playground] :is(button,select,textarea,summary,input):focus-visible{ou
 #anchorGapStatus{font-size:11px;color:#c2e2d2;font-variant-numeric:tabular-nums}
 body[data-playground] label:has([data-inspection="anchorGap"]){min-height:44px;display:flex;align-items:center}
 #anchorGapReading{font-size:12px;font-variant-numeric:tabular-nums;color:#eaf4f1}
+.trail-bodies{display:grid;grid-template-columns:1fr 1fr;gap:0 6px}
+.trail-bodies label:has([data-trail="pelvis"]){grid-column:1/-1}
+body[data-playground] #trailPanel label{display:flex;align-items:center;min-height:44px}
+body[data-playground] #trailPanel .field-pair{align-items:end}#trailSeconds{width:100%}
+#trailStatus{font-size:11px;font-variant-numeric:tabular-nums;color:#c2e2d2}
 @media(max-width:650px),(max-height:300px){body[data-playground] #app{height:auto;min-height:100dvh;grid-template-rows:auto auto auto}.editor-workspace{grid-template-columns:1fr;grid-template-rows:minmax(220px,52dvh) auto}body[data-playground] #view{height:auto}body[data-playground] aside{border-left:0;border-top:1px solid #30414c;overflow:visible}.editor-header{flex-wrap:wrap}.editor-header h1{width:100%}.editor-toolbar{flex-wrap:wrap}.interaction{width:100%}}
