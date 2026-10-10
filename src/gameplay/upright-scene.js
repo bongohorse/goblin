@@ -8,6 +8,7 @@ import {optionsFromSearch,variantOptions,variantId} from './upright-variants.js'
 import {PlaygroundFeedback} from './playground-feedback.js';
 import {BODY_LABELS} from './playground-inspection.js';
 import {PlaygroundInspectionView} from './playground-inspection-view.js';
+import {PlaygroundTrailView} from './playground-trail-view.js';
 import './upright.css';
 import './playground-editor.css';
 
@@ -36,7 +37,7 @@ try{
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
   renderer.setClearColor(0x152832);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
   const scene=new THREE.Scene();
-  let camera=new THREE.PerspectiveCamera(36,1,.1,40),controls=null,cameraViews=null,viewports=null,inspection=null,inspectionMode=false;
+  let camera=new THREE.PerspectiveCamera(36,1,.1,40),controls=null,cameraViews=null,viewports=null,inspection=null,trails=null,inspectionMode=false;
   camera.position.set(3.8,2.7,6);camera.lookAt(.35,1.05,0);
   scene.add(new THREE.HemisphereLight(0xe6ffef,0x31444c,2.2));
   const light=new THREE.DirectionalLight(0xffffff,2.4);light.position.set(-3,6,4);scene.add(light);
@@ -90,6 +91,7 @@ try{
     $('cameraMode').onchange=()=>{if(sim.grab.active||cameraPointers.size){$('cameraMode').checked=cameraViews.navigation;return;}cameraViews.setNavigation($('cameraMode').checked);if($('cameraMode').checked){inspectionMode=false;$('inspectMode').checked=false;}update();};
     view.addEventListener('contextmenu',ev=>ev.preventDefault());
     inspection=new PlaygroundInspectionView(scene,meshes,{floor,grid,material,feetMaterial},$('inspectionPanel'));inspection.rebind(sim);
+    trails=new PlaygroundTrailView(scene,$('trailPanel'));trails.rebind(session);
     $('inspectMode').onchange=()=>{if(sim.grab.active||cameraPointers.size){$('inspectMode').checked=inspectionMode;return;}inspectionMode=$('inspectMode').checked;if(inspectionMode){$('inspectionPanel').open=true;$('cameraMode').checked=false;cameraViews.setNavigation(false);}update();};
     const axes=new THREE.AxesHelper(1.15);axes.setColors(0xff5148,0x58df70,0x4b9eff);axes.position.y=.025;scene.add(axes);resources.push(axes.geometry,axes.material);
   }
@@ -111,7 +113,7 @@ try{
     cancelPointer(reason);const windowLimit=session.windowLimit;session.dispose();
     ({sim,session}=createUprightRun(options,sessionOptions()));
     if(!playground)session.windowLimit=windowLimit;
-    inspection?.rebind(sim);run++;clearFeedback();frameIntervals=[];stepCosts=[];lastFrame=null;lastHitToken=null;$('input').textContent='Fresh reset · start required';sync();update();
+    inspection?.rebind(sim);trails?.rebind(session);run++;clearFeedback();frameIntervals=[];stepCosts=[];lastFrame=null;lastHitToken=null;$('input').textContent='Fresh reset · start required';sync();update();
   }
   function reset(){freshRun('reset');}
   function move(ev,final=false){if(session.paused||!ray(ev))return;if(sim.grab.active&&raycaster.ray.intersectPlane(dragPlane,dragPoint))sim.grab.move(dragPoint,ev.timeStamp/1000,final);}
@@ -135,7 +137,7 @@ try{
   for(const type of ['pointercancel','lostpointercapture'])view.addEventListener(type,ev=>{if(ev.pointerId===pointerId){cancelPointer(type);session.event('pointer-cancel',{reason:type});update();}});
   $('play').onclick=()=>{if(session.paused){session.resume();lastFrame=null;$('input').textContent='Simulation running';}else observePause('pause');update();};
   $('safetyStop').onclick=()=>pause('manual-safety-stop');
-  $('step').onclick=()=>{session.singleStep();sync();inspection?.update(sim,performance.now(),true);update();};
+  $('step').onclick=()=>{session.singleStep();sync();inspection?.update(sim,performance.now(),true);trails?.update(performance.now(),true);update();};
   $('reset').onclick=reset;
   if(playground){
     $('speed').onchange=()=>{session.setSpeed(Number($('speed').value));lastFrame=null;update();};
@@ -223,7 +225,7 @@ try{
   function report(){camera.updateMatrixWorld(true);return {build,environment,observationIdentity:{mass:sim.mass,dt:1/60,nativeTimestep:sim.world.timestep,config:sim.config,yieldProfile:sim.yieldProfile,reaction:sim.reaction,returnProfile:sim.returnProfile,returnSource:build.return_sha256,gravity:{...sim.world.gravity},sources:build.physics_sha256},
     observationCamera:{...cameraSnapshot(),canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},viewport:{width:innerWidth,height:innerHeight,canvas:{width:canvas.clientWidth,height:canvas.clientHeight}},...session.report(),lastPhysicsState:session.trace.at(-1)?.state,frameIntervals:frameIntervals.slice(),stepCosts:stepCosts.slice()};}
   const renderSamples=[];
-  window.uprightDiagnostics=()=>({...report(),inspection:inspection?.snapshot()??null,viewports:viewports?{...viewports.snapshot(),views:viewports.rects.map(rect=>({...rect,camera:cameraViews.snapshot(rect.id),step:sim.steps,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation(),rect.id)}))}))}:null,renderSamples:renderSamples.slice(),cameraPointers:cameraPointers.size,runIdentity:identity(),rendererMemory:{...renderer.info.memory},pointerId,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation())})),blockScreen:project({x:1.35,y:1,z:0})});
+  window.uprightDiagnostics=()=>({...report(),inspection:inspection?.snapshot()??null,trails:trails?.snapshot(true)??null,viewports:viewports?{...viewports.snapshot(),views:viewports.rects.map(rect=>({...rect,camera:cameraViews.snapshot(rect.id),step:sim.steps,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation(),rect.id)}))}))}:null,renderSamples:renderSamples.slice(),cameraPointers:cameraPointers.size,runIdentity:identity(),rendererMemory:{...renderer.info.memory},pointerId,parts:[...sim.rig.byId.values()].map(({spec,body})=>({id:spec.id,screen:project(body.translation())})),blockScreen:project({x:1.35,y:1,z:0})});
   window.uprightTrace=()=>({build,environment,...(session.lastRun||session.report())});
   window.uprightStepState=()=>({steps:sim.steps,paused:session.paused,invalid:sim.invalid});
   if(!playground)$('export').onclick=()=>download(JSON.stringify(report(),null,2),'goblin-step-trace.json');
@@ -250,7 +252,7 @@ try{
     const before=sim.steps,start=performance.now();session.tick(ms/1000);
     if(!playground&&sim.steps>before)stepCosts.push({steps:sim.steps-before,ms:performance.now()-start}); // Includes read-only observer cost.
     if(session.paused&&pointerId!==null)cancelPointer('window-end');
-    const tickMs=performance.now()-start;sync();inspection?.update(sim,ms,session.paused&&inspection.settings.anchorGap&&inspection.jointSample?.step!==sim.steps);const renderStart=performance.now();renderer.info.reset();
+    const tickMs=performance.now()-start;sync();inspection?.update(sim,ms,session.paused&&inspection.settings.anchorGap&&inspection.jointSample?.step!==sim.steps);trails?.update(ms);const renderStart=performance.now();renderer.info.reset();
     if(drawable&&viewports){
       renderer.setScissorTest(true);
       for(const rect of viewports.rects){
@@ -266,6 +268,6 @@ try{
   sync();update();renderer.setAnimationLoop(render);
   function dispose(){if(disposed)return;disposed=true;renderer.setAnimationLoop(null);cancelPointer('destroy');
     for(const [id,mode] of cameraPointers){const surface=viewports.targets.get(mode);if(surface.hasPointerCapture(id))surface.releasePointerCapture(id);}cameraPointers.clear();
-    cameraViews?.dispose();viewports?.dispose();inspection?.dispose();for(const cleanup of inputCleanup)cleanup();session.dispose();for(const r of resources)r.dispose();renderer.dispose();}
+    cameraViews?.dispose();viewports?.dispose();inspection?.dispose();trails?.dispose();for(const cleanup of inputCleanup)cleanup();session.dispose();for(const r of resources)r.dispose();renderer.dispose();}
   addEventListener('pagehide',dispose,{once:true});
 }catch(error){console.error(error);$('status').dataset.state='error';const target=$('phaseStatus')||$('status');target.textContent='Initialization failed: '+error.message;}

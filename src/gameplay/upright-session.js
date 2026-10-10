@@ -48,6 +48,8 @@ export class UprightSession {
     this.record=record;
     this.sim=sim;this.clock=new FixedClock();this.paused=true;this.windowLimit=runPolicy.mode==='free'?Infinity:600;
     this.trace=[];this.events=[];this.pending=null;this.lastRun=null;
+    // Opt-in UI observers only; empty on the historical route. No trace/audit activation.
+    this.stepObservers=new Set();
     this.audit=audit?auditCommands(sim,event=>{if(this.record)this.events.push(event);}):null;
     this.reset(resetOptions);
   }
@@ -61,7 +63,9 @@ export class UprightSession {
     this.pauseContext={kind:'initial',reason:'reset',step:this.sim.steps};
     this.timerReached=false;
     this.trace=[];this.events=[];this.lastRun=null;this.trial=null;this.event('manual-reset',{options});this.capture();
+    for(const observer of this.stepObservers)observer.reset?.();
   }
+  observeSteps(observer){this.stepObservers.add(observer);return ()=>this.stepObservers.delete(observer);}
   pause(reason='pause'){
     this.pauseContext={kind:'safety',reason,step:this.sim.steps,
       grab_cancelled:!!this.sim.grab.active,pending_discarded:this.pending!==null};
@@ -176,7 +180,10 @@ export class UprightSession {
     if(this.sim.invalid||this.sim.steps>=this.windowLimit)return false;
     this.applyTrialEvents();
     if(this.pending!==null&&this.sim.steps===120){const strong=this.pending;this.pending=null;this.push(strong);}
+    const before=this.sim.steps;
     this.sim.step();this.capture();
+    // A terminal safety step is still a native step. Rejected attempts are not.
+    if(this.sim.steps>before)for(const observer of this.stepObservers)observer.step();
     if(this.sim.invalid)this.finish('safety');
     else if(this.sim.steps>=this.windowLimit)this.finish('window-limit');
     else if(!this.timerReached&&this.runPolicy.timerSteps!==null&&this.sim.steps>=this.runPolicy.timerSteps){
@@ -194,5 +201,5 @@ export class UprightSession {
   }
   report(){return {config:CONFIG_B,windowLimit:Number.isFinite(this.windowLimit)?this.windowLimit:null,runPolicy:this.runPolicy,speed:this.speed,timerReached:this.timerReached,paused:this.paused,pause:structuredClone(this.pauseContext),pending:this.pending,trial:structuredClone(this.trial),
     final:this.sim.snapshot(),trace:structuredClone(this.trace),events:structuredClone(this.events)};}
-  dispose(){this.pause('destroy');this.audit?.dispose();this.sim.dispose();}
+  dispose(){for(const observer of this.stepObservers)observer.dispose?.();this.stepObservers.clear();this.pause('destroy');this.audit?.dispose();this.sim.dispose();}
 }

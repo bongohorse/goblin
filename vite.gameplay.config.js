@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto';
 const hash=path=>createHash('sha256').update(readFileSync(path)).digest('hex');
 const identityFiles=['src/gameplay/upright-scene.js','src/gameplay/upright-session.js','src/gameplay/upright-assist.js','src/gameplay/upright-return.js','src/gameplay/upright-variants.js','src/gameplay/playground-feedback.js','src/gameplay/upright.css','src/labs/standing/feedback.js','src/labs/standing/config.js','src/goblin-rig.js','src/grab.js','src/runtime.js','src/labs/standing/motors.js','src/labs/standing/math.js','scripts/execution-event-checks.mjs','package-lock.json','playground/index.html','gameplay/upright/index.html','vite.gameplay.config.js'];
 identityFiles.push('src/gameplay/upright-run.js','src/gameplay/playground-cameras.js','src/gameplay/playground-viewports.js','src/gameplay/playground-inspection.js','src/gameplay/playground-inspection-view.js','src/gameplay/playground-editor.css');
+identityFiles.push('src/gameplay/playground-trails.js','src/gameplay/playground-trail-view.js');
 const inputs=Object.fromEntries(identityFiles.map(path=>[path,hash(path)]));
 export default defineConfig({
   base:'./',
