@@ -433,6 +433,9 @@ async function main(){
     checks.push('native hand drag/release, strong push and reset');
     await page.screenshot({path:path.join(out,'desktop.png')});
     await page.setViewportSize({width:744,height:360});await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
+    // Resize/projection updates run in the renderer callback; setViewportSize alone
+    // does not establish that the sampled body screen coordinate uses the new canvas.
+    await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
     await page.locator('#play').click();const mobileHand=(await read()).parts.find(p=>p.id==='handL').screen;
     await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:mobileHand.x,y:mobileHand.y}]});
