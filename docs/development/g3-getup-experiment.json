@@ -1,0 +1,67 @@
+{
+  "rapier": "0.21.0",
+  "node": "v24.21.0",
+  "dt": 0.016666666666666666,
+  "duration": 30,
+  "hitAt": 6,
+  "attemptAt": 14,
+  "limits": {
+    "motorNm": 20,
+    "balanceNm": 24,
+    "extraIterations": 16
+  },
+  "results": [
+    {
+      "direction": -1,
+      "hipSign": -1,
+      "initialPose": "back",
+      "contactsAtStart": 7,
+      "stoodAt": null,
+      "minRiseHead": 0.4794867932796478,
+      "maxRiseHead": 0.8408451676368713,
+      "endHead": 0.4799078702926636,
+      "endUp": 0.2088961970031361,
+      "bodies": 15,
+      "joints": 14
+    },
+    {
+      "direction": -1,
+      "hipSign": 1,
+      "initialPose": "back",
+      "contactsAtStart": 7,
+      "stoodAt": null,
+      "minRiseHead": 0.4797576665878296,
+      "maxRiseHead": 0.6635633111000061,
+      "endHead": 0.47992196679115295,
+      "endUp": 0.2119503559553818,
+      "bodies": 15,
+      "joints": 14
+    },
+    {
+      "direction": 1,
+      "hipSign": -1,
+      "initialPose": "belly",
+      "contactsAtStart": 11,
+      "stoodAt": null,
+      "minRiseHead": 0.43482741713523865,
+      "maxRiseHead": 0.9671887755393982,
+      "endHead": 0.4798823297023773,
+      "endUp": 0.22319808076058567,
+      "bodies": 15,
+      "joints": 14
+    },
+    {
+      "direction": 1,
+      "hipSign": 1,
+      "initialPose": "belly",
+      "contactsAtStart": 11,
+      "stoodAt": null,
+      "minRiseHead": 0.4798099100589752,
+      "maxRiseHead": 1.2211825847625732,
+      "endHead": 0.47988104820251465,
+      "endUp": 0.22401212121663328,
+      "bodies": 15,
+      "joints": 14
+    }
+  ]
+}
